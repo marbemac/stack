@@ -1,0 +1,8 @@
+{
+  "extends": "./browser.json",
+  "compilerOptions": {
+    "jsxImportSource": "solid-js",
+    "jsx": "preserve",
+    "types": ["vite/client", "@cloudflare/workers-types"]
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "name": "marbemac-stack",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "yarn@4.0.0-rc.40",
+  "engines": {
+    "node": ">= 18"
+  },
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "libs/*/*"
+    ]
+  },
+  "scripts": {
+    "--deps--": "",
+    "upgrade-deps": "yarn upgrade-interactive",
+    "upgrade-nx": "nx migrate latest && nx migrate --run-migrations",
+    "check-constraints": "yarn constraints",
+    "doctor": "yarn dlx @yarnpkg/doctor",
+    "graph": "nx graph",
+    "--dev--": "",
+    "clean": "rm -r **/node_modules && rm -r **/dist && rm -r **/build",
+    "--checks--": "",
+    "lint": "nx run-many --target lint",
+    "lint.fix": "yarn lint --fix && prettier --ignore-path .eslintignore --write \"**/*.{ts,tsx}\";",
+    "test": "nx run-many --target test",
+    "typecheck": "nx run-many --target typecheck"
+  },
+  "devDependencies": {
+    "@marbemac/eslint-config": "workspace:*",
+    "cross-spawn": "^7.0.3",
+    "nx": "16.3.2",
+    "nx-cloud": "16.0.5",
+    "prettier": "2.8.8",
+    "typescript": "5.0.4"
+  },
+  "--https://fig.io/docs/guides/autocomplete-for-npm-scripts#adding-the-fig-object--": "",
+  "fig": {
+    "dev": {
+      "description": "Start everything for local development",
+      "icon": "⭐️",
+      "priority": 100
+    },
+    "nuke": {
+      "description": "Stops local dev servers + docker containers, and deletes db data",
+      "icon": "💥",
+      "priority": 90
+    },
+    "test": {
+      "description": "Test everything",
+      "icon": "🧪",
+      "priority": 80
+    },
+    "lint": {
+      "description": "Lint everything",
+      "icon": "🚧",
+      "priority": 70
+    },
+    "upgrade-deps": {
+      "description": "Use this to upgrade any deps except NX",
+      "icon": "⏫",
+      "priority": 60
+    },
+    "upgrade-nx": {
+      "description": "Use this to upgrade and migrate NX",
+      "icon": "⤴️",
+      "priority": 59
+    }
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 120,
+    "trailingComma": "all",
+    "proseWrap": "always",
+    "singleQuote": true,
+    "tailwindFunctions": [
+      "tw"
+    ],
+    "overrides": [
+      {
+        "files": "package*.json",
+        "options": {
+          "printWidth": 1000
+        }
+      }
+    ]
+  }
+}

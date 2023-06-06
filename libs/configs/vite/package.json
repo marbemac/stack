@@ -1,0 +1,19 @@
+{
+  "name": "@marbemac/configs-vite",
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "main": "src/index.js",
+  "license": "MIT",
+  "peerDependencies": {
+    "solid-js": "*"
+  },
+  "devDependencies": {
+    "rollup-plugin-analyzer": "^4.0.0",
+    "solid-devtools": "^0.27.1",
+    "vite": "~4.3.9",
+    "vite-plugin-chunk-split": "^0.4.7",
+    "vite-plugin-node-polyfills": "^0.8.2",
+    "vite-plugin-solid": "2.7.0"
+  }
+}

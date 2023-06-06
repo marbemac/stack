@@ -1,0 +1,6 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "types": ["vite/client", "@cloudflare/workers-types"]
+  }
+}

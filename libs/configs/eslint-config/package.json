@@ -1,0 +1,28 @@
+{
+  "name": "@marbemac/eslint-config",
+  "version": "0.0.0",
+  "main": "src/index.cjs",
+  "module": "src/index.cjs",
+  "types": "src/index.cjs",
+  "sideEffects": false,
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist node_modules"
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.cjs"
+    }
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-simple-import-sort": "^10.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

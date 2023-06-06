@@ -1,0 +1,7 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "lib": ["es2021", "dom", "DOM.Iterable"],
+    "types": ["vite/client"]
+  }
+}
