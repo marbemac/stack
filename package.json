@@ -27,8 +27,13 @@
     "test": "nx run-many --target test",
     "typecheck": "nx run-many --target typecheck"
   },
+  "resolutions": {
+    "@material/material-color-utilities": "file:.yalc/@material/material-color-utilities"
+  },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230518.0",
     "@marbemac/eslint-config": "workspace:*",
+    "@marbemac/tsconfig": "workspace:*",
     "cross-spawn": "^7.0.3",
     "nx": "16.3.2",
     "nx-cloud": "16.0.5",

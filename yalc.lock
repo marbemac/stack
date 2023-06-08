@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@material/material-color-utilities": {
+      "signature": "01baecdaf72a595a5c0337567fe05496",
+      "pure": true
+    }
+  }
+}

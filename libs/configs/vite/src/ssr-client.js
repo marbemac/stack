@@ -12,8 +12,8 @@ export const ssrClient = ({ clientEntryPath }) => {
       chunkSplitPlugin({
         customSplitting: {
           styling: ['@twind/core', '@twind/preset-tailwind'],
-          primitives: ['@shared/ui-primitives'],
-          charts: ['@shared/ui-charts'],
+          primitives: ['@marbemac/ui-primitives'],
+          charts: ['@marbemac/ui-charts'],
         },
       }),
     ],

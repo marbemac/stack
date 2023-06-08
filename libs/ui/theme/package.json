@@ -1,0 +1,17 @@
+{
+  "name": "@marbemac/ui-theme",
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@material/material-color-utilities": "~0.2.6",
+    "color2k": "^2.0.2",
+    "deepmerge": "^4.3.1"
+  }
+}

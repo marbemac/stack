@@ -1,0 +1,25 @@
+{
+  "name": "@marbemac/ui-styles",
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tailwind-config": "./tailwind.config.js"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "codegen": "bun build src/tailwind-config.ts --outfile=tailwind.config.js"
+  },
+  "dependencies": {
+    "@marbemac/ui-theme": "workspace:*",
+    "tailwind-merge": "^1.13.0",
+    "tailwind-variants": "~0.1.6"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-common-types": "^6.4.0",
+    "tailwindcss": "^3.3.2"
+  }
+}

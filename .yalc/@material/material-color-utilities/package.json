@@ -1,0 +1,40 @@
+{
+  "name": "@material/material-color-utilities",
+  "version": "0.2.1",
+  "description": "Algorithms and utilities that power the Material Design 3 (M3) color system, including choosing theme colors from images and creating tones of colors; all in a new color space.",
+  "keywords": [
+    "material",
+    "material design",
+    "material3",
+    "material you",
+    "color extraction",
+    "theming"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-foundation/material-color-utilities.git",
+    "directory": "typescript"
+  },
+  "author": "Material Eng",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/material-foundation/material-color-utilities/issues"
+  },
+  "homepage": "https://github.com/material-foundation/material-color-utilities/tree/main/typescript",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs.js",
+  "scripts": {
+    "remove-build": "rm -rf dist",
+    "build": "npm run remove-build && npm run build.cjs && npm run build.esm && npm run build.typings",
+    "build.cjs": "esbuild index.ts --bundle --outfile=dist/index.cjs.js --platform=node --target=node18",
+    "build.esm": "esbuild index.ts --bundle --outfile=dist/index.mjs.js --format=esm",
+    "build.typings": "tsc --emitDeclarationOnly",
+    "watch": "tsc -w",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "registry": "https://wombat-dressing-room.appspot.com"
+  },
+  "yalcSig": "01baecdaf72a595a5c0337567fe05496"
+}
