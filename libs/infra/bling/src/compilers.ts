@@ -352,6 +352,7 @@ export async function splitFile(opts: {
 function transformFetch$(path: babel.NodePath<t.CallExpression>, state: State) {
   const fetchFn = path.get('arguments')[0]
   const fetchFnOpts = path.get('arguments')[1]
+  // @ts-expect-error ignore
   let program = path.findParent((p) => t.isProgram(p))
   let statement = path.findParent((p) => {
     const body = program!.get('body') as babel.NodePath<babel.types.Node>[]
@@ -460,6 +461,7 @@ function transformFetch$(path: babel.NodePath<t.CallExpression>, state: State) {
 
 function transformSplit$(path: babel.NodePath<t.CallExpression>, state: State) {
   const fn = path.node.arguments[0]
+  // @ts-expect-error ignore
   let program = path.findParent((p) => t.isProgram(p))
   let statement = path.findParent((p) => {
     const body = program!.get('body') as babel.NodePath<babel.types.Node>[]
@@ -511,6 +513,7 @@ function transformImport$(
   state: State,
 ) {
   const fn = path.node.arguments[0]
+  // @ts-expect-error ignore
   let program = path.findParent((p) => t.isProgram(p))
   let statement = path.findParent((p) => {
     const body = program!.get('body') as babel.NodePath<babel.types.Node>[]
@@ -576,6 +579,7 @@ function transformSecret$(
 function transformLazy$(path: babel.NodePath<t.CallExpression>, state: State) {
   const expression = path.node.arguments[0] as t.Expression
 
+  // @ts-expect-error ignore
   let program = path.findParent((p) => t.isProgram(p))
   let statement = path.findParent((p) => {
     const body = program!.get('body') as babel.NodePath<babel.types.Node>[]
@@ -615,6 +619,7 @@ function transformServer$(
 ) {
   const expression = path.node.arguments[0] as t.Expression
 
+  // @ts-expect-error ignore
   let program = path.findParent((p) => t.isProgram(p))
   let statement = path.findParent((p) => {
     const body = program!.get('body') as babel.NodePath<babel.types.Node>[]
@@ -712,7 +717,9 @@ function treeShake(path: babel.NodePath, state: State) {
     if (ident && ident.node && shouldRemove(ident)) {
       ++count
       if (
+        // @ts-expect-error ignore
         t.isAssignmentExpression(sweepPath.parentPath) ||
+        // @ts-expect-error ignore
         t.isVariableDeclarator(sweepPath.parentPath)
       ) {
         sweepPath.parentPath.remove()
