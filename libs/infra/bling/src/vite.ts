@@ -80,7 +80,7 @@ export function bling(opts?: { babel?: Options['babel'] }): Plugin {
 
       if (
         code.includes('fetch$(' || code.includes('split$(')) ||
-        code.includes('server$(')
+        code.includes('server$(') || code.includes('import$(')
       ) {
         const compiled = await compileFile({
           code,
