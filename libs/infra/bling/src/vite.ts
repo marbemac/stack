@@ -1,5 +1,6 @@
 import type { Plugin } from 'vite'
-import viteReact, { Options } from '@vitejs/plugin-react'
+import viteReact from '@vitejs/plugin-react'
+import viteSolid, { Options } from 'vite-plugin-solid'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { compileSecretFile, compileFile, splitFile } from './compilers'
 
@@ -56,6 +57,23 @@ export function bling(opts?: { babel?: Options['babel'] }): Plugin {
         // @ts-ignore
         return plugin[0].transform(code, id, transformOptions)
       }
+
+      // let viteCompile = (
+      //   code: string,
+      //   id: string,
+      //   fn?: (source: any, id: any) => { plugins: any[] },
+      // ) => {
+      //   let plugin = viteSolid({
+      //     ...(options ?? {}),
+      //     // fastRefresh: false,
+      //     hot: false,
+      //     ssr: true,
+      //     babel: babelOptions(fn),
+      //   })
+
+      //   // @ts-ignore
+      //   return plugin.transform(code, id, transformOptions)
+      // }
 
       if (param.has('split')) {
         const compiled = await splitFile({

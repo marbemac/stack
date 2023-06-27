@@ -1,9 +1,11 @@
 import {
+  apply as apply$,
   css as css$,
   cx as cx$,
   getSheet,
   injectGlobal as injectGlobal$,
   keyframes as keyframes$,
+  shortcut as shortcut$,
   twind,
   tx as tx$,
 } from '@twind/core';
@@ -16,6 +18,8 @@ export const tw = /* #__PURE__ */ twind(twindConfig, getSheet(!IS_PROD));
 export const css = /* #__PURE__ */ css$;
 export const tx = /* #__PURE__ */ tx$.bind(tw) as typeof tx$;
 export const cx = /* #__PURE__ */ cx$;
+export const shortcut = /* #__PURE__ */ shortcut$;
+export const apply = /* #__PURE__ */ apply$;
 export const injectGlobal = /* #__PURE__ */ injectGlobal$.bind(tw) as typeof injectGlobal$;
 export const keyframes = /* #__PURE__ */ keyframes$.bind(tw) as typeof keyframes$;
 

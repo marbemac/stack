@@ -61,7 +61,7 @@ const buttonStyle = tv({
       true: tw('w-full'),
     },
     isDisabled: {
-      true: tw('text-content-disabled opacity-50'),
+      true: tw('opacity-50'),
     },
     isLoading: {
       true: tw('opacity-80'),

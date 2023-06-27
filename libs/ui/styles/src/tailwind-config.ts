@@ -1,5 +1,6 @@
-import { themeObj } from './theme.ts';
 import type { Config } from 'tailwindcss';
+
+import { themeObj } from './theme.ts';
 
 /**
  * This is used to generate the root `tailwind.config.js` file.

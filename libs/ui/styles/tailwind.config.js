@@ -1,3 +1,80 @@
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getProtoOf = Object.getPrototypeOf;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __toESM = (mod, isNodeMode, target) => {
+  target = mod != null ? __create(__getProtoOf(mod)) : {};
+  const to = isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target;
+  for (let key of __getOwnPropNames(mod))
+    if (!__hasOwnProp.call(to, key))
+      __defProp(to, key, {
+        get: () => mod[key],
+        enumerable: true
+      });
+  return to;
+};
+var __commonJS = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
+
+// /Users/marc/dev/marbemac/node_modules/tailwindcss/lib/util/createPlugin.js
+var require_createPlugin = __commonJS((exports) => {
+  var createPlugin = function(plugin, config) {
+    return {
+      handler: plugin,
+      config
+    };
+  };
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
+      return _default;
+    }
+  });
+  createPlugin.withOptions = function(pluginFunction, configFunction = () => ({})) {
+    const optionsFunction = function(options) {
+      return {
+        __options: options,
+        handler: pluginFunction(options),
+        config: configFunction(options)
+      };
+    };
+    optionsFunction.__isOptionsFunction = true;
+    optionsFunction.__pluginFunction = pluginFunction;
+    optionsFunction.__configFunction = configFunction;
+    return optionsFunction;
+  };
+  var _default = createPlugin;
+});
+
+// /Users/marc/dev/marbemac/node_modules/tailwindcss/lib/public/create-plugin.js
+var require_create_plugin = __commonJS((exports) => {
+  var _interop_require_default = function(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  };
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
+      return _default;
+    }
+  });
+  var _createPlugin = _interop_require_default(require_createPlugin());
+  var _default = _createPlugin.default;
+});
+
+// /Users/marc/dev/marbemac/node_modules/tailwindcss/plugin.js
+var require_plugin = __commonJS((exports, module) => {
+  var createPlugin = require_create_plugin();
+  module.exports = (createPlugin.__esModule ? createPlugin : { default: createPlugin }).default;
+});
+
 // /Users/marc/dev/marbemac/libs/ui/theme/src/consts.ts
 var INTENTS = ["neutral", "primary", "success", "warning", "danger"];
 // src/theme.ts
@@ -214,17 +291,40 @@ var themeObj = {
     width: extendWidth,
     zIndex: extendzIndex,
     spacing: extendSpacing,
-    animation,
-    display: {
-      inherit: "inherit"
-    }
+    animation
   }
 };
 
 // src/tailwind-config.ts
+var plugin = __toESM(require_plugin(), 1);
 var tailwind_config_default = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
-  theme: themeObj
+  theme: themeObj,
+  plugins: [
+    plugin.default(function({ addComponents }) {
+      addComponents({
+        ".btn": {
+          padding: ".5rem 1rem",
+          borderRadius: ".25rem",
+          fontWeight: "600"
+        },
+        ".btn-blue": {
+          backgroundColor: "#3490dc",
+          color: "#fff",
+          "&:hover": {
+            backgroundColor: "#2779bd"
+          }
+        },
+        ".btn-red": {
+          backgroundColor: "#e3342f",
+          color: "#fff",
+          "&:hover": {
+            backgroundColor: "#cc1f1a"
+          }
+        }
+      });
+    })
+  ]
 };
 export {
   tailwind_config_default as default
