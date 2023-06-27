@@ -21,7 +21,7 @@ export function astroBling(): AstroIntegration {
       'astro:build:ssr': (config) => {
         console.log(astroConfig)
         let entryClient = fileURLToPath(
-          new URL('./src/app/entry-client.tsx', astroConfig.root),
+          new URL('./src/entry-client.tsx', astroConfig.root),
         )
 
         ;(config.manifest as any)['entry-client'] =
@@ -32,7 +32,7 @@ export function astroBling(): AstroIntegration {
         if (config.target === 'client') {
           if (Array.isArray(config.vite.build?.rollupOptions?.input)) {
             config.vite.build?.rollupOptions?.input.push(
-              'src/app/entry-client.tsx',
+              'src/entry-client.tsx',
             )
           }
 

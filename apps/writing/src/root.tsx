@@ -47,7 +47,7 @@ function Scripts() {
       {import.meta.env.DEV ? (
         <>
           <script type="module" src="/@vite/client" $ServerOnly></script>
-          <script type="module" src="/src/app/entry-client.tsx" $ServerOnly></script>
+          <script type="module" src="/src/entry-client.tsx" $ServerOnly></script>
         </>
       ) : (
         <>
