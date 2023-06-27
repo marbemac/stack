@@ -7,10 +7,9 @@ import { renderToStringAsync } from 'solid-js/web';
 import { dbClient } from '~/db/client.js';
 import { initControllers } from '~/domains/controllers.js';
 import { initModels } from '~/domains/models.js';
+import { manifestContext } from '~/manifest.js';
+import { App } from '~/root.js';
 import { reqCtxAls } from '~/utils/req-context.js';
-
-import { manifestContext } from './manifest.js';
-import { App } from './root.js';
 
 export const requestHandler = async ({ request, ...rest }: APIContext) => {
   const models = initModels({ dbClient });

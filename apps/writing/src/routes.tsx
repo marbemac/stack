@@ -3,9 +3,9 @@ import { import$ } from '@tanstack/bling';
 import type { QueryClient } from '@tanstack/solid-query';
 import { lazy } from 'solid-js';
 
-import PostHome from './routes/post-home.js';
-import Posts from './routes/posts.js';
-import PostsHome from './routes/posts-home.js';
+import PostHome from '~/routes/post-home.js';
+import Posts from '~/routes/posts.js';
+import PostsHome from '~/routes/posts-home.js';
 
 export const createRoutes = (queryClient: QueryClient) => {
   const routes = [

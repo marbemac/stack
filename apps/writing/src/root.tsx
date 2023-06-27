@@ -6,10 +6,9 @@ import { Suspense, useContext } from 'solid-js';
 import { HydrationScript, NoHydration } from 'solid-js/web';
 
 import { QueryDevtools } from '~/components/QueryDevtools/index.js';
+import { manifestContext } from '~/manifest.js';
+import { createRoutes } from '~/routes.js';
 import { createQueryClient } from '~/utils/query-client.js';
-
-import { manifestContext } from './manifest.js';
-import { createRoutes } from './routes.js';
 
 export function App() {
   /**

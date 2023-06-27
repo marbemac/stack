@@ -2,8 +2,8 @@ import { Router } from '@solidjs/router';
 import { manifest } from 'astro:ssr-manifest';
 import { hydrate } from 'solid-js/web';
 
-import { manifestContext } from './manifest.js';
-import { App } from './root.js';
+import { manifestContext } from '~/manifest.js';
+import { App } from '~/root.js';
 
 hydrate(() => {
   return (
