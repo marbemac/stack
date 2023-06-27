@@ -1,0 +1,13 @@
+{
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "allowImportingTsExtensions": true,
+    "baseUrl": "./",
+    "exactOptionalPropertyTypes": false,
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  }
+}
