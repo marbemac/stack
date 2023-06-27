@@ -2,7 +2,7 @@ import { Router } from '@solidjs/router';
 import { handleFetch$, hasHandler } from '@tanstack/bling/server';
 import type { APIContext } from 'astro';
 import { manifest } from 'astro:ssr-manifest';
-import { renderToStringAsync } from 'solid-js/web';
+import { renderToStream } from 'solid-js/web';
 
 import { dbClient } from '~/db/client.js';
 import { initControllers } from '~/domains/controllers.js';
@@ -29,20 +29,26 @@ const scopedHandler = async ({ request }: APIContext) => {
     });
   }
 
-  return new Response(
-    await renderToStringAsync(() => {
-      return (
-        <manifestContext.Provider value={manifest}>
-          <Router url={request.url.toString()}>
-            <App />
-          </Router>
-        </manifestContext.Provider>
-      );
-    }),
-    {
-      headers: {
-        'content-type': 'text/html',
-      },
-    },
-  );
+  const responseHeaders = new Headers({
+    'Content-Type': 'text/html',
+  });
+
+  const render = () => {
+    return (
+      <manifestContext.Provider value={manifest}>
+        <Router url={request.url.toString()}>
+          <App />
+        </Router>
+      </manifestContext.Provider>
+    );
+  };
+
+  const appStream = renderToStream(render);
+
+  const { readable, writable } = new TransformStream();
+  appStream.pipeTo(writable);
+
+  return new Response(readable, {
+    headers: responseHeaders,
+  });
 };
