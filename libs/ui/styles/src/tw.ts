@@ -1,4 +1,8 @@
-type ClassNameArray = ClassNameValue[];
-export type ClassNameValue = ClassNameArray | string | null | undefined | 0 | false;
+import { type ClassNameValue, twJoin } from 'tailwind-merge';
 
-export { twJoin as tw } from 'tailwind-merge';
+export type TW_STR = 'TW_STR';
+
+const tw = twJoin as (...classLists: ClassNameValue[]) => TW_STR;
+
+export type { ClassNameValue };
+export { tw };

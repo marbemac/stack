@@ -2,22 +2,27 @@ import { createQueryKeys } from '@lukemorales/query-key-factory';
 import { server$ } from '@tanstack/bling/server';
 
 import { reqCtxAls } from '~/utils/req-context.js';
+import { sleep } from '~/utils/sleep.js';
 
 import { KEY_PLURAL } from './consts.js';
 import type { PostLookup } from './schema.js';
 
-const list = server$(() => {
+const list = server$(async () => {
   const {
     controllers: { posts },
   } = reqCtxAls.getStore()!;
+
+  await sleep(1000);
 
   return { items: posts.listPosts() };
 });
 
-const detail = server$((lookup: PostLookup) => {
+const detail = server$(async (lookup: PostLookup) => {
   const {
     controllers: { posts },
   } = reqCtxAls.getStore()!;
+
+  await sleep(1000);
 
   return posts.getPost(lookup);
 });
@@ -25,15 +30,11 @@ const detail = server$((lookup: PostLookup) => {
 export const postQueries = createQueryKeys(KEY_PLURAL, {
   list: () => ({
     queryKey: ['all'],
-    queryFn: () => {
-      return list();
-    },
+    queryFn: () => list(),
   }),
 
   detail: (postId: number) => ({
     queryKey: [postId],
-    queryFn: () => {
-      return detail({ id: postId });
-    },
+    queryFn: () => detail({ id: postId }),
   }),
 });

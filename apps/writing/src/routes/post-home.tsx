@@ -1,4 +1,5 @@
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { Box } from '@marbemac/ui-primitives';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createQuery } from '@tanstack/solid-query';
 
@@ -49,7 +50,7 @@ import { postQueries } from '~/domains/posts/web.js';
 // });
 
 export default function PostHome() {
-  // @ts-ignore ignore
+  // @ts-expect-error ignore
   const p = useParams<{ id: number }>();
 
   const queryRes = createQuery(() => ({
@@ -69,7 +70,7 @@ const PostPage = (props: { post: Post }) => {
   const navigate = useNavigate();
 
   return (
-    <div class="flex flex-col flex-1 divide-y">
+    <Box tw="flex flex-1 flex-col divide-y">
       {/* <div class="flex items-center h-16 px-8 justify-end gap-4">
         <ToggleDraft postId={props.post.id} isDraft={props.post.isDraft} />
         <DeletePostButton
@@ -80,13 +81,13 @@ const PostPage = (props: { post: Post }) => {
         />
       </div> */}
 
-      <div class="p-8">
-        <div class="flex flex-col gap-4">
+      <Box tw="p-8">
+        <Box tw="flex flex-col gap-4">
           <h1 class="text-2xl font-semibold">{props.post.title}</h1>
-          <div class="">{props.post.title}</div>
-        </div>
-      </div>
-    </div>
+          <Box>{props.post.title}</Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "type": "module",
   "sideEffects": false,
-  "license": "MIT",
   "exports": {
     ".": "./src/index.ts",
     "./tailwind-config": "./tailwind.config.js",

@@ -1,3 +1,5 @@
+import { TwindStream } from '@marbemac/server-twind-stream';
+import { tw } from '@marbemac/ui-twind';
 import { Router } from '@solidjs/router';
 import { handleFetch$, hasHandler } from '@tanstack/bling/server';
 import type { APIContext } from 'astro';
@@ -43,9 +45,9 @@ const scopedHandler = async ({ request }: APIContext) => {
     );
   };
 
-  const appStream = renderToStream(render);
+  const appStream = renderToStream(() => render());
 
-  const { readable, writable } = new TransformStream();
+  const { readable, writable } = new TwindStream(tw);
   appStream.pipeTo(writable);
 
   return new Response(readable, {

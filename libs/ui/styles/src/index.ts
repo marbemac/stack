@@ -4,5 +4,7 @@ export * from './components/icon.props.ts';
 export * from './components/icon.styles.ts';
 export * from './components/stack.props.ts';
 export * from './components/stack.styles.ts';
+export { STYLE_PROPS } from './consts.ts';
+export { tw, type TW_STR } from './tw.ts';
 export type { SlotProp, StyleProps, TwProp } from './types.ts';
 export { makeStaticClass } from './utils/make-static-class.ts';

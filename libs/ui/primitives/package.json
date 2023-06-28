@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "type": "module",
   "sideEffects": false,
-  "license": "MIT",
   "main": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
@@ -24,16 +23,16 @@
   "devDependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "@marbemac/utils-types": "workspace:*",
-    "@storybook/addon-a11y": "^7.0.23",
-    "@storybook/addon-essentials": "^7.0.23",
-    "@storybook/addon-interactions": "^7.0.23",
-    "@storybook/addon-links": "^7.0.23",
-    "@storybook/blocks": "^7.0.23",
+    "@storybook/addon-a11y": "^7.0.24",
+    "@storybook/addon-essentials": "^7.0.24",
+    "@storybook/addon-interactions": "^7.0.24",
+    "@storybook/addon-links": "^7.0.24",
+    "@storybook/blocks": "^7.0.24",
     "@storybook/testing-library": "~0.2.0",
     "eslint-plugin-storybook": "^0.6.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.23",
+    "storybook": "^7.0.24",
     "storybook-solidjs": "^1.0.0-beta.2",
     "storybook-solidjs-vite": "^1.0.0-beta.2"
   }

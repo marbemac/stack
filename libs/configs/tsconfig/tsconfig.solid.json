@@ -1,5 +1,5 @@
 {
-  "extends": "./browser.json",
+  "extends": "./tsconfig.browser.json",
   "compilerOptions": {
     "jsxImportSource": "solid-js",
     "jsx": "preserve",

@@ -1,5 +1,5 @@
 {
-  "extends": "@marbemac/tsconfig/base.json",
+  "extends": "@marbemac/tsconfig/tsconfig.base.json",
   "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "rootDir": "."

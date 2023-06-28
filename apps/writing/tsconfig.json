@@ -1,10 +1,10 @@
 {
-  "extends": "astro/tsconfigs/strictest",
+  "extends": "@marbemac/tsconfig/tsconfig.astro.json",
+  "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "jsx": "preserve",
+    "rootDir": ".",
     "jsxImportSource": "solid-js",
     "baseUrl": "./",
-    "exactOptionalPropertyTypes": false,
     "paths": {
       "~/*": ["./src/*"]
     }

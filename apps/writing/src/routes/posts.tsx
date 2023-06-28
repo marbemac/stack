@@ -1,9 +1,11 @@
-import type { SubmitHandler } from '@modular-forms/solid';
-import { createForm, reset, zodForm } from '@modular-forms/solid';
-import { A, Outlet, useNavigate } from '@solidjs/router';
+import { Box } from '@marbemac/ui-primitives';
+import { tw } from '@marbemac/ui-styles';
+import { createForm, reset, type SubmitHandler, zodForm } from '@modular-forms/solid';
+import { Outlet, useNavigate } from '@solidjs/router';
 import { createQuery } from '@tanstack/solid-query';
 import { For, Show } from 'solid-js';
 
+import { Link } from '~/components/Link.js';
 import { QueryBoundary } from '~/components/QueryBoundary.js';
 import { TextField } from '~/components/TextField.js';
 import { postQueries } from '~/domains/posts/web.js';
@@ -46,8 +48,8 @@ export default function PostsLayout() {
   }));
 
   return (
-    <div class="min-h-screen flex divide-x">
-      <div class="flex flex-col flex-1 divide-y">
+    <Box tw="flex min-h-screen w-full divide-x">
+      <Box tw="flex flex-1 flex-col divide-y">
         {/* <AddPostForm
           onSuccess={res => {
             navigate(`/posts/${res.id}`);
@@ -57,39 +59,39 @@ export default function PostsLayout() {
         <QueryBoundary query={queryRes} loadingFallback="Loading...">
           {data => <PostsList posts={data().items} />}
         </QueryBoundary>
-      </div>
+      </Box>
 
-      <div class="flex-1">
+      <Box tw="flex-1">
         <Outlet />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 
 const PostsList = (props: { posts: Post[] }) => {
   return (
-    <div class="divide-y">
+    <Box tw="divide-y">
       <Show
         when={props.posts.length}
-        fallback={<div class="text-center py-24 text-gray-400">No posts... add one above</div>}
+        fallback={<Box tw="py-24 text-center text-fg-muted">No posts... add one above</Box>}
       >
         <For each={props.posts}>
           {post => (
-            <A
+            <Link
               href={`/posts/${post.id}`}
-              class="flex p-4 items-center"
-              activeClass="bg-sky-50"
-              inactiveClass="hover:bg-slate-50"
+              tw="flex items-center p-4"
+              activeTw={tw('bg-primary-subtle')}
+              inactiveTw={tw('hover:bg-neutral-subtle')}
             >
-              <div class="font-medium flex-1">{post.title}</div>
+              <Box tw="flex-1 font-medium">{post.title}</Box>
               <Show when={post.isDraft}>
-                <div class="border text-slate-600 rounded uppercase text-xs py-0.5 px-1">draft</div>
+                <Box tw="rounded border px-1 py-0.5 text-xs uppercase text-fg-muted">draft</Box>
               </Show>
-            </A>
+            </Link>
           )}
         </For>
       </Show>
-    </div>
+    </Box>
   );
 };
 

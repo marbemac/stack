@@ -1,9 +1,9 @@
-import type { StyleProps } from '@marbemac/ui-styles';
+import { STYLE_PROPS, type StyleProps } from '@marbemac/ui-styles';
 import { createMemo, mergeProps, splitProps } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { createPolymorphicComponent } from '../../utils/polymorphic.ts';
-import { STYLED_PROPS, styledClass } from '../../utils/styles.ts';
+import { styledClass } from '../../utils/styles.ts';
 
 export type BoxProps = StyleProps;
 
@@ -16,9 +16,9 @@ export const Box = createPolymorphicComponent<'div', BoxProps>(p => {
     p,
   );
 
-  const [local, styleProps, others] = splitProps(props, ['as', 'asProps'], STYLED_PROPS);
+  const [local, styleProps, others] = splitProps(props, ['as', 'asProps'], STYLE_PROPS);
 
   const className = createMemo(() => styledClass(styleProps));
 
-  return <Dynamic component={local.as} {...local.asProps} {...others} class={className()} />;
+  return <Dynamic {...local.asProps} {...others} component={local.as} class={className()} />;
 });

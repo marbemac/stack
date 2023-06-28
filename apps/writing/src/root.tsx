@@ -1,5 +1,4 @@
-import './root.css';
-
+import { Box, Themed } from '@marbemac/ui-primitives';
 import { useRoutes } from '@solidjs/router';
 import { QueryClientProvider } from '@tanstack/solid-query';
 import { Suspense, useContext } from 'solid-js';
@@ -18,8 +17,8 @@ export function App() {
   const Routes = useRoutes(createRoutes(queryClient));
 
   return (
-    <html lang="en">
-      <body>
+    <Themed as="html" lang="en" tw="min-h-screen">
+      <Box as="body" tw="min-h-screen">
         <QueryClientProvider client={queryClient}>
           <Suspense fallback={'loading'}>
             <Routes />
@@ -32,8 +31,8 @@ export function App() {
         </QueryClientProvider>
 
         <Scripts />
-      </body>
-    </html>
+      </Box>
+    </Themed>
   );
 }
 

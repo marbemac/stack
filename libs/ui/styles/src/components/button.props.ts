@@ -6,7 +6,7 @@ export type ButtonSlots = 'root' | 'icon' | 'text';
 
 export interface ButtonProps<T> extends ButtonRootProps<T> {}
 
-interface ButtonRootProps<T> extends Omit<StyleProps, 'isInteractive'>, ButtonStyleProps, SlotProp<ButtonSlots> {
+interface ButtonRootProps<T> extends StyleProps, ButtonStyleProps, SlotProp<ButtonSlots> {
   /** If added, the button will show an icon before the button's label. */
   startIcon?: IconProps<T>['icon'];
 

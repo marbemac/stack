@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "files": [
-    "base.json",
-    "browser.json",
-    "node.json",
-    "solid.json",
-    "workerd.json"
+    "tsconfig.astro.json",
+    "tsconfig.base.json",
+    "tsconfig.browser.json",
+    "tsconfig.node.json",
+    "tsconfig.solid.json",
+    "tsconfig.workerd.json"
   ]
 }

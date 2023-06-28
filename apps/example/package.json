@@ -20,7 +20,7 @@
     "@solidjs/router": "~0.8.2",
     "@tanstack/bling": "workspace:*",
     "@tanstack/solid-query": "5.0.0-alpha.69",
-    "astro": "~2.7.0",
+    "astro": "~2.7.1",
     "better-sqlite3": "^8.4.0",
     "drizzle-orm": "^0.27.0",
     "drizzle-zod": "^0.4.4",
