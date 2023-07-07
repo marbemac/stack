@@ -31,14 +31,14 @@
     "@material/material-color-utilities": "file:.yalc/@material/material-color-utilities"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230518.0",
+    "@cloudflare/workers-types": "^4.20230628.0",
     "@marbemac/eslint-config": "workspace:*",
     "@marbemac/tsconfig": "workspace:*",
     "cross-spawn": "^7.0.3",
-    "nx": "16.4.0",
+    "nx": "16.5.0",
     "nx-cloud": "16.0.5",
-    "prettier": "2.8.8",
-    "typescript": "5.1.5"
+    "prettier": "3.0.0",
+    "typescript": "5.1.6"
   },
   "--https://fig.io/docs/guides/autocomplete-for-npm-scripts#adding-the-fig-object--": "",
   "fig": {

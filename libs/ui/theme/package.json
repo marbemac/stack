@@ -10,7 +10,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@material/material-color-utilities": "~0.2.6",
+    "@material/material-color-utilities": "~0.2.7",
     "color2k": "^2.0.2",
     "deepmerge": "^4.3.1"
   }
