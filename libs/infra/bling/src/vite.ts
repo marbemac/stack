@@ -49,7 +49,8 @@ export function bling(opts?: { babel?: Options['babel'] }): Plugin {
         fn?: (source: any, id: any) => { plugins: any[] },
       ) => {
         let plugin = viteReact({
-          ...(options ?? {}),          
+          ...(options ?? {}),
+          fastRefresh: false,
           babel: babelOptions(fn),
         })
 

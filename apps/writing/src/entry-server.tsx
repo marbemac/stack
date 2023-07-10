@@ -1,6 +1,6 @@
 import { TwindStream } from '@marbemac/server-twind-stream';
+import { createPageEvent, render } from '@marbemac/ui-solid-js/server';
 import { tw } from '@marbemac/ui-twind';
-import { Router } from '@solidjs/router';
 import { handleFetch$, hasHandler } from '@tanstack/bling/server';
 import type { APIContext } from 'astro';
 import { manifest } from 'astro:ssr-manifest';
@@ -9,7 +9,6 @@ import { renderToStream } from 'solid-js/web';
 import { dbClient } from '~/db/client.js';
 import { initControllers } from '~/domains/controllers.js';
 import { initModels } from '~/domains/models.js';
-import { manifestContext } from '~/manifest.js';
 import { App } from '~/root.js';
 import { reqCtxAls } from '~/utils/req-context.js';
 
@@ -25,32 +24,30 @@ export const requestHandler = async ({ request, ...rest }: APIContext) => {
 };
 
 const scopedHandler = async ({ request }: APIContext) => {
+  console.log('FOO', JSON.stringify(manifest, null, 4));
+
   if (hasHandler(new URL(request.url).pathname)) {
-    return handleFetch$({
-      request,
-    });
+    return handleFetch$({ request });
   }
 
-  const responseHeaders = new Headers({
-    'Content-Type': 'text/html',
-  });
-
-  const render = () => {
-    return (
-      <manifestContext.Provider value={manifest}>
-        <Router url={request.url.toString()}>
-          <App />
-        </Router>
-      </manifestContext.Provider>
-    );
-  };
-
-  const appStream = renderToStream(() => render());
+  const pageEvent = createPageEvent({ url: request.url, env: { manifest } });
+  const appStream = renderToStream(() => render({ event: pageEvent, Root: App }));
 
   const { readable, writable } = new TwindStream(tw);
   appStream.pipeTo(writable);
 
+  // const render = () => {
+  //   return (
+  //     <manifestContext.Provider value={manifest}>
+  //       <Router url={request.url.toString()}>
+  //         <App />
+  //       </Router>
+  //     </manifestContext.Provider>
+  //   );
+  // };
+
   return new Response(readable, {
-    headers: responseHeaders,
+    headers: pageEvent.responseHeaders,
+    status: pageEvent.getStatusCode(),
   });
 };

@@ -1,69 +1,59 @@
-import type { RouteDefinition } from '@solidjs/router';
+import type { RouteDataFunc, RouteDataFuncArgs, RouteDefinition } from '@solidjs/router';
 import { import$ } from '@tanstack/bling';
-import type { QueryClient } from '@tanstack/solid-query';
-import { lazy } from 'solid-js';
+import { type QueryClient } from '@tanstack/solid-query';
+import { lazy, onMount } from 'solid-js';
+import { isServer } from 'solid-js/web';
 
-import PostHome from '~/routes/post-home.js';
-import Posts from '~/routes/posts.js';
-import PostsHome from '~/routes/posts-home.js';
+import { Link } from '~/components/Link.js';
+import { postQueries } from '~/domains/posts/web.js';
 
 export const createRoutes = (queryClient: QueryClient) => {
+  let shouldRunDataFns = isServer;
+
+  onMount(() => {
+    shouldRunDataFns = true;
+  });
+
+  const dataFn = (fn: RouteDataFunc) => (props: RouteDataFuncArgs) => {
+    if (!shouldRunDataFns) return;
+    return fn(props);
+  };
+
   const routes = [
     {
       path: '',
-      component: lazy(() => import$({ default: () => <div>Home</div> })),
+      component: lazy(() =>
+        import$({
+          default: () => (
+            <div>
+              Home - <Link href="/posts">Posts</Link> - <Link href="/posts/6">Post 6</Link> -{' '}
+              <Link href="/posts/6/edit">Post 6 Edit</Link>
+            </div>
+          ),
+        }),
+      ),
     },
     {
       path: 'posts',
-      component: Posts,
+      component: lazy(() => import('~/routes/posts.tsx')),
+      data: dataFn(() => queryClient.prefetchQuery(postQueries.list())),
       children: [
         {
           path: '',
-          component: PostsHome,
+          component: lazy(() => import('~/routes/posts-home.tsx')),
         },
         {
           path: ':id',
-          component: PostHome,
+          component: lazy(() => import('~/routes/post-home.tsx')),
+          data: dataFn(({ params }) => queryClient.prefetchQuery(postQueries.detail(params.id))),
+        },
+        {
+          path: ':id/edit',
+          component: lazy(() => import('~/routes/post-editor.tsx')),
         },
       ],
     },
   ] satisfies RouteDefinition[];
 
   return routes;
-
-  // const routes = [
-  //   {
-  //     path: '/',
-  //     component: App,
-  //     children: [
-  //       {
-  //         path: '',
-  //         component: lazy(() => import$({ default: () => <div>Home</div> })),
-  //       },
-  //       {
-  //         path: 'about',
-  //         data: () => {
-  //           return useLoader(server$(() => ({ count })));
-  //         },
-  //         component: lazy(() =>
-  //           import$({
-  //             default: () => {
-  //               const routeData = useRouteData();
-  //               const [action, submit] = useAction(increment);
-  //               return (
-  //                 <div>
-  //                   About <Show when={routeData()}>{routeData().count}</Show>
-  //                   <Suspense fallback={'loading'}>
-  //                     <LazyHello3 />
-  //                   </Suspense>
-  //                   <button onClick={() => submit()}>Increment</button>
-  //                 </div>
-  //               );
-  //             },
-  //           }),
-  //         ),
-  //       },
-  //     ],
-  //   },
-  // ] satisfies RouteDefinition[];
 };

@@ -19,7 +19,6 @@ export function astroBling(): AstroIntegration {
         astroConfig = config.config
       },
       'astro:build:ssr': (config) => {
-        console.log(astroConfig)
         let entryClient = fileURLToPath(
           new URL('./src/entry-client.tsx', astroConfig.root),
         )

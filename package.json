@@ -28,14 +28,16 @@
     "typecheck": "nx run-many --target typecheck"
   },
   "resolutions": {
-    "@material/material-color-utilities": "file:.yalc/@material/material-color-utilities"
+    "@material/material-color-utilities": "file:.yalc/@material/material-color-utilities",
+    "@solidjs/router": "file:.yalc/@solidjs/router",
+    "@tanstack/solid-query": "file:.yalc/@tanstack/solid-query"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230628.0",
     "@marbemac/eslint-config": "workspace:*",
     "@marbemac/tsconfig": "workspace:*",
     "cross-spawn": "^7.0.3",
-    "nx": "16.5.0",
+    "nx": "16.5.1",
     "nx-cloud": "16.0.5",
     "prettier": "3.0.0",
     "typescript": "5.1.6"

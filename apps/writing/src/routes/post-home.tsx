@@ -5,10 +5,11 @@ import { createQuery } from '@tanstack/solid-query';
 
 import { Checkbox } from '~/components/Checkbox.js';
 import { Icon } from '~/components/Icon.js';
+import { Link } from '~/components/Link.js';
 import { QueryBoundary } from '~/components/QueryBoundary.js';
-// import { deletePost, getPost, updatePost } from '~/db/posts/queries.js';
-import type { Post, PostLookup } from '~/db/schema.js';
 import { postQueries } from '~/domains/posts/web.js';
+// import { deletePost, getPost, updatePost } from '~/db/posts/queries.js';
+import type { Post, PostLookup } from '~/domains/schema.ts';
 
 // export const postQuery = query$({
 //   key: 'post',
@@ -49,13 +50,14 @@ import { postQueries } from '~/domains/posts/web.js';
 //   },
 // });
 
+// export default function PostHome() {
+//   return <div>HOME</div>;
+// }
+
 export default function PostHome() {
   // @ts-expect-error ignore
   const p = useParams<{ id: number }>();
-
-  const queryRes = createQuery(() => ({
-    ...postQueries.detail(p.id),
-  }));
+  const queryRes = createQuery(() => ({ ...postQueries.detail(p.id) }));
 
   return (
     <div>
@@ -84,47 +86,48 @@ const PostPage = (props: { post: Post }) => {
       <Box tw="p-8">
         <Box tw="flex flex-col gap-4">
           <h1 class="text-2xl font-semibold">{props.post.title}</h1>
-          <Box>{props.post.title}</Box>
+          <Box>{props.post.content}</Box>
+          <Link href={`/posts/${props.post.id}/edit`}>Edit</Link>
         </Box>
       </Box>
     </Box>
   );
 };
 
-const ToggleDraft = (props: { postId: number; isDraft: number; class?: string }) => {
-  const updatePost = updatePostMutation();
+// const ToggleDraft = (props: { postId: number; isDraft: number; class?: string }) => {
+//   const updatePost = updatePostMutation();
 
-  return (
-    <Checkbox
-      checked={!!props.isDraft}
-      label={`Is Draft`}
-      name="isDraft"
-      disabled={updatePost.isPending}
-      class={updatePost.isPending ? 'opacity-50' : undefined}
-      onChange={newVal => {
-        updatePost.mutate({
-          lookup: { id: props.postId },
-          post: {
-            isDraft: newVal ? 1 : 0,
-          },
-        });
-      }}
-    />
-  );
-};
+//   return (
+//     <Checkbox
+//       checked={!!props.isDraft}
+//       label={`Is Draft`}
+//       name="isDraft"
+//       disabled={updatePost.isPending}
+//       class={updatePost.isPending ? 'opacity-50' : undefined}
+//       onChange={newVal => {
+//         updatePost.mutate({
+//           lookup: { id: props.postId },
+//           post: {
+//             isDraft: newVal ? 1 : 0,
+//           },
+//         });
+//       }}
+//     />
+//   );
+// };
 
-const DeletePostButton = (props: { postId: number; class?: string; onSuccess?: () => void }) => {
-  const deletePost = deletePostMutation();
+// const DeletePostButton = (props: { postId: number; class?: string; onSuccess?: () => void }) => {
+//   const deletePost = deletePostMutation();
 
-  return (
-    <button
-      class="bg-slate-900 text-white appearance-none rounded px-1.5 py-1.5 disabled:opacity-50 text-xs"
-      disabled={deletePost.isPending}
-      onClick={() => {
-        deletePost.mutate({ lookup: { id: props.postId } }, { onSuccess: props.onSuccess });
-      }}
-    >
-      <Icon icon={faTrashAlt} />
-    </button>
-  );
-};
+//   return (
+//     <button
+//       class="bg-slate-900 text-white appearance-none rounded px-1.5 py-1.5 disabled:opacity-50 text-xs"
+//       disabled={deletePost.isPending}
+//       onClick={() => {
+//         deletePost.mutate({ lookup: { id: props.postId } }, { onSuccess: props.onSuccess });
+//       }}
+//     >
+//       <Icon icon={faTrashAlt} />
+//     </button>
+//   );
+// };

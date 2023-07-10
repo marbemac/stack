@@ -12,7 +12,9 @@ const list = server$(async () => {
     controllers: { posts },
   } = reqCtxAls.getStore()!;
 
-  await sleep(1000);
+  console.log('list!');
+
+  await sleep(250);
 
   return { items: posts.listPosts() };
 });
@@ -22,7 +24,7 @@ const detail = server$(async (lookup: PostLookup) => {
     controllers: { posts },
   } = reqCtxAls.getStore()!;
 
-  await sleep(1000);
+  await sleep(250);
 
   return posts.getPost(lookup);
 });

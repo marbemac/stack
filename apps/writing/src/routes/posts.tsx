@@ -42,7 +42,6 @@ import { cn } from '~/utils/cn.js';
 export default function PostsLayout() {
   const navigate = useNavigate();
 
-  // const queryRes = postsQuery();
   const queryRes = createQuery(() => ({
     ...postQueries.list(),
   }));
@@ -50,6 +49,9 @@ export default function PostsLayout() {
   return (
     <Box tw="flex min-h-screen w-full divide-x">
       <Box tw="flex flex-1 flex-col divide-y">
+        <Box>
+          <Link href="/">Back to home</Link>
+        </Box>
         {/* <AddPostForm
           onSuccess={res => {
             navigate(`/posts/${res.id}`);

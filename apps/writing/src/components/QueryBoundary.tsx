@@ -36,9 +36,9 @@ export function QueryBoundary<T>(props: QueryBoundaryProps<T>) {
           return props.notFoundFallback ? props.notFoundFallback : <div>not found</div>;
         }
 
-        // if (err instanceof PRPCClientError) {
-        //   console.error(err.cause);
-        // }
+        if (import.meta.env.DEV) {
+          console.error('QueryBoundary error', { props, err });
+        }
 
         return <div>An error occurred while making the query (TODO, improve this).</div>;
       }}
