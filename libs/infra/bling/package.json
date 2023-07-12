@@ -55,7 +55,7 @@
     }
   },
   "dependencies": {
-    "@babel/generator": "^7.22.7",
+    "@babel/generator": "^7.22.9",
     "@babel/template": "^7.22.5",
     "@babel/traverse": "^7.22.8",
     "@babel/types": "^7.22.5",
@@ -69,7 +69,7 @@
     "@types/babel__generator": "^7.6.4",
     "@types/babel__template": "^7.4.1",
     "@types/babel__traverse": "^7.20.1",
-    "astro": "~2.8.0",
+    "astro": "~2.8.1",
     "concurrently": "^8.2.0",
     "typescript": "5.1.6",
     "vitest": "^0.33.0"

@@ -24,13 +24,14 @@ export const requestHandler = async ({ request, ...rest }: APIContext) => {
 };
 
 const scopedHandler = async ({ request }: APIContext) => {
-  console.log('FOO', JSON.stringify(manifest, null, 4));
+  // console.log('MANIFEST', JSON.stringify(manifest, null, 4));
 
   if (hasHandler(new URL(request.url).pathname)) {
     return handleFetch$({ request });
   }
 
   const pageEvent = createPageEvent({ url: request.url, env: { manifest } });
+
   const appStream = renderToStream(() => render({ event: pageEvent, Root: App }));
 
   const { readable, writable } = new TwindStream(tw);

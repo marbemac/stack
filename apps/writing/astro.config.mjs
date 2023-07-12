@@ -13,6 +13,7 @@ export default defineConfig({
   vite: {
     ssr: {
       noExternal: [
+        'path-to-regexp', // https://github.com/withastro/astro/pull/4978
         '@internationalized/message',
         'intl-messageformat',
         '@formatjs/icu-messageformat-parser',

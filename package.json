@@ -33,7 +33,7 @@
     "@tanstack/solid-query": "file:.yalc/@tanstack/solid-query"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230628.0",
+    "@cloudflare/workers-types": "^4.20230710.0",
     "@marbemac/eslint-config": "workspace:*",
     "@marbemac/tsconfig": "workspace:*",
     "cross-spawn": "^7.0.3",

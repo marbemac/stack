@@ -18,21 +18,21 @@
     "@marbemac/ui-styles": "workspace:*",
     "@marbemac/ui-theme": "workspace:*",
     "@marbemac/ui-twind": "workspace:*",
-    "solid-js": "~1.7.7"
+    "solid-js": "~1.7.8"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "@marbemac/utils-types": "workspace:*",
-    "@storybook/addon-a11y": "^7.0.26",
-    "@storybook/addon-essentials": "^7.0.26",
-    "@storybook/addon-interactions": "^7.0.26",
-    "@storybook/addon-links": "^7.0.26",
-    "@storybook/blocks": "^7.0.26",
+    "@storybook/addon-a11y": "^7.0.27",
+    "@storybook/addon-essentials": "^7.0.27",
+    "@storybook/addon-interactions": "^7.0.27",
+    "@storybook/addon-links": "^7.0.27",
+    "@storybook/blocks": "^7.0.27",
     "@storybook/testing-library": "~0.2.0",
     "eslint-plugin-storybook": "^0.6.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.26",
+    "storybook": "^7.0.27",
     "storybook-solidjs": "^1.0.0-beta.2",
     "storybook-solidjs-vite": "^1.0.0-beta.2"
   }

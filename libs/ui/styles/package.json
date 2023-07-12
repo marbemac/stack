@@ -17,7 +17,7 @@
   "dependencies": {
     "@marbemac/ui-theme": "workspace:*",
     "tailwind-merge": "^1.13.2",
-    "tailwind-variants": "~0.1.12"
+    "tailwind-variants": "~0.1.13"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",

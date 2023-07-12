@@ -3,13 +3,13 @@
 import { useContext } from 'solid-js';
 import { HydrationScript, isServer, NoHydration } from 'solid-js/web';
 
-import { ServerContext } from '../server-context.js';
+import { ServerContext, useRequest } from '../server-context.js';
 import type { Manifest, ManifestEntry } from '../types.js';
 
 const isDev = import.meta.env.MODE === 'development';
 
 export function Scripts() {
-  const context = useContext(ServerContext);
+  const req = useRequest();
 
   return (
     <>
@@ -20,10 +20,11 @@ export function Scripts() {
           isDev ? (
             <>
               <script type="module" src="/@vite/client" $ServerOnly></script>
-              <script type="module" async src={'/client/entry.client.tsx'} $ServerOnly></script>
+              <script type="module" src="/src/entry-client.tsx" $ServerOnly></script>
             </>
           ) : (
-            getMainEntryHref(context!.env.manifest!)
+            // getMainEntryHref(req!.env.manifest!)
+            <script type="module" src={`/${req.env.manifest!['entry-client']}`} $ServerOnly></script>
           )
         ) : null}
       </NoHydration>

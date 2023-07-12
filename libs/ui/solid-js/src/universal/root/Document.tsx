@@ -22,7 +22,7 @@ export function Head(props: ComponentProps<'head'>) {
         <>
           {props.children}
           <Meta />
-          {/* <Links /> */}
+          <Links />
         </>
       ),
       false,

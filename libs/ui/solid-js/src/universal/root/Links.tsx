@@ -19,14 +19,17 @@ function getAssetsFromManifest(manifest: Manifest) {
     throw new Error('The manifest must have at one entry with isEntry=true.');
   }
 
-  const links = (mainEntry.imports || []).reduce((r, src) => {
-    const target = manifest[src];
-    if (!target) return r;
+  const links = (mainEntry.imports || []).reduce(
+    (r, src) => {
+      const target = manifest[src];
+      if (!target) return r;
 
-    r[target.file] = <link rel="modulepreload" href={`/${target.file}`} $ServerOnly />;
+      r[target.file] = <link rel="modulepreload" href={`/${target.file}`} $ServerOnly />;
 
-    return r;
-  }, {} as Record<string, JSXElement>);
+      return r;
+    },
+    {} as Record<string, JSXElement>,
+  );
 
   return Object.values(links);
 }
@@ -36,12 +39,15 @@ function getAssetsFromManifest(manifest: Manifest) {
  * @returns {JSXElement}
  */
 export function Links() {
-  const isDev = import.meta.env.MODE === 'development';
-  const context = useContext(ServerContext);
+  // const isDev = import.meta.env.MODE === 'development';
+  // const context = useContext(ServerContext);
 
-  if (!isDev) {
-    useAssets(() => getAssetsFromManifest(context!.env.manifest!));
-  }
+  // if (!isDev) {
+  //   useAssets(() => getAssetsFromManifest(context!.env.manifest!));
+  // }
+
+  // useAssets(() => [<link rel="modulepreload" href={`/foo.js`} $ServerOnly />]);
+  // useAssets(() => [<link rel="modulepreload" href={`/foo2.js`} $ServerOnly />]);
 
   return null;
 }

@@ -1,18 +1,14 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 import { server$ } from '@tanstack/bling/server';
 
-import { reqCtxAls } from '~/utils/req-context.js';
+import { useControllers$ } from '~/utils/req-context.js';
 import { sleep } from '~/utils/sleep.js';
 
 import { KEY_PLURAL } from './consts.js';
 import type { PostLookup } from './schema.js';
 
 const list = server$(async () => {
-  const {
-    controllers: { posts },
-  } = reqCtxAls.getStore()!;
-
-  console.log('list!');
+  const { posts } = useControllers$();
 
   await sleep(250);
 
@@ -20,9 +16,7 @@ const list = server$(async () => {
 });
 
 const detail = server$(async (lookup: PostLookup) => {
-  const {
-    controllers: { posts },
-  } = reqCtxAls.getStore()!;
+  const { posts } = useControllers$();
 
   await sleep(250);
 

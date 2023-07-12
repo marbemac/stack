@@ -8,3 +8,11 @@ export type ReqCtx = {
 };
 
 export const reqCtxAls = new AsyncLocalStorage<ReqCtx>();
+
+export const useControllers$ = () => {
+  return reqCtxAls.getStore()!.controllers;
+};
+
+export const useReqUser$ = () => {
+  return reqCtxAls.getStore()!.user;
+};
