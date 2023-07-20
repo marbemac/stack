@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.browser.json",
+  "compilerOptions": {
+    "jsxImportSource": "react",
+    "jsx": "react-jsx",
+    "types": ["vite/client", "@cloudflare/workers-types"]
+  }
+}

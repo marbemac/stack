@@ -9,7 +9,8 @@
   "workspaces": {
     "packages": [
       "apps/*",
-      "libs/*/*"
+      "libs/*",
+      "packages/*/*"
     ]
   },
   "scripts": {
@@ -33,12 +34,12 @@
     "@tanstack/solid-query": "file:.yalc/@tanstack/solid-query"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230710.0",
+    "@cloudflare/workers-types": "^4.20230717.0",
     "@marbemac/eslint-config": "workspace:*",
     "@marbemac/tsconfig": "workspace:*",
     "cross-spawn": "^7.0.3",
-    "nx": "16.5.1",
-    "nx-cloud": "16.0.5",
+    "nx": "16.5.3",
+    "nx-cloud": "16.1.1",
     "prettier": "3.0.0",
     "typescript": "5.1.6"
   },

@@ -1,5 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox as Kobalte } from '@kobalte/core';
+import { Box } from '@marbemac/ui-primitives';
 
 import { cn } from '~/utils/cn.ts';
 
@@ -19,11 +20,14 @@ export function Checkbox(props: CheckboxProps) {
     >
       <Kobalte.Input />
 
-      <Kobalte.Control class="inline-flex justify-center items-center h-5 w-5 rounded border border-gray-400 bg-gray-100 data-[checked]:border-transparent data-[checked]:bg-sky-500 data-[checked]:text-white">
+      <Box
+        as={Kobalte.Control}
+        tw="inline-flex h-5 w-5 items-center justify-center rounded border border-neutral-solid bg-neutral-subtle data-[checked]:border-transparent data-[checked]:bg-primary-solid data-[checked]:text-white"
+      >
         <Kobalte.Indicator>
           <Icon icon={faCheck} />
         </Kobalte.Indicator>
-      </Kobalte.Control>
+      </Box>
 
       <Kobalte.Label class="select-none">{props.label}</Kobalte.Label>
     </Kobalte.Root>

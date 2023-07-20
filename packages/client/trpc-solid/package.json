@@ -1,0 +1,19 @@
+{
+  "name": "@marbemac/client-trpc-solid",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@marbemac/client-trpc": "workspace:*",
+    "@tanstack/solid-query": "5.0.0-alpha.75"
+  },
+  "peerDependencies": {
+    "solid-js": "*"
+  }
+}

@@ -1,20 +1,15 @@
+import type { TPostId } from '@libs/db-model/ids';
+import type { Post } from '@libs/db-model/schema';
 import { Box } from '@marbemac/ui-primitives';
 import { useParams } from '@solidjs/router';
-import { createQuery } from '@tanstack/solid-query';
-import StarterKit from '@tiptap/starter-kit';
-import { createTiptapEditor } from 'solid-tiptap';
 
+import { Editor } from '~/components/Editor/index.ts';
 import { QueryBoundary } from '~/components/QueryBoundary.js';
-import { postQueries } from '~/domains/posts/web.js';
-import type { Post } from '~/domains/schema.ts';
+import { useTrpc } from '~/utils/trpc.ts';
 
 export default function PostEditor() {
-  // @ts-expect-error ignore
-  const p = useParams<{ id: number }>();
-
-  const queryRes = createQuery(() => ({
-    ...postQueries.detail(p.id),
-  }));
+  const p = useParams<{ id: TPostId }>();
+  const queryRes = useTrpc().posts.byId.useQuery(() => ({ postId: p.id }));
 
   return (
     <div>
@@ -48,16 +43,4 @@ const PostEditorPage = (props: { post: Post }) => {
       </Box>
     </Box>
   );
-};
-
-const Editor = (props: { initialContent: string }) => {
-  let ref!: HTMLDivElement;
-
-  const editor = createTiptapEditor(() => ({
-    element: ref!,
-    extensions: [StarterKit],
-    content: props.initialContent,
-  }));
-
-  return <div id="editor" ref={ref} />;
 };

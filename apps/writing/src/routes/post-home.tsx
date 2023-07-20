@@ -1,63 +1,18 @@
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import type { TPostId } from '@libs/db-model/ids';
+import type { Post } from '@libs/db-model/schema';
 import { Box } from '@marbemac/ui-primitives';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createQuery } from '@tanstack/solid-query';
 
-import { Checkbox } from '~/components/Checkbox.js';
-import { Icon } from '~/components/Icon.js';
+import { Checkbox } from '~/components/Checkbox.tsx';
+import { Icon } from '~/components/Icon.tsx';
 import { Link } from '~/components/Link.js';
 import { QueryBoundary } from '~/components/QueryBoundary.js';
-import { postQueries } from '~/domains/posts/web.js';
-// import { deletePost, getPost, updatePost } from '~/db/posts/queries.js';
-import type { Post, PostLookup } from '~/domains/schema.ts';
-
-// export const postQuery = query$({
-//   key: 'post',
-//   schema: z.object({
-//     lookup: postLookupSchema,
-//   }),
-//   queryFn: async ({ payload }) => {
-//     console.log('postQuery.run');
-//     await sleep();
-
-//     return getPost(payload.lookup);
-//   },
-// });
-
-// export const updatePostMutation = mutation$({
-//   key: "updatePost",
-//   schema: z.object({
-//     lookup: postLookupSchema,
-//     post: updatePostSchema,
-//   }),
-//   mutationFn: async ({ payload }) => {
-//     console.log("addPost.run", payload);
-//     await sleep();
-
-//     return updatePost(payload.lookup, payload.post);
-//   },
-// });
-
-// export const deletePostMutation = mutation$({
-//   key: "deletePost",
-//   schema: z.object({
-//     lookup: postLookupSchema,
-//   }),
-//   mutationFn: async ({ payload }) => {
-//     console.log("deletePost.run", payload);
-
-//     return deletePost(payload.lookup);
-//   },
-// });
-
-// export default function PostHome() {
-//   return <div>HOME</div>;
-// }
+import { useTrpc } from '~/utils/trpc.ts';
 
 export default function PostHome() {
-  // @ts-expect-error ignore
-  const p = useParams<{ id: number }>();
-  const queryRes = createQuery(() => ({ ...postQueries.detail(p.id) }));
+  const p = useParams<{ id: TPostId }>();
+  const queryRes = useTrpc().posts.nested.byId.useQuery(() => ({ postId: p.id }));
 
   return (
     <div>
@@ -73,15 +28,15 @@ const PostPage = (props: { post: Post }) => {
 
   return (
     <Box tw="flex flex-1 flex-col divide-y">
-      {/* <div class="flex items-center h-16 px-8 justify-end gap-4">
+      <Box tw="flex h-16 items-center justify-end gap-4 px-8">
         <ToggleDraft postId={props.post.id} isDraft={props.post.isDraft} />
         <DeletePostButton
           postId={props.post.id}
           onSuccess={() => {
-            navigate("/posts", { replace: true });
+            navigate('/posts', { replace: true });
           }}
         />
-      </div> */}
+      </Box>
 
       <Box tw="p-8">
         <Box tw="flex flex-col gap-4">
@@ -94,40 +49,47 @@ const PostPage = (props: { post: Post }) => {
   );
 };
 
-// const ToggleDraft = (props: { postId: number; isDraft: number; class?: string }) => {
-//   const updatePost = updatePostMutation();
+const ToggleDraft = (props: { postId: TPostId; isDraft: number; class?: string }) => {
+  const trpc = useTrpc();
+  const updatePost = trpc.posts.update.useMutation(() => ({
+    onSuccess(data) {
+      trpc.posts.byId.invalidate({ postId: data.id }, { exact: true }, { cancelRefetch: true });
+      trpc.posts.list.invalidate();
+    },
+  }));
 
-//   return (
-//     <Checkbox
-//       checked={!!props.isDraft}
-//       label={`Is Draft`}
-//       name="isDraft"
-//       disabled={updatePost.isPending}
-//       class={updatePost.isPending ? 'opacity-50' : undefined}
-//       onChange={newVal => {
-//         updatePost.mutate({
-//           lookup: { id: props.postId },
-//           post: {
-//             isDraft: newVal ? 1 : 0,
-//           },
-//         });
-//       }}
-//     />
-//   );
-// };
+  return (
+    <Checkbox
+      checked={!!props.isDraft}
+      label={`Is Draft`}
+      name="isDraft"
+      disabled={updatePost.isPending}
+      class={updatePost.isPending ? 'opacity-50' : undefined}
+      onChange={newVal => {
+        updatePost.mutate({
+          lookup: { id: props.postId },
+          values: {
+            isDraft: newVal ? 1 : 0,
+          },
+        });
+      }}
+    />
+  );
+};
 
-// const DeletePostButton = (props: { postId: number; class?: string; onSuccess?: () => void }) => {
-//   const deletePost = deletePostMutation();
+const DeletePostButton = (props: { postId: TPostId; class?: string; onSuccess?: () => void }) => {
+  const deletePost = useTrpc().posts.delete.useMutation();
 
-//   return (
-//     <button
-//       class="bg-slate-900 text-white appearance-none rounded px-1.5 py-1.5 disabled:opacity-50 text-xs"
-//       disabled={deletePost.isPending}
-//       onClick={() => {
-//         deletePost.mutate({ lookup: { id: props.postId } }, { onSuccess: props.onSuccess });
-//       }}
-//     >
-//       <Icon icon={faTrashAlt} />
-//     </button>
-//   );
-// };
+  return (
+    <Box
+      as="button"
+      tw="appearance-none rounded bg-danger-solid p-1.5 text-xs text-white disabled:opacity-50"
+      disabled={deletePost.isPending}
+      onClick={() => {
+        deletePost.mutate({ lookup: { id: props.postId } }, { onSuccess: props.onSuccess });
+      }}
+    >
+      <Icon icon={faTrashAlt} />
+    </Box>
+  );
+};

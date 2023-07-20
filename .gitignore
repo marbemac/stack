@@ -46,6 +46,7 @@ node_modules
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
+.no-checkin
 
 # System Files
 .DS_Store

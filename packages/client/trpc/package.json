@@ -1,0 +1,19 @@
+{
+  "name": "@marbemac/client-trpc",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@trpc/client": "^10.35.0",
+    "superjson": "^1.13.1"
+  },
+  "devDependencies": {
+    "@trpc/server": "^10.35.0"
+  }
+}

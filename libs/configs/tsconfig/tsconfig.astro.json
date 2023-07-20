@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    // Add alias for assets folder for easy reference to assets
-    "paths": {
-      "~/assets/*": ["src/assets/*"]
-    }
-  }
-}

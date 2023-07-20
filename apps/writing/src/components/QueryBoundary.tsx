@@ -1,10 +1,11 @@
-// import { PRPCClientError } from '@prpc/solid';
+import type { TrpcRouter } from '@libs/internal-api';
+import type { TRPCClientErrorLike } from '@marbemac/client-trpc-solid';
 import type { CreateQueryResult } from '@tanstack/solid-query';
 import type { Accessor, JSX } from 'solid-js';
 import { ErrorBoundary, Match, Suspense, Switch } from 'solid-js';
 
 export interface QueryBoundaryProps<T = unknown> {
-  query: CreateQueryResult<T, Error>;
+  query: CreateQueryResult<T, TRPCClientErrorLike<TrpcRouter>>;
 
   /**
    * Triggered when the data is initially loading.
@@ -40,7 +41,7 @@ export function QueryBoundary<T>(props: QueryBoundaryProps<T>) {
           console.error('QueryBoundary error', { props, err });
         }
 
-        return <div>An error occurred while making the query (TODO, improve this).</div>;
+        return <div>An error occurred while making the query (TODO, improve this) {err}.</div>;
       }}
     >
       <Suspense fallback={props.loadingFallback}>
@@ -61,7 +62,7 @@ export function QueryBoundary<T>(props: QueryBoundaryProps<T>) {
 }
 
 interface ErrorProps {
-  error: Error | null;
+  error: TRPCClientErrorLike<TrpcRouter> | Error | null;
   refetch: () => void;
 }
 

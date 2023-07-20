@@ -1,6 +1,6 @@
 import { mount } from '@marbemac/ui-solid-js/client';
 
-import { App } from '~/root.js';
+import { App } from '~/root.tsx';
 
 mount({
   Root: App,
