@@ -33,6 +33,7 @@ import {
 } from './createHooksInternal.tsx';
 import { createSolidProxyDecoration } from './decorationProxy.ts';
 import type {
+  CreateTRPCSolidOptions,
   FixProcedureInput,
   TRPCFetchQueryOptions,
   UseTRPCInfiniteQueryOptions,
@@ -204,34 +205,6 @@ export function createHooksInternalProxy<TRouter extends AnyRouter>(trpc: Create
 
     return createSolidProxyDecoration(key as string, trpc);
   });
-}
-
-/**
- * @internal
- */
-interface UseMutationOverride {
-  onSuccess: (opts: {
-    /**
-     * Calls the original function that was defined in the query's `onSuccess` option
-     */
-    originalFn: () => MaybePromise<unknown>;
-    queryClient: QueryClient;
-  }) => MaybePromise<unknown>;
-}
-
-/**
- * @internal
- */
-interface CreateTRPCSolidOptions<_TRouter extends AnyRouter> {
-  client: TRPCUntypedClient<_TRouter>;
-  queryClient: QueryClient;
-
-  /**
-   * Override behaviors of the built-in hooks
-   */
-  unstable_overrides?: {
-    useMutation?: Partial<UseMutationOverride>;
-  };
 }
 
 export function createTRPCSolid<TRouter extends AnyRouter>(opts: CreateTRPCSolidOptions<TRouter>) {
