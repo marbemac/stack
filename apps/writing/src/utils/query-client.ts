@@ -15,17 +15,6 @@ export const createQueryClient = () => {
          */
         reconcile: false,
       },
-      mutations: {
-        onSuccess() {
-          // Simplest cache strategy.. always invalidate active queries after any mutation
-          return queryClient.invalidateQueries({
-            // mark all queries as stale
-            type: 'all',
-            // only immediately refetch active queries
-            refetchType: 'active',
-          });
-        },
-      },
     },
   });
 

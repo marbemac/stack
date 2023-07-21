@@ -12,7 +12,7 @@ import { useTrpc } from '~/utils/trpc.ts';
 
 export default function PostHome() {
   const p = useParams<{ id: TPostId }>();
-  const queryRes = useTrpc().posts.nested.byId.useQuery(() => ({ postId: p.id }));
+  const queryRes = useTrpc().posts.byId.useQuery(() => ({ postId: p.id }));
 
   return (
     <div>
@@ -51,12 +51,7 @@ const PostPage = (props: { post: Post }) => {
 
 const ToggleDraft = (props: { postId: TPostId; isDraft: number; class?: string }) => {
   const trpc = useTrpc();
-  const updatePost = trpc.posts.update.useMutation(() => ({
-    onSuccess(data) {
-      void trpc.posts.byId.invalidate({ postId: data.id }, { exact: true }, { cancelRefetch: true });
-      void trpc.posts.list.invalidate();
-    },
-  }));
+  const updatePost = trpc.posts.update.useMutation();
 
   return (
     <Checkbox

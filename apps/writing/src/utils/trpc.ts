@@ -1,10 +1,6 @@
 import type { TrpcRouter } from '@libs/internal-api';
-import type { CreateTrpcClientOpts } from '@marbemac/client-trpc-solid';
-import {
-  createTRPCClient as baseCreateTRPCClient,
-  createTRPCProvider,
-  createTRPCSolid,
-} from '@marbemac/client-trpc-solid';
+import { createTRPCClient as baseCreateTRPCClient, type CreateTrpcClientOpts } from '@marbemac/client-trpc';
+import { createTRPCProvider, createTRPCSolid } from '@marbemac/client-trpc-solid';
 import type { QueryClient } from '@tanstack/solid-query';
 
 const { useTrpc, TrpcContext } = createTRPCProvider<TrpcRouter>();
@@ -25,6 +21,22 @@ export const createTRPCClient = ({ trpcCaller, queryClient, ...rest }: CreateTRP
   const trpc = createTRPCSolid<TrpcRouter>({
     client: baseClient,
     queryClient,
+    unstable_overrides: {
+      useMutation: {
+        async onSuccess(opts) {
+          // Calls the `onSuccess` defined in the `useQuery()`-options:
+          await opts.originalFn();
+
+          // Simplest cache strategy.. always invalidate active queries after any mutation
+          return queryClient.invalidateQueries({
+            // mark all queries as stale
+            type: 'all',
+            // only immediately refetch active queries
+            refetchType: 'active',
+          });
+        },
+      },
+    },
   });
 
   return trpc;

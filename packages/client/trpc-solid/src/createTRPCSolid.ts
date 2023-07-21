@@ -1,36 +1,45 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { InvalidateOptions, InvalidateQueryFilters } from '@tanstack/solid-query';
-import { type TRPCClientErrorLike } from '@trpc/client';
+import type {
+  InfiniteData,
+  InvalidateOptions,
+  InvalidateQueryFilters,
+  QueryClient,
+  SetDataOptions,
+  Updater,
+} from '@tanstack/solid-query';
+import type { TRPCClientErrorLike, TRPCUntypedClient } from '@trpc/client';
 import type {
   AnyMutationProcedure,
   AnyProcedure,
   AnyQueryProcedure,
   AnyRouter,
   AnySubscriptionProcedure,
+  Filter,
   inferProcedureInput,
   inferProcedureOutput,
+  MaybePromise,
   ProcedureRouterRecord,
 } from '@trpc/server';
 import { type inferObservableValue } from '@trpc/server/observable';
 import { createFlatProxy } from '@trpc/server/shared';
 
-import type { TRPCFetchQueryOptions } from './internals/context.tsx';
 import {
-  type CreateClient,
   createHooksInternal,
   type CreateSolidQueryHooks,
-  type TRPCProvider,
   type UseTRPCInfiniteQueryResult,
-  type UseTRPCMutationOptions,
   type UseTRPCMutationResult,
   type UseTRPCQueryResult,
   type UseTRPCSubscriptionOptions,
-} from './shared/hooks/createHooksInternal.ts';
-import { type UseTRPCInfiniteQueryOptions, type UseTRPCQueryOptions } from './shared/hooks/types.ts';
-import { createSolidProxyDecoration, createSolidQueryUtilsProxy, type CreateSolidUtilsProxy } from './shared/index.ts';
-import { type CreateTRPCSolidOptions } from './shared/types.ts';
+} from './createHooksInternal.tsx';
+import { createSolidProxyDecoration } from './decorationProxy.ts';
+import type {
+  FixProcedureInput,
+  TRPCFetchQueryOptions,
+  UseTRPCInfiniteQueryOptions,
+  UseTRPCMutationOptions,
+  UseTRPCQueryOptions,
+} from './types.ts';
 
-export type FixProcedureInput<T> = T extends void | undefined ? void | undefined : () => T;
 /**
  * @internal
  */
@@ -40,12 +49,12 @@ export type DecorateProcedure<
 > = TProcedure extends AnyQueryProcedure
   ? // QUERIES
     {
-      useQuery: <TQueryFnData = inferProcedureOutput<TProcedure>, TData = inferProcedureOutput<TProcedure>>(
+      useQuery: <TOutput = inferProcedureOutput<TProcedure>, TData = inferProcedureOutput<TProcedure>>(
         input: FixProcedureInput<inferProcedureInput<TProcedure>>,
         opts?: UseTRPCQueryOptions<
           TPath,
           inferProcedureInput<TProcedure>,
-          TQueryFnData,
+          TOutput,
           TData,
           TRPCClientErrorLike<TProcedure>
         >,
@@ -54,15 +63,24 @@ export type DecorateProcedure<
       /**
        * @link https://react-query.tanstack.com/guides/prefetching
        */
-      prefetchQuery<TQueryFnData = inferProcedureOutput<TProcedure>, TData = inferProcedureOutput<TProcedure>>(
+      prefetchQuery<TOutput = inferProcedureOutput<TProcedure>>(
         input: inferProcedureInput<TProcedure>,
-        opts?: TRPCFetchQueryOptions<inferProcedureInput<TProcedure>, TRPCClientErrorLike<TProcedure>, TQueryFnData>,
+        opts?: TRPCFetchQueryOptions<inferProcedureInput<TProcedure>, TRPCClientErrorLike<TProcedure>, TOutput>,
       ): Promise<void>;
 
-      ensureQueryData<TQueryFnData = inferProcedureOutput<TProcedure>, TData = inferProcedureOutput<TProcedure>>(
+      ensureQueryData<TOutput = inferProcedureOutput<TProcedure>>(
         input: inferProcedureInput<TProcedure>,
-        opts?: TRPCFetchQueryOptions<inferProcedureInput<TProcedure>, TRPCClientErrorLike<TProcedure>, TQueryFnData>,
+        opts?: TRPCFetchQueryOptions<inferProcedureInput<TProcedure>, TRPCClientErrorLike<TProcedure>, TOutput>,
       ): Promise<void>;
+
+      /**
+       * @link https://react-query.tanstack.com/reference/QueryClient#queryclientsetquerydata
+       */
+      setData<TOutput = inferProcedureOutput<TProcedure>>(
+        updater: Updater<TOutput | undefined, TOutput | undefined>,
+        input?: inferProcedureInput<TProcedure>,
+        options?: SetDataOptions,
+      ): void;
 
       /**
        * @link https://react-query.tanstack.com/guides/query-invalidation
@@ -88,6 +106,15 @@ export type DecorateProcedure<
               TRPCClientErrorLike<TProcedure>
             >,
           ) => UseTRPCInfiniteQueryResult<TData, TRPCClientErrorLike<TProcedure>>;
+
+          /**
+           * @link https://react-query.tanstack.com/reference/QueryClient#queryclientsetquerydata
+           */
+          setInfiniteData<TOutput = inferProcedureOutput<TProcedure>>(
+            updater: Updater<InfiniteData<TOutput> | undefined, InfiniteData<TOutput> | undefined>,
+            input?: inferProcedureInput<TProcedure>,
+            options?: SetDataOptions,
+          ): void;
         }
       : // eslint-disable-next-line @typescript-eslint/ban-types
         {})
@@ -126,17 +153,43 @@ export type DecorateProcedure<
  */
 export type DecoratedProcedureRecord<TProcedures extends ProcedureRouterRecord, TPath extends string = ''> = {
   [TKey in keyof TProcedures]: TProcedures[TKey] extends AnyRouter
-    ? DecoratedProcedureRecord<TProcedures[TKey]['_def']['record'], `${TPath}${TKey & string}.`>
+    ? DecoratedProcedureRecord<TProcedures[TKey]['_def']['record'], `${TPath}${TKey & string}.`> &
+        DecorateRouterProcedure<TProcedures[TKey]>
     : TProcedures[TKey] extends AnyProcedure
     ? DecorateProcedure<TProcedures[TKey], `${TPath}${TKey & string}`>
     : never;
 };
 
-export type CreateTRPCSolid<TRouter extends AnyRouter> = {
-  useContext(): CreateSolidUtilsProxy<TRouter>;
-  Provider: TRPCProvider<TRouter>;
-  createClient: CreateClient<TRouter>;
-} & DecoratedProcedureRecord<TRouter['_def']['record']>;
+/**
+ * A type that will traverse all procedures and sub routers of a given router to create a union of
+ * their possible input types
+ */
+type InferAllRouterQueryInputTypes<TRouter extends AnyRouter> = {
+  [TKey in keyof Filter<
+    TRouter['_def']['record'],
+    AnyRouter | AnyQueryProcedure
+  >]: TRouter['_def']['record'][TKey] extends AnyQueryProcedure
+    ? inferProcedureInput<TRouter['_def']['record'][TKey]>
+    : InferAllRouterQueryInputTypes<TRouter['_def']['record'][TKey]>; // Recurse as we have a sub router!
+}[keyof Filter<TRouter['_def']['record'], AnyRouter | AnyQueryProcedure>]; // This flattens results into a big union
+
+/**
+ * this is the type that is used to add in procedures that can be used on
+ * an entire router
+ */
+type DecorateRouterProcedure<TRouter extends AnyRouter> = {
+  /**
+   * @link https://react-query.tanstack.com/guides/query-invalidation
+   */
+  $invalidate(
+    input?: Partial<InferAllRouterQueryInputTypes<TRouter>>,
+    filters?: InvalidateQueryFilters,
+    options?: InvalidateOptions,
+  ): Promise<void>;
+};
+
+export type CreateTRPCSolid<TRouter extends AnyRouter> = DecorateRouterProcedure<TRouter> &
+  DecoratedProcedureRecord<TRouter['_def']['record']>;
 
 /**
  * @internal
@@ -145,20 +198,40 @@ export function createHooksInternalProxy<TRouter extends AnyRouter>(trpc: Create
   type CreateHooksInternalProxy = CreateTRPCSolid<TRouter>;
 
   return createFlatProxy<CreateHooksInternalProxy>(key => {
-    if (key === 'useContext') {
-      return () => {
-        const context = trpc.useContext();
-        // create a stable reference of the utils context
-        return (createSolidQueryUtilsProxy as any)(context as any);
-      };
-    }
-
     if ((key as string) in trpc) {
       return (trpc as any)[key];
     }
 
     return createSolidProxyDecoration(key as string, trpc);
   });
+}
+
+/**
+ * @internal
+ */
+interface UseMutationOverride {
+  onSuccess: (opts: {
+    /**
+     * Calls the original function that was defined in the query's `onSuccess` option
+     */
+    originalFn: () => MaybePromise<unknown>;
+    queryClient: QueryClient;
+  }) => MaybePromise<unknown>;
+}
+
+/**
+ * @internal
+ */
+interface CreateTRPCSolidOptions<_TRouter extends AnyRouter> {
+  client: TRPCUntypedClient<_TRouter>;
+  queryClient: QueryClient;
+
+  /**
+   * Override behaviors of the built-in hooks
+   */
+  unstable_overrides?: {
+    useMutation?: Partial<UseMutationOverride>;
+  };
 }
 
 export function createTRPCSolid<TRouter extends AnyRouter>(opts: CreateTRPCSolidOptions<TRouter>) {

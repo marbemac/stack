@@ -18,6 +18,7 @@
     "@libs/db": "workspace:*",
     "@libs/db-model": "workspace:*",
     "@libs/internal-api": "workspace:*",
+    "@marbemac/client-trpc": "workspace:*",
     "@marbemac/client-trpc-solid": "workspace:*",
     "@marbemac/server-hono-node": "workspace:*",
     "@marbemac/server-ssr": "workspace:*",

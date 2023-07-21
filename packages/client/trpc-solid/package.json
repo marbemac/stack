@@ -9,11 +9,8 @@
     "lint": "eslint .",
     "typecheck": "tsc"
   },
-  "dependencies": {
-    "@marbemac/client-trpc": "workspace:*",
-    "@tanstack/solid-query": "5.0.0-alpha.75"
-  },
   "peerDependencies": {
+    "@tanstack/solid-query": "^5",
     "solid-js": "*"
   }
 }

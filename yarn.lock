@@ -2427,23 +2427,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@marbemac/client-trpc-react@workspace:packages/client/trpc-react":
-  version: 0.0.0-use.local
-  resolution: "@marbemac/client-trpc-react@workspace:packages/client/trpc-react"
-  dependencies:
-    "@marbemac/client-trpc": "workspace:*"
-  peerDependencies:
-    react: "*"
-  languageName: unknown
-  linkType: soft
-
 "@marbemac/client-trpc-solid@workspace:*, @marbemac/client-trpc-solid@workspace:packages/client/trpc-solid":
   version: 0.0.0-use.local
   resolution: "@marbemac/client-trpc-solid@workspace:packages/client/trpc-solid"
-  dependencies:
-    "@marbemac/client-trpc": "workspace:*"
-    "@tanstack/solid-query": "npm:5.0.0-alpha.75"
   peerDependencies:
+    "@tanstack/solid-query": ^5
     solid-js: "*"
   languageName: unknown
   linkType: soft
@@ -14569,6 +14557,7 @@ __metadata:
     "@libs/db": "workspace:*"
     "@libs/db-model": "workspace:*"
     "@libs/internal-api": "workspace:*"
+    "@marbemac/client-trpc": "workspace:*"
     "@marbemac/client-trpc-solid": "workspace:*"
     "@marbemac/server-hono-node": "workspace:*"
     "@marbemac/server-ssr": "workspace:*"
