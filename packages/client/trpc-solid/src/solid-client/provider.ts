@@ -1,6 +1,7 @@
 import type { AnyRouter } from '@marbemac/client-trpc';
 import { createContext, useContext } from 'solid-js';
-import { CreateTRPCSolid } from './createTRPCSolid.ts';
+
+import type { CreateTRPCSolid } from './createTRPCSolid.ts';
 
 export const createTRPCProvider = <TRouter extends AnyRouter>() => {
   const TrpcContext = createContext<{ trpc: CreateTRPCSolid<TRouter> }>();

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { InvalidateOptions, InvalidateQueryFilters } from '@tanstack/solid-query';
 import { type TRPCClientErrorLike } from '@trpc/client';
 import type {
   AnyMutationProcedure,
@@ -6,15 +7,17 @@ import type {
   AnyQueryProcedure,
   AnyRouter,
   AnySubscriptionProcedure,
-  ProcedureRouterRecord,
   inferProcedureInput,
   inferProcedureOutput,
+  ProcedureRouterRecord,
 } from '@trpc/server';
 import { type inferObservableValue } from '@trpc/server/observable';
 import { createFlatProxy } from '@trpc/server/shared';
-import { type CreateSolidUtilsProxy, createSolidProxyDecoration, createSolidQueryUtilsProxy } from './shared';
+
+import type { TRPCFetchQueryOptions } from './internals/context.tsx';
 import {
   type CreateClient,
+  createHooksInternal,
   type CreateSolidQueryHooks,
   type TRPCProvider,
   type UseTRPCInfiniteQueryResult,
@@ -22,12 +25,10 @@ import {
   type UseTRPCMutationResult,
   type UseTRPCQueryResult,
   type UseTRPCSubscriptionOptions,
-  createHooksInternal,
-} from './shared/hooks/createHooksInternal';
-import { type UseTRPCInfiniteQueryOptions, type UseTRPCQueryOptions } from './shared/hooks/types';
-import { type CreateTRPCSolidOptions } from './shared/types';
-import { TRPCFetchQueryOptions } from './internals/context.tsx';
-import { InvalidateOptions, InvalidateQueryFilters } from '@tanstack/solid-query';
+} from './shared/hooks/createHooksInternal.ts';
+import { type UseTRPCInfiniteQueryOptions, type UseTRPCQueryOptions } from './shared/hooks/types.ts';
+import { createSolidProxyDecoration, createSolidQueryUtilsProxy, type CreateSolidUtilsProxy } from './shared/index.ts';
+import { type CreateTRPCSolidOptions } from './shared/types.ts';
 
 export type FixProcedureInput<T> = T extends void | undefined ? void | undefined : () => T;
 /**

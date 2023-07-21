@@ -53,8 +53,8 @@ const ToggleDraft = (props: { postId: TPostId; isDraft: number; class?: string }
   const trpc = useTrpc();
   const updatePost = trpc.posts.update.useMutation(() => ({
     onSuccess(data) {
-      trpc.posts.byId.invalidate({ postId: data.id }, { exact: true }, { cancelRefetch: true });
-      trpc.posts.list.invalidate();
+      void trpc.posts.byId.invalidate({ postId: data.id }, { exact: true }, { cancelRefetch: true });
+      void trpc.posts.list.invalidate();
     },
   }));
 

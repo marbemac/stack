@@ -6,6 +6,6 @@ mount({
   Root: App,
   router: {
     preload: 'intent',
-    preloadDelay: 500,
+    preloadDelay: 250,
   },
 });

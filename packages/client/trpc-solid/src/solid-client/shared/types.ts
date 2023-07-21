@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type QueryClient } from '@tanstack/solid-query';
+import type { TRPCUntypedClient } from '@trpc/client';
 import { type AnyRouter, type MaybePromise } from '@trpc/server';
 import type Solid from 'solid-js';
-import { TRPCUntypedClient } from 'solid-trpc';
 
 /**
  * @internal

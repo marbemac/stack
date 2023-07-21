@@ -1,8 +1,5 @@
-export * from "./proxy/decorationProxy";
-export * from "./proxy/utilsProxy";
-export type {
-  DecoratedProcedureRecord,
-  DecorateProcedure,
-} from "../createTRPCSolid";
-export * from "./hooks/createHooksInternal";
-export * from "./types";
+export type { DecoratedProcedureRecord, DecorateProcedure } from '../createTRPCSolid';
+export * from './hooks/createHooksInternal.ts';
+export * from './proxy/decorationProxy.ts';
+export * from './proxy/utilsProxy.ts';
+export * from './types.ts';
