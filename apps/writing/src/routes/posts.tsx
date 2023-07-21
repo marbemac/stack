@@ -1,7 +1,7 @@
 import type { TPostId } from '@libs/db-model/ids';
 import { type InsertablePost, insertPostSchema, type Post } from '@libs/db-model/schema';
 import type { TrpcRouterOutput } from '@libs/internal-api';
-import { Box } from '@marbemac/ui-primitives';
+import { Box, Button } from '@marbemac/ui-primitives';
 import { tw } from '@marbemac/ui-styles';
 import type { SubmitHandler } from '@modular-forms/solid';
 import { createForm, reset, zodForm } from '@modular-forms/solid';
@@ -102,14 +102,9 @@ const AddPostForm = (props: { onSuccess?: (res: TrpcRouterOutput['posts']['creat
       </AddPost.Field>
 
       <div>
-        <Box
-          as="button"
-          type="submit"
-          disabled={addPostForm.submitting}
-          tw="appearance-none rounded bg-primary-solid px-2 py-1 text-white disabled:opacity-50"
-        >
+        <Button as="button" type="submit" disabled={addPostForm.submitting}>
           {addPostForm.submitting ? 'Adding...' : 'Add Post'}
-        </Box>
+        </Button>
       </div>
     </Box>
   );

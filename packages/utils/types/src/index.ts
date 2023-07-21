@@ -1,3 +1,5 @@
+export type { TemplatedRoutePaths } from './routing.js';
+
 /**
  * Use this when you need a "relaxed" string union type to preserve autocomplete.
  *
