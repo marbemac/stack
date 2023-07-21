@@ -42,18 +42,6 @@ export interface CreateTRPCSolidOptions<_TRouter extends AnyRouter> {
   unstable_overrides?: {
     useMutation?: Partial<UseMutationOverride>;
   };
-
-  /**
-   * Override the default context provider
-   * @default undefined
-   */
-  context?: Solid.Context<any>;
-
-  /**
-   * Override the default React Query context
-   * @default undefined
-   */
-  solidQueryContext?: Solid.Context<QueryClient | undefined>;
 }
 
 export interface TRPCUseQueryBaseOptions {
