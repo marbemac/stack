@@ -2,7 +2,6 @@ import type { HTTPBatchLinkOptions, TRPCLink } from '@trpc/client';
 import { httpBatchLink } from '@trpc/client';
 import type { AnyRouter } from '@trpc/server';
 import { observable } from '@trpc/server/observable';
-import { isServer } from 'solid-js/web';
 
 export interface BuildLinksOpts<T extends AnyRouter> {
   httpBatchLinkOpts: HTTPBatchLinkOptions;
@@ -12,7 +11,7 @@ export interface BuildLinksOpts<T extends AnyRouter> {
 export const buildLinks = <T extends AnyRouter>(opts: BuildLinksOpts<T>) => {
   const links: TRPCLink<T>[] = [];
 
-  if (isServer) {
+  if (import.meta.env.SSR) {
     const { trpcCaller } = opts;
     if (!trpcCaller) {
       throw new Error('Error building TRPC links. trpcCaller must be passed in on the server');

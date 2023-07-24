@@ -1,5 +1,4 @@
 import type { PageEvent } from '@marbemac/server-ssr';
-import type { QueryClient } from '@tanstack/react-query';
 import type { FC, ReactNode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
@@ -59,10 +58,6 @@ const ClientScaffold = (props: ClientScaffoldProps) => {
   };
 
   return <ServerContext.Provider value={mockFetchEvent}>{props.children}</ServerContext.Provider>;
-};
-
-export type RootProps = {
-  queryClient: QueryClient;
 };
 
 type MountProps = {

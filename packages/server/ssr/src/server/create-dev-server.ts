@@ -8,7 +8,7 @@ import { createServer as createViteServer } from 'vite';
 
 import type { PageEvent as BasePageEvent } from '../types.js';
 import { createApp } from './create-app.js';
-import type { DevRegisterAppHandlerOptions, ProvideAppFns } from './register-app-handler.js';
+import type { DevRegisterAppHandlerOptions, ProvideAppFns, RenderFn } from './register-app-handler.js';
 import { registerAppHandler } from './register-app-handler.js';
 import type { BaseHonoEnv } from './types.js';
 
@@ -19,9 +19,9 @@ interface CreateDevServerOpts<
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent,
-  Elem,
+  TRenderFn extends RenderFn<PageEvent>,
 > extends Pick<
-    DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, Elem>,
+    DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn>,
     'renderToStream' | 'globalMiddlware' | 'trpcRootPath' | 'trpcRouter' | 'trpcContextFactory'
   > {
   hmrPort: number;
@@ -33,9 +33,9 @@ export const createDevServer = async <
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent,
-  Elem,
+  TRenderFn extends RenderFn<PageEvent>,
 >(
-  opts: CreateDevServerOpts<HonoEnv, TRouter, PageEvent, Elem>,
+  opts: CreateDevServerOpts<HonoEnv, TRouter, PageEvent, TRenderFn>,
 ) => {
   const {
     hmrPort,
@@ -69,11 +69,14 @@ export const createDevServer = async <
 
   // In dev mode, entry.server will be loaded in it's own module scope, so it must import anything "stateful"
   // This includes anything that imports react or solidjs (due to context), and twind
-  const provideAppFns = (() => viteDevServer.ssrLoadModule(resolve(entryServerPath))) as ProvideAppFns<PageEvent, Elem>;
+  const provideAppFns = (() => viteDevServer.ssrLoadModule(resolve(entryServerPath))) as ProvideAppFns<
+    PageEvent,
+    TRenderFn
+  >;
 
   const app = createApp<HonoEnv>();
 
-  registerAppHandler<HonoEnv, TRouter, PageEvent, Elem>({
+  registerAppHandler<HonoEnv, TRouter, PageEvent, TRenderFn>({
     app,
     provideAppFns,
     renderToStream,
