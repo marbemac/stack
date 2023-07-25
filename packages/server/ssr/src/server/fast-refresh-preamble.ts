@@ -5,14 +5,6 @@
  * https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#middleware-mode
  */
 export const addFastRefreshPreamble = () => {
-  const fastRefreshPreamble = `
-  import RefreshRuntime from "/@react-refresh"
-  RefreshRuntime.injectIntoGlobalHook(window)
-  window.$RefreshReg$ = () => {}
-  window.$RefreshSig$ = () => (type) => type
-  window.__vite_plugin_react_preamble_installed__ = true
-`.trim();
-
   return `
   var script = document.createElement("script");
   script.type = "module";
@@ -20,3 +12,11 @@ export const addFastRefreshPreamble = () => {
   document.body.appendChild(script);
 `.trim();
 };
+
+export const fastRefreshPreamble = `
+import RefreshRuntime from "/@react-refresh"
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true
+`.trim();

@@ -4,7 +4,11 @@ import React from 'react';
 
 import { createRouter } from '~/router.tsx';
 
-const router = createRouter();
+import { createQueryClient } from './utils/query-client.ts';
+
+const queryClient = createQueryClient();
+
+const router = createRouter({ queryClient });
 void router.hydrate();
 
 const Wrap = router.options.Wrap || React.Fragment;

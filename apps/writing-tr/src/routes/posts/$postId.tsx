@@ -4,19 +4,6 @@ import { useTrpc } from '~/utils/trpc.ts';
 
 import { postsRoute } from '../posts.tsx';
 
-// export const postLoader = new Loader({
-//   fn: async (postId: string) => {
-//     console.log(`Fetching post with id ${postId}...`);
-
-//     await new Promise(r => setTimeout(r, 1000 + Math.round(Math.random() * 300)));
-
-//     return fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`).then(r => r.json() as Promise<PostType>);
-//   },
-//   onInvalidate: async () => {
-//     await postsLoader.invalidate();
-//   },
-// });
-
 export const postIdRoute = new Route({
   getParentRoute: () => postsRoute,
   path: '$postId',

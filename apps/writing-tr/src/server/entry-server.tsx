@@ -3,6 +3,7 @@ import { createMemoryHistory, RouterProvider } from '@tanstack/router';
 import React from 'react';
 
 import { createRouter } from '~/router.tsx';
+import { createQueryClient } from '~/utils/query-client.js';
 import { RouterHydrationContext } from '~/utils/router-hydration-context.js';
 
 import type { AppPageEvent, RenderFn } from './types.js';
@@ -17,7 +18,10 @@ export const render: RenderFn = async ({ event }: { event: AppPageEvent }) => {
   /**
    * Create a new router on every request - cannot share caches on server.
    */
-  const router = createRouter({ trpcCaller: event.trpcCaller });
+  const trackedQueries = new Set<string>();
+  const blockingQueries = new Map<string, Promise<void>>();
+  const queryClient = createQueryClient({ trackedQueries, blockingQueries });
+  const router = createRouter({ queryClient, trpcCaller: event.trpcCaller });
 
   const memoryHistory = createMemoryHistory({
     initialEntries: [pathWithSearch],
@@ -53,5 +57,5 @@ export const render: RenderFn = async ({ event }: { event: AppPageEvent }) => {
     ),
   });
 
-  return { app, router };
+  return { app, queryClient, router, trackedQueries, blockingQueries };
 };

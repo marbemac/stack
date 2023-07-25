@@ -134,7 +134,6 @@ export const registerAppHandler = <
     }
 
     const { readable, writable } = new TwindStream(tw);
-    // const { readable, writable } = new TransformStream();
     await renderToStream({
       writable,
       render,

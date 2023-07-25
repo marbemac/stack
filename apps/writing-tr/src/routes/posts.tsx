@@ -1,4 +1,5 @@
 import { Link, Outlet, Route } from '@tanstack/router';
+import { Suspense } from 'react';
 
 import { useTrpc } from '~/utils/trpc.ts';
 
@@ -8,8 +9,9 @@ export const postsRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'posts',
   loader: ({ context }) => {
-    return context.trpc.posts.list.ensureQueryData();
+    void context.trpc.posts.list.ensureQueryData(undefined);
   },
+  pendingComponent: () => <div>loading...</div>,
   component: () => {
     const posts = useTrpc().posts.list.useQuery();
     if (posts.isLoading) {
@@ -18,6 +20,8 @@ export const postsRoute = new Route({
 
     return (
       <div className="p-2">
+        <Waiter wait={2000} />
+
         <ul>
           {posts.data?.items.map(i => (
             <li key={i.id}>
@@ -35,3 +39,17 @@ export const postsRoute = new Route({
     );
   },
 });
+
+const Waiter = (props: { wait: number }) => {
+  return (
+    <Suspense fallback={<div>{`waiting ${props.wait}...`}</div>}>
+      <WaiterInner {...props} />
+    </Suspense>
+  );
+};
+
+const WaiterInner = ({ wait }: { wait: number }) => {
+  const query = useTrpc().posts.nested.wait.useQuery({ wait });
+
+  return <div>result: {query.data}</div>;
+};

@@ -6,9 +6,11 @@ import { z } from 'zod';
 import { publicProcedure, router } from '../trpc.js';
 
 export const postsRouter = router({
-  list: publicProcedure.query(({ ctx }) => ({
-    items: ctx.models.posts.listPosts(),
-  })),
+  list: publicProcedure.query(async ({ ctx }) => {
+    return {
+      items: ctx.models.posts.listPosts(),
+    };
+  }),
 
   nested: router({
     wait: publicProcedure

@@ -4625,9 +4625,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router@npm:0.0.1-beta.118":
-  version: 0.0.1-beta.118
-  resolution: "@tanstack/router@npm:0.0.1-beta.118"
+"@tanstack/router@npm:0.0.1-beta.119":
+  version: 0.0.1-beta.119
+  resolution: "@tanstack/router@npm:0.0.1-beta.119"
   dependencies:
     "@babel/runtime": "npm:^7.16.7"
     "@gisatcz/cross-package-react-context": "npm:^0.2.0"
@@ -4637,7 +4637,7 @@ __metadata:
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: cdd9d8b974cf2db0804d0e29d003dac63c0a762893c4018032c29282e549b9b954405fe7ddfe0c9c2db5f584cae135cd799de5bba961c033ae100f6b91a2c6bb
+  checksum: f4c0bdbd6c7891c57d56010d823d3564bb823d025c272cde6494e86347579666e401a582d4dfc5b0ebb1e4e61406ca55e8186c2af0b79dc98bcf4802a996869d
   languageName: node
   linkType: hard
 
@@ -7390,6 +7390,13 @@ __metadata:
     detect: bin/detect-port.js
     detect-port: bin/detect-port.js
   checksum: d33e1b1aeddb3bab5f80e6a48cfba31d05f0c047e5f108c1b85265d5e2f8f37b75f4272db6dec3fc8f2daa95eec378927f5e4a4e89098f747d99bfee79189657
+  languageName: node
+  linkType: hard
+
+"devalue@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "devalue@npm:4.3.2"
+  checksum: b373a970d59366c9fa71fc4bd9020bcfc71d2b5b03fdc4514db33d77d1cb2b004d9b1658cf6e523037b763dbed3e98cde19ee4c6da88f2dbacbb408f8ca1b458
   languageName: node
   linkType: hard
 
@@ -15039,10 +15046,11 @@ __metadata:
     "@radix-ui/react-form": "npm:~0.0.3"
     "@tanstack/query-devtools": "npm:5.0.0-beta.0"
     "@tanstack/react-query": "npm:5.0.0-beta.0"
-    "@tanstack/router": "npm:0.0.1-beta.118"
+    "@tanstack/router": "npm:0.0.1-beta.119"
     "@types/react": "npm:^18.2.15"
     "@types/react-dom": "npm:^18.2.7"
     "@vitejs/plugin-react": "npm:^4.0.3"
+    devalue: "npm:^4.3.2"
     dotenv-cli: "npm:^7.2.1"
     esbuild: "npm:~0.18.15"
     react: "npm:^18.2.0"

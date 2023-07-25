@@ -1,4 +1,3 @@
-// import { DehydrateRouter } from '@tanstack/react-start/client';
 import { Link, Outlet, RootRoute } from '@tanstack/router';
 import React from 'react';
 
@@ -40,6 +39,14 @@ function Root() {
               }}
             >
               Posts
+            </Link>
+            <Link
+              to="/debug"
+              activeProps={{
+                className: 'font-bold',
+              }}
+            >
+              Debug
             </Link>
           </div>
           <Outlet /> {/* Start rendering router matches */}
