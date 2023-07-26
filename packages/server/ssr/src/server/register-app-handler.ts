@@ -1,30 +1,28 @@
-import { TwindStream } from '@marbemac/server-twind-stream';
 import type { AnyRouter } from '@trpc/server';
 import type { FetchCreateContextFn } from '@trpc/server/adapters/fetch';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import type { Twind } from '@twind/core';
 import type { Context, Hono, MiddlewareHandler } from 'hono';
 
 import type { PageEvent as BasePageEvent } from '../types.js';
 import { createPageEvent } from './page-event.js';
 import type { BaseHonoEnv } from './types.js';
 
-export type RenderFn<PageEvent extends BasePageEvent, R = unknown> = ({
-  event,
-}: {
-  event: PageEvent;
-}) => R | Promise<R>;
+export type ServerEntryFns<PageEvent extends BasePageEvent, R extends RenderFn<PageEvent> = RenderFn<PageEvent>> = {
+  render: R;
+};
 
-export type ProvideAppFns<PageEvent extends BasePageEvent, TRenderFn extends RenderFn<PageEvent>> = () => Promise<{
-  render: TRenderFn;
-  tw: Twind<any, any>;
-}>;
+export type RenderFn<PageEvent extends BasePageEvent, R = unknown> = ({ event }: { event: PageEvent }) => R;
 
-type RenderToStreamFn<PageEvent extends BasePageEvent, TRenderFn extends RenderFn<PageEvent>> = (opts: {
-  writable: WritableStream<Uint8Array>;
-  render: TRenderFn;
-  pageEvent: PageEvent;
-}) => Promise<void>;
+export type ProvideAppFns<
+  PageEvent extends BasePageEvent,
+  ServerEntry extends ServerEntryFns<PageEvent>,
+> = () => Promise<ServerEntry>;
+
+export type RenderToStreamFn<PageEvent extends BasePageEvent, ServerEntry extends ServerEntryFns<PageEvent>> = (
+  opts: {
+    pageEvent: PageEvent;
+  } & ServerEntry,
+) => Promise<ReadableStream>;
 
 // export type AuthRouterFactory<HonoEnv extends BaseHonoEnv> = () => AuthRouter<HonoEnv>;
 
@@ -36,10 +34,10 @@ export interface BaseRegisterAppHandlerOptions<
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent,
-  TRenderFn extends RenderFn<PageEvent>,
+  ServerEntry extends ServerEntryFns<PageEvent>,
 > {
   app: Hono<HonoEnv>;
-  renderToStream: RenderToStreamFn<PageEvent, TRenderFn>;
+  renderToStream: RenderToStreamFn<PageEvent, ServerEntry>;
   globalMiddlware?: MiddlewareHandler<HonoEnv>;
   // authRouterFactory?: AuthRouterFactory<HonoEnv>;
   trpcRouter: TRouter;
@@ -52,37 +50,36 @@ export interface DevRegisterAppHandlerOptions<
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent,
-  TRenderFn extends RenderFn<PageEvent>,
-> extends BaseRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn> {
-  provideAppFns: ProvideAppFns<PageEvent, TRenderFn>;
+  ServerEntry extends ServerEntryFns<PageEvent>,
+> extends BaseRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry> {
+  provideAppFns: ProvideAppFns<PageEvent, ServerEntry>;
 }
 
 export interface ProdRegisterAppHandlerOptions<
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent,
-  TRenderFn extends RenderFn<PageEvent>,
-> extends BaseRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn> {
-  render: TRenderFn;
-  tw: Twind<any, any>;
+  ServerEntry extends ServerEntryFns<PageEvent>,
+> extends BaseRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry> {
+  serverEntry: ServerEntry;
 }
 
 export type RegisterAppHandlerOptions<
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent,
-  TRenderFn extends RenderFn<PageEvent>,
+  ServerEntry extends ServerEntryFns<PageEvent>,
 > =
-  | DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn>
-  | ProdRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn>;
+  | DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>
+  | ProdRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>;
 
 export const registerAppHandler = <
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent<TRouter>,
-  TRenderFn extends RenderFn<PageEvent>,
+  ServerEntry extends ServerEntryFns<PageEvent>,
 >(
-  opts: RegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn>,
+  opts: RegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>,
 ) => {
   const { app, renderToStream, globalMiddlware, env: baseEnv, trpcRouter, trpcRootPath, trpcContextFactory } = opts;
 
@@ -121,26 +118,20 @@ export const registerAppHandler = <
     const ctx = await createContext({ req: c.req.raw, resHeaders: c.res.headers });
     const pageEvent = createPageEvent<PageEvent>({ req: c.req.raw, env, trpcCaller: trpcRouter.createCaller(ctx) });
 
-    let tw;
-    let render: TRenderFn;
-    if (isDevOptions<HonoEnv, TRouter, PageEvent, TRenderFn>(opts)) {
+    let serverEntry: ServerEntry;
+    if (isDevOptions<HonoEnv, TRouter, PageEvent, ServerEntry>(opts)) {
       // load ssr module on every request in dev, so that hot reload works on the SSR side of things
-      const fns = await opts.provideAppFns();
-      tw = fns.tw;
-      render = fns.render;
+      serverEntry = await opts.provideAppFns();
     } else {
-      tw = opts.tw;
-      render = opts.render;
+      serverEntry = opts.serverEntry;
     }
 
-    const { readable, writable } = new TwindStream(tw);
-    await renderToStream({
-      writable,
-      render,
+    const appStream = await renderToStream({
       pageEvent,
+      ...serverEntry,
     });
 
-    return new Response(readable, {
+    return new Response(appStream, {
       status: pageEvent.getStatusCode(),
       headers: pageEvent.responseHeaders,
     });
@@ -151,9 +142,9 @@ function isDevOptions<
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
   PageEvent extends BasePageEvent,
-  TRenderFn extends RenderFn<PageEvent>,
+  ServerEntry extends ServerEntryFns<PageEvent>,
 >(
-  opts: RegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn>,
-): opts is DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, TRenderFn> {
+  opts: RegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>,
+): opts is DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry> {
   return Object.prototype.hasOwnProperty.call(opts, 'provideAppFns');
 }

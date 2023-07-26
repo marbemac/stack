@@ -1,7 +1,8 @@
 import type { Models } from '@libs/db-model/models';
 import type { TrpcRouter } from '@libs/internal-api';
 import type { PageEvent } from '@marbemac/server-ssr';
-import type { BaseHonoEnv, RenderFn as BaseRenderFn } from '@marbemac/server-ssr/server';
+import type { BaseHonoEnv, RenderFn as BaseRenderFn, ServerEntryFns } from '@marbemac/server-ssr/server';
+import type { tw } from '@marbemac/ui-twind';
 import type { QueryClient } from '@tanstack/react-query';
 import type { Hono } from 'hono';
 import type { ReactNode } from 'react';
@@ -12,14 +13,18 @@ export type AppPageEvent = PageEvent<TrpcRouter>;
 
 export type RenderFn = BaseRenderFn<
   AppPageEvent,
-  {
+  Promise<{
     app: ReactNode;
     queryClient: QueryClient;
     router: AppRouter;
     trackedQueries: Set<string>;
     blockingQueries: Map<string, Promise<void>>;
-  }
+  }>
 >;
+
+export type ServerEntry = ServerEntryFns<AppPageEvent, RenderFn> & {
+  tw: typeof tw;
+};
 
 export interface HonoEnv extends BaseHonoEnv {
   Bindings: BaseHonoEnv['Bindings'] & {

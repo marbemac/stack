@@ -13,6 +13,8 @@ export const postsRoute = new Route({
   },
   pendingComponent: () => <div>loading...</div>,
   component: () => {
+    console.log('Posts.render');
+
     const posts = useTrpc().posts.list.useQuery();
     if (posts.isLoading) {
       return <div>no data...</div>;

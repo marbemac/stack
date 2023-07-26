@@ -22,7 +22,11 @@ export const registerProdApp = ({ app }: { app: HonoApp }) => {
     trpcRouter,
     trpcRootPath: TRPC_ROOT_PATH,
     trpcContextFactory,
-    renderToStream: createRenderToStreamFn(),
+    renderToStream: createRenderToStreamFn({
+      streamOptions: {
+        bootstrapModules: [manifest['src/entry-client.tsx']['file']],
+      },
+    }),
     serverEntry: {
       render,
       tw,

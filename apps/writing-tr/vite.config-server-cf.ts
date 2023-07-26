@@ -1,14 +1,14 @@
 // @ts-expect-error not dealing with typings
 import { ssrServer } from '@marbemac/configs-vite';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import solidPlugin from 'vite-plugin-solid';
 
 const baseConfig = ssrServer();
 
 export default defineConfig({
   ...baseConfig,
 
-  plugins: [solidPlugin({ ssr: true }), ...baseConfig.plugins],
+  plugins: [react(), ...baseConfig.plugins],
 
   ssr: {
     ...baseConfig.ssr,

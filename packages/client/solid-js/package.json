@@ -15,7 +15,7 @@
     "./client": "./src/client/index.ts"
   },
   "dependencies": {
-    "@solidjs/meta": "~0.28.5",
+    "@solidjs/meta": "~0.28.6",
     "@solidjs/router": "~0.8.2"
   },
   "devDependencies": {

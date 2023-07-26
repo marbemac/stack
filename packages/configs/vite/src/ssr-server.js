@@ -1,21 +1,22 @@
 import analyze from 'rollup-plugin-analyzer';
 import { defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import solidPlugin from 'vite-plugin-solid';
 
 export const ssrServer = () => {
   return defineConfig({
     define: { 'process.env.NODE_ENV': '"production"' },
 
     plugins: [
-      solidPlugin({ ssr: true }),
-
       // Can help with debugging - prefer patching libs to leverage standards based options rather than polyfill
       // nodePolyfills({
       //   // Whether to polyfill `node:` protocol imports.
       //   protocolImports: true,
       // }),
     ],
+
+    ssr: {
+      target: 'webworker',
+    },
 
     resolve: {
       /**

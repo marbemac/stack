@@ -10,7 +10,7 @@ export const rootRoute = RootRoute.withRouterContext<RouterContext>()({
 });
 
 function Root() {
-  console.log('BLAH');
+  console.log('Root.render');
 
   return (
     <html lang="en">

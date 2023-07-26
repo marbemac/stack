@@ -11,6 +11,8 @@ export const postIdRoute = new Route({
     return context.trpc.posts.byId.ensureQueryData({ postId });
   },
   component: function Post({ useParams }) {
+    console.log('PostId.render');
+
     const { postId } = useParams();
     const postQuery = useTrpc().posts.byId.useQuery({ postId });
 
