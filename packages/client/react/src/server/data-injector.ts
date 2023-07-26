@@ -1,9 +1,8 @@
+import { injectIntoSSRStream } from '@marbemac/server-ssr';
 import type { DehydrateOptions, HydrateOptions, QueryClient } from '@tanstack/react-query';
 import { defaultShouldDehydrateQuery, dehydrate } from '@tanstack/react-query';
 
-import { injectIntoStream } from './transform-stream.ts';
-
-export const createDataInjector = ({
+export const createQueryDataInjector = ({
   blockingQueries,
   trackedQueries,
   queryClient,
@@ -19,7 +18,7 @@ export const createDataInjector = ({
   };
   serialize?: (object: any) => any;
 }) => {
-  return injectIntoStream({
+  return injectIntoSSRStream({
     emitToDocumentHead() {
       const html: string[] = [`$TQD = [];`, `$TQS = data => $TQD.push(data);`];
 

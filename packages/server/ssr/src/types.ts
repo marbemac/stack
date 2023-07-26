@@ -2,6 +2,12 @@
 
 import type { AnyRouter } from '@trpc/server';
 
+/* eslint-disable @typescript-eslint/ban-types */
+export type BaseHonoEnv = {
+  Bindings: {};
+  Variables: {};
+};
+
 export type ManifestId = string;
 
 export type ManifestEntry = {

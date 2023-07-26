@@ -2,7 +2,6 @@ import type { TrpcRouter } from '@libs/internal-api';
 import { trpcRouter } from '@libs/internal-api';
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
 import { createDevServer } from '@marbemac/server-ssr/create-dev-server';
-import { addFastRefreshPreamble } from '@marbemac/server-ssr/server';
 
 import { ENV_VARIABLES_LIST } from './env.js';
 import { globalMiddleware } from './middleware.js';
@@ -20,12 +19,7 @@ const { viteDevServer, server } = await createDevServer<HonoEnv, TrpcRouter, App
   trpcRootPath: TRPC_ROOT_PATH,
   trpcRouter,
   trpcContextFactory,
-  renderToStream: createRenderToStreamFn({
-    streamOptions: {
-      bootstrapModules: ['/@vite/client', '/src/entry-client.tsx'],
-      bootstrapScriptContent: [addFastRefreshPreamble()].join('\n'),
-    },
-  }),
+  renderToStream: createRenderToStreamFn(),
 });
 
 server.listen(port, () => {

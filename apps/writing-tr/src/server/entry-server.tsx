@@ -1,10 +1,10 @@
+import { createQueryClient } from '@marbemac/ui-react/client';
 import { render as baseRender } from '@marbemac/ui-react/server';
 import { injectGlobal } from '@marbemac/ui-twind';
 import { createMemoryHistory, RouterProvider } from '@tanstack/router';
 import React from 'react';
 
 import { createRouter } from '~/router.tsx';
-import { createQueryClient } from '~/utils/query-client.js';
 import { RouterHydrationContext } from '~/utils/router-hydration-context.js';
 
 import type { AppPageEvent, RenderFn } from './types.js';
@@ -41,11 +41,9 @@ export const render: RenderFn = async ({ event }: { event: AppPageEvent }) => {
   const pathWithSearch = `${url.pathname}${url.search}`;
 
   /**
-   * Create a new router on every request - cannot share caches on server.
+   * Create a new query client / router on every request - cannot share caches on server.
    */
-  const trackedQueries = new Set<string>();
-  const blockingQueries = new Map<string, Promise<void>>();
-  const queryClient = createQueryClient({ trackedQueries, blockingQueries });
+  const { queryClient, blockingQueries, trackedQueries } = createQueryClient();
   const router = createRouter({ queryClient, trpcCaller: event.trpcCaller });
 
   const memoryHistory = createMemoryHistory({

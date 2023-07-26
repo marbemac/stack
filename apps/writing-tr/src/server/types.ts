@@ -1,7 +1,6 @@
 import type { Models } from '@libs/db-model/models';
 import type { TrpcRouter } from '@libs/internal-api';
-import type { PageEvent } from '@marbemac/server-ssr';
-import type { BaseHonoEnv, RenderFn as BaseRenderFn, ServerEntryFns } from '@marbemac/server-ssr/server';
+import type { BaseHonoEnv, PageEvent, RenderFn as BaseRenderFn, ServerEntryFns } from '@marbemac/server-ssr';
 import type { tw } from '@marbemac/ui-twind';
 import type { QueryClient } from '@tanstack/react-query';
 import type { Hono } from 'hono';

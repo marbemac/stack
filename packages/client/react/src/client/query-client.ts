@@ -1,16 +1,18 @@
+import type { QueryClientConfig } from '@tanstack/react-query';
 import { QueryCache, QueryClient } from '@tanstack/react-query';
 
-import { hydrateStreamingData } from '~/hydrate-streaming-data.ts';
+import { hydrateStreamingData } from './hydrate-streaming-data.ts';
 
 type CreateQueryClientOpts = {
-  trackedQueries?: Set<string>;
-  blockingQueries?: Map<string, Promise<void>>;
+  queryClientConfig?: Omit<QueryClientConfig, 'queryCache'>;
 };
 
-export const createQueryClient = ({ trackedQueries, blockingQueries }: CreateQueryClientOpts = {}) => {
+export const createQueryClient = ({ queryClientConfig }: CreateQueryClientOpts = {}) => {
+  const trackedQueries = new Set<string>();
+  const blockingQueries = new Map<string, Promise<void>>();
   const blockingQueryResolvers = new Map<string, () => void>();
 
-  const queryCache = blockingQueries
+  const queryCache = import.meta.env.SSR
     ? new QueryCache({
         onSettled(data, error, query) {
           const blockingQuery = blockingQueryResolvers.get(query.queryHash);
@@ -24,18 +26,22 @@ export const createQueryClient = ({ trackedQueries, blockingQueries }: CreateQue
   const queryClient: QueryClient = new QueryClient({
     queryCache,
     defaultOptions: {
+      mutations: {
+        ...queryClientConfig?.defaultOptions?.mutations,
+      },
       queries: {
         suspense: true,
         retry: false,
         staleTime: 1000 * 30,
         refetchOnReconnect: true,
         refetchOnWindowFocus: true,
+        ...queryClientConfig?.defaultOptions?.queries,
       },
     },
   });
 
   // on the server
-  if (trackedQueries && import.meta.env.SSR) {
+  if (import.meta.env.SSR) {
     queryClient.getQueryCache().subscribe(event => {
       const defer = event.query.meta?.['deferStream'];
 
@@ -57,5 +63,5 @@ export const createQueryClient = ({ trackedQueries, blockingQueries }: CreateQue
     hydrateStreamingData({ queryClient });
   }
 
-  return queryClient;
+  return { queryClient, trackedQueries, blockingQueries };
 };

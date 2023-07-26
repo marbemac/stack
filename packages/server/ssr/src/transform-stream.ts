@@ -1,4 +1,4 @@
-type InjectIntoStreamOpts = {
+type InjectIntoSSRStreamOpts = {
   emitToDocumentHead?: () => string;
   emitBeforeSsrChunk: () => Promise<string>;
 };
@@ -6,7 +6,7 @@ type InjectIntoStreamOpts = {
 const encoder = /* #__PURE__ */ new TextEncoder();
 const decoder = /* #__PURE__ */ new TextDecoder();
 
-export function injectIntoStream({ emitToDocumentHead, emitBeforeSsrChunk }: InjectIntoStreamOpts) {
+export function injectIntoSSRStream({ emitToDocumentHead, emitBeforeSsrChunk }: InjectIntoSSRStreamOpts) {
   // regex pattern for matching closing body and html tags
   const patternHead = /(<\/head>)/;
   const patternBody = /(<\/body>)/;

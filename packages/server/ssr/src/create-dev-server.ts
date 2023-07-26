@@ -6,11 +6,10 @@ import connect from 'connect';
 import * as R from 'remeda';
 import { createServer as createViteServer } from 'vite';
 
-import type { PageEvent as BasePageEvent } from '../types.js';
 import { createApp } from './create-app.js';
 import type { DevRegisterAppHandlerOptions, ProvideAppFns, ServerEntryFns } from './register-app-handler.js';
 import { registerAppHandler } from './register-app-handler.js';
-import type { BaseHonoEnv } from './types.js';
+import type { BaseHonoEnv, PageEvent as BasePageEvent } from './types.js';
 
 const isTest = process.env['NODE_ENV'] === 'test' || !!process.env['VITE_TEST_BUILD'];
 const root = process.cwd();

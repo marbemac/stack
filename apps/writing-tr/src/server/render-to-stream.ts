@@ -1,18 +1,17 @@
-import type { RenderToStreamFn } from '@marbemac/server-ssr/server';
+import type { RenderToStreamFn } from '@marbemac/server-ssr';
 import { TwindStream } from '@marbemac/server-twind-stream';
+import { createQueryDataInjector } from '@marbemac/ui-react/server';
 import { uneval } from 'devalue';
-import type { RenderToReadableStreamOptions } from 'react-dom/server';
 import { renderToReadableStream } from 'react-dom/server';
 
-import { createDataInjector } from './data-injector.ts';
 import type { AppPageEvent, ServerEntry } from './types.ts';
 
 export const createRenderToStreamFn =
-  ({ streamOptions }: { streamOptions: RenderToReadableStreamOptions }): RenderToStreamFn<AppPageEvent, ServerEntry> =>
+  (): RenderToStreamFn<AppPageEvent, ServerEntry> =>
   async ({ render, pageEvent, tw }) => {
     const { app, queryClient, trackedQueries, blockingQueries } = await render({ event: pageEvent });
 
-    const appStream = await renderToReadableStream(app, streamOptions);
+    const appStream = await renderToReadableStream(app);
 
     const isCrawler = false;
     if (isCrawler) {
@@ -21,5 +20,5 @@ export const createRenderToStreamFn =
 
     return appStream
       .pipeThrough(new TwindStream(tw))
-      .pipeThrough(createDataInjector({ blockingQueries, trackedQueries, queryClient, serialize: uneval }));
+      .pipeThrough(createQueryDataInjector({ blockingQueries, trackedQueries, queryClient, serialize: uneval }));
   };

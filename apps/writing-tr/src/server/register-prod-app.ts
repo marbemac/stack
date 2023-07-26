@@ -1,7 +1,7 @@
 import type { TrpcRouter } from '@libs/internal-api';
 import { trpcRouter } from '@libs/internal-api';
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
-import { registerAppHandler } from '@marbemac/server-ssr/server';
+import { registerAppHandler } from '@marbemac/server-ssr';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore added at build time
@@ -22,11 +22,7 @@ export const registerProdApp = ({ app }: { app: HonoApp }) => {
     trpcRouter,
     trpcRootPath: TRPC_ROOT_PATH,
     trpcContextFactory,
-    renderToStream: createRenderToStreamFn({
-      streamOptions: {
-        bootstrapModules: [manifest['src/entry-client.tsx']['file']],
-      },
-    }),
+    renderToStream: createRenderToStreamFn(),
     serverEntry: {
       render,
       tw,

@@ -1,12 +1,10 @@
-import { mount } from '@marbemac/ui-react/client';
+import { createQueryClient, mount } from '@marbemac/ui-react/client';
 import { RouterProvider } from '@tanstack/router';
 import React from 'react';
 
 import { createRouter } from '~/router.tsx';
 
-import { createQueryClient } from './utils/query-client.ts';
-
-const queryClient = createQueryClient();
+const { queryClient } = createQueryClient();
 
 const router = createRouter({ queryClient });
 void router.hydrate();

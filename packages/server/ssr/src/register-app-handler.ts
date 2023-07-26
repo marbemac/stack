@@ -3,9 +3,8 @@ import type { FetchCreateContextFn } from '@trpc/server/adapters/fetch';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import type { Context, Hono, MiddlewareHandler } from 'hono';
 
-import type { PageEvent as BasePageEvent } from '../types.js';
 import { createPageEvent } from './page-event.js';
-import type { BaseHonoEnv } from './types.js';
+import type { BaseHonoEnv, PageEvent as BasePageEvent } from './types.js';
 
 export type ServerEntryFns<PageEvent extends BasePageEvent, R extends RenderFn<PageEvent> = RenderFn<PageEvent>> = {
   render: R;

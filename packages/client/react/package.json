@@ -14,8 +14,9 @@
     "./server": "./src/server/index.ts",
     "./client": "./src/client/index.ts"
   },
-  "devDependencies": {
-    "@marbemac/server-ssr": "workspace:*"
+  "dependencies": {
+    "@marbemac/server-ssr": "workspace:*",
+    "@tanstack/react-query": "5.0.0-beta.0"
   },
   "peerDependencies": {
     "react": "*",

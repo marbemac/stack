@@ -9,9 +9,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
-    "./server": "./src/server/index.ts",
-    "./create-dev-server": "./src/server/create-dev-server.ts",
-    "./consts": "./src/consts.ts"
+    "./create-dev-server": "./src/create-dev-server.ts"
   },
   "dependencies": {
     "@marbemac/server-hono-node": "workspace:*",

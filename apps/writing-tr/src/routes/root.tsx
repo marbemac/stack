@@ -1,3 +1,4 @@
+import { Scripts } from '@marbemac/ui-react';
 import { Link, Outlet, RootRoute } from '@tanstack/router';
 import React from 'react';
 
@@ -54,6 +55,8 @@ function Root() {
           {/* <TanStackRouterDevtools position="bottom-right" /> */}
           <DehydrateRouter />
         </div>
+
+        <Scripts />
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import type { AnyRouter } from '@trpc/server';
 
-import type { PageEvent } from '../types.js';
+import type { PageEvent } from './types.js';
 
 type CreatePageEventOpts = {
   req: Request;
