@@ -1,5 +1,5 @@
 {
-  "name": "@marbemac/ui-solid-js",
+  "name": "@marbemac/ssr-solid",
   "private": true,
   "version": "0.0.0",
   "type": "module",

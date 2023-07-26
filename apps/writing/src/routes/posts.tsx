@@ -1,7 +1,7 @@
 import type { TPostId } from '@libs/db-model/ids';
 import { type InsertablePost, insertPostSchema, type Post } from '@libs/db-model/schema';
 import type { TrpcRouterOutput } from '@libs/internal-api';
-import { Box, Button } from '@marbemac/ui-primitives';
+import { Box, Button } from '@marbemac/ui-primitives-solid';
 import { tw } from '@marbemac/ui-styles';
 import type { SubmitHandler } from '@modular-forms/solid';
 import { createForm, reset, zodForm } from '@modular-forms/solid';

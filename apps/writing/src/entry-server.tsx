@@ -1,4 +1,4 @@
-import { render as baseRender } from '@marbemac/ui-solid-js/server';
+import { render as baseRender } from '@marbemac/ssr-solid/server';
 import { injectGlobal } from '@marbemac/ui-twind';
 
 import { App } from './root.tsx';

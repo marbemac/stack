@@ -1,4 +1,4 @@
-import { createQueryClient, mount } from '@marbemac/ui-react/client';
+import { createQueryClient, mount } from '@marbemac/ssr-react/client';
 import { RouterProvider } from '@tanstack/router';
 import React from 'react';
 

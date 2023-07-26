@@ -1,6 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox as Kobalte } from '@kobalte/core';
-import { Box } from '@marbemac/ui-primitives';
+import { Box } from '@marbemac/ui-primitives-solid';
 
 import { cn } from '~/utils/cn.ts';
 

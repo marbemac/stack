@@ -1,4 +1,4 @@
-# @marbemac/client-trpc-react
+# @marbemac/trpc-react
 
 ## Setup
 
@@ -6,7 +6,7 @@
 
 ```tsx
 import type { TrpcRouter } from '@libs/internal-api';
-import { createTRPCProvider } from '@marbemac/client-trpc-react';
+import { createTRPCProvider } from '@marbemac/trpc-react';
 
 const { useTrpc, TrpcContext } = createTRPCProvider<TrpcRouter>();
 

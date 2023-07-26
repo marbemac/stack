@@ -1,6 +1,6 @@
 import type { TPostId } from '@libs/db-model/ids';
 import type { Post } from '@libs/db-model/schema';
-import { Box } from '@marbemac/ui-primitives';
+import { Box } from '@marbemac/ui-primitives-solid';
 import { useParams } from '@solidjs/router';
 
 import { Editor } from '~/components/Editor/index.ts';

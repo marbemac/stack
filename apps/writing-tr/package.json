@@ -22,7 +22,7 @@
     "@marbemac/server-hono-node": "workspace:*",
     "@marbemac/server-ssr": "workspace:*",
     "@marbemac/server-twind-stream": "workspace:*",
-    "@marbemac/ui-react": "workspace:*",
+    "@marbemac/ssr-react": "workspace:*",
     "@marbemac/ui-styles": "workspace:*",
     "@marbemac/ui-twind": "workspace:*",
     "@modular-forms/react": "~0.5.0",

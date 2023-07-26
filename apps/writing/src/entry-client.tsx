@@ -1,4 +1,4 @@
-import { mount } from '@marbemac/ui-solid-js/client';
+import { mount } from '@marbemac/ssr-solid/client';
 
 import { App } from '~/root.tsx';
 

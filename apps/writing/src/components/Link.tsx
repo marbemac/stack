@@ -1,4 +1,4 @@
-import { styledClass } from '@marbemac/ui-primitives';
+import { styledClass } from '@marbemac/ui-primitives-solid';
 import { STYLE_PROPS, type StyleProps, type TW_STR } from '@marbemac/ui-styles';
 import { A, type AnchorProps } from '@solidjs/router';
 import { createMemo, splitProps } from 'solid-js';

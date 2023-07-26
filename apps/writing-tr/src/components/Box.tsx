@@ -1,4 +1,4 @@
-import { styledClass } from '@marbemac/ui-primitives';
+import { styledClass } from '@marbemac/ui-primitives-solid';
 import { type StyleProps } from '@marbemac/ui-styles';
 import { forwardRef, useMemo } from 'react';
 

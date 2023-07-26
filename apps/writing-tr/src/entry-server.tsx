@@ -1,5 +1,5 @@
-import { createQueryClient } from '@marbemac/ui-react/client';
-import { render as baseRender } from '@marbemac/ui-react/server';
+import { createQueryClient } from '@marbemac/ssr-react/client';
+import { render as baseRender } from '@marbemac/ssr-react/server';
 import { injectGlobal } from '@marbemac/ui-twind';
 import { createMemoryHistory, RouterProvider } from '@tanstack/router';
 import React from 'react';

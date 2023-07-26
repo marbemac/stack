@@ -1,4 +1,4 @@
-import { Scripts } from '@marbemac/ui-react';
+import { Scripts } from '@marbemac/ssr-react';
 import { Link, Outlet, RootRoute } from '@tanstack/router';
 import React from 'react';
 

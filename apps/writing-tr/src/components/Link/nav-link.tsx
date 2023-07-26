@@ -1,6 +1,6 @@
 'use client';
 
-import { styledClass } from '@marbemac/ui-primitives';
+import { styledClass } from '@marbemac/ui-primitives-solid';
 import type { TW_STR } from '@marbemac/ui-styles';
 import { cx } from '@marbemac/ui-twind';
 import { useMemo } from 'react';

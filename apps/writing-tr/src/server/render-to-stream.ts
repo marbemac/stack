@@ -1,6 +1,6 @@
 import type { RenderToStreamFn } from '@marbemac/server-ssr';
 import { TwindStream } from '@marbemac/server-twind-stream';
-import { createQueryDataInjector } from '@marbemac/ui-react/server';
+import { createQueryDataInjector } from '@marbemac/ssr-react/server';
 import { uneval } from 'devalue';
 import { renderToReadableStream } from 'react-dom/server';
 

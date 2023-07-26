@@ -20,7 +20,7 @@ export default defineConfig({
     chunkSplitPlugin({
       customSplitting: {
         styling: ['@twind/core', '@twind/preset-tailwind', '@material/material-color-utilities'],
-        primitives: ['@marbemac/ui-primitives'],
+        primitives: ['@marbemac/ui-primitives-solid'],
         zod: ['zod'],
         editor: ['@tiptap/core', 'prosemirror-view', 'prosemirror-model', 'prosemirror-transform', 'prosemirror-state'],
       },
