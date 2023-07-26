@@ -1,5 +1,6 @@
 export { createApp } from './create-app.js';
 export type {
+  CreateReqContextFn,
   ProvideAppFns,
   RegisterAppHandlerOptions,
   RenderFn,

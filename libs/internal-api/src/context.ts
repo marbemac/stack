@@ -7,9 +7,9 @@ import type { inferAsyncReturnType } from '@trpc/server';
  * Defines your inner context shape.
  * Add fields here that the inner context brings.
  */
-interface CreateInnerContextOptions extends BaseCreateInnerContextOptions {
+type CreateInnerContextOptions = BaseCreateInnerContextOptions & {
   models: Models;
-}
+};
 
 export const createContextInner = baseCreateContextInner<CreateInnerContextOptions>;
 export const createContextFactory = baseCreateContextFactory<CreateInnerContextOptions>;

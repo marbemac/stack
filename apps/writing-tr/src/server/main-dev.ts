@@ -3,23 +3,19 @@ import { trpcRouter } from '@libs/internal-api';
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
 import { createDevServer } from '@marbemac/server-ssr/create-dev-server';
 
-import { ENV_VARIABLES_LIST } from './env.js';
-import { globalMiddleware } from './middleware.js';
-import { createRenderToStreamFn } from './render-to-stream.ts';
-import { trpcContextFactory } from './trpc-context-factory.js';
+import { createReqContext } from './create-req-context.ts';
+import { renderToStream } from './render-to-stream.ts';
 import type { AppPageEvent, HonoEnv, ServerEntry } from './types.js';
 
 const port = Number(process.env['PORT'] || 3016);
 
 const { viteDevServer, server } = await createDevServer<HonoEnv, TrpcRouter, AppPageEvent, ServerEntry>({
-  entryServerPath: './src/server/entry-server.tsx',
+  entryServerPath: './src/entry-server.tsx',
   hmrPort: 3026,
-  globalMiddlware: globalMiddleware(),
-  envVariablesList: ENV_VARIABLES_LIST,
   trpcRootPath: TRPC_ROOT_PATH,
   trpcRouter,
-  trpcContextFactory,
-  renderToStream: createRenderToStreamFn(),
+  renderToStream,
+  createReqContext,
 });
 
 server.listen(port, () => {

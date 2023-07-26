@@ -4,10 +4,9 @@ import { injectGlobal } from '@marbemac/ui-twind';
 import { createMemoryHistory, RouterProvider } from '@tanstack/router';
 import React from 'react';
 
-import { createRouter } from '~/router.tsx';
-import { RouterHydrationContext } from '~/utils/router-hydration-context.js';
-
-import type { AppPageEvent, RenderFn } from './types.js';
+import { createRouter } from './router.tsx';
+import type { AppPageEvent, RenderFn } from './server/types.js';
+import { RouterHydrationContext } from './utils/router-hydration-context.js';
 
 export { tw } from '@marbemac/ui-twind';
 

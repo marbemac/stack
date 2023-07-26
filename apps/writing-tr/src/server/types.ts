@@ -1,6 +1,11 @@
-import type { Models } from '@libs/db-model/models';
-import type { TrpcRouter } from '@libs/internal-api';
-import type { BaseHonoEnv, PageEvent, RenderFn as BaseRenderFn, ServerEntryFns } from '@marbemac/server-ssr';
+import type { Context as InternalAPIContext, TrpcRouter } from '@libs/internal-api';
+import type {
+  BaseHonoEnv,
+  CreateReqContextFn,
+  PageEvent,
+  RenderFn as BaseRenderFn,
+  ServerEntryFns,
+} from '@marbemac/server-ssr';
 import type { tw } from '@marbemac/ui-twind';
 import type { QueryClient } from '@tanstack/react-query';
 import type { Hono } from 'hono';
@@ -25,6 +30,8 @@ export type ServerEntry = ServerEntryFns<AppPageEvent, RenderFn> & {
   tw: typeof tw;
 };
 
+export type CreateReqContext = CreateReqContextFn<HonoEnv>;
+
 export interface HonoEnv extends BaseHonoEnv {
   Bindings: BaseHonoEnv['Bindings'] & {
     SQL_URL: string;
@@ -33,10 +40,7 @@ export interface HonoEnv extends BaseHonoEnv {
     GOOGLE_SECRET: string;
   };
 
-  Variables: BaseHonoEnv['Variables'] & {
-    models: Models;
-    session: unknown;
-  };
+  Variables: BaseHonoEnv['Variables'] & InternalAPIContext;
 }
 
 export type HonoApp = Hono<HonoEnv>;

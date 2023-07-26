@@ -1,8 +1,8 @@
 import { render as baseRender } from '@marbemac/ui-solid-js/server';
 import { injectGlobal } from '@marbemac/ui-twind';
 
-import { App } from '../root.js';
-import type { AppPageEvent, RenderFn } from './types.js';
+import { App } from './root.tsx';
+import type { AppPageEvent, RenderFn } from './server/types.ts';
 
 export { tw } from '@marbemac/ui-twind';
 
@@ -31,7 +31,5 @@ export const render: RenderFn = ({ event }: { event: AppPageEvent }) => {
     }
   `);
 
-  const app = baseRender({ event, Root: App });
-
-  return { app };
+  return baseRender({ event, Root: App });
 };

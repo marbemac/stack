@@ -2,6 +2,7 @@ import type { AnyRouter } from '@trpc/server';
 import type { FetchCreateContextFn } from '@trpc/server/adapters/fetch';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import type { Context, Hono, MiddlewareHandler } from 'hono';
+import { env as getEnv } from 'hono/adapter';
 
 import { createPageEvent } from './page-event.js';
 import type { BaseHonoEnv, PageEvent as BasePageEvent } from './types.js';
@@ -29,6 +30,11 @@ export type TrpcContextFactory<HonoEnv extends BaseHonoEnv, TRouter extends AnyR
   c: Context<HonoEnv>,
 ) => FetchCreateContextFn<TRouter>;
 
+export type CreateReqContextFn<HonoEnv extends BaseHonoEnv> = (opts: {
+  req: Request;
+  env: HonoEnv['Bindings'];
+}) => Promise<HonoEnv['Variables']> | HonoEnv['Variables'];
+
 export interface BaseRegisterAppHandlerOptions<
   HonoEnv extends BaseHonoEnv,
   TRouter extends AnyRouter,
@@ -37,11 +43,9 @@ export interface BaseRegisterAppHandlerOptions<
 > {
   app: Hono<HonoEnv>;
   renderToStream: RenderToStreamFn<PageEvent, ServerEntry>;
-  globalMiddlware?: MiddlewareHandler<HonoEnv>;
-  // authRouterFactory?: AuthRouterFactory<HonoEnv>;
   trpcRouter: TRouter;
-  trpcContextFactory: TrpcContextFactory<HonoEnv, TRouter>;
   trpcRootPath: string;
+  createReqContext: CreateReqContextFn<HonoEnv>;
   env?: Partial<Env>;
 }
 
@@ -80,13 +84,13 @@ export const registerAppHandler = <
 >(
   opts: RegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>,
 ) => {
-  const { app, renderToStream, globalMiddlware, env: baseEnv, trpcRouter, trpcRootPath, trpcContextFactory } = opts;
+  const { app, renderToStream, createReqContext, env: baseEnv, trpcRouter, trpcRootPath } = opts;
 
   const env: Env = Object.freeze(Object.assign({}, baseEnv));
 
-  if (globalMiddlware) {
-    app.use('*', globalMiddlware);
-  }
+  // if (globalMiddlware) {
+  //   app.use('*', globalMiddlware);
+  // }
 
   // if (authRouterFactory) {
   //   const authRouter = authRouterFactory();
@@ -102,7 +106,11 @@ export const registerAppHandler = <
       endpoint: trpcRootPath,
       req: c.req.raw,
       router: trpcRouter,
-      createContext: trpcContextFactory(c),
+      createContext: createReqContext
+        ? ({ req }) => {
+            return createReqContext({ req, env: getEnv(c) });
+          }
+        : undefined,
       onError({ error, path, type }) {
         if (error.code === 'INTERNAL_SERVER_ERROR') {
           // @TODO: send to sentry, etc
@@ -113,8 +121,11 @@ export const registerAppHandler = <
   });
 
   app.get('*', async c => {
-    const createContext = trpcContextFactory(c);
-    const ctx = await createContext({ req: c.req.raw, resHeaders: c.res.headers });
+    let ctx = createReqContext ? createReqContext({ req: c.req.raw, env: getEnv(c) }) : undefined;
+    if (ctx instanceof Promise) {
+      ctx = await ctx;
+    }
+
     const pageEvent = createPageEvent<PageEvent>({ req: c.req.raw, env, trpcCaller: trpcRouter.createCaller(ctx) });
 
     let serverEntry: ServerEntry;

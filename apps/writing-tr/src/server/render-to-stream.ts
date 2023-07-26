@@ -6,19 +6,17 @@ import { renderToReadableStream } from 'react-dom/server';
 
 import type { AppPageEvent, ServerEntry } from './types.ts';
 
-export const createRenderToStreamFn =
-  (): RenderToStreamFn<AppPageEvent, ServerEntry> =>
-  async ({ render, pageEvent, tw }) => {
-    const { app, queryClient, trackedQueries, blockingQueries } = await render({ event: pageEvent });
+export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async ({ render, pageEvent, tw }) => {
+  const { app, queryClient, trackedQueries, blockingQueries } = await render({ event: pageEvent });
 
-    const appStream = await renderToReadableStream(app);
+  const appStream = await renderToReadableStream(app);
 
-    const isCrawler = false;
-    if (isCrawler) {
-      await appStream.allReady;
-    }
+  const isCrawler = false;
+  if (isCrawler) {
+    await appStream.allReady;
+  }
 
-    return appStream
-      .pipeThrough(new TwindStream(tw))
-      .pipeThrough(createQueryDataInjector({ blockingQueries, trackedQueries, queryClient, serialize: uneval }));
-  };
+  return appStream
+    .pipeThrough(new TwindStream(tw))
+    .pipeThrough(createQueryDataInjector({ blockingQueries, trackedQueries, queryClient, serialize: uneval }));
+};

@@ -3,7 +3,6 @@ import { resolve } from 'node:path';
 import { createAdaptorServer } from '@marbemac/server-hono-node';
 import type { AnyRouter } from '@trpc/server';
 import connect from 'connect';
-import * as R from 'remeda';
 import { createServer as createViteServer } from 'vite';
 
 import { createApp } from './create-app.js';
@@ -21,11 +20,10 @@ interface CreateDevServerOpts<
   ServerEntry extends ServerEntryFns<PageEvent>,
 > extends Pick<
     DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>,
-    'renderToStream' | 'globalMiddlware' | 'trpcRootPath' | 'trpcRouter' | 'trpcContextFactory'
+    'renderToStream' | 'trpcRootPath' | 'trpcRouter' | 'createReqContext'
   > {
   hmrPort: number;
   entryServerPath: string;
-  envVariablesList: Readonly<string[]>;
 }
 
 export const createDevServer = async <
@@ -36,16 +34,7 @@ export const createDevServer = async <
 >(
   opts: CreateDevServerOpts<HonoEnv, TRouter, PageEvent, ServerEntry>,
 ) => {
-  const {
-    hmrPort,
-    entryServerPath,
-    renderToStream,
-    globalMiddlware,
-    trpcRootPath,
-    trpcRouter,
-    envVariablesList,
-    trpcContextFactory,
-  } = opts;
+  const { hmrPort, entryServerPath, renderToStream, trpcRootPath, trpcRouter, createReqContext } = opts;
 
   const viteDevServer = await createViteServer({
     root,
@@ -79,17 +68,15 @@ export const createDevServer = async <
     app,
     provideAppFns,
     renderToStream,
-    globalMiddlware,
-    // authRouterFactory,
     trpcRouter,
     trpcRootPath,
-    trpcContextFactory,
+    createReqContext,
   });
 
   const server = createAdaptorServer({
     connectApp: viteDevServerApp,
     fetch: req => {
-      return app.fetch(req, R.pick(process.env, envVariablesList));
+      return app.fetch(req, process.env);
     },
   });
 

@@ -1,17 +1,15 @@
-import type { RenderToStreamFn } from '@marbemac/server-ssr/server';
+import type { RenderToStreamFn } from '@marbemac/server-ssr';
 import { TwindStream } from '@marbemac/server-twind-stream';
-import { renderToStream } from 'solid-js/web';
+import { renderToStream as renderSolidStream } from 'solid-js/web';
 
 import type { AppPageEvent, ServerEntry } from './types.ts';
 
-export const createRenderToStreamFn =
-  (): RenderToStreamFn<AppPageEvent, ServerEntry> =>
-  async ({ render, pageEvent, tw }) => {
-    const { readable, writable } = new TwindStream(tw);
+export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async ({ render, pageEvent, tw }) => {
+  const { readable, writable } = new TwindStream(tw);
 
-    const appStream = renderToStream(() => render({ event: pageEvent }).app);
+  const appStream = renderSolidStream(() => render({ event: pageEvent }));
 
-    appStream.pipeTo(writable);
+  appStream.pipeTo(writable);
 
-    return readable;
-  };
+  return readable;
+};

@@ -1,16 +1,11 @@
-// import type { Session } from '@shared/auth-external-api/types';
 import type { inferAsyncReturnType } from '@trpc/server';
 import type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
-
-type Session = unknown;
 
 /**
  * Defines your inner context shape.
  * Add fields here that the inner context brings.
  */
-export interface BaseCreateInnerContextOptions {
-  session: Session | null;
-}
+export type BaseCreateInnerContextOptions = object;
 
 /**
  * Inner context. Will always be available in your procedures, in contrast to the outer context.
