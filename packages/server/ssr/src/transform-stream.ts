@@ -1,12 +1,19 @@
-type InjectIntoSSRStreamOpts = {
-  emitToDocumentHead?: () => string;
-  emitBeforeSsrChunk: () => Promise<string>;
+import type { PageEvent } from './types.ts';
+
+type InjectIntoSSRStreamOpts<PE extends PageEvent> = {
+  pageEvent: PE;
+  emitToDocumentHead?: (props: { event: PE }) => Promise<string>;
+  emitBeforeSsrChunk?: (props: { event: PE }) => Promise<string>;
 };
 
 const encoder = /* #__PURE__ */ new TextEncoder();
 const decoder = /* #__PURE__ */ new TextDecoder();
 
-export function injectIntoSSRStream({ emitToDocumentHead, emitBeforeSsrChunk }: InjectIntoSSRStreamOpts) {
+export function injectIntoSSRStream<PE extends PageEvent = PageEvent>({
+  pageEvent,
+  emitToDocumentHead,
+  emitBeforeSsrChunk,
+}: InjectIntoSSRStreamOpts<PE>) {
   // regex pattern for matching closing body and html tags
   const patternHead = /(<\/head>)/;
   const patternBody = /(<\/body>)/;
@@ -21,14 +28,14 @@ export function injectIntoSSRStream({ emitToDocumentHead, emitBeforeSsrChunk }: 
       let processed = chunkString;
 
       if (emitToDocumentHead && !headMatched) {
-        const strToInject = emitToDocumentHead().trim();
+        const strToInject = (await emitToDocumentHead({ event: pageEvent })).trim();
         if (strToInject) {
           const headMatch = processed.match(patternHead);
           if (headMatch) {
             const headIndex = headMatch.index!;
             headMatched = true;
             const headChunk =
-              processed.slice(0, headIndex) + emitToDocumentHead() + processed.slice(headIndex, headMatch[0].length);
+              processed.slice(0, headIndex) + strToInject + processed.slice(headIndex, headMatch[0].length);
             controller.enqueue(encoder.encode(headChunk));
             processed = processed.slice(headIndex + headMatch[0].length);
           }
@@ -40,8 +47,7 @@ export function injectIntoSSRStream({ emitToDocumentHead, emitBeforeSsrChunk }: 
         // If a </body> sequence was found
         const bodyIndex = bodyMatch.index!;
 
-        const html = await emitBeforeSsrChunk();
-        // console.log('BODY MATCH', html);
+        const html = emitBeforeSsrChunk ? await emitBeforeSsrChunk({ event: pageEvent }) : '';
 
         // Add the arbitrary HTML before the closing body tag
         processed = processed.slice(0, bodyIndex) + html + processed.slice(bodyIndex);
@@ -49,9 +55,7 @@ export function injectIntoSSRStream({ emitToDocumentHead, emitBeforeSsrChunk }: 
         controller.enqueue(encoder.encode(processed));
         leftover = '';
       } else {
-        const html = await emitBeforeSsrChunk();
-        // console.log('ARBITRARY MATCH', html, processed);
-
+        const html = emitBeforeSsrChunk ? await emitBeforeSsrChunk({ event: pageEvent }) : '';
         if (html) {
           processed = html + processed;
         }
@@ -61,7 +65,6 @@ export function injectIntoSSRStream({ emitToDocumentHead, emitBeforeSsrChunk }: 
     },
     flush(controller) {
       if (leftover) {
-        // console.log('flush', leftover);
         controller.enqueue(encoder.encode(leftover));
       }
     },

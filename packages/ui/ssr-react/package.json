@@ -16,9 +16,14 @@
   },
   "dependencies": {
     "@marbemac/server-ssr": "workspace:*",
-    "@tanstack/react-query": "5.0.0-beta.0"
+    "@tanstack/react-query": "5.0.0-beta.0",
+    "@unhead/addons": "~1.1.32",
+    "@unhead/schema": "~1.1.32",
+    "@unhead/ssr": "~1.1.32",
+    "unhead": "~1.1.32"
   },
   "peerDependencies": {
+    "@trpc/server": "^10.35.0",
     "react": "*",
     "react-dom": "*"
   }

@@ -1,14 +1,20 @@
 import { injectIntoSSRStream } from '@marbemac/server-ssr';
 import type { DehydrateOptions, HydrateOptions, QueryClient } from '@tanstack/react-query';
 import { defaultShouldDehydrateQuery, dehydrate } from '@tanstack/react-query';
+import { renderSSRHead } from '@unhead/ssr';
+import { renderToString } from 'react-dom/server';
+
+import type { PageEvent } from '../universal/index.js';
 
 export const createQueryDataInjector = ({
+  pageEvent,
   blockingQueries,
   trackedQueries,
   queryClient,
   options,
   serialize,
 }: {
+  pageEvent: PageEvent;
   trackedQueries: Set<string>;
   blockingQueries: Map<string, Promise<void>>;
   queryClient: QueryClient;
@@ -18,11 +24,18 @@ export const createQueryDataInjector = ({
   };
   serialize?: (object: any) => any;
 }) => {
-  return injectIntoSSRStream({
-    emitToDocumentHead() {
-      const html: string[] = [`$TQD = [];`, `$TQS = data => $TQD.push(data);`];
+  return injectIntoSSRStream<PageEvent>({
+    pageEvent,
+    async emitToDocumentHead({ event }) {
+      const { headTags } = await renderSSRHead(event.head);
 
-      return `<script>${html.join('')}</script>`;
+      const elems = [
+        headTags,
+        // react query hydration setup
+        `<script>$TQD = []; $TQS = data => $TQD.push(data);</script>`,
+      ];
+
+      return elems.join('');
     },
 
     async emitBeforeSsrChunk() {

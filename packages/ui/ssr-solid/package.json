@@ -19,7 +19,8 @@
     "@solidjs/router": "~0.8.2"
   },
   "devDependencies": {
-    "@marbemac/server-ssr": "workspace:*"
+    "@marbemac/server-ssr": "workspace:*",
+    "@trpc/server": "^10.35.0"
   },
   "peerDependencies": {
     "solid-js": "*"

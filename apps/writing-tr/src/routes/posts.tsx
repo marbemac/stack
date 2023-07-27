@@ -1,3 +1,4 @@
+import { useHead } from '@marbemac/ssr-react';
 import { Link, Outlet, Route } from '@tanstack/router';
 import { Suspense } from 'react';
 
@@ -14,6 +15,8 @@ export const postsRoute = new Route({
   pendingComponent: () => <div>loading...</div>,
   component: () => {
     console.log('Posts.render');
+
+    useHead({ title: 'Posts page' });
 
     const posts = useTrpc().posts.list.useQuery();
     if (posts.isLoading) {

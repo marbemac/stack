@@ -1,6 +1,6 @@
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
-import { Box, Themed } from '@marbemac/ui-primitives-solid';
 import { Body, Head, Html, Scripts, useRequest } from '@marbemac/ssr-solid';
+import { Box, Themed } from '@marbemac/ui-primitives-solid';
 import { Link as MetaLink, Meta, Title } from '@solidjs/meta';
 import { useRoutes } from '@solidjs/router';
 import { QueryClientProvider } from '@tanstack/solid-query';

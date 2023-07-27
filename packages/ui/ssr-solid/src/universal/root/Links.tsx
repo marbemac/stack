@@ -1,8 +1,8 @@
+import type { Manifest, ManifestEntry } from '@marbemac/server-ssr';
 import type { JSXElement } from 'solid-js';
 import { useAssets } from 'solid-js/web';
 
 import { useRequest } from '../server-context.js';
-import type { Manifest, ManifestEntry } from '../types.js';
 
 function getAssetsFromManifest(manifest: Manifest) {
   let mainEntry: ManifestEntry | undefined;

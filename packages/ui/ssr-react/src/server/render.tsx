@@ -1,17 +1,19 @@
-import type { PageEvent } from '@marbemac/server-ssr';
 import type { FC } from 'react';
 
-import { ServerContext } from '../universal/index.js';
+import type { PageEvent } from '../universal/index.js';
+import { HeadProvider, ServerContext } from '../universal/index.js';
 
 export interface RenderProps<T extends PageEvent = PageEvent> {
-  event: T;
+  pageEvent: T;
   Root: FC;
 }
 
-export function render({ event, Root }: RenderProps) {
+export function render({ pageEvent, Root }: RenderProps) {
   return (
-    <ServerContext.Provider value={event}>
-      <Root />
+    <ServerContext.Provider value={pageEvent}>
+      <HeadProvider value={pageEvent.head}>
+        <Root />
+      </HeadProvider>
     </ServerContext.Provider>
   );
 }

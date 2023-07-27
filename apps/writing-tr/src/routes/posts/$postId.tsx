@@ -1,3 +1,4 @@
+import { useHead } from '@marbemac/ssr-react';
 import { Route } from '@tanstack/router';
 
 import { useTrpc } from '~/utils/trpc.ts';
@@ -15,6 +16,8 @@ export const postIdRoute = new Route({
 
     const { postId } = useParams();
     const postQuery = useTrpc().posts.byId.useQuery({ postId });
+
+    useHead({ title: `Post - ${postQuery.data?.title}` });
 
     return (
       <div className="space-y-2">

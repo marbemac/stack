@@ -2,6 +2,7 @@ import type { TrpcRouter } from '@libs/internal-api';
 import { trpcRouter } from '@libs/internal-api';
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
 import { createDevServer } from '@marbemac/server-ssr/create-dev-server';
+import { extendPageEvent } from '@marbemac/ssr-solid/server';
 
 import { createReqContext } from './create-req-context.ts';
 import { renderToStream } from './render-to-stream.js';
@@ -16,6 +17,7 @@ const { viteDevServer, server } = await createDevServer<HonoEnv, TrpcRouter, App
   trpcRouter,
   renderToStream,
   createReqContext,
+  extendPageEvent,
 });
 
 server.listen(port, () => {

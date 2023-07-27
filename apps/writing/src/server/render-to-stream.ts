@@ -7,7 +7,7 @@ import type { AppPageEvent, ServerEntry } from './types.ts';
 export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async ({ render, pageEvent, tw }) => {
   const { readable, writable } = new TwindStream(tw);
 
-  const appStream = renderSolidStream(() => render({ event: pageEvent }));
+  const appStream = renderSolidStream(() => render({ pageEvent }));
 
   appStream.pipeTo(writable);
 

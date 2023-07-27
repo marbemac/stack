@@ -1,17 +1,21 @@
 import type { AnyRouter } from '@trpc/server';
 import type { FetchCreateContextFn } from '@trpc/server/adapters/fetch';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import type { Context, Hono, MiddlewareHandler } from 'hono';
+import type { Context, Hono } from 'hono';
 import { env as getEnv } from 'hono/adapter';
 
 import { createPageEvent } from './page-event.js';
-import type { BaseHonoEnv, PageEvent as BasePageEvent } from './types.js';
+import type { BaseHonoEnv, ExtendPageEventFnOpts, PageEvent as BasePageEvent } from './types.js';
 
 export type ServerEntryFns<PageEvent extends BasePageEvent, R extends RenderFn<PageEvent> = RenderFn<PageEvent>> = {
   render: R;
 };
 
-export type RenderFn<PageEvent extends BasePageEvent, R = unknown> = ({ event }: { event: PageEvent }) => R;
+export type RenderFn<PageEvent extends BasePageEvent, R = unknown> = ({
+  pageEvent,
+}: {
+  pageEvent: Readonly<PageEvent>;
+}) => R;
 
 export type ProvideAppFns<
   PageEvent extends BasePageEvent,
@@ -20,7 +24,7 @@ export type ProvideAppFns<
 
 export type RenderToStreamFn<PageEvent extends BasePageEvent, ServerEntry extends ServerEntryFns<PageEvent>> = (
   opts: {
-    pageEvent: PageEvent;
+    pageEvent: Readonly<PageEvent>;
   } & ServerEntry,
 ) => Promise<ReadableStream>;
 
@@ -46,6 +50,7 @@ export interface BaseRegisterAppHandlerOptions<
   trpcRouter: TRouter;
   trpcRootPath: string;
   createReqContext: CreateReqContextFn<HonoEnv>;
+  extendPageEvent?: (opts: ExtendPageEventFnOpts<BasePageEvent<TRouter>>) => PageEvent;
   env?: Partial<Env>;
 }
 
@@ -84,7 +89,7 @@ export const registerAppHandler = <
 >(
   opts: RegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>,
 ) => {
-  const { app, renderToStream, createReqContext, env: baseEnv, trpcRouter, trpcRootPath } = opts;
+  const { app, renderToStream, createReqContext, env: baseEnv, trpcRouter, trpcRootPath, extendPageEvent } = opts;
 
   const env: Env = Object.freeze(Object.assign({}, baseEnv));
 
@@ -126,7 +131,15 @@ export const registerAppHandler = <
       ctx = await ctx;
     }
 
-    const pageEvent = createPageEvent<PageEvent>({ req: c.req.raw, env, trpcCaller: trpcRouter.createCaller(ctx) });
+    let pageEvent = createPageEvent({
+      req: c.req.raw,
+      env,
+      trpcCaller: trpcRouter.createCaller(ctx),
+    }) as PageEvent;
+
+    if (extendPageEvent) {
+      pageEvent = extendPageEvent({ pageEvent });
+    }
 
     let serverEntry: ServerEntry;
     if (isDevOptions<HonoEnv, TRouter, PageEvent, ServerEntry>(opts)) {

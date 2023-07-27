@@ -2,11 +2,11 @@ import { render as baseRender } from '@marbemac/ssr-solid/server';
 import { injectGlobal } from '@marbemac/ui-twind';
 
 import { App } from './root.tsx';
-import type { AppPageEvent, RenderFn } from './server/types.ts';
+import type { RenderFn } from './server/types.ts';
 
 export { tw } from '@marbemac/ui-twind';
 
-export const render: RenderFn = ({ event }: { event: AppPageEvent }) => {
+export const render: RenderFn = ({ pageEvent }) => {
   injectGlobal(`
     @font-face {
       font-display: swap;
@@ -31,5 +31,5 @@ export const render: RenderFn = ({ event }: { event: AppPageEvent }) => {
     }
   `);
 
-  return baseRender({ event, Root: App });
+  return baseRender({ pageEvent, Root: App });
 };

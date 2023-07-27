@@ -20,7 +20,7 @@ interface CreateDevServerOpts<
   ServerEntry extends ServerEntryFns<PageEvent>,
 > extends Pick<
     DevRegisterAppHandlerOptions<HonoEnv, TRouter, PageEvent, ServerEntry>,
-    'renderToStream' | 'trpcRootPath' | 'trpcRouter' | 'createReqContext'
+    'renderToStream' | 'trpcRootPath' | 'trpcRouter' | 'createReqContext' | 'extendPageEvent'
   > {
   hmrPort: number;
   entryServerPath: string;
@@ -34,7 +34,8 @@ export const createDevServer = async <
 >(
   opts: CreateDevServerOpts<HonoEnv, TRouter, PageEvent, ServerEntry>,
 ) => {
-  const { hmrPort, entryServerPath, renderToStream, trpcRootPath, trpcRouter, createReqContext } = opts;
+  const { hmrPort, entryServerPath, renderToStream, trpcRootPath, trpcRouter, createReqContext, extendPageEvent } =
+    opts;
 
   const viteDevServer = await createViteServer({
     root,
@@ -71,6 +72,7 @@ export const createDevServer = async <
     trpcRouter,
     trpcRootPath,
     createReqContext,
+    extendPageEvent,
   });
 
   const server = createAdaptorServer({

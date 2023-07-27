@@ -29,6 +29,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@antfu/utils@npm:^0.7.5":
+  version: 0.7.5
+  resolution: "@antfu/utils@npm:0.7.5"
+  checksum: 92635a39e3b832dee0395c4fd7f1b84d4d43c00cb16b8f7f389559261a9f7a91c83d849b9894bd377738b1b8a52ea4c59147a2da1e823945958911db963eb12a
+  languageName: node
+  linkType: hard
+
 "@aw-web-design/x-default-browser@npm:1.4.126":
   version: 1.4.126
   resolution: "@aw-web-design/x-default-browser@npm:1.4.126"
@@ -2462,7 +2469,12 @@ __metadata:
   dependencies:
     "@marbemac/server-ssr": "workspace:*"
     "@tanstack/react-query": "npm:5.0.0-beta.0"
+    "@unhead/addons": "npm:~1.1.32"
+    "@unhead/schema": "npm:~1.1.32"
+    "@unhead/ssr": "npm:~1.1.32"
+    unhead: "npm:~1.1.32"
   peerDependencies:
+    "@trpc/server": ^10.35.0
     react: "*"
     react-dom: "*"
   languageName: unknown
@@ -2475,6 +2487,7 @@ __metadata:
     "@marbemac/server-ssr": "workspace:*"
     "@solidjs/meta": "npm:~0.28.6"
     "@solidjs/router": "npm:~0.8.2"
+    "@trpc/server": "npm:^10.35.0"
   peerDependencies:
     solid-js: "*"
   languageName: unknown
@@ -3121,7 +3134,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.1":
+"@rollup/pluginutils@npm:^5.0.1, @rollup/pluginutils@npm:^5.0.2":
   version: 5.0.2
   resolution: "@rollup/pluginutils@npm:5.0.2"
   dependencies:
@@ -5372,6 +5385,62 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@unhead/addons@npm:~1.1.32":
+  version: 1.1.32
+  resolution: "@unhead/addons@npm:1.1.32"
+  dependencies:
+    "@rollup/pluginutils": "npm:^5.0.2"
+    "@unhead/schema": "npm:1.1.32"
+    "@unhead/shared": "npm:1.1.32"
+    magic-string: "npm:^0.30.1"
+    mlly: "npm:^1.4.0"
+    ufo: "npm:^1.1.2"
+    unhead: "npm:1.1.32"
+    unplugin: "npm:^1.4.0"
+    unplugin-ast: "npm:^0.8.2"
+  checksum: 5153a8dd670a10d2d26b2fbdf84ec6cd05eeb902924157efe90cd2fa43db5c61211592b7c42ed7fcc746375c66158c4c204c7790f3245a4440084388371e5100
+  languageName: node
+  linkType: hard
+
+"@unhead/dom@npm:1.1.32":
+  version: 1.1.32
+  resolution: "@unhead/dom@npm:1.1.32"
+  dependencies:
+    "@unhead/schema": "npm:1.1.32"
+    "@unhead/shared": "npm:1.1.32"
+  checksum: 201dae755485e9bbbc4c81fa5278d5a4772d760eb2a74da61958057a388bc769ffc134a0dccb27135e1b5805b911f4d06d2e9d21d4a11481d87d53753e479a8e
+  languageName: node
+  linkType: hard
+
+"@unhead/schema@npm:1.1.32, @unhead/schema@npm:~1.1.32":
+  version: 1.1.32
+  resolution: "@unhead/schema@npm:1.1.32"
+  dependencies:
+    hookable: "npm:^5.5.3"
+    zhead: "npm:^2.0.9"
+  checksum: 5ec1370b73788c0b20bddba08342613932752b3c8f7a7dd87d89e1ce58924fa9fc5fe7374433e2e5893ce6308d5be7e0a8e2d47f1699f034c2b5987768b863c5
+  languageName: node
+  linkType: hard
+
+"@unhead/shared@npm:1.1.32":
+  version: 1.1.32
+  resolution: "@unhead/shared@npm:1.1.32"
+  dependencies:
+    "@unhead/schema": "npm:1.1.32"
+  checksum: 92138f8fac136d639cb602f91789d24e2ff022fa38ea819ce68312fd4e8faa5f7fafb81903a3d1e30dbfa07f658cca2e02204bb330840a705071a82755d49642
+  languageName: node
+  linkType: hard
+
+"@unhead/ssr@npm:~1.1.32":
+  version: 1.1.32
+  resolution: "@unhead/ssr@npm:1.1.32"
+  dependencies:
+    "@unhead/schema": "npm:1.1.32"
+    "@unhead/shared": "npm:1.1.32"
+  checksum: 47c1b4c6c515283c0bc83fbac360e8b628d744eb7aa7a0992dc58d747d3992327b4b1916ac2a7ee4113351ced9c77a7ed5895761bd5330e44110686faaf9e044
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-react@npm:^4.0.3":
   version: 4.0.3
   resolution: "@vitejs/plugin-react@npm:4.0.3"
@@ -5825,6 +5894,17 @@ __metadata:
   version: 1.1.0
   resolution: "assertion-error@npm:1.1.0"
   checksum: 8e52a3ca8f1f789419cfa4d6e77a4be12ca441ca9ed64a671fd28a0efb1eac304579ee1d5cceb92a43a61d8caac10e00c3b6326ede54c515e0929572320388c8
+  languageName: node
+  linkType: hard
+
+"ast-kit@npm:^0.6.6":
+  version: 0.6.9
+  resolution: "ast-kit@npm:0.6.9"
+  dependencies:
+    "@babel/parser": "npm:^7.22.7"
+    "@rollup/pluginutils": "npm:^5.0.2"
+    pathe: "npm:^1.1.1"
+  checksum: 88d2ba0d8b0c0840c495c9c7297c8dc1f39e5d82d1fdf6ad5b28cfb99435d35020ac68695126433e8459346872c7c040eb87a5bf752c767b80fc3d26d046c745
   languageName: node
   linkType: hard
 
@@ -9183,6 +9263,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hookable@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "hookable@npm:5.5.3"
+  checksum: 958e4aa5d54ff5163af647051ee41e6472bb0db51f13801bf625c6fe923fe568e03e3791e37b4ce006987972c3065a28a3e4cf8757a4725bd615e9f3c5376c7e
+  languageName: node
+  linkType: hard
+
 "hosted-git-info@npm:^2.1.4":
   version: 2.8.9
   resolution: "hosted-git-info@npm:2.8.9"
@@ -10277,6 +10364,15 @@ __metadata:
   bin:
     lz-string: bin/bin.js
   checksum: ee348d4dfd958f9690c46536119a6b6db6106c87f5cf41889c0a40d16deddf1f9e295c1f3b08bf4df6422585b1fef76b99bc8aaeafee21357c62f2cbd471c710
+  languageName: node
+  linkType: hard
+
+"magic-string-ast@npm:^0.1.2":
+  version: 0.1.3
+  resolution: "magic-string-ast@npm:0.1.3"
+  dependencies:
+    magic-string: "npm:^0.30.0"
+  checksum: 712429a3f57cbdc7f9e13c322d17b826f671f8d12559661358431c8353dd06de09bc5d9f688b9dc7077665166de91e23adfd3452e6f114a9ef32bf501ed5b9be
   languageName: node
   linkType: hard
 
@@ -14141,6 +14237,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unhead@npm:1.1.32, unhead@npm:~1.1.32":
+  version: 1.1.32
+  resolution: "unhead@npm:1.1.32"
+  dependencies:
+    "@unhead/dom": "npm:1.1.32"
+    "@unhead/schema": "npm:1.1.32"
+    "@unhead/shared": "npm:1.1.32"
+    hookable: "npm:^5.5.3"
+  checksum: 22d504c287419d1bba5b4f3ba403c942465c21c5b6ee12e832bafb0afec5e2f794454e0ec855df1bded022d2d89f1e027b738ffb80a5263ce9cef80136797eaf
+  languageName: node
+  linkType: hard
+
 "unicode-canonical-property-names-ecmascript@npm:^2.0.0":
   version: 2.0.0
   resolution: "unicode-canonical-property-names-ecmascript@npm:2.0.0"
@@ -14241,7 +14349,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin@npm:^1.3.1":
+"unplugin-ast@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "unplugin-ast@npm:0.8.2"
+  dependencies:
+    "@antfu/utils": "npm:^0.7.5"
+    "@babel/generator": "npm:^7.22.7"
+    "@babel/parser": "npm:^7.22.7"
+    "@rollup/pluginutils": "npm:^5.0.2"
+    ast-kit: "npm:^0.6.6"
+    magic-string-ast: "npm:^0.1.2"
+    unplugin: "npm:^1.3.2"
+  checksum: 4225bf633beb2d17c544b885823ad2cce2690e98363b59b6d7adaef3bec2a1df634e1f2e5f3e921955bd87dfefdb90ecb04ea94c2c49ad1bd6ae5876fef547e7
+  languageName: node
+  linkType: hard
+
+"unplugin@npm:^1.3.1, unplugin@npm:^1.3.2, unplugin@npm:^1.4.0":
   version: 1.4.0
   resolution: "unplugin@npm:1.4.0"
   dependencies:
@@ -14984,6 +15107,13 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 4522405d36a190a188112c3bc9ae84ac5eeafee637417ec127c6defc28a75b745a6139f9178107389e5ae57c3a5523b0016aec5a1f23b228c7b17ca8b2869a9c
+  languageName: node
+  linkType: hard
+
+"zhead@npm:^2.0.9":
+  version: 2.0.10
+  resolution: "zhead@npm:2.0.10"
+  checksum: 0a6038a7708414f32f56a9d616a4412d468be9bae5a48ab005f2c205467c93a6c854e17a4803994b41f11b0e121f36c9aca85f124816a75a326b058236e9057b
   languageName: node
   linkType: hard
 

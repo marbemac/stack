@@ -1,11 +1,6 @@
 import type { Context as InternalAPIContext, TrpcRouter } from '@libs/internal-api';
-import type {
-  BaseHonoEnv,
-  CreateReqContextFn,
-  PageEvent,
-  RenderFn as BaseRenderFn,
-  ServerEntryFns,
-} from '@marbemac/server-ssr';
+import type { BaseHonoEnv, CreateReqContextFn, RenderFn as BaseRenderFn, ServerEntryFns } from '@marbemac/server-ssr';
+import type { PageEvent } from '@marbemac/ssr-react';
 import type { tw } from '@marbemac/ui-twind';
 import type { QueryClient } from '@tanstack/react-query';
 import type { Hono } from 'hono';

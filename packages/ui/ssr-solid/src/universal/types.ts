@@ -1,12 +1,14 @@
-export type ManifestId = string;
+import type { Manifest, PageEvent as BasePageEvent } from '@marbemac/server-ssr';
+import type { RouteDataFunc, RouterOutput } from '@solidjs/router';
+import type { AnyRouter } from '@trpc/server';
 
-export type ManifestEntry = {
-  file: string;
-  isEntry?: boolean;
-  imports?: ManifestId[];
+export type PageEvent<TRouter extends AnyRouter = AnyRouter> = BasePageEvent<TRouter> & ExtraPageEventProps;
+
+export type ExtraPageEventProps = {
+  tags: TagDescription[];
+  routerContext: RouterOutput;
+  routerData?: RouteDataFunc;
 };
-
-export type Manifest = Record<ManifestId, ManifestEntry>;
 
 export interface TagDescription {
   tag: string;

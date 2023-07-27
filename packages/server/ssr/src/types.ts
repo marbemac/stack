@@ -1,5 +1,3 @@
-// import type { RouteDataFunc, RouterOutput } from '@solidjs/router';
-
 import type { AnyRouter } from '@trpc/server';
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -35,19 +33,16 @@ declare global {
   }
 }
 
-export type PageEvent<
-  TRouter extends AnyRouter = AnyRouter,
-  T extends Record<string, unknown> = Record<string, unknown>,
-> = {
+export type PageEvent<TRouter extends AnyRouter = AnyRouter> = {
   url: string; // the whole thing... origin + path + search params, etc
   req: Request;
   responseHeaders: Headers;
-  tags: TagDescription[];
   env: Env;
-  routerContext?: unknown;
-  routerData?: unknown;
   trpcCaller?: ReturnType<TRouter['createCaller']>;
   setStatusCode(code: number): void;
   getStatusCode(): number;
-  extra: T;
+};
+
+export type ExtendPageEventFnOpts<PE extends PageEvent> = {
+  pageEvent: PE;
 };

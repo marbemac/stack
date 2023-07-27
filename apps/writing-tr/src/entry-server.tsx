@@ -5,12 +5,12 @@ import { createMemoryHistory, RouterProvider } from '@tanstack/router';
 import React from 'react';
 
 import { createRouter } from './router.tsx';
-import type { AppPageEvent, RenderFn } from './server/types.js';
+import type { RenderFn } from './server/types.js';
 import { RouterHydrationContext } from './utils/router-hydration-context.js';
 
 export { tw } from '@marbemac/ui-twind';
 
-export const render: RenderFn = async ({ event }: { event: AppPageEvent }) => {
+export const render: RenderFn = async ({ pageEvent }) => {
   injectGlobal(`
     @font-face {
       font-display: swap;
@@ -35,7 +35,7 @@ export const render: RenderFn = async ({ event }: { event: AppPageEvent }) => {
     }
   `);
 
-  const url = new URL(event.url);
+  const url = new URL(pageEvent.url);
 
   const pathWithSearch = `${url.pathname}${url.search}`;
 
@@ -43,7 +43,7 @@ export const render: RenderFn = async ({ event }: { event: AppPageEvent }) => {
    * Create a new query client / router on every request - cannot share caches on server.
    */
   const { queryClient, blockingQueries, trackedQueries } = createQueryClient();
-  const router = createRouter({ queryClient, trpcCaller: event.trpcCaller });
+  const router = createRouter({ queryClient, trpcCaller: pageEvent.trpcCaller });
 
   const memoryHistory = createMemoryHistory({
     initialEntries: [pathWithSearch],
@@ -69,7 +69,7 @@ export const render: RenderFn = async ({ event }: { event: AppPageEvent }) => {
   const Wrap = router.options.Wrap || React.Fragment;
 
   const app = baseRender({
-    event,
+    pageEvent,
     Root: () => (
       <Wrap>
         <RouterHydrationContext.Provider value={hydrationCtxValue}>

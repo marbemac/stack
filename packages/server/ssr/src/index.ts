@@ -9,5 +9,4 @@ export type {
 } from './register-app-handler.js';
 export { registerAppHandler } from './register-app-handler.js';
 export { injectIntoSSRStream } from './transform-stream.js';
-export type { BaseHonoEnv } from './types.js';
-export type { Manifest, ManifestEntry, PageEvent } from './types.ts';
+export type { BaseHonoEnv, ExtendPageEventFnOpts, Manifest, ManifestEntry, PageEvent } from './types.ts';

@@ -1,7 +1,7 @@
 import type { Manifest, ManifestEntry } from '@marbemac/server-ssr';
 
-import { fastRefreshPreamble } from '../fast-refresh-preamble.ts';
-import { useRequest } from '../server-context.tsx';
+import { fastRefreshPreamble } from './fast-refresh-preamble.ts';
+import { useRequest } from './server-context.tsx';
 
 export function Scripts() {
   const req = useRequest();

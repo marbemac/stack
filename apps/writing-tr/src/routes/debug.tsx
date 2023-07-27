@@ -1,3 +1,4 @@
+import { useHead } from '@marbemac/ssr-react';
 import { Route } from '@tanstack/router';
 import { Suspense } from 'react';
 
@@ -9,6 +10,8 @@ export const debugRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'debug',
   component: () => {
+    useHead({ title: 'Debug page' });
+
     return (
       <div className="p-2">
         <h1>Debug</h1>

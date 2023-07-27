@@ -1,10 +1,10 @@
-import type { PageEvent } from '@marbemac/server-ssr';
 import { MetaProvider } from '@solidjs/meta';
 import type { RouterProps } from '@solidjs/router';
 import { Router } from '@solidjs/router';
 import type { Component, JSX } from 'solid-js';
 import { hydrate } from 'solid-js/web';
 
+import type { PageEvent } from '../universal/index.js';
 import { ServerContext } from '../universal/index.js';
 
 function throwClientError(field: string): any {
@@ -51,6 +51,11 @@ const ClientScaffold = (props: ClientScaffoldProps) => {
         return throwClientError('routerContext');
       }
     },
+    get routerData() {
+      if (isDev) {
+        return throwClientError('routerData');
+      }
+    },
     setStatusCode() {
       if (isDev) {
         return throwClientError('setStatusCode');
@@ -61,7 +66,6 @@ const ClientScaffold = (props: ClientScaffoldProps) => {
         return throwClientError('getStatusCode');
       }
     },
-    extra: {},
   };
 
   return (

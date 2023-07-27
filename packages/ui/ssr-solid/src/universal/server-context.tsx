@@ -1,5 +1,6 @@
-import type { PageEvent } from '@marbemac/server-ssr';
 import { createContext, useContext } from 'solid-js';
+
+import type { PageEvent } from './types.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const ServerContext = createContext<PageEvent>({} as any);
