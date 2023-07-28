@@ -14925,9 +14925,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"writing-tr@workspace:apps/writing-tr":
+"writing-react-tr@workspace:apps/writing-react-tr":
   version: 0.0.0-use.local
-  resolution: "writing-tr@workspace:apps/writing-tr"
+  resolution: "writing-react-tr@workspace:apps/writing-react-tr"
   dependencies:
     "@libs/db": "workspace:*"
     "@libs/db-model": "workspace:*"
@@ -14963,9 +14963,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"writing@workspace:apps/writing":
+"writing-solid@workspace:apps/writing-solid":
   version: 0.0.0-use.local
-  resolution: "writing@workspace:apps/writing"
+  resolution: "writing-solid@workspace:apps/writing-solid"
   dependencies:
     "@fortawesome/fontawesome-common-types": "npm:^6.4.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.4.0"
