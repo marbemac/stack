@@ -2,7 +2,7 @@
   "name": "marbemac-stack",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "yarn@4.0.0-rc.40",
+  "packageManager": "yarn@4.0.0-rc.48",
   "engines": {
     "node": ">= 18"
   },
