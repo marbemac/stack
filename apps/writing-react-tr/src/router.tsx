@@ -1,5 +1,8 @@
 import type { TrpcRouter } from '@libs/internal-api';
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
+import { PrimitivesProvider } from '@marbemac/ui-primitives-react';
+import type { Twind } from '@marbemac/ui-twind';
+import { createStylePropsResolver } from '@marbemac/ui-twind';
 import { type QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Router } from '@tanstack/router';
 
@@ -24,11 +27,12 @@ export type RouterContext = {
 
 type CreateRouterOpts = {
   queryClient: QueryClient;
+  twind: Twind;
   trpcCaller?: ReturnType<TrpcRouter['createCaller']>;
 };
 
-export const createRouter = ({ queryClient, trpcCaller }: CreateRouterOpts) => {
-  console.log('createRouter');
+export const createRouter = ({ queryClient, twind, trpcCaller }: CreateRouterOpts) => {
+  // console.log('createRouter');
 
   const trpc = createTRPCClient({
     queryClient,
@@ -49,12 +53,13 @@ export const createRouter = ({ queryClient, trpcCaller }: CreateRouterOpts) => {
       trpc,
     },
 
-    // Wrap our router in the loader client provider
     Wrap: ({ children }) => {
       return (
-        <QueryClientProvider client={queryClient}>
-          <TrpcContext.Provider value={{ trpc }}>{children}</TrpcContext.Provider>
-        </QueryClientProvider>
+        <PrimitivesProvider stylePropResolver={createStylePropsResolver(twind)}>
+          <QueryClientProvider client={queryClient}>
+            <TrpcContext.Provider value={{ trpc }}>{children}</TrpcContext.Provider>
+          </QueryClientProvider>
+        </PrimitivesProvider>
       );
     },
   });

@@ -1,7 +1,5 @@
 import type { SlotProp, StyleProps } from '../types.ts';
-import type { StackStyleProps } from './stack.styles.ts';
-
-export type StackSlots = 'root';
+import type { StackSlots, StackStyleProps } from './stack.styles.ts';
 
 export interface StackProps<T> extends StackRootProps<T> {}
 

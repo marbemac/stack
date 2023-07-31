@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@marbemac/server-hono-node": "workspace:*",
-    "@trpc/server": "^10.35.0",
-    "hono": "~3.3.3"
+    "@trpc/server": "^10.36.0",
+    "hono": "~3.3.4"
   },
   "devDependencies": {
     "@types/connect": "^3.4.35",

@@ -1,7 +1,9 @@
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from 'tailwind-variants';
 
-import { tw } from '../tw.ts';
+import { tx } from '../tw.ts';
+import type { VariantSlots } from '../types.ts';
+import { makeStaticClass } from '../utils/make-static-class.ts';
 
 /**
  * Stack component styles
@@ -12,10 +14,10 @@ import { tw } from '../tw.ts';
  *
  * <div className={c} />
  */
-const stackStyle = tv({
+export const stackStyle = tv({
   slots: {
-    base: tw('flex'),
-    divider: tw('self-stretch border-muted'),
+    base: tx('flex'),
+    divider: tx('self-stretch border-muted'),
   },
 
   defaultVariants: {
@@ -25,58 +27,59 @@ const stackStyle = tv({
   variants: {
     dir: {
       vertical: {
-        base: tw('flex-col'),
-        divider: tw('border-t'),
+        base: tx('flex-col'),
+        divider: tx('border-t'),
       },
       verticalReverse: {
-        base: tw('flex-col-reverse'),
-        divider: tw('border-t'),
+        base: tx('flex-col-reverse'),
+        divider: tx('border-t'),
       },
       horizontal: {
-        divider: tw('border-l'),
+        divider: tx('border-l'),
       },
       horizontalReverse: {
-        base: tw('flex-row-reverse'),
-        divider: tw('border-l'),
+        base: tx('flex-row-reverse'),
+        divider: tx('border-l'),
       },
     },
 
     spacing: {
-      0: tw('gap-0'),
-      0.5: tw('gap-0.5'),
-      1: tw('gap-1'),
-      1.5: tw('gap-1.5'),
-      2: tw('gap-2'),
-      2.5: tw('gap-2.5'),
-      3: tw('gap-3'),
-      3.5: tw('gap-3.5'),
-      4: tw('gap-4'),
-      5: tw('gap-5'),
-      6: tw('gap-6'),
-      7: tw('gap-7'),
-      8: tw('gap-8'),
-      9: tw('gap-9'),
-      10: tw('gap-10'),
-      11: tw('gap-11'),
-      12: tw('gap-12'),
-      14: tw('gap-14'),
-      16: tw('gap-16'),
-      18: tw('gap-18'),
-      20: tw('gap-20'),
-      24: tw('gap-24'),
-      28: tw('gap-28'),
-      32: tw('gap-32'),
-      36: tw('gap-36'),
-      40: tw('gap-40'),
-      44: tw('gap-44'),
-      48: tw('gap-48'),
-      52: tw('gap-52'),
-      56: tw('gap-56'),
-      60: tw('gap-60'),
+      0: tx('gap-0'),
+      0.5: tx('gap-0.5'),
+      1: tx('gap-1'),
+      1.5: tx('gap-1.5'),
+      2: tx('gap-2'),
+      2.5: tx('gap-2.5'),
+      3: tx('gap-3'),
+      3.5: tx('gap-3.5'),
+      4: tx('gap-4'),
+      5: tx('gap-5'),
+      6: tx('gap-6'),
+      7: tx('gap-7'),
+      8: tx('gap-8'),
+      9: tx('gap-9'),
+      10: tx('gap-10'),
+      11: tx('gap-11'),
+      12: tx('gap-12'),
+      14: tx('gap-14'),
+      16: tx('gap-16'),
+      18: tx('gap-18'),
+      20: tx('gap-20'),
+      24: tx('gap-24'),
+      28: tx('gap-28'),
+      32: tx('gap-32'),
+      36: tx('gap-36'),
+      40: tx('gap-40'),
+      44: tx('gap-44'),
+      48: tx('gap-48'),
+      52: tx('gap-52'),
+      56: tx('gap-56'),
+      60: tx('gap-60'),
     },
   },
 });
 
 export type StackStyleProps = VariantProps<typeof stackStyle>;
+export type StackSlots = VariantSlots<typeof stackStyle.slots>;
 
-export { stackStyle };
+export const stackStaticClass = makeStaticClass<StackSlots>('stack');

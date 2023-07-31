@@ -13,7 +13,7 @@ export const postsRoute = new Route({
     void context.trpc.posts.list.ensureQueryData(undefined);
   },
   pendingComponent: () => <div>loading...</div>,
-  component: () => {
+  component: function PostsRoute() {
     console.log('Posts.render');
 
     useHead({ title: 'Posts page' });

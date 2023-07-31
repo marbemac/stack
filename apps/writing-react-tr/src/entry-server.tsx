@@ -1,6 +1,5 @@
 import { createQueryClient } from '@marbemac/ssr-react/client';
 import { render as baseRender } from '@marbemac/ssr-react/server';
-import { injectGlobal } from '@marbemac/ui-twind';
 import { createMemoryHistory, RouterProvider } from '@tanstack/router';
 import React from 'react';
 
@@ -8,10 +7,8 @@ import { createRouter } from './router.tsx';
 import type { RenderFn } from './server/types.js';
 import { RouterHydrationContext } from './utils/router-hydration-context.js';
 
-export { tw } from '@marbemac/ui-twind';
-
 export const render: RenderFn = async ({ pageEvent }) => {
-  injectGlobal(`
+  pageEvent.twind.injectGlobal(`
     @font-face {
       font-display: swap;
       font-family: 'Inter';
@@ -43,7 +40,7 @@ export const render: RenderFn = async ({ pageEvent }) => {
    * Create a new query client / router on every request - cannot share caches on server.
    */
   const { queryClient, blockingQueries, trackedQueries } = createQueryClient();
-  const router = createRouter({ queryClient, trpcCaller: pageEvent.trpcCaller });
+  const router = createRouter({ queryClient, twind: pageEvent.twind, trpcCaller: pageEvent.trpcCaller });
 
   const memoryHistory = createMemoryHistory({
     initialEntries: [pathWithSearch],

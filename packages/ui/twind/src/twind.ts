@@ -14,14 +14,22 @@ import { twindConfig } from './twind.config.js';
 
 const IS_PROD = import.meta.env ? !import.meta.env.DEV : true;
 
-export const tw = /* #__PURE__ */ twind(twindConfig, getSheet(!IS_PROD));
-export const css = /* #__PURE__ */ css$;
-export const tx = /* #__PURE__ */ tx$.bind(tw) as typeof tx$;
-export const cx = /* #__PURE__ */ cx$;
-export const shortcut = /* #__PURE__ */ shortcut$;
-export const apply = /* #__PURE__ */ apply$;
-export const injectGlobal = /* #__PURE__ */ injectGlobal$.bind(tw) as typeof injectGlobal$;
-export const keyframes = /* #__PURE__ */ keyframes$.bind(tw) as typeof keyframes$;
+export const css = css$;
+export const cx = cx$;
+export const shortcut = shortcut$;
+export const apply = apply$;
+
+export type Twind = ReturnType<typeof createTwind>;
+
+export const createTwind = () => {
+  // These 4 functions are bound to the specific tw instance (we create one per request)
+  const tw = twind(twindConfig, getSheet(!IS_PROD));
+  const tx = tx$.bind(tw) as typeof tx$;
+  const injectGlobal = injectGlobal$.bind(tw) as typeof injectGlobal$;
+  const keyframes = keyframes$.bind(tw) as typeof keyframes$;
+
+  return { tw, css, tx, cx, shortcut, apply, injectGlobal, keyframes };
+};
 
 // Suppress twind warnings for invalid classes
 // window.addEventListener('warning', event => {

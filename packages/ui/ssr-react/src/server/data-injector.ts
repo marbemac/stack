@@ -2,7 +2,6 @@ import { injectIntoSSRStream } from '@marbemac/server-ssr';
 import type { DehydrateOptions, HydrateOptions, QueryClient } from '@tanstack/react-query';
 import { defaultShouldDehydrateQuery, dehydrate } from '@tanstack/react-query';
 import { renderSSRHead } from '@unhead/ssr';
-import { renderToString } from 'react-dom/server';
 
 import type { PageEvent } from '../universal/index.js';
 
@@ -22,7 +21,7 @@ export const createQueryDataInjector = ({
     hydrate?: HydrateOptions;
     dehydrate?: DehydrateOptions;
   };
-  serialize?: (object: any) => any;
+  serialize?: (object: unknown) => unknown;
 }) => {
   return injectIntoSSRStream<PageEvent>({
     pageEvent,

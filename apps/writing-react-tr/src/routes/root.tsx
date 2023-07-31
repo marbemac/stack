@@ -1,4 +1,5 @@
 import { Scripts, useHead } from '@marbemac/ssr-react';
+import { Box } from '@marbemac/ui-primitives-react';
 import { Link, Outlet, RootRoute } from '@tanstack/router';
 import React from 'react';
 
@@ -31,8 +32,7 @@ function Root() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
 
-      <body tw="min-h-screen">
-        {/* <Title>foo</Title> */}
+      <Box as="body" tw="min-h-screen">
         <div>
           <div>
             <Link
@@ -62,13 +62,12 @@ function Root() {
             </Link>
           </div>
           <Outlet /> {/* Start rendering router matches */}
-          {/* <Scripts /> */}
           {/* <TanStackRouterDevtools position="bottom-right" /> */}
           <DehydrateRouter />
         </div>
 
         <Scripts />
-      </body>
+      </Box>
     </html>
   );
 }

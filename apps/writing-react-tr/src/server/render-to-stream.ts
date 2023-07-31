@@ -6,7 +6,7 @@ import { renderToReadableStream } from 'react-dom/server';
 
 import type { AppPageEvent, ServerEntry } from './types.ts';
 
-export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async ({ render, pageEvent, tw }) => {
+export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async ({ render, pageEvent }) => {
   const { app, queryClient, trackedQueries, blockingQueries } = await render({ pageEvent });
 
   const appStream = await renderToReadableStream(app);
@@ -17,7 +17,7 @@ export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async
   }
 
   return appStream
-    .pipeThrough(new TwindStream(tw))
+    .pipeThrough(new TwindStream(pageEvent.twind.tw))
     .pipeThrough(
       createQueryDataInjector({ pageEvent, blockingQueries, trackedQueries, queryClient, serialize: uneval }),
     );

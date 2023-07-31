@@ -4,8 +4,8 @@ import { renderToStream as renderSolidStream } from 'solid-js/web';
 
 import type { AppPageEvent, ServerEntry } from './types.ts';
 
-export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async ({ render, pageEvent, tw }) => {
-  const { readable, writable } = new TwindStream(tw);
+export const renderToStream: RenderToStreamFn<AppPageEvent, ServerEntry> = async ({ render, pageEvent }) => {
+  const { readable, writable } = new TwindStream(pageEvent.twind.tw);
 
   const appStream = renderSolidStream(() => render({ pageEvent }));
 

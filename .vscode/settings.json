@@ -12,6 +12,6 @@
     "strings": true
   },
   "tailwindCSS.validate": false,
-  "tailwindCSS.experimental.classRegex": [["tw\\(([^)]*)\\)", "'([^']*)'"]],
-  "tailwindCSS.classAttributes": ["tw"]
+  "tailwindCSS.experimental.classRegex": [["tx\\(([^)]*)\\)", "'([^']*)'"]],
+  "tailwindCSS.classAttributes": ["tw", "tx"]
 }

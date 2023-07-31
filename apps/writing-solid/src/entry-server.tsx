@@ -1,13 +1,10 @@
 import { render as baseRender } from '@marbemac/ssr-solid/server';
-import { injectGlobal } from '@marbemac/ui-twind';
 
 import { App } from './root.tsx';
 import type { RenderFn } from './server/types.ts';
 
-export { tw } from '@marbemac/ui-twind';
-
 export const render: RenderFn = ({ pageEvent }) => {
-  injectGlobal(`
+  pageEvent.twind.injectGlobal(`
     @font-face {
       font-display: swap;
       font-family: 'Inter';

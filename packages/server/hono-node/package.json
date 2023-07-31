@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "connect": "^3.7.0",
-    "hono": "~3.3.3",
+    "hono": "~3.3.4",
     "set-cookie-parser": "^2.6.0"
   },
   "devDependencies": {

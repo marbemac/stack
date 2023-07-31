@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@marbemac/server-ssr": "workspace:*",
-    "@tanstack/react-query": "5.0.0-beta.0",
+    "@tanstack/react-query": "5.0.0-beta.5",
     "@unhead/addons": "~1.1.32",
     "@unhead/schema": "~1.1.32",
     "@unhead/ssr": "~1.1.32",

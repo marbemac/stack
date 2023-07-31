@@ -1,8 +1,6 @@
 import type { SlotProp, StyleProps } from '../types.ts';
-import type { ButtonStyleProps } from './button.styles.ts';
+import type { ButtonSlots, ButtonStyleProps } from './button.styles.ts';
 import type { IconProps } from './icon.props.ts';
-
-export type ButtonSlots = 'root' | 'icon' | 'text';
 
 export interface ButtonProps<T> extends ButtonRootProps<T> {}
 

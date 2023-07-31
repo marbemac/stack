@@ -1,7 +1,9 @@
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from 'tailwind-variants';
 
-import { tw } from '../tw.ts';
+import { tx } from '../tw.ts';
+import type { VariantSlots } from '../types.ts';
+import { makeStaticClass } from '../utils/make-static-class.ts';
 
 /**
  * Icon component styles
@@ -12,9 +14,9 @@ import { tw } from '../tw.ts';
  *
  * <i className={c} />
  */
-const iconStyle = tv({
+export const iconStyle = tv({
   slots: {
-    base: tw('h-[1em]'),
+    base: tx('h-[1em]'),
   },
 
   defaultVariants: {
@@ -27,27 +29,28 @@ const iconStyle = tv({
 
   variants: {
     fw: {
-      true: tw('w-[1.25em] text-center'),
+      true: tx('w-[1.25em] text-center'),
     },
 
     spin: {
-      true: tw('animate-spin-slow'),
+      true: tx('animate-spin-slow'),
     },
 
     ping: {
-      true: tw('animate-ping'),
+      true: tx('animate-ping'),
     },
 
     pulse: {
-      true: tw('animate-pulse'),
+      true: tx('animate-pulse'),
     },
 
     bounce: {
-      true: tw('animate-bounce'),
+      true: tx('animate-bounce'),
     },
   },
 });
 
 export type IconStyleProps = VariantProps<typeof iconStyle>;
+export type IconSlots = VariantSlots<typeof iconStyle.slots>;
 
-export { iconStyle };
+export const iconStaticClass = makeStaticClass<IconSlots>('icon');

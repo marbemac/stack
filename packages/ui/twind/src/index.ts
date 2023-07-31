@@ -1,2 +1,4 @@
+export { createStylePropsResolver } from './tw.ts';
 export { twindConfig } from './twind.config.js';
-export { apply, css, cx, injectGlobal, keyframes, shortcut, tw, tx } from './twind.ts';
+export type { Twind } from './twind.ts';
+export { apply, createTwind, css, cx, shortcut } from './twind.ts';

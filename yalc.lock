@@ -8,10 +8,6 @@
     "@solidjs/router": {
       "signature": "85da3d313c3e4aa8781dcdd66a3d4cda",
       "pure": true
-    },
-    "@tanstack/solid-query": {
-      "signature": "27eae25a83dd990bc603b57668a6b2d6",
-      "pure": true
     }
   }
 }

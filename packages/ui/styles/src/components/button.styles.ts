@@ -1,7 +1,9 @@
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from 'tailwind-variants';
 
-import { tw } from '../tw.ts';
+import { tx } from '../tw.ts';
+import type { VariantSlots } from '../types.ts';
+import { makeStaticClass } from '../utils/make-static-class.ts';
 import { formSizes } from '../utils/size.ts';
 
 /**
@@ -13,9 +15,9 @@ import { formSizes } from '../utils/size.ts';
  *
  * <button className={c} />
  */
-const buttonStyle = tv({
+export const buttonStyle = tv({
   slots: {
-    base: tw(
+    base: tx(
       'group',
       'select-none appearance-none',
       'inline-flex items-center justify-center self-start',
@@ -23,9 +25,9 @@ const buttonStyle = tv({
       'transform-gpu motion-safe:transition',
     ),
 
-    icon: tw('[display:inherit]'),
+    icon: tx('[display:inherit]'),
 
-    text: tw('overflow-hidden'),
+    text: tx('overflow-hidden'),
   },
   defaultVariants: {
     size: 'md',
@@ -41,7 +43,7 @@ const buttonStyle = tv({
     variant: {
       solid: {},
       soft: {},
-      outline: tw('border'),
+      outline: tx('border'),
       ghost: {},
       inverted: {},
     },
@@ -58,24 +60,24 @@ const buttonStyle = tv({
       lg: formSizes.lg,
     },
     fullWidth: {
-      true: tw('w-full'),
+      true: tx('w-full'),
     },
     isDisabled: {
-      true: tw('opacity-50'),
+      true: tx('opacity-50'),
     },
     isLoading: {
-      true: tw('opacity-80'),
+      true: tx('opacity-80'),
     },
     isInteractive: {
       true: {},
-      false: tw('pointer-events-none select-none'),
+      false: tx('pointer-events-none select-none'),
     },
-    // isInGroup: {
-    //   true: tw('[&:not(:first-child):not(:last-child)]:rounded-none'),
-    // },
+    isInGroup: {
+      true: tx('[&:not(:first-child):not(:last-child)]:rounded-none'),
+    },
     isIconOnly: {
-      true: tw('gap-0 p-0'),
-      false: tw('[&>svg]:max-w-[2em]'),
+      true: tx('gap-0 p-0'),
+      false: tx('[&>svg]:max-w-[2em]'),
     },
   },
   compoundVariants: [
@@ -83,27 +85,27 @@ const buttonStyle = tv({
     {
       variant: 'outline',
       intent: 'neutral',
-      class: tw('border-neutral-solid/40 text-neutral-fg'),
+      class: tx('border-neutral-solid/40 text-neutral-fg'),
     },
     {
       variant: 'outline',
       intent: 'primary',
-      class: tw('border-primary-solid/70 text-primary-fg'),
+      class: tx('border-primary-solid/70 text-primary-fg'),
     },
     {
       variant: 'outline',
       intent: 'success',
-      class: tw('border-success-solid/70 text-success-fg'),
+      class: tx('border-success-solid/70 text-success-fg'),
     },
     {
       variant: 'outline',
       intent: 'warning',
-      class: tw('border-warning-solid/70 text-warning-fg'),
+      class: tx('border-warning-solid/70 text-warning-fg'),
     },
     {
       variant: 'outline',
       intent: 'danger',
-      class: tw('border-danger-solid/70 text-danger-fg'),
+      class: tx('border-danger-solid/70 text-danger-fg'),
     },
 
     // outline / intent / isInteractive
@@ -111,58 +113,58 @@ const buttonStyle = tv({
       variant: 'outline',
       intent: 'neutral',
       isInteractive: true,
-      class: tw('hover:bg-neutral-subtle active:bg-neutral-subtle-hover'),
+      class: tx('hover:bg-neutral-subtle active:bg-neutral-subtle-hover'),
     },
     {
       variant: 'outline',
       intent: 'primary',
       isInteractive: true,
-      class: tw('hover:bg-primary-subtle active:bg-primary-subtle-hover'),
+      class: tx('hover:bg-primary-subtle active:bg-primary-subtle-hover'),
     },
     {
       variant: 'outline',
       intent: 'success',
       isInteractive: true,
-      class: tw('hover:bg-success-subtle active:bg-success-subtle-hover'),
+      class: tx('hover:bg-success-subtle active:bg-success-subtle-hover'),
     },
     {
       variant: 'outline',
       intent: 'warning',
       isInteractive: true,
-      class: tw('hover:bg-warning-subtle active:bg-warning-subtle-hover'),
+      class: tx('hover:bg-warning-subtle active:bg-warning-subtle-hover'),
     },
     {
       variant: 'outline',
       intent: 'danger',
       isInteractive: true,
-      class: tw('hover:bg-danger-subtle active:bg-danger-subtle-hover'),
+      class: tx('hover:bg-danger-subtle active:bg-danger-subtle-hover'),
     },
 
     // solid / intent
     {
       variant: 'solid',
       intent: 'neutral',
-      class: tw('bg-neutral-solid text-on-neutral'),
+      class: tx('bg-neutral-solid text-on-neutral'),
     },
     {
       variant: 'solid',
       intent: 'primary',
-      class: tw('bg-primary-solid text-on-primary'),
+      class: tx('bg-primary-solid text-on-primary'),
     },
     {
       variant: 'solid',
       intent: 'success',
-      class: tw('bg-success-solid text-on-success'),
+      class: tx('bg-success-solid text-on-success'),
     },
     {
       variant: 'solid',
       intent: 'warning',
-      class: tw('bg-warning-solid text-on-warning'),
+      class: tx('bg-warning-solid text-on-warning'),
     },
     {
       variant: 'solid',
       intent: 'danger',
-      class: tw('bg-danger-solid text-on-danger'),
+      class: tx('bg-danger-solid text-on-danger'),
     },
 
     // solid / intent / isInteractive
@@ -170,58 +172,58 @@ const buttonStyle = tv({
       variant: 'solid',
       intent: 'neutral',
       isInteractive: true,
-      class: tw('hover:bg-neutral-solid-hover active:bg-neutral-solid-active'),
+      class: tx('hover:bg-neutral-solid-hover active:bg-neutral-solid-active'),
     },
     {
       variant: 'solid',
       intent: 'primary',
       isInteractive: true,
-      class: tw('hover:bg-primary-solid-hover active:bg-primary-solid-active'),
+      class: tx('hover:bg-primary-solid-hover active:bg-primary-solid-active'),
     },
     {
       variant: 'solid',
       intent: 'success',
       isInteractive: true,
-      class: tw('hover:bg-success-solid-hover active:bg-success-solid-active'),
+      class: tx('hover:bg-success-solid-hover active:bg-success-solid-active'),
     },
     {
       variant: 'solid',
       intent: 'warning',
       isInteractive: true,
-      class: tw('hover:bg-warning-solid-hover active:bg-warning-solid-active'),
+      class: tx('hover:bg-warning-solid-hover active:bg-warning-solid-active'),
     },
     {
       variant: 'solid',
       intent: 'danger',
       isInteractive: true,
-      class: tw('hover:bg-danger-solid-hover active:bg-danger-solid-active'),
+      class: tx('hover:bg-danger-solid-hover active:bg-danger-solid-active'),
     },
 
     // soft / intent
     {
       variant: 'soft',
       intent: 'neutral',
-      class: tw('bg-neutral-subtle text-neutral-fg'),
+      class: tx('bg-neutral-subtle text-neutral-fg'),
     },
     {
       variant: 'soft',
       intent: 'primary',
-      class: tw('bg-primary-subtle text-primary-fg'),
+      class: tx('bg-primary-subtle text-primary-fg'),
     },
     {
       variant: 'soft',
       intent: 'success',
-      class: tw('bg-success-subtle text-success-fg'),
+      class: tx('bg-success-subtle text-success-fg'),
     },
     {
       variant: 'soft',
       intent: 'warning',
-      class: tw('bg-warning-subtle text-warning-fg'),
+      class: tx('bg-warning-subtle text-warning-fg'),
     },
     {
       variant: 'soft',
       intent: 'danger',
-      class: tw('bg-danger-subtle text-danger-fg'),
+      class: tx('bg-danger-subtle text-danger-fg'),
     },
 
     // soft / intent / isInteractive
@@ -229,58 +231,58 @@ const buttonStyle = tv({
       variant: 'soft',
       intent: 'neutral',
       isInteractive: true,
-      class: tw('hover:bg-neutral-subtle-hover active:bg-neutral-subtle-active'),
+      class: tx('hover:bg-neutral-subtle-hover active:bg-neutral-subtle-active'),
     },
     {
       variant: 'soft',
       intent: 'primary',
       isInteractive: true,
-      class: tw('hover:bg-primary-subtle-hover active:bg-primary-subtle-active'),
+      class: tx('hover:bg-primary-subtle-hover active:bg-primary-subtle-active'),
     },
     {
       variant: 'soft',
       intent: 'success',
       isInteractive: true,
-      class: tw('hover:bg-success-subtle-hover active:bg-success-subtle-active'),
+      class: tx('hover:bg-success-subtle-hover active:bg-success-subtle-active'),
     },
     {
       variant: 'soft',
       intent: 'warning',
       isInteractive: true,
-      class: tw('hover:bg-warning-subtle-hover active:bg-warning-subtle-active'),
+      class: tx('hover:bg-warning-subtle-hover active:bg-warning-subtle-active'),
     },
     {
       variant: 'soft',
       intent: 'danger',
       isInteractive: true,
-      class: tw('hover:bg-danger-subtle-hover active:bg-danger-subtle-active'),
+      class: tx('hover:bg-danger-subtle-hover active:bg-danger-subtle-active'),
     },
 
     // ghost / intent
     {
       variant: 'ghost',
       intent: 'neutral',
-      class: tw('text-neutral-fg'),
+      class: tx('text-neutral-fg'),
     },
     {
       variant: 'ghost',
       intent: 'primary',
-      class: tw('text-primary-fg'),
+      class: tx('text-primary-fg'),
     },
     {
       variant: 'ghost',
       intent: 'success',
-      class: tw('text-success-fg'),
+      class: tx('text-success-fg'),
     },
     {
       variant: 'ghost',
       intent: 'warning',
-      class: tw('text-warning-fg'),
+      class: tx('text-warning-fg'),
     },
     {
       variant: 'ghost',
       intent: 'danger',
-      class: tw('text-danger-fg'),
+      class: tx('text-danger-fg'),
     },
 
     // ghost / intent / isInteractive
@@ -288,34 +290,39 @@ const buttonStyle = tv({
       variant: 'ghost',
       intent: 'neutral',
       isInteractive: true,
-      class: tw('hover:bg-neutral-subtle active:bg-neutral-subtle-hover'),
+      class: tx('hover:bg-neutral-subtle active:bg-neutral-subtle-hover'),
     },
     {
       variant: 'ghost',
       intent: 'primary',
       isInteractive: true,
-      class: tw('hover:bg-primary-subtle active:bg-primary-subtle-hover'),
+      class: tx('hover:bg-primary-subtle active:bg-primary-subtle-hover'),
     },
     {
       variant: 'ghost',
       intent: 'success',
       isInteractive: true,
-      class: tw('hover:bg-success-subtle active:bg-success-subtle-hover'),
+      class: tx('hover:bg-success-subtle active:bg-success-subtle-hover'),
     },
     {
       variant: 'ghost',
       intent: 'warning',
       isInteractive: true,
-      class: tw('hover:bg-warning-subtle active:bg-warning-subtle-hover'),
+      class: tx('hover:bg-warning-subtle active:bg-warning-subtle-hover'),
     },
     {
       variant: 'ghost',
       intent: 'danger',
       isInteractive: true,
-      class: tw('hover:bg-danger-subtle active:bg-danger-subtle-hover'),
+      class: tx('hover:bg-danger-subtle active:bg-danger-subtle-hover'),
     },
   ],
 });
+
+export type ButtonStyleProps = VariantProps<typeof buttonStyle>;
+export type ButtonSlots = VariantSlots<typeof buttonStyle.slots>;
+
+export const buttonStaticClass = makeStaticClass<ButtonSlots>('button');
 
 /**
  * ButtonGroup wrapper **Tailwind Variants** component
@@ -327,7 +334,7 @@ const buttonStyle = tv({
  *   // button elements
  * </div>
  */
-const buttonGroupStyle = tv({
+export const buttonGroupStyle = tv({
   base: 'inline-flex items-center justify-center h-auto',
   variants: {
     fullWidth: {
@@ -340,6 +347,3 @@ const buttonGroupStyle = tv({
 });
 
 export type ButtonGroupStyleProps = VariantProps<typeof buttonGroupStyle>;
-export type ButtonStyleProps = VariantProps<typeof buttonStyle>;
-
-export { buttonGroupStyle, buttonStyle };

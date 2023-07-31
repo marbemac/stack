@@ -3,12 +3,15 @@ import { trpcRouter } from '@libs/internal-api';
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
 import { createDevServer } from '@marbemac/server-ssr/create-dev-server';
 import { extendPageEvent } from '@marbemac/ssr-solid/server';
+import { createTwind } from '@marbemac/ui-twind';
 
 import { createReqContext } from './create-req-context.ts';
 import { renderToStream } from './render-to-stream.js';
 import type { AppPageEvent, HonoEnv, ServerEntry } from './types.js';
 
 const port = Number(process.env['PORT'] || 3016);
+
+const twind = createTwind();
 
 const { viteDevServer, server } = await createDevServer<HonoEnv, TrpcRouter, AppPageEvent, ServerEntry>({
   entryServerPath: './src/entry-server.tsx',
@@ -17,7 +20,10 @@ const { viteDevServer, server } = await createDevServer<HonoEnv, TrpcRouter, App
   trpcRouter,
   renderToStream,
   createReqContext,
-  extendPageEvent,
+  extendPageEvent: opts => ({
+    ...extendPageEvent(opts),
+    twind,
+  }),
 });
 
 server.listen(port, () => {

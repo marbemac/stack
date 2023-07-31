@@ -14,7 +14,11 @@ export type StyleProps = {
   UNSAFE_class?: ClassNameValue;
 };
 
+export type StylePropsResolver = (props: StyleProps) => string | undefined;
+
 export interface SlotProp<T extends string> {
   /** CSS classes to be passed to the component slots. */
   slotClasses?: Partial<Record<T, string>>;
 }
+
+export type VariantSlots<V extends {}> = keyof V;
