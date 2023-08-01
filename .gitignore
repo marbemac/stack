@@ -10,6 +10,7 @@ out-tsc
 .cache
 *.tsbuildinfo
 .wrangler
+storybook-static
 
 # dependencies
 node_modules

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PREBUILT_THEMES } from '@marbemac/ui-theme';
 import type { Decorator, Preview } from '@storybook/react';
 import { createStylePropsResolver, createTwind } from '@marbemac/ui-twind';
+import { withPerformance } from 'storybook-addon-performance';
 
 // @ts-expect-error bah
 import { PrimitivesProvider, Themed } from '../src/index.ts';
@@ -31,7 +32,7 @@ for (const [themeId, theme] of Object.entries(PREBUILT_THEMES)) {
 }
 
 const preview: Preview = {
-  decorators: [withTheme],
+  decorators: [withTheme, withPerformance],
 
   parameters: {
     layout: 'centered',
