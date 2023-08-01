@@ -20,11 +20,6 @@ export const routeTree = rootRoute.addChildren([
   postsRoute.addChildren([postsIndexRoute, postIdRoute]),
 ]);
 
-export type RouterContext = {
-  queryClient: QueryClient;
-  trpc: ReturnType<typeof createTRPCClient>;
-};
-
 type CreateRouterOpts = {
   queryClient: QueryClient;
   twind: Twind;
@@ -32,7 +27,7 @@ type CreateRouterOpts = {
 };
 
 export const createRouter = ({ queryClient, twind, trpcCaller }: CreateRouterOpts) => {
-  // console.log('createRouter');
+  console.log('createRouter');
 
   const trpc = createTRPCClient({
     queryClient,

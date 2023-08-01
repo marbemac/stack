@@ -1,13 +1,19 @@
 import { Scripts, useHead } from '@marbemac/ssr-react';
 import { Box } from '@marbemac/ui-primitives-react';
-import { Link, Outlet, RootRoute } from '@tanstack/router';
+import type { QueryClient } from '@tanstack/react-query';
+import { Link, Outlet, RouterContext } from '@tanstack/router';
 import React from 'react';
 
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import type { RouterContext } from '~/router.tsx';
 import { RouterHydrationContext } from '~/utils/router-hydration-context.ts';
+import type { createTRPCClient } from '~/utils/trpc.ts';
 
-export const rootRoute = RootRoute.withRouterContext<RouterContext>()({
+export const routerContext = new RouterContext<{
+  queryClient: QueryClient;
+  trpc: ReturnType<typeof createTRPCClient>;
+}>();
+
+export const rootRoute = routerContext.createRootRoute({
   component: Root,
   wrapInSuspense: false,
 });
