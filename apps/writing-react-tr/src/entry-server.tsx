@@ -1,7 +1,6 @@
 import { createQueryClient } from '@marbemac/ssr-react/client';
 import { render as baseRender } from '@marbemac/ssr-react/server';
 import { createMemoryHistory, RouterProvider } from '@tanstack/router';
-import React from 'react';
 
 import { createRouter } from './router.tsx';
 import type { RenderFn } from './server/types.js';
@@ -46,13 +45,8 @@ export const render: RenderFn = async ({ pageEvent }) => {
     initialEntries: [pathWithSearch],
   });
 
-  // Update the history and context
-  router.update({
-    history: memoryHistory,
-    context: {
-      ...router.context,
-    },
-  });
+  // Update the history
+  router.update({ history: memoryHistory });
 
   // Wait for the router to load critical data
   // (streamed data will continue to load in the background)
@@ -63,16 +57,12 @@ export const render: RenderFn = async ({ pageEvent }) => {
     payload: router.options.dehydrate?.(),
   };
 
-  const Wrap = router.options.Wrap || React.Fragment;
-
   const app = baseRender({
     pageEvent,
     Root: () => (
-      <Wrap>
-        <RouterHydrationContext.Provider value={hydrationCtxValue}>
-          <RouterProvider router={router} />
-        </RouterHydrationContext.Provider>
-      </Wrap>
+      <RouterHydrationContext.Provider value={hydrationCtxValue}>
+        <RouterProvider router={router} />
+      </RouterHydrationContext.Provider>
     ),
   });
 
