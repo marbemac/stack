@@ -1,16 +1,22 @@
 import type { StylePropsResolver } from '@marbemac/ui-styles';
-import type { TxFunction } from '@twind/core';
+import type { css as CSSFunction, TxFunction } from '@twind/core';
 
 import { cx } from './twind.ts';
 
 export const createStylePropsResolver =
-  ({ tx }: { tx: TxFunction }): StylePropsResolver =>
-  ({ tw, UNSAFE_class }) => {
-    if (!tw && !UNSAFE_class) {
+  ({ tx, css: cssFn }: { tx: TxFunction; css: typeof CSSFunction }): StylePropsResolver =>
+  ({ tw, UNSAFE_class, css }) => {
+    if (!tw && !UNSAFE_class && !css) {
       return;
     }
 
-    const className = cx(UNSAFE_class, tx(tw));
+    let cssClass;
+    if (css) {
+      // @ts-expect-error ignore
+      cssClass = cssFn(css);
+    }
+
+    const className = cx(UNSAFE_class, tx(tw, cssClass));
 
     return className;
   };

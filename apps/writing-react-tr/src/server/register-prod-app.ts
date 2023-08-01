@@ -13,8 +13,6 @@ import { createReqContext } from './create-req-context.ts';
 import { renderToStream } from './render-to-stream.ts';
 import type { AppPageEvent, HonoApp, HonoEnv, ServerEntry } from './types.js';
 
-const twind = createTwind();
-
 export const registerProdApp = ({ app }: { app: HonoApp }) => {
   const env: Env = { manifest };
 
@@ -27,7 +25,7 @@ export const registerProdApp = ({ app }: { app: HonoApp }) => {
     createReqContext,
     extendPageEvent: opts => ({
       ...extendPageEvent(opts),
-      twind,
+      twind: createTwind(),
     }),
     serverEntry: {
       render,

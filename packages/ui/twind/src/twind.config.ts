@@ -10,10 +10,7 @@ export const twindConfig = defineConfig({
 
   variants: [['dark', '[data-theme="dark"] &']],
 
-  preflight: [
-    // @ts-expect-error tricky typing
-    preflight,
-  ],
+  preflight: [preflight],
 
   theme: themeObj,
 

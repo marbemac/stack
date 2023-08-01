@@ -1,5 +1,5 @@
-import type { ComponentsConfig } from './components-config.ts';
 import { useTheme } from './theme-context.ts';
+import type { ComponentsConfig } from './types.ts';
 
 function useComponentTheme<T extends keyof ComponentsConfig>(component: T) {
   return useTheme()?.components?.[component] ?? undefined;

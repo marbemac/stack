@@ -2571,6 +2571,7 @@ __metadata:
   dependencies:
     "@fortawesome/fontawesome-common-types": "npm:^6.4.0"
     "@marbemac/ui-theme": "workspace:*"
+    csstype: "npm:^3.1.2"
     tailwind-merge: "npm:^1.14.0"
     tailwind-variants: "npm:~0.1.13"
     tailwindcss: "npm:^3.3.3"
@@ -7672,7 +7673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2, csstype@npm:^3.1.0, csstype@npm:^3.1.1":
+"csstype@npm:^3.0.2, csstype@npm:^3.1.0, csstype@npm:^3.1.1, csstype@npm:^3.1.2":
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
   checksum: 1f39c541e9acd9562996d88bc9fb62d1cb234786ef11ed275567d4b2bd82e1ceacde25debc8de3d3b4871ae02c2933fa02614004c97190711caebad6347debc2
@@ -15701,7 +15702,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-node@npm:0.34.0, vite-node@npm:~0.34.0":
+"vite-node@npm:0.34.0":
   version: 0.34.0
   resolution: "vite-node@npm:0.34.0"
   dependencies:
@@ -15714,6 +15715,22 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 06d9367a21ccfb49586ff1e7ff21d9f2af421bed9781431e89d4522df1d8f9366296d5295ba00616d1d01876fbba35163e9eebf9895205ce72eeda2e6c331b37
+  languageName: node
+  linkType: hard
+
+"vite-node@npm:~0.30.1":
+  version: 0.30.1
+  resolution: "vite-node@npm:0.30.1"
+  dependencies:
+    cac: "npm:^6.7.14"
+    debug: "npm:^4.3.4"
+    mlly: "npm:^1.2.0"
+    pathe: "npm:^1.1.0"
+    picocolors: "npm:^1.0.0"
+    vite: "npm:^3.0.0 || ^4.0.0"
+  bin:
+    vite-node: vite-node.mjs
+  checksum: 0e18ded1ddc742ecd206a9a9dbe7bdf14f9070d3e03d7ffde4bc0addaf15becfcf5422935fbec78e89c4b5a092755578b0e9fc40f78c8b1e79e1ba5907881f41
   languageName: node
   linkType: hard
 
@@ -16147,7 +16164,7 @@ __metadata:
     react-dom: "npm:~18.2.0"
     react-error-boundary: "npm:~4.0.10"
     vite: "npm:~4.4.8"
-    vite-node: "npm:~0.34.0"
+    vite-node: "npm:~0.30.1"
     vite-plugin-chunk-split: "npm:^0.4.7"
     vite-plugin-node: "npm:^3.0.2"
     vitest: "npm:~0.34.0"
@@ -16189,7 +16206,7 @@ __metadata:
     solid-js: "npm:~1.7.8"
     solid-tiptap: "npm:^0.6.0"
     vite: "npm:~4.4.8"
-    vite-node: "npm:~0.34.0"
+    vite-node: "npm:~0.30.1"
     vite-plugin-chunk-split: "npm:^0.4.7"
     vite-plugin-solid: "npm:2.7.0"
     zod: "npm:^3.21.4"

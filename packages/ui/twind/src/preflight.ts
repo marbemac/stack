@@ -1,7 +1,9 @@
 // https://elad2412.github.io/the-new-css-reset
 // Another to draw inspiration from: https://github.com/tw-in-js/twind/blob/main/packages/preset-tailwind/src/preflight.ts
 
-export const preflight = {
+import type { Preflight } from '@twind/core';
+
+export const preflight: Preflight = {
   /**
    * Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
    * - The "symbol *" part is to solve Firefox SVG sprite bug
@@ -55,7 +57,7 @@ export const preflight = {
     lineHeight: 'inherit' /* 2 */,
     flexGrow: 1 /* 3 */,
     display: 'flex' /* 3 */,
-    textRendering: 'optimizelegibility',
+    textRendering: 'optimizeLegibility',
     textSizeAdjust: '100%',
   },
 
@@ -73,7 +75,7 @@ export const preflight = {
 
   /* Remove list styles (bullets/numbers) */
   'ol, ul, menu': {
-    liststyle: 'none',
+    listStyle: 'none',
   },
 
   /* For images to not be able to exceed their container */
@@ -109,7 +111,8 @@ export const preflight = {
   },
 
   /* revert for bug in Chromium browsers
- - fix for the content editable attribute will work properly. */
+    - fix for the content editable attribute will work properly. */
+  // @ts-expect-error ignore
   ':where([contenteditable])': {
     '-moz-user-modify': 'read-write',
     '-webkit-user-modify': 'read-write',

@@ -1,4 +1,4 @@
-import type { ButtonProps, ButtonSlots, IconProps, IconSlots, StackProps, StackSlots } from '@marbemac/ui-styles';
+import type { ButtonProps, ButtonSlots, IconProps, IconSlots, StackProps, StackSlots } from './components/index.ts';
 
 export interface ComponentTheme<Props, Slots extends string> {
   /** Default props to be passed to the component. */
@@ -9,9 +9,9 @@ export interface ComponentTheme<Props, Slots extends string> {
 }
 
 /** Components configuration. */
-export interface ComponentsConfig {
+export interface ComponentsConfig<T> {
   // alphabetical order
-  Button?: ComponentTheme<ButtonProps<React.ReactNode>, ButtonSlots>;
-  Icon?: ComponentTheme<IconProps<React.ReactNode>, IconSlots>;
-  Stack?: ComponentTheme<StackProps<React.ReactNode>, StackSlots>;
+  Button?: ComponentTheme<ButtonProps<T>, ButtonSlots>;
+  Icon?: ComponentTheme<IconProps<T>, IconSlots>;
+  Stack?: ComponentTheme<StackProps<T>, StackSlots>;
 }

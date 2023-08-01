@@ -14,10 +14,7 @@ import { twindConfig } from './twind.config.js';
 
 const IS_PROD = import.meta.env ? !import.meta.env.DEV : true;
 
-export const css = css$;
 export const cx = cx$;
-export const shortcut = shortcut$;
-export const apply = apply$;
 
 export type Twind = ReturnType<typeof createTwind>;
 
@@ -28,7 +25,7 @@ export const createTwind = () => {
   const injectGlobal = injectGlobal$.bind(tw) as typeof injectGlobal$;
   const keyframes = keyframes$.bind(tw) as typeof keyframes$;
 
-  return { tw, css, tx, cx, shortcut, apply, injectGlobal, keyframes };
+  return { tw, css: css$, tx, cx: cx$, shortcut: shortcut$, apply: apply$, injectGlobal, keyframes };
 };
 
 // Suppress twind warnings for invalid classes

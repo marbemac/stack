@@ -1,9 +1,5 @@
-export * from './components/button.props.ts';
-export * from './components/button.styles.ts';
-export * from './components/icon.props.ts';
-export * from './components/icon.styles.ts';
-export * from './components/stack.props.ts';
-export * from './components/stack.styles.ts';
+export * from './components/index.ts';
+export * from './components-config.ts';
 export { STYLE_PROPS } from './consts.ts';
 export { cx, stylePropsResolver, type TW_STR, tx, txMerge } from './tw.ts';
 export type { SlotProp, StyleProps, StylePropsResolver, TwProp } from './types.ts';

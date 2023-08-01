@@ -11,8 +11,6 @@ import type { AppPageEvent, HonoEnv, ServerEntry } from './types.js';
 
 const port = Number(process.env['PORT'] || 3016);
 
-const twind = createTwind();
-
 const { viteDevServer, server } = await createDevServer<HonoEnv, TrpcRouter, AppPageEvent, ServerEntry>({
   entryServerPath: './src/entry-server.tsx',
   hmrPort: 3026,
@@ -22,7 +20,7 @@ const { viteDevServer, server } = await createDevServer<HonoEnv, TrpcRouter, App
   createReqContext,
   extendPageEvent: opts => ({
     ...extendPageEvent(opts),
-    twind,
+    twind: createTwind(),
   }),
 });
 

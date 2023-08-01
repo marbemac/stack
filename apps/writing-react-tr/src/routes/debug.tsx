@@ -16,12 +16,15 @@ export const debugRoute = new Route({
 
     return (
       <div className="p-2">
-        <h1>Debug</h1>
+        <Box as="h1" tw="text-warning-solid">
+          Debug
+        </Box>
+
         <Suspense fallback={<div>{`outer waiting...`}</div>}>
           <WaiterInner wait={2000} deferStream tw="text-2xl" />
 
-          <Waiter wait={2500} tw="text-xl" />
-          <Waiter wait={4000} tw="text-sm" />
+          <Waiter wait={10000} tw="text-xl" />
+          <Waiter wait={20000} tw="text-sm" />
         </Suspense>
       </div>
     );

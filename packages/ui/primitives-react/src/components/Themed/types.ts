@@ -1,7 +1,7 @@
-import type { StyleProps } from '@marbemac/ui-styles';
+import type { ComponentsConfig as BaseComponentsConfig, StyleProps } from '@marbemac/ui-styles';
 import type { ColorMode, CustomTheme, PrebuiltThemeIds } from '@marbemac/ui-theme';
 
-import type { ComponentsConfig } from './components-config.ts';
+export type ComponentsConfig = BaseComponentsConfig<React.ReactNode>;
 
 export type ConfigTheme = {
   themeId: PrebuiltThemeIds;

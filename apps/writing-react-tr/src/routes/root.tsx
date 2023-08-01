@@ -1,16 +1,19 @@
 import { Scripts, useHead } from '@marbemac/ssr-react';
-import { Box } from '@marbemac/ui-primitives-react';
+import { Box, PrimitivesProvider } from '@marbemac/ui-primitives-react';
+import type { Twind } from '@marbemac/ui-twind';
+import { createStylePropsResolver } from '@marbemac/ui-twind';
 import type { QueryClient } from '@tanstack/react-query';
-import { Link, Outlet, RouterContext } from '@tanstack/router';
+import { Link, Outlet, RouterContext, useRouter } from '@tanstack/router';
 import React from 'react';
 
-// import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import { Providers } from '~/providers.tsx';
 import { RouterHydrationContext } from '~/utils/router-hydration-context.ts';
 import type { createTRPCClient } from '~/utils/trpc.ts';
 
 export const routerContext = new RouterContext<{
   queryClient: QueryClient;
   trpc: ReturnType<typeof createTRPCClient>;
+  twind: Twind;
 }>();
 
 export const rootRoute = routerContext.createRootRoute({
@@ -20,6 +23,9 @@ export const rootRoute = routerContext.createRootRoute({
 
 function Root() {
   console.log('Root.render');
+
+  const router = useRouter();
+  const { queryClient, trpc, twind } = router.options.context;
 
   useHead({
     title: 'Root page',
@@ -32,49 +38,52 @@ function Root() {
   });
 
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
+    <Providers queryClient={queryClient} trpc={trpc}>
+      <PrimitivesProvider as="html" stylePropResolver={createStylePropsResolver(twind)}>
+        <head>
+          <meta charSet="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </head>
 
-      <Box as="body" tw="min-h-screen">
-        <div>
+        <Box as="body" tw="min-h-screen">
           <div>
-            <Link
-              to="/"
-              activeProps={{
-                className: 'font-bold',
-              }}
-              activeOptions={{ exact: true }}
-            >
-              Home
-            </Link>{' '}
-            <Link
-              to="/posts"
-              activeProps={{
-                className: 'font-bold',
-              }}
-            >
-              Posts
-            </Link>
-            <Link
-              to="/debug"
-              activeProps={{
-                className: 'font-bold',
-              }}
-            >
-              Debug
-            </Link>
-          </div>
-          <Outlet /> {/* Start rendering router matches */}
-          {/* <TanStackRouterDevtools position="bottom-right" /> */}
-          <DehydrateRouter />
-        </div>
+            <div>
+              <Link
+                to="/"
+                activeProps={{
+                  className: 'font-bold',
+                }}
+                activeOptions={{ exact: true }}
+              >
+                Home
+              </Link>{' '}
+              <Link
+                to="/posts"
+                activeProps={{
+                  className: 'font-bold',
+                }}
+              >
+                Posts
+              </Link>
+              <Link
+                to="/debug"
+                activeProps={{
+                  className: 'font-bold',
+                }}
+              >
+                Debug
+              </Link>
+            </div>
 
-        <Scripts />
-      </Box>
-    </html>
+            <Outlet />
+
+            <DehydrateRouter />
+          </div>
+
+          <Scripts />
+        </Box>
+      </PrimitivesProvider>
+    </Providers>
   );
 }
 

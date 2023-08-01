@@ -1,9 +1,7 @@
 import type { TrpcRouter } from '@libs/internal-api';
 import { TRPC_ROOT_PATH } from '@libs/internal-api/consts';
-import { PrimitivesProvider } from '@marbemac/ui-primitives-react';
 import type { Twind } from '@marbemac/ui-twind';
-import { createStylePropsResolver } from '@marbemac/ui-twind';
-import { type QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { type QueryClient } from '@tanstack/react-query';
 import { Router } from '@tanstack/router';
 
 import { debugRoute } from './routes/debug.tsx';
@@ -12,7 +10,7 @@ import { postsRoute } from './routes/posts.tsx';
 import { postIdRoute } from './routes/posts/$postId.tsx';
 import { postsIndexRoute } from './routes/posts/index.tsx';
 import { rootRoute } from './routes/root.tsx';
-import { createTRPCClient, TrpcContext } from './utils/trpc.ts';
+import { createTRPCClient } from './utils/trpc.ts';
 
 export const routeTree = rootRoute.addChildren([
   indexRoute,
@@ -46,16 +44,7 @@ export const createRouter = ({ queryClient, twind, trpcCaller }: CreateRouterOpt
     context: {
       queryClient,
       trpc,
-    },
-
-    Wrap: ({ children }) => {
-      return (
-        <PrimitivesProvider stylePropResolver={createStylePropsResolver(twind)}>
-          <QueryClientProvider client={queryClient}>
-            <TrpcContext.Provider value={{ trpc }}>{children}</TrpcContext.Provider>
-          </QueryClientProvider>
-        </PrimitivesProvider>
-      );
+      twind,
     },
   });
 

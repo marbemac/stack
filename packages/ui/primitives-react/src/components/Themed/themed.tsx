@@ -1,6 +1,5 @@
 import type { PrebuiltThemeIds } from '@marbemac/ui-theme';
 import { generateTheme } from '@marbemac/ui-theme';
-import { css as twCss } from '@marbemac/ui-twind';
 import { useMemo, useState } from 'react';
 
 import { useStyleProps } from '../../provider.tsx';
@@ -20,7 +19,6 @@ export const Themed = polyRef<'div', ThemeProviderProps>((props, ref) => {
    * 2. Can we cache this work on the server safely so that it doesn't need to do it on every page render?
    */
   const generatedTheme = useMemo(() => generateTheme(themeId), [themeId]);
-  const generatedThemeClass = useMemo(() => twCss(generatedTheme.css), [generatedTheme.css]);
 
   const context: ThemeContextVal = {
     themeId,
@@ -29,7 +27,11 @@ export const Themed = polyRef<'div', ThemeProviderProps>((props, ref) => {
     components,
   };
 
-  const className = useStyleProps({ tw: [tw, generatedThemeClass], UNSAFE_class: UNSAFE_class });
+  const className = useStyleProps({
+    tw,
+    UNSAFE_class: UNSAFE_class,
+    css: generatedTheme.css,
+  });
 
   return (
     <ThemeContext.Provider value={context}>

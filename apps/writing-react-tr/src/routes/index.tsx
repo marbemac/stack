@@ -1,3 +1,4 @@
+import { Box } from '@marbemac/ui-primitives-react';
 import { Route } from '@tanstack/router';
 
 import { rootRoute } from './root.tsx';
@@ -7,9 +8,9 @@ export const indexRoute = new Route({
   path: '/',
   component: function Home() {
     return (
-      <div className="p-2">
+      <Box tw="p-2 text-danger-solid">
         <h3>Welcome Home!</h3>
-      </div>
+      </Box>
     );
   },
 });
