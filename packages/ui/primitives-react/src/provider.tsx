@@ -1,8 +1,9 @@
-import { type StyleProps, stylePropsResolver } from '@marbemac/ui-styles';
+import type { StyleProps, StylePropsResolver } from '@marbemac/ui-styles';
+import { stylePropsResolver } from '@marbemac/ui-styles';
 import { createContext, useContext } from 'react';
 
 type PrimitivesConfig = {
-  stylePropResolver: (props: StyleProps) => string | void;
+  stylePropResolver: StylePropsResolver;
 };
 
 export const PrimitivesContext = createContext<PrimitivesConfig | null>(null);
