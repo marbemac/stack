@@ -7,7 +7,7 @@ export const splitPropsVariants = <T extends {}, K extends keyof T>(
   props: T,
   variantKeys?: K[],
   removeVariantProps = true,
-): readonly [Omit<T, K> | T, Pick<T, K>] => {
+): readonly [Omit<T, K>, Pick<T, K>] => {
   if (!variantKeys) {
     // @ts-expect-error ignore
     return [props, {}];

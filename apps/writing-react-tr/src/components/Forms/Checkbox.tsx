@@ -11,9 +11,6 @@ type CheckboxProps = Pick<StyleProps, 'tw' | 'UNSAFE_class'> &
     error?: string;
   };
 
-// React.ElementRef<typeof BaseCheckbox.Root>,
-// React.ComponentPropsWithoutRef<typeof BaseCheckbox.Root>
-
 export const Checkbox = forwardRef<React.ElementRef<typeof BaseCheckbox.Root>, CheckboxProps>(
   ({ tw, UNSAFE_class, checked, ...props }, ref) => {
     return (

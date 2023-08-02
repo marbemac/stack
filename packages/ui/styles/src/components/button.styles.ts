@@ -3,6 +3,7 @@ import { tv } from 'tailwind-variants';
 
 import { tx } from '../tw.ts';
 import type { VariantSlots } from '../types.ts';
+import { focusStyles } from '../utils/focus.ts';
 import { makeStaticClass } from '../utils/make-static-class.ts';
 import { formSizes } from '../utils/size.ts';
 
@@ -23,6 +24,7 @@ export const buttonStyle = tv({
       'inline-flex items-center justify-center',
       'max-w-full cursor-pointer whitespace-nowrap',
       'transform-gpu motion-safe:transition',
+      focusStyles,
     ),
 
     icon: tx('[display:inherit]'),

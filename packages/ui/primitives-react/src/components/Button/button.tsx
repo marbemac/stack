@@ -1,5 +1,5 @@
 import type { ButtonProps as BButtonProps, ButtonSlots } from '@marbemac/ui-styles';
-import { buttonStaticClass, buttonStyle, splitPropsVariants, stackStaticClass } from '@marbemac/ui-styles';
+import { buttonStaticClass, buttonStyle, splitPropsVariants } from '@marbemac/ui-styles';
 import { useMemo } from 'react';
 
 import { useStyleProps } from '../../provider.tsx';
@@ -47,7 +47,7 @@ export const Button = polyRef<'button', ButtonProps>((props, ref) => {
   const iconClass = slots.icon({ class: [themeClasses.icon, slotClasses?.icon] });
   const textClass = slots.text({ class: [themeClasses.text, slotClasses?.text] });
 
-  const rootClass = useStyleProps({ tw: [baseClass, tw], UNSAFE_class: [stackStaticClass('base'), UNSAFE_class] });
+  const rootClass = useStyleProps({ tw: [baseClass, tw], UNSAFE_class: [buttonStaticClass('base'), UNSAFE_class] });
 
   const startIconElem = !variantProps.isLoading
     ? startIcon
