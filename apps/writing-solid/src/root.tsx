@@ -32,7 +32,7 @@ export function App() {
   return (
     <Themed as={Html} lang="en" tw="min-h-screen">
       <Head>
-        <Title>PLG</Title>
+        <Title>Writing Demo App</Title>
 
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />

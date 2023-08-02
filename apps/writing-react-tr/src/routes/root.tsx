@@ -3,9 +3,10 @@ import { Box, PrimitivesProvider } from '@marbemac/ui-primitives-react';
 import type { Twind } from '@marbemac/ui-twind';
 import { createStylePropsResolver } from '@marbemac/ui-twind';
 import type { QueryClient } from '@tanstack/react-query';
-import { Link, Outlet, RouterContext, useRouter } from '@tanstack/router';
+import { Outlet, RouterContext, useRouter } from '@tanstack/router';
 import React from 'react';
 
+import { SiteNav } from '~/components/SiteNav.tsx';
 import { Providers } from '~/providers.tsx';
 import { RouterHydrationContext } from '~/utils/router-hydration-context.ts';
 import type { createTRPCClient } from '~/utils/trpc.ts';
@@ -27,63 +28,37 @@ function Root() {
   const router = useRouter();
   const { queryClient, trpc, twind } = router.options.context;
 
-  useHead({
-    title: 'Root page',
-    meta: [
-      {
-        name: 'description',
-        content: 'My root page description',
-      },
-    ],
-  });
+  useHead({ title: 'Writing Demo App' });
 
   return (
-    <Providers queryClient={queryClient} trpc={trpc}>
-      <PrimitivesProvider as="html" stylePropResolver={createStylePropsResolver(twind)}>
-        <head>
-          <meta charSet="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        </head>
+    <PrimitivesProvider as="html" stylePropResolver={createStylePropsResolver(twind)} tw="min-h-screen">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <Box as="body" tw="min-h-screen">
-          <div>
-            <div>
-              <Link
-                to="/"
-                activeProps={{
-                  className: 'font-bold',
-                }}
-                activeOptions={{ exact: true }}
-              >
-                Home
-              </Link>{' '}
-              <Link
-                to="/posts"
-                activeProps={{
-                  className: 'font-bold',
-                }}
-              >
-                Posts
-              </Link>
-              <Link
-                to="/debug"
-                activeProps={{
-                  className: 'font-bold',
-                }}
-              >
-                Debug
-              </Link>
-            </div>
+        <link
+          rel="preload"
+          href="/assets/fonts/inter/latin-variable.woff2"
+          as="font"
+          crossOrigin="anonymous"
+          type="font/woff2"
+        />
+      </head>
 
-            <Outlet />
+      <Box as="body" tw="min-h-screen">
+        <Providers queryClient={queryClient} trpc={trpc}>
+          <Box tw="w-28 border-r p-4">
+            <SiteNav />
+          </Box>
 
-            <DehydrateRouter />
-          </div>
+          <Outlet />
+        </Providers>
 
-          <Scripts />
-        </Box>
-      </PrimitivesProvider>
-    </Providers>
+        <DehydrateRouter />
+
+        <Scripts />
+      </Box>
+    </PrimitivesProvider>
   );
 }
 
