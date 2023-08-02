@@ -20,7 +20,7 @@ export const buttonStyle = tv({
     base: tx(
       'group',
       'select-none appearance-none',
-      'inline-flex items-center justify-center self-start',
+      'inline-flex items-center justify-center',
       'max-w-full cursor-pointer whitespace-nowrap',
       'transform-gpu motion-safe:transition',
     ),

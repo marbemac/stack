@@ -7,3 +7,5 @@ export * from './components/Themed/index.ts';
 // export type { StyledComponent } from './types.ts';
 // export { createPolymorphicComponent } from './utils/polymorphic.ts';
 export { PrimitivesProvider } from './provider.tsx';
+export type { PolymorphicComponent } from './utils/forward-ref.ts';
+export { forwardRef, polyRef } from './utils/forward-ref.ts';
