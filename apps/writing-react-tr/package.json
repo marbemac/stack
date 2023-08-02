@@ -44,9 +44,9 @@
     "@vitejs/plugin-react": "^4.0.4",
     "dotenv-cli": "^7.2.1",
     "vite": "~4.4.8",
-    "vite-node": "~0.30.1",
+    "vite-node": "~0.34.1",
     "vite-plugin-chunk-split": "^0.4.7",
     "vite-plugin-node": "^3.0.2",
-    "vitest": "~0.34.0"
+    "vitest": "~0.34.1"
   }
 }
