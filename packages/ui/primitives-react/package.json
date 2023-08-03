@@ -15,8 +15,8 @@
     "react": "*"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@marbemac/ui-styles": "workspace:*",
     "@marbemac/ui-theme": "workspace:*",
     "@radix-ui/react-label": "^2.0.2",
@@ -24,24 +24,24 @@
     "react-polymorphed": "~2.2.1"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-common-types": "^6.4.0",
+    "@fortawesome/fontawesome-common-types": "^6.4.2",
     "@hookform/resolvers": "^3.1.1",
     "@marbemac/utils-types": "workspace:*",
-    "@storybook/addon-a11y": "^7.2.0",
-    "@storybook/addon-essentials": "^7.2.0",
-    "@storybook/addon-interactions": "^7.2.0",
-    "@storybook/addon-links": "^7.2.0",
-    "@storybook/blocks": "^7.2.0",
-    "@storybook/builder-vite": "^7.2.0",
-    "@storybook/react": "^7.2.0",
-    "@storybook/react-vite": "^7.2.0",
+    "@storybook/addon-a11y": "^7.2.1",
+    "@storybook/addon-essentials": "^7.2.1",
+    "@storybook/addon-interactions": "^7.2.1",
+    "@storybook/addon-links": "^7.2.1",
+    "@storybook/blocks": "^7.2.1",
+    "@storybook/builder-vite": "^7.2.1",
+    "@storybook/react": "^7.2.1",
+    "@storybook/react-vite": "^7.2.1",
     "@storybook/testing-library": "~0.2.0",
     "eslint-plugin-storybook": "^0.6.13",
     "http-server": "^14.1.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "react-hook-form": "^7.45.2",
-    "storybook": "^7.2.0",
+    "storybook": "^7.2.1",
     "storybook-addon-performance": "^0.17.1"
   }
 }

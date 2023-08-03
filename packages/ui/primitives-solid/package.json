@@ -11,8 +11,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@kobalte/core": "~0.9.8",
     "@kobalte/utils": "~0.7.2",
     "@marbemac/ui-styles": "workspace:*",
@@ -21,18 +21,18 @@
     "solid-js": "~1.7.8"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-common-types": "^6.4.0",
+    "@fortawesome/fontawesome-common-types": "^6.4.2",
     "@marbemac/utils-types": "workspace:*",
-    "@storybook/addon-a11y": "^7.2.0",
-    "@storybook/addon-essentials": "^7.2.0",
-    "@storybook/addon-interactions": "^7.2.0",
-    "@storybook/addon-links": "^7.2.0",
-    "@storybook/blocks": "^7.2.0",
+    "@storybook/addon-a11y": "^7.2.1",
+    "@storybook/addon-essentials": "^7.2.1",
+    "@storybook/addon-interactions": "^7.2.1",
+    "@storybook/addon-links": "^7.2.1",
+    "@storybook/blocks": "^7.2.1",
     "@storybook/testing-library": "~0.2.0",
     "eslint-plugin-storybook": "^0.6.13",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
-    "storybook": "^7.2.0",
+    "storybook": "^7.2.1",
     "storybook-solidjs": "^1.0.0-beta.2",
     "storybook-solidjs-vite": "^1.0.0-beta.2"
   }

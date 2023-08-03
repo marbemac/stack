@@ -18,7 +18,7 @@
   "dependencies": {
     "@libs/db-model": "workspace:*",
     "@marbemac/server-trpc": "workspace:*",
-    "@trpc/server": "^10.36.0",
+    "@trpc/server": "^10.37.1",
     "remeda": "^1.24.0",
     "zod": "^3.21.4"
   },

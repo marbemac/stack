@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@marbemac/server-ssr": "workspace:*",
-    "@trpc/server": "^10.36.0"
+    "@trpc/server": "^10.37.1"
   },
   "peerDependencies": {
     "solid-js": "*"
