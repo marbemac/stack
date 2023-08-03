@@ -4,7 +4,6 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { BoxRef } from '../Box/index.ts';
 import { Button } from '../Button/index.ts';
 import { Form } from './form.tsx';
 import { FormInputField } from './input-field.tsx';
@@ -27,7 +26,7 @@ const FormSchema = z.object({
 
 export const Basic: Story = {
   render: function Basic() {
-    const form = useForm<z.infer<typeof FormSchema>>({
+    const methods = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
     });
 
@@ -36,22 +35,20 @@ export const Basic: Story = {
     };
 
     return (
-      <Form {...form}>
-        <BoxRef as="form" onSubmit={form.handleSubmit(onSubmit)} tw="w-80 space-y-6">
-          <FormInputField
-            control={form.control}
-            name="username"
-            label="Username"
-            description="This is your public display name."
-            inputProps={{ placeholder: 'marbemac' }}
-          />
+      <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)} tw="w-80 space-y-6">
+        <FormInputField
+          control={methods.control}
+          name="username"
+          label="Username"
+          description="This is your public display name."
+          inputProps={{ placeholder: 'marbemac' }}
+        />
 
-          <FormInputField control={form.control} name="password" label="Password" inputProps={{ type: 'password' }} />
+        <FormInputField control={methods.control} name="password" label="Password" inputProps={{ type: 'password' }} />
 
-          <Button type="submit" variant="solid">
-            Submit
-          </Button>
-        </BoxRef>
+        <Button type="submit" variant="solid">
+          Submit
+        </Button>
       </Form>
     );
   },

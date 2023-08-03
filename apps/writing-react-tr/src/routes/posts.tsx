@@ -1,13 +1,14 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { type InsertablePost, insertPostSchema, type Post } from '@libs/db-model/schema';
 import type { TrpcRouterOutput } from '@libs/internal-api';
 import { useHead } from '@marbemac/ssr-react';
-import { Box, BoxRef, Button } from '@marbemac/ui-primitives-react';
+import { Box, Button, Form, FormInputField } from '@marbemac/ui-primitives-react';
 import { tx } from '@marbemac/ui-styles';
-import type { SubmitHandler } from '@modular-forms/react';
-import { reset, useForm, zodForm } from '@modular-forms/react';
 import { Link, Outlet, Route, useNavigate, useParams } from '@tanstack/router';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-import { TextField } from '~/components/Forms/TextField.tsx';
 import { useTrpc } from '~/utils/trpc.ts';
 
 import { rootRoute } from './root.tsx';
@@ -86,41 +87,37 @@ const PostsList = ({ posts }: { posts: Post[] }) => {
 
 const AddPostForm = (props: { onSuccess?: (res: TrpcRouterOutput['posts']['create']) => void }) => {
   const createPost = useTrpc().posts.create.useMutation();
-  const [addPostForm, AddPost] = useForm<InsertablePost>({
-    initialValues: { title: '' },
-    validate: zodForm(insertPostSchema),
+
+  const methods = useForm<InsertablePost>({
+    resolver: zodResolver(insertPostSchema),
+    defaultValues: {
+      title: '',
+    },
   });
 
-  const handleSubmit: SubmitHandler<InsertablePost> = async values => {
-    const res = await createPost.mutateAsync(values);
+  const onSubmit: SubmitHandler<InsertablePost> = async data => {
+    const res = await createPost.mutateAsync(data);
 
-    reset(addPostForm);
+    methods.reset();
 
     if (props.onSuccess) {
       props.onSuccess(res);
     }
   };
 
-  return (
-    <BoxRef as={AddPost.Form} onSubmit={handleSubmit} tw="flex h-16 items-center px-4">
-      <AddPost.Field name="title">
-        {(field, props) => (
-          <TextField
-            {...props}
-            {...field}
-            type="text"
-            tw="flex-1 self-stretch"
-            inputTw={tx('h-full w-full')}
-            placeholder="New post title..."
-          />
-        )}
-      </AddPost.Field>
+  const submitElem = (
+    <Button type="submit" variant="solid" disabled={methods.formState.isSubmitting} tw="mr-2">
+      {methods.formState.isSubmitting ? 'Adding...' : 'Add Post'}
+    </Button>
+  );
 
-      <div>
-        <Button type="submit" variant="solid" disabled={addPostForm.submitting.value}>
-          {addPostForm.submitting.value ? 'Adding...' : 'Add Post'}
-        </Button>
-      </div>
-    </BoxRef>
+  return (
+    <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+      <FormInputField
+        control={methods.control}
+        name="title"
+        inputProps={{ variant: 'ghost', size: 'lg', placeholder: 'New post title...', endSection: submitElem }}
+      />
+    </Form>
   );
 };

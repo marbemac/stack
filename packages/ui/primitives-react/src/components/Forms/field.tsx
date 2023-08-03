@@ -61,7 +61,7 @@ export const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
 
     return (
       <FormItemContext.Provider value={{ id }}>
-        <BoxRef ref={ref} tw="space-y-2" {...props} />
+        <BoxRef ref={ref} tw="w-full space-y-2" {...props} />
       </FormItemContext.Provider>
     );
   },
