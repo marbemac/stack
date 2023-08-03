@@ -2083,6 +2083,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@hookform/resolvers@npm:3.1.1"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 4f76dc32cb2a295cc95e9f015d95c7318ffeb998577ec25d1f54ac4f52b3440911fd7cf8f75ba1bcd683c30da55fb081d4747308fe0116f7650690132f878c96
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.10":
   version: 0.11.10
   resolution: "@humanwhocodes/config-array@npm:0.11.10"
@@ -2511,9 +2520,12 @@ __metadata:
     "@fortawesome/fontawesome-common-types": "npm:^6.4.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.4.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.4.0"
+    "@hookform/resolvers": "npm:^3.1.1"
     "@marbemac/ui-styles": "workspace:*"
     "@marbemac/ui-theme": "workspace:*"
     "@marbemac/utils-types": "workspace:*"
+    "@radix-ui/react-label": "npm:^2.0.2"
+    "@radix-ui/react-slot": "npm:^1.0.2"
     "@storybook/addon-a11y": "npm:^7.2.0"
     "@storybook/addon-essentials": "npm:^7.2.0"
     "@storybook/addon-interactions": "npm:^7.2.0"
@@ -2527,10 +2539,10 @@ __metadata:
     http-server: "npm:^14.1.1"
     react: "npm:~18.2.0"
     react-dom: "npm:~18.2.0"
+    react-hook-form: "npm:^7.45.2"
     react-polymorphed: "npm:~2.2.1"
     storybook: "npm:^7.2.0"
     storybook-addon-performance: "npm:^0.17.1"
-    tailwind-variants: "npm:~0.1.13"
   peerDependencies:
     react: "*"
   languageName: unknown
@@ -3090,7 +3102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-label@npm:2.0.2":
+"@radix-ui/react-label@npm:2.0.2, @radix-ui/react-label@npm:^2.0.2":
   version: 2.0.2
   resolution: "@radix-ui/react-label@npm:2.0.2"
   dependencies:
@@ -3240,7 +3252,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-slot@npm:1.0.2":
+"@radix-ui/react-slot@npm:1.0.2, @radix-ui/react-slot@npm:^1.0.2":
   version: 1.0.2
   resolution: "@radix-ui/react-slot@npm:1.0.2"
   dependencies:
@@ -13357,6 +13369,15 @@ __metadata:
   peerDependencies:
     react: ">=16.13.1"
   checksum: 521612cd8cec4d2b5507ac6191ac45117f2f83d9c5c0616790f2b0e8cce3b0c2254b5a494c24c16f01b3f30b4106f7044a572f650d2157076bd5686c2438cecb
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.45.2":
+  version: 7.45.2
+  resolution: "react-hook-form@npm:7.45.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 08095c88434e6b5fb7b073fc156f5b790d2c0261648a373d149dacd0a9449169e47a2ac345bd8c477e97a440d67338d5ef40b1a518dd5138ca1126bfd3ba7791
   languageName: node
   linkType: hard
 

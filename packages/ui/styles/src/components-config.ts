@@ -5,6 +5,8 @@ import type {
   IconSlots,
   InputProps,
   InputSlots,
+  LabelProps,
+  LabelSlots,
   StackProps,
   StackSlots,
 } from './components/index.ts';
@@ -22,6 +24,7 @@ export interface ComponentsConfig<T> {
   // alphabetical order
   Button?: ComponentTheme<ButtonProps<T>, ButtonSlots>;
   Icon?: ComponentTheme<IconProps<T>, IconSlots>;
+  Label?: ComponentTheme<LabelProps, LabelSlots>;
   Stack?: ComponentTheme<StackProps<T>, StackSlots>;
   Input?: ComponentTheme<InputProps<T>, InputSlots>;
 }

@@ -4,5 +4,7 @@ export * from './icon.props.ts';
 export * from './icon.styles.ts';
 export * from './input.props.ts';
 export * from './input.styles.ts';
+export * from './label.props.ts';
+export * from './label.styles.ts';
 export * from './stack.props.ts';
 export * from './stack.styles.ts';
