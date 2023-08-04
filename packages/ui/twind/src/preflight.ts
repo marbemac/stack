@@ -41,10 +41,6 @@ export const preflight: Preflight = {
     tabSize: 4 /* 3 */,
     fontFamily: `theme(fontFamily.sans)` /* 4 */,
     fontFeatureSettings: 'theme(fontFamily.sans[1].fontFeatureSettings, normal)' /* 5 */,
-
-    minHeight: '100%' /* 6 */,
-    display: 'flex' /* 6 */,
-    flexDirection: 'column' /* 6 */,
   },
 
   /*
@@ -55,8 +51,6 @@ export const preflight: Preflight = {
   body: {
     margin: '0' /* 1 */,
     lineHeight: 'inherit' /* 2 */,
-    flexGrow: 1 /* 3 */,
-    display: 'flex' /* 3 */,
     textRendering: 'optimizeLegibility',
     textSizeAdjust: '100%',
   },

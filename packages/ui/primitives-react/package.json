@@ -38,8 +38,8 @@
     "@storybook/testing-library": "~0.2.0",
     "eslint-plugin-storybook": "^0.6.13",
     "http-server": "^14.1.1",
-    "react": "~18.2.0",
-    "react-dom": "~18.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-hook-form": "^7.45.2",
     "storybook": "^7.2.1",
     "storybook-addon-performance": "^0.17.1"
