@@ -1,4 +1,4 @@
-import { boolean, id, integer, table, text } from '@libs/db/builder';
+import { boolean, id, table, text, timestamp } from '@libs/db/builder';
 import { sql } from 'drizzle-orm';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
@@ -9,14 +9,13 @@ import { PostId } from './id.ts';
 const TABLE_NAME = 'posts';
 
 export const posts = table(TABLE_NAME, {
-  // id: text('id').primaryKey(),
   id: id<TPostId>()('id').primaryKey(),
   title: text('title').notNull(),
   content: text('content').notNull().default(''),
   isDraft: boolean('is_draft').notNull().default(true),
-  createdAt: integer('created_at')
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' })
     .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
+    .default(sql`now()`),
 });
 
 export const postSchema = createSelectSchema(posts, {

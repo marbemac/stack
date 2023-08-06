@@ -1,5 +1,9 @@
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import postgres from 'postgres';
 
-import { initDbConn } from './conn.ts';
+const migrationClient = postgres('postgres://writing_user:password@localhost:5445/writing', { max: 1 });
 
-await migrate(initDbConn({ filename: '../../data.db' }), { migrationsFolder: 'drizzle' });
+await migrate(drizzle(migrationClient), {
+  migrationsFolder: 'drizzle',
+});

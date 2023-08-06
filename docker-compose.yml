@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  pg:
+    image: postgres:15.2-alpine
+    restart: always
+    # Uncomment and docker down/up to see query logs
+    # command: ['-c', 'log_statement=all']
+    ports:
+      - '5445:5432'
+    environment:
+      POSTGRES_USER: writing_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: writing
+      POSTGRES_INITDB_ARGS: --encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - writing-db:/var/lib/postgresql/data
+    networks:
+      - internal
+
+volumes:
+  writing-db:
+
+networks:
+  internal:

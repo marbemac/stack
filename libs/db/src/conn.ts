@@ -1,15 +1,19 @@
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { neon, neonConfig } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
 
 export type DbConn = ReturnType<typeof initDbConn>;
 
 export type DbConnOpts = {
-  filename: string;
+  connectionString: string;
 };
 
-export const initDbConn = ({ filename }: DbConnOpts) => {
-  // create the connection
-  const betterSqlite = new Database(filename);
+neonConfig.fetchConnectionCache = true;
 
-  return drizzle(betterSqlite);
+neonConfig.fetchEndpoint = host => `https://${host}:${host === 'db.localtest.me' ? 4444 : 443}/sql`;
+
+export const initDbConn = ({ connectionString }: DbConnOpts) => {
+  // create the connection
+  const sql = neon(connectionString);
+
+  return drizzle(sql);
 };

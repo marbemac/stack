@@ -1,12 +1,12 @@
 {
   "version": "5",
-  "dialect": "sqlite",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1689627874203,
-      "tag": "0000_remarkable_hitman",
+      "when": 1691259913617,
+      "tag": "0000_low_lord_tyger",
       "breakpoints": true
     }
   ]

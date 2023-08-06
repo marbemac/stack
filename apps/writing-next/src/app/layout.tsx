@@ -7,7 +7,7 @@ import { SiteNav } from '~/components/SiteNav.tsx';
 
 const inter = Inter({ subsets: ['latin'] });
 
-// export const runtime = 'edge';
+export const runtime = 'edge';
 
 export const metadata: Metadata = {
   title: 'Create Next App',

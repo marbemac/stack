@@ -5,6 +5,7 @@
   "files": [
     "tsconfig.base.json",
     "tsconfig.browser.json",
+    "tsconfig.next.json",
     "tsconfig.node.json",
     "tsconfig.react.json",
     "tsconfig.solid.json",

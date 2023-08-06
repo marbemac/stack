@@ -55,7 +55,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "jsx": "preserve",
     "resolveJsonModule": false,
-    "noEmit": true,
-    "types": ["vite/client"]
+    "noEmit": true
   }
 }

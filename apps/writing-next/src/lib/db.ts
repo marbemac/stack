@@ -3,7 +3,7 @@ import { initDbClient } from '@libs/db-model/client';
 import { initModels } from '@libs/db-model/models';
 
 const conn = initDbConn({
-  filename: process.env.SQL_URL,
+  connectionString: process.env.SQL_URL,
 });
 const dbClient = initDbClient({ db: conn });
 

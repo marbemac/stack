@@ -9,31 +9,32 @@ export type PostClient = ReturnType<typeof postClient>;
 
 export const postClient = ({ db }: { db: DbConn }) => {
   const model = {
-    create: (post: InsertablePost) => {
-      return db
-        .insert(posts)
-        .values({
-          ...post,
-          id: PostId.generate(),
-        })
-        .returning()
-        .get();
+    create: async (post: InsertablePost) => {
+      return (
+        await db
+          .insert(posts)
+          .values({
+            ...post,
+            id: PostId.generate(),
+          })
+          .returning()
+      )[0];
     },
 
-    read: ({ id }: PostLookup) => {
-      return db.select().from(posts).where(eq(posts.id, id)).get();
+    read: async ({ id }: PostLookup) => {
+      return (await db.select().from(posts).where(eq(posts.id, id)))[0];
     },
 
-    update: ({ id }: PostLookup, values: UpdateablePost) => {
-      return db.update(posts).set(values).where(eq(posts.id, id)).returning().get();
+    update: async ({ id }: PostLookup, values: UpdateablePost) => {
+      return (await db.update(posts).set(values).where(eq(posts.id, id)).returning())[0];
     },
 
     delete: ({ id }: PostLookup) => {
-      return db.delete(posts).where(eq(posts.id, id)).returning({ id: posts.id }).get();
+      return db.delete(posts).where(eq(posts.id, id)).returning({ id: posts.id });
     },
 
     list: () => {
-      return db.select().from(posts).all();
+      return db.select().from(posts);
     },
   };
 
