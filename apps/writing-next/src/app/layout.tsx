@@ -1,9 +1,12 @@
+import { Box } from '@marbemac/ui-primitives-react';
 import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { SiteNav } from '~/components/SiteNav.tsx';
+import { StyledJsxRegistry } from '@marbemac/ui-theme-next';
+import { ThemedGlobal } from '@marbemac/ui-theme-next/server';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,14 +21,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   console.log('RootLayout.render');
 
   return (
-    <html lang="en" className="min-h-screen">
+    <Box as="html" lang="en" tw="min-h-screen">
       <body className={`min-h-screen flex ${inter.className}`}>
-        <div className="w-32 border-r p-4">
-          <SiteNav />
-        </div>
+        <StyledJsxRegistry>
+          <ThemedGlobal>
+            <div className="w-32 border-r p-4">
+              <SiteNav />
+            </div>
 
-        {children}
+            {children}
+          </ThemedGlobal>
+        </StyledJsxRegistry>
       </body>
-    </html>
+    </Box>
   );
 }
+
+// ThemedGlobalStyle

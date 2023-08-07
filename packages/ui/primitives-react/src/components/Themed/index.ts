@@ -1,3 +1,3 @@
-export { useTheme } from './theme-context.ts';
-export { Themed } from './themed.tsx';
-export * from './utils.ts';
+export { GlobalThemeContext, ThemeContext, useGlobalTheme, useTheme } from './theme-context.ts';
+export { ThemedGlobalInner } from './themed-global-inner.tsx';
+export { ThemedInner } from './themed-inner.tsx';

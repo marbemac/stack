@@ -15,4 +15,16 @@ export const listPosts = cache(() => {
   console.log('listPosts');
 
   return db.posts.listPosts();
+
+  // return unstable_cache(
+  //   async () => {
+  //     console.log('listPosts.inner');
+  //     return db.posts.listPosts();
+  //   },
+  //   [`posts`],
+  //   {
+  //     revalidate: 10,
+  //     tags: [`posts`],
+  //   },
+  // )();
 });

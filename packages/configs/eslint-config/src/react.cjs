@@ -21,6 +21,12 @@ const config = {
 
   rules: {
     'react/prop-types': 'off',
+    'react/no-unknown-property': [
+      2,
+      {
+        ignore: ['jsx', 'global'],
+      },
+    ],
   },
 };
 

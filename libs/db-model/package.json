@@ -17,7 +17,7 @@
   "dependencies": {
     "@libs/db": "workspace:*",
     "@marbemac/utils-ids": "workspace:*",
-    "drizzle-orm": "^0.27.2"
+    "drizzle-orm": "^0.28.0"
   },
   "devDependencies": {
     "vitest": "~0.34.1"

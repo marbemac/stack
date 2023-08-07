@@ -1,4 +1,6 @@
 import { TPostId } from '@libs/db-model/ids';
+import { Themed } from '@marbemac/ui-theme-next';
+import { ToggleTheme } from '~/components/ToggleTheme.tsx';
 import { getPost } from '~/lib/fetchers/posts.ts';
 
 export default async function Post({ params }: { params: { postId: TPostId } }) {
@@ -20,16 +22,18 @@ export default async function Post({ params }: { params: { postId: TPostId } }) 
 
       <div className="p-8">
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-semibold">{post.title}</h1>
-          <div>{post.content}</div>
+          <Themed theme="default_dark">
+            <h1 className="text-2xl font-semibold">{post.title}</h1>
+            <div>{post.content}</div>
+          </Themed>
 
           {/* <Link to="/posts/$postId/edit" params={{ postId: props.post.id }}>
             Edit
           </Link> */}
+
+          <ToggleTheme />
         </div>
       </div>
     </div>
   );
 }
-
-export const revalidate = 10;

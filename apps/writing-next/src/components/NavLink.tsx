@@ -1,6 +1,6 @@
 'use client';
 
-import cn from 'clsx';
+import { cx } from '@marbemac/ui-styles';
 import type { LinkProps as NextLinkProps } from 'next/link';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -36,7 +36,7 @@ export const NavLink = <T extends string>({
     <NextLink
       href={href}
       data-state={isActive ? 'active' : 'inactive'}
-      className={cn(className, stateClassname)}
+      className={cx(className, stateClassname)}
       {...rest}
       {...otherStateProps}
     />

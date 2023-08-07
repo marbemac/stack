@@ -1,4 +1,5 @@
 import type { INTENTS } from './consts.ts';
+import type { PrebuiltThemeIds } from './prebuilt-themes.ts';
 
 export type Color = string;
 export type HslaColor = string;
@@ -7,6 +8,8 @@ export type RgbColor = [number, number, number];
 
 export type ColorMode = 'light' | 'dark';
 export type ConfigColorMode = ColorMode | 'system';
+
+export type ThemeCookieVal = { baseThemeId: PrebuiltThemeIds; customTheme?: CustomTheme };
 
 export type Theme = {
   name: string;
@@ -30,7 +33,6 @@ export type Theme = {
 
 export type CustomTheme = {
   name?: string;
-  isDark?: boolean;
   colors: Partial<Theme['colors']>;
 };
 

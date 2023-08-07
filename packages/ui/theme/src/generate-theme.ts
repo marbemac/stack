@@ -12,11 +12,11 @@ import {
 import { getLuminance, parseToRgba, rgba, saturate, toHex, transparentize } from 'color2k';
 import deepmerge from 'deepmerge';
 
-import { INTENTS } from './consts.js';
-import { mix } from './mix.js';
-import type { PrebuiltThemeIds } from './prebuilt-themes.js';
-import { PREBUILT_THEMES } from './prebuilt-themes.js';
-import { readableColor } from './readable-color.js';
+import { INTENTS } from './consts.ts';
+import { mix } from './mix.ts';
+import type { PrebuiltThemeIds } from './prebuilt-themes.ts';
+import { PREBUILT_THEMES } from './prebuilt-themes.ts';
+import { readableColor } from './readable-color.ts';
 import type {
   BorderFoundation,
   CanvasFoundation,
@@ -26,8 +26,9 @@ import type {
   IntentColor,
   Theme,
   ThemeColorObj,
-} from './types.js';
-import type { RgbaColor } from './types.js';
+  ThemeCookieVal,
+} from './types.ts';
+import type { RgbaColor } from './types.ts';
 import type { CustomTheme } from './types.ts';
 
 export type GeneratedTheme = ReturnType<typeof generateTheme>;
@@ -42,6 +43,7 @@ export const generateTheme = (baseThemeId: PrebuiltThemeIds, customTheme: Custom
   const vars = computeCssVariables(theme, fgColor, isDark);
 
   return {
+    baseThemeId,
     theme: {
       ...theme,
       isDark,
@@ -49,10 +51,24 @@ export const generateTheme = (baseThemeId: PrebuiltThemeIds, customTheme: Custom
     vars,
     css: {
       color: `rgb(${vars['--color-fg-default']})`,
-      backgroundColor: `rgb(${vars['--color-canvas-default']})`,
+      'background-color': `rgb(${vars['--color-canvas-default']})`,
       ...vars,
     },
   };
+};
+
+export const generateThemesForCookie = (theme: ThemeCookieVal | null) => {
+  let generatedTheme;
+  try {
+    generatedTheme = theme ? generateTheme(theme.baseThemeId, theme.customTheme) : generateTheme('default');
+  } catch (e) {
+    console.error('Error generating theme', theme, e);
+    generatedTheme = generateTheme('default');
+  }
+
+  const generatedDarkTheme = theme ? undefined : generateTheme('default_dark');
+
+  return { generatedTheme, generatedDarkTheme };
 };
 
 const guard = (low: number, high: number, value: number): number => {

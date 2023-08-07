@@ -12,11 +12,7 @@ const tx = cx as (...classLists: ClassNameValue[]) => TW_STR;
 export type { ClassNameValue };
 export { cx, tx, txMerge };
 
-export const stylePropsResolver: StylePropsResolver = ({ tw, UNSAFE_class, css }) => {
-  if (css && import.meta.env.DEV) {
-    throw new Error('The default stylePropsResolver does not support the "css" option.');
-  }
-
+export const stylePropsResolver: StylePropsResolver = ({ tw, UNSAFE_class }) => {
   if (!tw && !UNSAFE_class) {
     return undefined;
   }
