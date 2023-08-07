@@ -36,7 +36,7 @@ const config = {
   settings: {
     tailwindcss: {
       callees: ['tw', 'tx'],
-      classRegex: '^tw$',
+      classRegex: '^(tw|twInactive|twActive)$',
       config: require.resolve('@marbemac/ui-styles/tailwind-config'),
     },
   },

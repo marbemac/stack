@@ -9,16 +9,6 @@ const config = {
     'plugin:react-hooks/recommended',
   ],
 
-  settings: {
-    react: {
-      linkComponents: [
-        // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
-        'Hyperlink',
-        { name: 'Link', linkAttribute: 'to' },
-      ],
-    },
-  },
-
   rules: {
     'react/prop-types': 'off',
     'react/no-unknown-property': [

@@ -1,7 +1,8 @@
-import { TPostId } from '@libs/db-model/ids';
-import { cache } from 'react';
-import { db } from '../db.ts';
+import type { TPostId } from '@libs/db-model/ids';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
+
+import { db } from '../db.ts';
 
 export const getPost = cache(async (id: TPostId) => {
   console.log('getPost', id);

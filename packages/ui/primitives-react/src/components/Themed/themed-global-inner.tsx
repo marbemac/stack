@@ -18,7 +18,6 @@ export const ThemedGlobalInner = ({ children, generatedTheme, generatedDarkTheme
     <GlobalThemeContext.Provider value={generatedTheme}>
       {children}
 
-      {/* @ts-expect-error ignore */}
       <style jsx global>
         {`
           ${styles}

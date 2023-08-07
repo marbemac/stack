@@ -1,3 +1,5 @@
+/// <reference types="styled-jsx" />
+
 export * from './components/Box/index.ts';
 // export * from './components/Button/index.ts';
 // export * from './components/Forms/index.ts';

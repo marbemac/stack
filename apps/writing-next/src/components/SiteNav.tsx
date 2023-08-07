@@ -1,8 +1,10 @@
+import { Box } from '@marbemac/ui-primitives-react';
+
 import { NavLink } from './NavLink.tsx';
 
 export const SiteNav = () => {
   return (
-    <div className="flex flex-col gap-2">
+    <Box tw="flex flex-col gap-2">
       <NavLink href="/" exact activeProps={{ className: 'font-bold' }}>
         Home
       </NavLink>
@@ -12,6 +14,6 @@ export const SiteNav = () => {
       </NavLink>
 
       {/* <NavLink href="/debug">Debug</NavLink> */}
-    </div>
+    </Box>
   );
 };

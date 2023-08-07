@@ -1,13 +1,13 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import type { InsertablePost, Post } from '@libs/db-model/schema';
 import { insertPostSchema } from '@libs/db-model/schema';
+import { usePathname, useRouter } from 'next/navigation';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, Form, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { createPost } from '~/lib/actions/posts.ts';
-import { usePathname, useRouter } from 'next/navigation';
 
 export const AddPostForm = () => {
   const router = useRouter();

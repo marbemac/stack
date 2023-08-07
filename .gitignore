@@ -8,9 +8,18 @@ build
 tmp
 out-tsc
 .cache
-*.tsbuildinfo
 .wrangler
 storybook-static
+
+# next.js
+.next
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # dependencies
 node_modules

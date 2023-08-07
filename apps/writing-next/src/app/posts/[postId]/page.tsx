@@ -1,5 +1,6 @@
-import { TPostId } from '@libs/db-model/ids';
+import type { TPostId } from '@libs/db-model/ids';
 import { Themed } from '@marbemac/ui-theme-next';
+
 import { ToggleTheme } from '~/components/ToggleTheme.tsx';
 import { getPost } from '~/lib/fetchers/posts.ts';
 

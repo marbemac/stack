@@ -1,7 +1,7 @@
 'use server';
 
+import type { InsertablePost } from '@libs/db-model/schema';
 import { revalidatePath } from 'next/cache';
-import { InsertablePost } from '@libs/db-model/schema';
 import { notFound } from 'next/navigation';
 
 import { db } from '../db.ts';

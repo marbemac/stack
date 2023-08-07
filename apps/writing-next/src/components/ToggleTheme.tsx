@@ -5,7 +5,7 @@ import { setThemeCookie } from '@marbemac/ui-theme-next';
 import { useTransition } from 'react';
 
 export const ToggleTheme = () => {
-  let [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const currentTheme = useGlobalTheme();
   const nextTheme = currentTheme.baseThemeId === 'default' ? 'default_dark' : 'default';

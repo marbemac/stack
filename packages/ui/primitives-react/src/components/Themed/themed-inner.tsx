@@ -29,7 +29,6 @@ export const ThemedInner: PolymorphicComponent<'div', ThemedInnerProps> = ({
       <Box UNSAFE_class={cx(themeClassName, UNSAFE_class)} {...others}>
         {children}
 
-        {/* @ts-expect-error ignore */}
         <style jsx>
           {`
             ${styles}

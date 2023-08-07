@@ -1,12 +1,12 @@
-import { Box } from '@marbemac/ui-primitives-react';
 import './globals.css';
 
+import { Box } from '@marbemac/ui-primitives-react';
+import { StyledJsxRegistry } from '@marbemac/ui-theme-next';
+import { ThemedGlobal } from '@marbemac/ui-theme-next/server';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { SiteNav } from '~/components/SiteNav.tsx';
-import { StyledJsxRegistry } from '@marbemac/ui-theme-next';
-import { ThemedGlobal } from '@marbemac/ui-theme-next/server';
 
 const inter = Inter({ subsets: ['latin'] });
 

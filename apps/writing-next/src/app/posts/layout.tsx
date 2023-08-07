@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
-import { NavLink } from '~/components/NavLink.tsx';
+import type { ReactNode } from 'react';
+
 import { AddPostForm } from '~/components/forms/AddPostForm.tsx';
+import { NavLink } from '~/components/NavLink.tsx';
 import { listPosts } from '~/lib/fetchers/posts.ts';
 
 export const dynamic = 'force-dynamic';
@@ -37,13 +38,11 @@ const PostsList = async () => {
           <NavLink
             key={post.id}
             href={`/posts/${post.id}`}
-            className="flex items-center p-4"
-            inactiveProps={{
-              className: 'hover:bg-blue-100',
-            }}
+            tw="flex items-center p-4"
+            twInactive="hover:bg-blue-100"
+            twActive="bg-blue-200"
             activeProps={{
               href: '/posts',
-              className: 'bg-blue-200',
             }}
           >
             <div className="flex-1 font-medium">{post.title}</div>
