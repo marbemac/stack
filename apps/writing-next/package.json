@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "build": "next build",
+    "build.analyze": "ANALYZE=true yarn build",
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 next start",
     "lint": "next lint"
   },
@@ -15,8 +16,6 @@
     "@marbemac/ui-primitives-react": "workspace:*",
     "@marbemac/ui-styles": "workspace:*",
     "@marbemac/ui-theme-next": "workspace:*",
-    "@types/react": "18.2.18",
-    "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
     "next": "13.4.13",
     "postcss": "8.4.27",
@@ -24,5 +23,10 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
     "tailwindcss": "3.3.3"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^13.4.13",
+    "@types/react": "18.2.18",
+    "@types/react-dom": "18.2.7"
   }
 }
