@@ -1,20 +1,19 @@
 'use client';
 
-import type { LabelProps as BLabelProps, LabelSlots } from '@marbemac/ui-styles';
-import { labelStaticClass, labelStyle, splitPropsVariants } from '@marbemac/ui-styles';
+import type { LabelProps as BLabelProps } from '@marbemac/ui-styles';
+import { cx, labelStaticClass, labelStyle, splitPropsVariants } from '@marbemac/ui-styles';
 import * as BaseLabel from '@radix-ui/react-label';
 import { useMemo } from 'react';
 
-import { useStyleProps } from '../../provider.tsx';
 import type { HTMLProps } from '../../types.ts';
 import { forwardRef } from '../../utils/forward-ref.ts';
-import { useMergeThemeProps, useThemeClasses } from '../Themed/utils.ts';
+import { mergeStyleProps } from '../../utils/merge-style-props.ts';
 
 export type LabelRef = React.ElementRef<typeof BaseLabel.Root>;
 export type LabelProps = BLabelProps & HTMLProps<'label'>;
 
 export const Label = forwardRef<LabelRef, LabelProps>((props, ref) => {
-  props = useMergeThemeProps('Label', labelStyle.defaultVariants, props);
+  props = mergeStyleProps(labelStyle.defaultVariants, props);
 
   const [local, variantProps] = splitPropsVariants(props, labelStyle.variantKeys);
 
@@ -26,10 +25,9 @@ export const Label = forwardRef<LabelRef, LabelProps>((props, ref) => {
     [...Object.values(variantProps)],
   );
 
-  const themeTw = useThemeClasses<LabelSlots>('Label', props);
-  const baseTw = slots.base({ class: [themeTw.base, slotClasses?.base] });
+  const baseTw = slots.base({ class: [slotClasses?.base] });
 
-  const rootClass = useStyleProps({ tw: [baseTw, tw], UNSAFE_class: [labelStaticClass('base'), UNSAFE_class] });
+  const rootClass = cx(labelStaticClass('base'), baseTw, tw, UNSAFE_class);
 
   return <BaseLabel.Root className={rootClass} ref={ref} {...others} />;
 });

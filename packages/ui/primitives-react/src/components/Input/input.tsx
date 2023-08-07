@@ -1,18 +1,16 @@
-import type { InputProps as BInputProps, InputSlots } from '@marbemac/ui-styles';
-import { inputStaticClass, inputStyle, splitPropsVariants } from '@marbemac/ui-styles';
+import type { InputProps as BInputProps } from '@marbemac/ui-styles';
+import { cx, inputStaticClass, inputStyle, splitPropsVariants } from '@marbemac/ui-styles';
 import { useMemo } from 'react';
 
-import { useStyleProps } from '../../provider.tsx';
 import type { HTMLProps } from '../../types.ts';
 import { forwardRef } from '../../utils/forward-ref.ts';
+import { mergeStyleProps } from '../../utils/merge-style-props.ts';
 import { Box, BoxRef } from '../Box/index.ts';
 import { Icon } from '../Icon/index.ts';
-import { useMergeThemeProps, useThemeClasses } from '../Themed/utils.ts';
-
 export type InputProps = BInputProps<React.ReactNode> & HTMLProps<'input'>;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  props = useMergeThemeProps('Input', inputStyle.defaultVariants, props);
+  props = mergeStyleProps(inputStyle.defaultVariants, props);
 
   const [local, variantProps] = splitPropsVariants(props, inputStyle.variantKeys);
 
@@ -43,35 +41,34 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     [...Object.values(variantProps), disabled, hasStartIcon, hasEndIcon, hasSection],
   );
 
-  const themeTw = useThemeClasses<InputSlots>('Input', props);
-  const baseTw = slots.base({ class: [themeTw.base, slotClasses?.base] });
-  const inputTw = slots.input({ class: [themeTw.input, slotClasses?.input] });
+  const baseTw = slots.base({ class: [slotClasses?.base] });
+  const inputTw = slots.input({ class: [slotClasses?.input] });
 
-  const rootClass = useStyleProps({ tw: [baseTw, tw], UNSAFE_class: [inputStaticClass('base'), UNSAFE_class] });
+  const rootClass = cx(inputStaticClass('base'), baseTw, tw, UNSAFE_class);
 
   let startElem;
   if (hasStartIcon) {
-    const startIconTw = slots.startIcon({ class: [themeTw.startIcon, slotClasses?.startIcon] });
+    const startIconTw = slots.startIcon({ class: [slotClasses?.startIcon] });
     startElem = (
       <Box tw={startIconTw}>
         <Icon icon={startIcon} fw />
       </Box>
     );
   } else if (hasStartSection) {
-    const startSectionTw = slots.startSection({ class: [themeTw.startSection, slotClasses?.startSection] });
+    const startSectionTw = slots.startSection({ class: [slotClasses?.startSection] });
     startElem = <Box tw={startSectionTw}>{startSection}</Box>;
   }
 
   let endElem;
   if (hasEndIcon) {
-    const endIconTw = slots.endIcon({ class: [themeTw.endIcon, slotClasses?.endIcon] });
+    const endIconTw = slots.endIcon({ class: [slotClasses?.endIcon] });
     endElem = (
       <Box tw={endIconTw}>
         <Icon icon={endIcon} fw />
       </Box>
     );
   } else if (hasEndSection) {
-    const endSectionTw = slots.endSection({ class: [themeTw.endSection, slotClasses?.endSection] });
+    const endSectionTw = slots.endSection({ class: [slotClasses?.endSection] });
     endElem = <Box tw={endSectionTw}>{endSection}</Box>;
   }
 

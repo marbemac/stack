@@ -1,11 +1,10 @@
 import type { IconDefinition, IconLookup, IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
 import { findIconDefinition } from '@fortawesome/fontawesome-svg-core';
-import type { IconProps as BIconProps, IconSlots } from '@marbemac/ui-styles';
+import type { IconProps as BIconProps } from '@marbemac/ui-styles';
 import { iconStaticClass, iconStyle, splitPropsVariants } from '@marbemac/ui-styles';
 import { useMemo } from 'react';
 
 import { Box } from '../Box/index.ts';
-import { useThemeClasses } from '../Themed/utils.ts';
 import { initLibrary } from './standard-library.ts';
 import { FaSvg } from './svg-icon.tsx';
 
@@ -25,8 +24,7 @@ export const Icon = (originalProps: IconProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const slots = useMemo(() => iconStyle(variantProps), [...Object.values(variantProps)]);
 
-  const themeClasses = useThemeClasses<IconSlots>('Icon', props);
-  const rootClass = slots.base({ class: [themeClasses.base, slotClasses?.base] });
+  const baseTw = slots.base({ class: [slotClasses?.base] });
 
   const iconProp = useMemo(() => normalizeIconArgs(icon, DEFAULT_STYLE), [icon]);
   const isComponentIcon = iconProp === IS_ELEMENT;
@@ -36,12 +34,7 @@ export const Icon = (originalProps: IconProps) => {
 
   if (iconDefinition) {
     return (
-      <FaSvg
-        tw={[rootClass, tw]}
-        UNSAFE_class={[iconStaticClass('base'), UNSAFE_class]}
-        icon={iconDefinition}
-        {...rest}
-      />
+      <FaSvg tw={[baseTw, tw]} UNSAFE_class={[iconStaticClass('base'), UNSAFE_class]} icon={iconDefinition} {...rest} />
     );
   }
 
@@ -51,7 +44,7 @@ export const Icon = (originalProps: IconProps) => {
 
   return (
     <Box
-      tw={[rootClass, tw]}
+      tw={[baseTw, tw]}
       UNSAFE_class={[iconStaticClass('base'), UNSAFE_class, ...iconFACX({ ...(iconProp as any), ...variantProps })]}
       as="i"
       role="img"

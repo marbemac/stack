@@ -1,11 +1,10 @@
-import type { StackProps as BStackProps, StackSlots } from '@marbemac/ui-styles';
-import { splitPropsVariants, stackStaticClass, stackStyle } from '@marbemac/ui-styles';
+import type { StackProps as BStackProps } from '@marbemac/ui-styles';
+import { cx, splitPropsVariants, stackStaticClass, stackStyle } from '@marbemac/ui-styles';
 import React, { useMemo } from 'react';
 
-import { useStyleProps } from '../../provider.tsx';
 import { polyRef } from '../../utils/forward-ref.ts';
+import { mergeStyleProps } from '../../utils/merge-style-props.ts';
 import { Box } from '../Box/index.ts';
-import { useMergeThemeProps, useThemeClasses } from '../Themed/utils.ts';
 
 export type StackProps = BStackProps<React.ReactNode> & {
   children: React.ReactNode;
@@ -15,7 +14,7 @@ export type StackProps = BStackProps<React.ReactNode> & {
  * `Stack` makes it easy to stack elements together and apply a space between them.
  */
 export const Stack = polyRef<'div', StackProps>((props, ref) => {
-  props = useMergeThemeProps('Stack', stackStyle.defaultVariants, props);
+  props = mergeStyleProps(stackStyle.defaultVariants, props);
 
   const [local, variantProps] = splitPropsVariants(props, stackStyle.variantKeys);
 
@@ -24,11 +23,10 @@ export const Stack = polyRef<'div', StackProps>((props, ref) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const slots = useMemo(() => stackStyle(variantProps), [...Object.values(variantProps)]);
 
-  const themeClasses = useThemeClasses<StackSlots>('Stack', props);
-  const baseClass = slots.base({ class: [themeClasses.base, slotClasses?.base] });
-  const dividerClass = slots.divider({ class: [themeClasses.divider, slotClasses?.divider] });
+  const baseTw = slots.base({ class: [slotClasses?.base] });
+  const dividerTw = slots.divider({ class: [slotClasses?.divider] });
 
-  const rootClass = useStyleProps({ tw: [baseClass, tw], UNSAFE_class: [stackStaticClass('base'), UNSAFE_class] });
+  const rootClass = cx(stackStaticClass('base'), baseTw, tw, UNSAFE_class);
 
   let clones = children;
   const hasDivider = !!divider;
@@ -40,7 +38,7 @@ export const Stack = polyRef<'div', StackProps>((props, ref) => {
 
       const clonedDivider =
         typeof divider === 'boolean' ? (
-          <Box key="d" tw={dividerClass} />
+          <Box key="d" tw={dividerTw} />
         ) : (
           React.cloneElement(divider as any, { key: 'd' })
         );
