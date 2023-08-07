@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createContext, forwardRef, useContext, useId } from 'react';
 import type { ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -11,7 +11,7 @@ type FormFieldContextValue<
   name: TName;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
+const FormFieldContext = createContext<FormFieldContextValue>({} as FormFieldContextValue);
 
 export const FormField = <
   TFieldValues extends FieldValues = FieldValues,
@@ -27,8 +27,8 @@ export const FormField = <
 };
 
 export const useFormField = () => {
-  const fieldContext = React.useContext(FormFieldContext);
-  const itemContext = React.useContext(FormItemContext);
+  const fieldContext = useContext(FormFieldContext);
+  const itemContext = useContext(FormItemContext);
   const { getFieldState, formState } = useFormContext();
 
   const fieldState = getFieldState(fieldContext.name, formState);
@@ -53,11 +53,11 @@ type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
+const FormItemContext = createContext<FormItemContextValue>({} as FormItemContextValue);
 
-export const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export const FormItem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    const id = React.useId();
+    const id = useId();
 
     return (
       <FormItemContext.Provider value={{ id }}>

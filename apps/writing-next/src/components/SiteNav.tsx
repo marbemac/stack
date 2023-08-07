@@ -5,11 +5,11 @@ import { NavLink } from './NavLink.tsx';
 export const SiteNav = () => {
   return (
     <Box tw="flex flex-col gap-2">
-      <NavLink href="/" exact activeProps={{ className: 'font-bold' }}>
+      <NavLink href="/" twActive="font-bold" exact>
         Home
       </NavLink>
 
-      <NavLink href="/posts" activeProps={{ className: 'font-bold' }}>
+      <NavLink href="/posts" twActive="font-bold">
         Posts
       </NavLink>
 

@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { InsertablePost, Post } from '@libs/db-model/schema';
 import { insertPostSchema } from '@libs/db-model/schema';
+import { Button } from '@marbemac/ui-primitives-react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, Form, useForm } from 'react-hook-form';
@@ -30,9 +31,9 @@ export const AddPostForm = () => {
   };
 
   const submitElem = (
-    <button type="submit" disabled={methods.formState.isSubmitting} className="mr-2">
+    <Button type="submit" disabled={methods.formState.isSubmitting} tw="mr-2" variant="solid">
       {methods.formState.isSubmitting ? 'Adding...' : 'Add Post'}
-    </button>
+    </Button>
   );
 
   return (

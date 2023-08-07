@@ -39,8 +39,8 @@ const PostsList = async () => {
             key={post.id}
             href={`/posts/${post.id}`}
             tw="flex items-center p-4"
-            twInactive="hover:bg-blue-100"
-            twActive="bg-blue-200"
+            twInactive="hover:bg-neutral-subtle"
+            twActive="bg-primary-subtle"
             activeProps={{
               href: '/posts',
             }}
