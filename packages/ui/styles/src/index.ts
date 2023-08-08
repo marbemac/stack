@@ -1,5 +1,4 @@
 export * from './components/index.ts';
-export * from './components-config.ts';
 export { STYLE_PROPS } from './consts.ts';
 export { cx, stylePropsResolver, type TW_STR, tx, txMerge } from './tw.ts';
 export type { SlotProp, StyleProps, StylePropsResolver, TwProp } from './types.ts';
