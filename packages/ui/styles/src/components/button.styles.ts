@@ -87,27 +87,27 @@ export const buttonStyle = tv({
     {
       variant: 'outline',
       intent: 'neutral',
-      class: tx('border-neutral-solid/40 text-neutral-fg'),
+      class: tx('border-input text-neutral'),
     },
     {
       variant: 'outline',
       intent: 'primary',
-      class: tx('border-primary-solid/70 text-primary-fg'),
+      class: tx('border-primary text-primary'),
     },
     {
       variant: 'outline',
       intent: 'success',
-      class: tx('border-success-solid/70 text-success-fg'),
+      class: tx('border-success text-success'),
     },
     {
       variant: 'outline',
       intent: 'warning',
-      class: tx('border-warning-solid/70 text-warning-fg'),
+      class: tx('border-warning text-warning'),
     },
     {
       variant: 'outline',
       intent: 'danger',
-      class: tx('border-danger-solid/70 text-danger-fg'),
+      class: tx('border-danger text-danger'),
     },
 
     // outline / intent / isInteractive
@@ -115,58 +115,58 @@ export const buttonStyle = tv({
       variant: 'outline',
       intent: 'neutral',
       isInteractive: true,
-      class: tx('hover:bg-neutral-subtle active:bg-neutral-subtle-hover'),
+      class: tx('hover:bg-neutral-soft active:bg-neutral-soft-hover'),
     },
     {
       variant: 'outline',
       intent: 'primary',
       isInteractive: true,
-      class: tx('hover:bg-primary-subtle active:bg-primary-subtle-hover'),
+      class: tx('hover:bg-primary-soft active:bg-primary-soft-hover'),
     },
     {
       variant: 'outline',
       intent: 'success',
       isInteractive: true,
-      class: tx('hover:bg-success-subtle active:bg-success-subtle-hover'),
+      class: tx('hover:bg-success-soft active:bg-success-soft-hover'),
     },
     {
       variant: 'outline',
       intent: 'warning',
       isInteractive: true,
-      class: tx('hover:bg-warning-subtle active:bg-warning-subtle-hover'),
+      class: tx('hover:bg-warning-soft active:bg-warning-soft-hover'),
     },
     {
       variant: 'outline',
       intent: 'danger',
       isInteractive: true,
-      class: tx('hover:bg-danger-subtle active:bg-danger-subtle-hover'),
+      class: tx('hover:bg-danger-soft active:bg-danger-soft-hover'),
     },
 
     // solid / intent
     {
       variant: 'solid',
       intent: 'neutral',
-      class: tx('bg-neutral-solid text-on-neutral'),
+      class: tx('bg-neutral text-on-neutral'),
     },
     {
       variant: 'solid',
       intent: 'primary',
-      class: tx('bg-primary-solid text-on-primary'),
+      class: tx('bg-primary text-on-primary'),
     },
     {
       variant: 'solid',
       intent: 'success',
-      class: tx('bg-success-solid text-on-success'),
+      class: tx('bg-success text-on-success'),
     },
     {
       variant: 'solid',
       intent: 'warning',
-      class: tx('bg-warning-solid text-on-warning'),
+      class: tx('bg-warning text-on-warning'),
     },
     {
       variant: 'solid',
       intent: 'danger',
-      class: tx('bg-danger-solid text-on-danger'),
+      class: tx('bg-danger text-on-danger'),
     },
 
     // solid / intent / isInteractive
@@ -174,58 +174,58 @@ export const buttonStyle = tv({
       variant: 'solid',
       intent: 'neutral',
       isInteractive: true,
-      class: tx('hover:bg-neutral-solid-hover active:bg-neutral-solid-active'),
+      class: tx('hover:bg-neutral-hover active:bg-neutral-active'),
     },
     {
       variant: 'solid',
       intent: 'primary',
       isInteractive: true,
-      class: tx('hover:bg-primary-solid-hover active:bg-primary-solid-active'),
+      class: tx('hover:bg-primary-hover active:bg-primary-active'),
     },
     {
       variant: 'solid',
       intent: 'success',
       isInteractive: true,
-      class: tx('hover:bg-success-solid-hover active:bg-success-solid-active'),
+      class: tx('hover:bg-success-hover active:bg-success-active'),
     },
     {
       variant: 'solid',
       intent: 'warning',
       isInteractive: true,
-      class: tx('hover:bg-warning-solid-hover active:bg-warning-solid-active'),
+      class: tx('hover:bg-warning-hover active:bg-warning-active'),
     },
     {
       variant: 'solid',
       intent: 'danger',
       isInteractive: true,
-      class: tx('hover:bg-danger-solid-hover active:bg-danger-solid-active'),
+      class: tx('hover:bg-danger-hover active:bg-danger-active'),
     },
 
     // soft / intent
     {
       variant: 'soft',
       intent: 'neutral',
-      class: tx('bg-neutral-subtle text-neutral-fg'),
+      class: tx('bg-neutral-soft text-neutral'),
     },
     {
       variant: 'soft',
       intent: 'primary',
-      class: tx('bg-primary-subtle text-primary-fg'),
+      class: tx('bg-primary-soft text-primary'),
     },
     {
       variant: 'soft',
       intent: 'success',
-      class: tx('bg-success-subtle text-success-fg'),
+      class: tx('bg-success-soft text-success'),
     },
     {
       variant: 'soft',
       intent: 'warning',
-      class: tx('bg-warning-subtle text-warning-fg'),
+      class: tx('bg-warning-soft text-warning'),
     },
     {
       variant: 'soft',
       intent: 'danger',
-      class: tx('bg-danger-subtle text-danger-fg'),
+      class: tx('bg-danger-soft text-danger'),
     },
 
     // soft / intent / isInteractive
@@ -233,58 +233,58 @@ export const buttonStyle = tv({
       variant: 'soft',
       intent: 'neutral',
       isInteractive: true,
-      class: tx('hover:bg-neutral-subtle-hover active:bg-neutral-subtle-active'),
+      class: tx('hover:bg-neutral-soft-hover active:bg-neutral-soft-active'),
     },
     {
       variant: 'soft',
       intent: 'primary',
       isInteractive: true,
-      class: tx('hover:bg-primary-subtle-hover active:bg-primary-subtle-active'),
+      class: tx('hover:bg-primary-soft-hover active:bg-primary-soft-active'),
     },
     {
       variant: 'soft',
       intent: 'success',
       isInteractive: true,
-      class: tx('hover:bg-success-subtle-hover active:bg-success-subtle-active'),
+      class: tx('hover:bg-success-soft-hover active:bg-success-soft-active'),
     },
     {
       variant: 'soft',
       intent: 'warning',
       isInteractive: true,
-      class: tx('hover:bg-warning-subtle-hover active:bg-warning-subtle-active'),
+      class: tx('hover:bg-warning-soft-hover active:bg-warning-soft-active'),
     },
     {
       variant: 'soft',
       intent: 'danger',
       isInteractive: true,
-      class: tx('hover:bg-danger-subtle-hover active:bg-danger-subtle-active'),
+      class: tx('hover:bg-danger-soft-hover active:bg-danger-soft-active'),
     },
 
     // ghost / intent
     {
       variant: 'ghost',
       intent: 'neutral',
-      class: tx('text-neutral-fg'),
+      class: tx('text-neutral'),
     },
     {
       variant: 'ghost',
       intent: 'primary',
-      class: tx('text-primary-fg'),
+      class: tx('text-primary'),
     },
     {
       variant: 'ghost',
       intent: 'success',
-      class: tx('text-success-fg'),
+      class: tx('text-success'),
     },
     {
       variant: 'ghost',
       intent: 'warning',
-      class: tx('text-warning-fg'),
+      class: tx('text-warning'),
     },
     {
       variant: 'ghost',
       intent: 'danger',
-      class: tx('text-danger-fg'),
+      class: tx('text-danger'),
     },
 
     // ghost / intent / isInteractive
@@ -292,31 +292,31 @@ export const buttonStyle = tv({
       variant: 'ghost',
       intent: 'neutral',
       isInteractive: true,
-      class: tx('hover:bg-neutral-subtle active:bg-neutral-subtle-hover'),
+      class: tx('hover:bg-neutral-soft active:bg-neutral-soft-hover'),
     },
     {
       variant: 'ghost',
       intent: 'primary',
       isInteractive: true,
-      class: tx('hover:bg-primary-subtle active:bg-primary-subtle-hover'),
+      class: tx('hover:bg-primary-soft active:bg-primary-soft-hover'),
     },
     {
       variant: 'ghost',
       intent: 'success',
       isInteractive: true,
-      class: tx('hover:bg-success-subtle active:bg-success-subtle-hover'),
+      class: tx('hover:bg-success-soft active:bg-success-soft-hover'),
     },
     {
       variant: 'ghost',
       intent: 'warning',
       isInteractive: true,
-      class: tx('hover:bg-warning-subtle active:bg-warning-subtle-hover'),
+      class: tx('hover:bg-warning-soft active:bg-warning-soft-hover'),
     },
     {
       variant: 'ghost',
       intent: 'danger',
       isInteractive: true,
-      class: tx('hover:bg-danger-subtle active:bg-danger-subtle-hover'),
+      class: tx('hover:bg-danger-soft active:bg-danger-soft-hover'),
     },
   ],
 });

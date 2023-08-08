@@ -7,7 +7,7 @@ export const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTML
   ({ className, ...props }, ref) => {
     const { formDescriptionId } = useFormField();
 
-    return <BoxRef ref={ref} id={formDescriptionId} tw="text-sm text-fg-muted" {...props} />;
+    return <BoxRef ref={ref} id={formDescriptionId} tw="text-sm text-muted" {...props} />;
   },
 );
 

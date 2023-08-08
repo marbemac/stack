@@ -34,7 +34,6 @@
     "@storybook/addon-essentials": "^7.2.1",
     "@storybook/addon-interactions": "^7.2.1",
     "@storybook/addon-links": "^7.2.1",
-    "@storybook/addon-styling": "",
     "@storybook/blocks": "^7.2.1",
     "@storybook/builder-vite": "^7.2.1",
     "@storybook/react": "^7.2.1",

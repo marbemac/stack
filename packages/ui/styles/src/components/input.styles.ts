@@ -8,13 +8,13 @@ import { makeStaticClass } from '../utils/make-static-class.ts';
 import { formSizes } from '../utils/size.ts';
 
 const inputStyles = tx(
-  'w-full appearance-none border',
-  'placeholder:text-fg-muted',
+  'w-full appearance-none border border-input',
+  'bg-transparent placeholder:text-muted',
   'disabled:cursor-not-allowed disabled:opacity-50',
   inputFocusStyles,
 );
 
-const baseIconStyles = tx('pointer-events-none absolute inset-y-0 flex items-center justify-center text-fg-muted');
+const baseIconStyles = tx('pointer-events-none absolute inset-y-0 flex items-center justify-center text-muted');
 
 export const inputStyle = tv({
   slots: {
@@ -37,7 +37,7 @@ export const inputStyle = tv({
     variant: {
       outline: {},
       ghost: {
-        input: tx('border-transparent'),
+        input: tx('border-transparent hover:border-input'),
       },
     },
 

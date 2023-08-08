@@ -6,6 +6,7 @@ import type { Config } from 'tailwindcss';
 export default {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './.storybook/preview.tsx',
 
     path.join(path.dirname(require.resolve('@marbemac/ui-styles')), '**/*.ts'),
   ],

@@ -9,7 +9,7 @@ import {
   redFromArgb,
   TonalPalette,
 } from '@material/material-color-utilities';
-import { getLuminance, parseToRgba, rgba, saturate, toHex, transparentize } from 'color2k';
+import { getLuminance, parseToRgba, rgba, toHex, transparentize } from 'color2k';
 import deepmerge from 'deepmerge';
 
 import { INTENTS } from './consts.ts';
@@ -163,14 +163,14 @@ const computeFgColors = ({
 }): Record<FgFoundation, RgbaColor> => ({
   default: parseToRgba(textColor),
   muted: parseToRgba(transparentize(textColor, 0.45)),
-  subtle: parseToRgba(transparentize(textColor, 0.65)),
+  soft: parseToRgba(transparentize(textColor, 0.65)),
   'on-solid': parseToRgba(transparentize(bgColor, 0.1)),
 });
 
 const computeBorderColors = ({ textColor }: { textColor: string }): Record<BorderFoundation, RgbaColor> => ({
   default: parseToRgba(transparentize(textColor, 0.75)),
   muted: parseToRgba(transparentize(textColor, 0.85)),
-  subtle: parseToRgba(transparentize(textColor, 0.9)),
+  soft: parseToRgba(transparentize(textColor, 0.9)),
   emphasis: parseToRgba(textColor),
 });
 
@@ -194,7 +194,7 @@ const computeCanvasColors = ({
   return {
     inset: rgbaFromArgb(tones.tone(isDark ? baseTone - 5 : baseTone - 6)),
     default: rgbaFromArgb(tones.tone(baseTone)),
-    subtle: rgbaFromArgb(tones.tone(isDark ? baseTone + 5 : baseTone - 5)),
+    soft: rgbaFromArgb(tones.tone(isDark ? baseTone + 5 : baseTone - 5)),
     overlay: rgbaFromArgb(tones.tone(isDark ? 10 : 98)),
     emphasis: rgbaFromArgb(tones.tone(isDark ? 85 : 20)),
   };
@@ -222,23 +222,23 @@ const computeIntentColors = <I extends Intent>(
 
   const solid = hexFromArgb(tones.tone(baseTone));
   const fgOnSolid = readableColor(solid, { preferred: 'white', fallback: bgColor });
-  const fgOnNeutral = readableColor(textColor, {
-    preferred: saturate(hexFromArgb(tones.tone(isDark ? 45 : 25)), 0.5),
-    fallback: fgOnSolid,
-  });
+  // const fgOnNeutral = readableColor(textColor, {
+  //   preferred: saturate(hexFromArgb(tones.tone(isDark ? 45 : 25)), 0.5),
+  //   fallback: fgOnSolid,
+  // });
 
   const solidHover = mix(fgOnSolid, solid, 0.12);
   const solidActive = mix(fgOnSolid, solid, 0.2);
   const solidGradient = rgbaFromArgb(tones.tone(isDark ? 50 : 50));
 
-  const subtleChroma = isDark ? guard(10, 100, chroma * 0.9) : guard(0, 80, chroma);
-  const subtleTones = TonalPalette.fromHueAndChroma(hue, subtleChroma);
-  const subtleTone = isDark ? guard(65, 80, baseTone) : guard(40, 90, baseTone);
-  const subtleBaseColor = hexFromArgb(subtleTones.tone(subtleTone));
+  const softChroma = isDark ? guard(10, 100, chroma * 0.9) : guard(0, 80, chroma);
+  const softTones = TonalPalette.fromHueAndChroma(hue, softChroma);
+  const softTone = isDark ? guard(65, 80, baseTone) : guard(40, 90, baseTone);
+  const softBaseColor = hexFromArgb(softTones.tone(softTone));
 
-  const subtle = mix(subtleBaseColor, bgColor, 0.14);
-  const subtleHover = mix(subtleBaseColor, bgColor, 0.2);
-  const subtleActive = mix(subtleBaseColor, bgColor, 0.3);
+  const soft = mix(softBaseColor, bgColor, 0.12);
+  const softHover = mix(softBaseColor, bgColor, 0.18);
+  const softActive = mix(softBaseColor, bgColor, 0.28);
 
   return {
     [`${intent}-fg`]: fg,
@@ -246,10 +246,10 @@ const computeIntentColors = <I extends Intent>(
     [`${intent}-solid-hover`]: parseToRgba(solidHover),
     [`${intent}-solid-active`]: parseToRgba(solidActive),
     [`${intent}-solid-gradient`]: solidGradient,
-    [`${intent}-subtle`]: parseToRgba(subtle),
-    [`${intent}-subtle-hover`]: parseToRgba(subtleHover),
-    [`${intent}-subtle-active`]: parseToRgba(subtleActive),
+    [`${intent}-soft`]: parseToRgba(soft),
+    [`${intent}-soft-hover`]: parseToRgba(softHover),
+    [`${intent}-soft-active`]: parseToRgba(softActive),
     [`on-${intent}`]: parseToRgba(fgOnSolid),
-    [`${intent}-on-neutral`]: parseToRgba(fgOnNeutral),
+    // [`${intent}-on-neutral`]: parseToRgba(fgOnNeutral),
   } as Record<IntentColor<I>, RgbaColor>;
 };

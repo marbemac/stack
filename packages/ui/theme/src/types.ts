@@ -20,10 +20,10 @@ export type Theme = {
     text: Color; // Body foreground color
     background: Color; // Body background color, the background hue is used to derive a few other colors
     primary: Color; // Primary brand color for links, buttons, etc.
-    secondary: Color; // A secondary brand color for alternative styling
+    // secondary: Color; // A secondary brand color for alternative styling
     // accent: Color; // A contrast color for emphasizing UI
     // highlight: Color; // A background color for highlighting text
-    muted: Color; // A faint color for backgrounds, borders, and accents that do not require high contrast with the background color
+    // muted: Color; // A faint color for backgrounds, borders, and accents that do not require high contrast with the background color
 
     success: Color;
     warning: Color;
@@ -43,15 +43,15 @@ export type CustomTheme = {
  */
 
 export type FgPrefix = 'fg';
-export type FgFoundation = 'default' | 'muted' | 'subtle' | 'on-solid';
+export type FgFoundation = 'default' | 'muted' | 'soft' | 'on-solid';
 export type FgColor = `${FgPrefix}-${FgFoundation}`;
 
 export type CanvasPrefix = 'canvas';
-export type CanvasFoundation = 'default' | 'overlay' | 'inset' | 'subtle' | 'emphasis';
+export type CanvasFoundation = 'default' | 'overlay' | 'inset' | 'soft' | 'emphasis';
 export type CanavasColor = `${CanvasPrefix}-${CanvasFoundation}`;
 
 export type BorderPrefix = 'border';
-export type BorderFoundation = 'default' | 'muted' | 'subtle' | 'emphasis';
+export type BorderFoundation = 'default' | 'muted' | 'soft' | 'emphasis';
 export type BorderColor = `${BorderPrefix}-${BorderFoundation}`;
 
 export type ColorPrefix = FgPrefix | CanvasPrefix | BorderPrefix;
@@ -63,10 +63,10 @@ export type IntentFoundation =
   | 'solid-hover'
   | 'solid-active'
   | 'solid-gradient'
-  | 'subtle'
-  | 'subtle-hover'
-  | 'subtle-active';
-export type IntentColor<I extends Intent = Intent> = `${I}-${IntentFoundation}` | `on-${I}` | `${I}-on-neutral`;
+  | 'soft'
+  | 'soft-hover'
+  | 'soft-active';
+export type IntentColor<I extends Intent = Intent> = `${I}-${IntentFoundation}` | `on-${I}`;
 
 export type ThemeColorVariable = FgColor | CanavasColor | BorderColor | IntentColor;
 

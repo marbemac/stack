@@ -13,7 +13,7 @@ export const FormError = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
     }
 
     return (
-      <BoxRef ref={ref} id={formMessageId} tw="text-sm text-danger-solid" {...props}>
+      <BoxRef ref={ref} id={formMessageId} tw="text-sm text-danger" {...props}>
         {body}
       </BoxRef>
     );

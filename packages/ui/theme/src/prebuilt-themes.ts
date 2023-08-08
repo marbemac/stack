@@ -26,8 +26,8 @@ const defaultLightColors = {
   text: '#121826',
   background: '#FFF',
   primary: '#1AABFF',
-  secondary: '#121826',
-  muted: '#94abcc',
+  // secondary: '#121826',
+  // muted: '#94abcc',
   success: '#05b870',
   warning: '#f46d2a',
   danger: '#f05151',
@@ -37,8 +37,8 @@ const defaultDarkColors = {
   text: '#eee4f6',
   background: '#18141f',
   primary: '#9166cc',
-  secondary: '#1aabff',
-  muted: 'hsl(274, 60%, 80%)',
+  // secondary: '#1aabff',
+  // muted: 'hsl(274, 60%, 80%)',
   success: 'hsl(156, 60%, 35%)',
   warning: 'hsl(20, 60%, 52%)',
   danger: 'hsl(0, 65%, 60%)',
@@ -61,8 +61,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#f8f8f2',
       background: '#272935',
       primary: '#ff79c6',
-      secondary: '#50fa7b', // TODO
-      muted: '#353842',
+      // secondary: '#50fa7b', // TODO
+      // muted: '#353842',
       success: 'hsl(135, 94%, 65%)',
       warning: 'hsl(31, 100%, 71%)',
       danger: 'hsl(0, 100%, 67%)',
@@ -74,8 +74,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#2d1f03',
       background: '#faf8f5',
       primary: '#8a681c',
-      secondary: '#8c6b20', // TODO
-      muted: '#e1ddd3',
+      // secondary: '#8c6b20', // TODO
+      // muted: '#e1ddd3',
       success: 'hsl(156, 95%, 37%)',
       warning: 'hsl(20, 90%, 56%)',
       danger: 'hsl(0, 84%, 63%)',
@@ -88,8 +88,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#d4d0e8',
       background: '#2a2734',
       primary: '#ffcc99',
-      secondary: '#9a86fd', // TODO
-      muted: '#373440',
+      // secondary: '#9a86fd', // TODO
+      // muted: '#373440',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -102,8 +102,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#fff',
       background: '#000',
       primary: '#2F6EEB',
-      secondary: '#FFCB6B', // TODO
-      muted: '#333e45',
+      // secondary: '#FFCB6B', // TODO
+      // muted: '#333e45',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -116,8 +116,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#E9EDED',
       background: '#263238',
       primary: '#C792EA',
-      secondary: '#FFCB6B', // TODO
-      muted: '#333e45',
+      // secondary: '#FFCB6B', // TODO
+      // muted: '#333e45',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -130,8 +130,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#f8f8f2',
       background: '#272822',
       primary: '#f92672',
-      secondary: '#a6e22e', // TODO
-      muted: '#333330',
+      // secondary: '#a6e22e', // TODO
+      // muted: '#333330',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -144,8 +144,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#c8cfdc',
       background: '#011627',
       primary: '#c792ea',
-      secondary: '#F78C6C', // TODO
-      muted: '#03243e',
+      // secondary: '#F78C6C', // TODO
+      // muted: '#03243e',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -158,8 +158,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#d8dee9',
       background: '#2F343F',
       primary: '#81A1C1',
-      secondary: '#8FBCBB', // TODO
-      muted: '#3c414b',
+      // secondary: '#8FBCBB', // TODO
+      // muted: '#3c414b',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -171,8 +171,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#383a42',
       background: '#FAFAFA',
       primary: '#a626a4',
-      secondary: '#d19a66', // TODO
-      muted: '#dbdbdc',
+      // secondary: '#d19a66', // TODO
+      // muted: '#dbdbdc',
       success: 'hsl(156, 95%, 37%)',
       warning: 'hsl(20, 90%, 56%)',
       danger: 'hsl(0, 84%, 63%)',
@@ -185,8 +185,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#cad3e5',
       background: '#282c34',
       primary: '#c678dd',
-      secondary: '#d19a66', // TODO
-      muted: '#363940',
+      // secondary: '#d19a66', // TODO
+      // muted: '#363940',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -198,8 +198,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#073642',
       background: '#fdf6e3',
       primary: '#cb4b16',
-      secondary: '#2aa198', // TODO
-      muted: '#eee8d5',
+      // secondary: '#2aa198', // TODO
+      // muted: '#eee8d5',
       success: 'hsl(156, 95%, 37%)',
       warning: 'hsl(20, 90%, 56%)',
       danger: 'hsl(0, 84%, 63%)',
@@ -212,8 +212,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#9fb2b5',
       background: '#002b36',
       primary: '#cb4b16',
-      secondary: '#2aa198', // TODO
-      muted: '#013e4e',
+      // secondary: '#2aa198', // TODO
+      // muted: '#013e4e',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -226,8 +226,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#D4D4D4',
       background: '#1E1E1E',
       primary: '#C586C0',
-      secondary: '#d19a66', // TODO
-      muted: '#2b2b2b',
+      // secondary: '#d19a66', // TODO
+      // muted: '#2b2b2b',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -239,8 +239,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#012339',
       background: '#fff',
       primary: '#236ebf',
-      secondary: '#a44185', // TODO
-      muted: '#e0ecf1',
+      // secondary: '#a44185', // TODO
+      // muted: '#e0ecf1',
       success: 'hsl(156, 95%, 37%)',
       warning: 'hsl(20, 90%, 56%)',
       danger: 'hsl(0, 84%, 63%)',
@@ -253,8 +253,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#d5deeb',
       background: '#001627',
       primary: '#00bff8',
-      secondary: '#c792eb', // TODO
-      muted: '#02243f',
+      // secondary: '#c792eb', // TODO
+      // muted: '#02243f',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',
@@ -267,8 +267,8 @@ export const PREBUILT_THEMES: PrebuiltThemes = {
       text: '#fff',
       background: '#6638f0',
       primary: '#fff',
-      secondary: '#F174FB', // TODO
-      muted: '#02243f',
+      // secondary: '#F174FB', // TODO
+      // muted: '#02243f',
       success: 'hsl(156, 60%, 35%)',
       warning: 'hsl(20, 60%, 52%)',
       danger: 'hsl(0, 65%, 60%)',

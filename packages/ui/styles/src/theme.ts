@@ -9,19 +9,19 @@ const colorWithOpacity = <N extends string>(name: N, group?: ColorGroup) =>
     group ? `var(--tw-${group}-opacity, 1)` : '<alpha-value>'
   }))`;
 
-const computeIntentColors = <I extends Intent>(intent: I, group: ColorGroup): Record<string, string> => ({
-  [`${intent}-solid`]: colorWithOpacity<IntentColor>(`${intent}-solid`, group),
-  [`${intent}-solid-hover`]: colorWithOpacity<IntentColor>(`${intent}-solid-hover`, group),
-  [`${intent}-solid-active`]: colorWithOpacity<IntentColor>(`${intent}-solid-active`, group),
-  [`${intent}-solid-gradient`]: colorWithOpacity<IntentColor>(`${intent}-solid-gradient`, group),
-  [`${intent}-subtle`]: colorWithOpacity<IntentColor>(`${intent}-subtle`, group),
-  [`${intent}-subtle-hover`]: colorWithOpacity<IntentColor>(`${intent}-subtle-hover`, group),
-  [`${intent}-subtle-active`]: colorWithOpacity<IntentColor>(`${intent}-subtle-active`, group),
+const computeIntentColors = <I extends Intent>(intent: I, group?: ColorGroup): Record<string, string> => ({
+  [`${intent}`]: colorWithOpacity<IntentColor>(`${intent}-solid`, group),
+  [`${intent}-hover`]: colorWithOpacity<IntentColor>(`${intent}-solid-hover`, group),
+  [`${intent}-active`]: colorWithOpacity<IntentColor>(`${intent}-solid-active`, group),
+  // [`${intent}-gradient`]: colorWithOpacity<IntentColor>(`${intent}-solid-gradient`, group),
+  [`${intent}-soft`]: colorWithOpacity<IntentColor>(`${intent}-soft`, group),
+  [`${intent}-soft-hover`]: colorWithOpacity<IntentColor>(`${intent}-soft-hover`, group),
+  [`${intent}-soft-active`]: colorWithOpacity<IntentColor>(`${intent}-soft-active`, group),
   [`on-${intent}`]: colorWithOpacity<IntentColor>(`on-${intent}`, group),
-  [`${intent}-on-neutral`]: colorWithOpacity<IntentColor>(`${intent}-on-neutral`, group),
+  // [`${intent}-on-neutral`]: colorWithOpacity<IntentColor>(`${intent}-on-neutral`, group),
 });
 
-const commonColors = (group: ColorGroup) => {
+const commonColors = (group?: ColorGroup) => {
   const intentColors: Record<string, string> = {};
 
   for (const r of INTENTS) {
@@ -44,14 +44,15 @@ const textColors = () => {
   const intentColors: Record<string, string> = {};
 
   for (const r of INTENTS) {
-    intentColors[`${r}-fg`] = colorWithOpacity(`${r}-fg`, 'text');
+    intentColors[`${r}`] = colorWithOpacity<IntentColor>(`${r}-fg`, 'text');
+    intentColors[`on-${r}`] = colorWithOpacity<IntentColor>(`on-${r}`, 'text');
   }
 
   return {
     fg: colorWithOpacity<FgColor>('fg-default', 'text'),
-    'fg-muted': colorWithOpacity<FgColor>('fg-muted', 'text'),
-    'fg-subtle': colorWithOpacity<FgColor>('fg-subtle', 'text'),
-    'fg-on-solid': colorWithOpacity<FgColor>('fg-on-solid', 'text'),
+    muted: colorWithOpacity<FgColor>('fg-muted', 'text'),
+    soft: colorWithOpacity<FgColor>('fg-soft', 'text'),
+    'on-emphasis': colorWithOpacity<FgColor>('fg-on-solid', 'text'),
 
     ...intentColors,
   };
@@ -60,24 +61,25 @@ const textColors = () => {
 const backgroundColors = () => {
   return {
     canvas: colorWithOpacity<CanavasColor>('canvas-default', 'bg'),
-    'canvas-overlay': colorWithOpacity<CanavasColor>('canvas-overlay', 'bg'),
-    'canvas-inset': colorWithOpacity<CanavasColor>('canvas-inset', 'bg'),
-    'canvas-subtle': colorWithOpacity<CanavasColor>('canvas-subtle', 'bg'),
-    'canvas-emphasis': colorWithOpacity<CanavasColor>('canvas-emphasis', 'bg'),
+    // 'canvas-overlay': colorWithOpacity<CanavasColor>('canvas-overlay', 'bg'),
+    surface: colorWithOpacity<CanavasColor>('canvas-soft', 'bg'),
+    'surface-inset': colorWithOpacity<CanavasColor>('canvas-inset', 'bg'),
+    // 'canvas-emphasis': colorWithOpacity<CanavasColor>('canvas-emphasis', 'bg'),
   };
 };
 
 const borderColors = () => {
   return {
     DEFAULT: colorWithOpacity<BorderColor>('border-default', 'border'),
+    input: colorWithOpacity<BorderColor>('border-default', 'border'),
     muted: colorWithOpacity<BorderColor>('border-muted', 'border'),
-    subtle: colorWithOpacity<BorderColor>('border-subtle', 'border'),
-    emphasis: colorWithOpacity<BorderColor>('border-emphasis', 'border'),
+    // soft: colorWithOpacity<BorderColor>('border-soft', 'border'),
+    // emphasis: colorWithOpacity<BorderColor>('border-emphasis', 'border'),
   };
 };
 
 const textColor = {
-  ...commonColors('text'),
+  // ...commonColors('text'),
   ...textColors(),
 };
 
@@ -235,7 +237,7 @@ export const themeObj: Config['theme'] = {
   borderColor,
   borderRadius,
   boxShadow,
-  colors: backgroundColor,
+  colors: commonColors(),
   // dropShadow,
   fontFamily,
 
