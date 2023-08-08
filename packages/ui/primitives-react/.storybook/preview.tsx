@@ -1,28 +1,28 @@
+import '../src/tailwind.css';
+
 import * as React from 'react';
 import { PREBUILT_THEMES } from '@marbemac/ui-theme';
 import type { Decorator, Preview } from '@storybook/react';
-import { createStylePropsResolver, createTwind } from '@marbemac/ui-twind';
 import { withPerformance } from 'storybook-addon-performance';
+import { generateTheme } from '@marbemac/ui-theme';
 
 // @ts-expect-error bah
-import { PrimitivesProvider, Themed } from '../src/index.ts';
-
-const twind = createTwind();
+import { Box, ThemedGlobalInner } from '../src/index.ts';
 
 const withTheme: Decorator = (Story, context) => {
   const themeId = context.globals.themeId;
+  const generatedTheme = generateTheme(themeId);
 
   return (
-    <PrimitivesProvider stylePropResolver={createStylePropsResolver(twind)}>
-      <Themed
-        // force unmount/remount for purposes of storybook
-        key={themeId}
-        defaultThemeId={themeId}
-        tw="absolute inset-0 overflow-auto flex items-center justify-center font-ui"
-      >
+    <ThemedGlobalInner
+      // force unmount/remount for purposes of storybook
+      key={themeId}
+      generatedTheme={generatedTheme}
+    >
+      <Box tw="absolute inset-0 overflow-auto flex items-center justify-center font-ui">
         <Story />
-      </Themed>
-    </PrimitivesProvider>
+      </Box>
+    </ThemedGlobalInner>
   );
 };
 
