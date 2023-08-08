@@ -1,3 +1,4 @@
+import { Box } from '@marbemac/ui-primitives-react';
 import type { ReactNode } from 'react';
 
 import { AddPostForm } from '~/components/forms/AddPostForm.tsx';
@@ -10,15 +11,15 @@ export default async function PostsLayout({ children }: { children: ReactNode })
   console.log('PostsLayout.render');
 
   return (
-    <div className="flex min-h-screen w-full divide-x">
-      <div className="flex flex-1 flex-col divide-y">
+    <Box tw="flex min-h-screen w-full divide-x">
+      <Box tw="flex flex-1 flex-col divide-y">
         <AddPostForm />
 
         <PostsList />
-      </div>
+      </Box>
 
-      <div className="flex-1">{children}</div>
-    </div>
+      <Box tw="flex-1">{children}</Box>
+    </Box>
   );
 }
 
@@ -39,16 +40,14 @@ const PostsList = async () => {
             key={post.id}
             href={`/posts/${post.id}`}
             tw="flex items-center p-4"
-            twInactive="hover:bg-neutral-subtle"
-            twActive="bg-primary-subtle"
+            twInactive="hover:bg-neutral-soft"
+            twActive="bg-primary-soft"
             activeProps={{
               href: '/posts',
             }}
           >
-            <div className="flex-1 font-medium">{post.title}</div>
-            {post.isDraft ? (
-              <div className="rounded border px-1 py-0.5 text-xs uppercase text-fg-muted">draft</div>
-            ) : null}
+            <Box tw="flex-1 font-medium">{post.title}</Box>
+            {post.isDraft ? <Box tw="rounded border px-1 py-0.5 text-xs uppercase text-muted">draft</Box> : null}
           </NavLink>
         );
       })}

@@ -22,17 +22,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <Box as="html" lang="en" tw="min-h-screen">
-      <body className={`min-h-screen flex ${inter.className}`}>
+      <Box as="body" tw="flex min-h-screen" UNSAFE_class={inter.className}>
         <StyledJsxRegistry>
           <ThemedGlobal>
-            <div className="w-32 border-r p-4">
+            <Box tw="w-32 border-r p-4">
               <SiteNav />
-            </div>
+            </Box>
 
             {children}
           </ThemedGlobal>
         </StyledJsxRegistry>
-      </body>
+      </Box>
     </Box>
   );
 }

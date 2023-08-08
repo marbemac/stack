@@ -1,4 +1,5 @@
 import type { TPostId } from '@libs/db-model/ids';
+import { Box } from '@marbemac/ui-primitives-react';
 import { Themed } from '@marbemac/ui-theme-next';
 
 import { ToggleTheme } from '~/components/ToggleTheme.tsx';
@@ -10,7 +11,7 @@ export default async function Post({ params }: { params: { postId: TPostId } }) 
   const post = await getPost(params.postId);
 
   return (
-    <div className="flex flex-1 flex-col divide-y">
+    <Box tw="flex flex-1 flex-col divide-y">
       {/* <HStack className="h-16 items-center justify-end px-8" spacing={4}>
         <ToggleDraft postId={props.post.id} isDraft={props.post.isDraft} />
         <DeletePostButton
@@ -21,11 +22,11 @@ export default async function Post({ params }: { params: { postId: TPostId } }) 
         />
       </HStack> */}
 
-      <div className="p-8">
-        <div className="flex flex-col gap-4">
+      <Box tw="p-8">
+        <Box tw="flex flex-col gap-4">
           <Themed theme="default_dark">
             <h1 className="text-2xl font-semibold">{post.title}</h1>
-            <div>{post.content}</div>
+            <Box>{post.content}</Box>
           </Themed>
 
           {/* <Link to="/posts/$postId/edit" params={{ postId: props.post.id }}>
@@ -33,8 +34,8 @@ export default async function Post({ params }: { params: { postId: TPostId } }) 
           </Link> */}
 
           <ToggleTheme />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }

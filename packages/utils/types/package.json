@@ -10,6 +10,6 @@
     "typecheck": "tsc"
   },
   "devDependencies": {
-    "type-fest": "^4.1.0"
+    "type-fest": "^4.2.0"
   }
 }
