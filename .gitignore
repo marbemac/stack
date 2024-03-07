@@ -10,16 +10,10 @@ out-tsc
 .cache
 .wrangler
 storybook-static
-
-# next.js
-.next
-
-# vercel
-.vercel
+.nx
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # dependencies
 node_modules
@@ -49,18 +43,15 @@ node_modules
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-.no-checkin
-
 # System Files
 .DS_Store
 Thumbs.db
+
+# misc
+/coverage
+yarn-error.log
+.no-checkin
+/yarn.build-error.log
 
 .env*
 .flaskenv*

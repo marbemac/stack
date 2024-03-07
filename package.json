@@ -1,16 +1,19 @@
 {
-  "name": "marbemac-stack",
+  "name": "@marbemac/root",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "yarn@4.0.0-rc.48",
+  "packageManager": "yarn@4.1.0",
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "workspaces": {
     "packages": [
-      "apps/*",
-      "libs/*",
-      "packages/*/*"
+      "packages/configs/*",
+      "packages/db/*",
+      "packages/domains/*/*",
+      "packages/server/*",
+      "packages/ui/*",
+      "packages/utils/*"
     ]
   },
   "scripts": {
@@ -19,33 +22,31 @@
     "upgrade-nx": "nx migrate latest && nx migrate --run-migrations",
     "check-constraints": "yarn constraints",
     "doctor": "yarn dlx @yarnpkg/doctor",
-    "graph": "nx graph",
     "--dev--": "",
+    "dev": "nx run-many --target dev --output-style stream",
+    "graph": "nx graph",
     "clean": "rm -r **/node_modules && rm -r **/dist && rm -r **/build",
-    "down": "yarn docker.down",
-    "nuke": "yarn docker.nuke",
-    "docker.down": "docker-compose down --remove-orphans",
-    "docker.nuke": "yarn down -v",
-    "docker.up": "docker-compose up -d",
-    "--checks--": "",
+    "codegen": "nx run-many --target codegen",
+    "storybook": "yarn workspace @marbemac/ui-primitives storybook",
     "lint": "nx run-many --target lint",
     "lint.fix": "yarn lint --fix && prettier --ignore-path .eslintignore --write \"**/*.{ts,tsx}\";",
     "test": "nx run-many --target test",
     "typecheck": "nx run-many --target typecheck"
   },
   "resolutions": {
-    "@material/material-color-utilities": "file:.yalc/@material/material-color-utilities",
-    "@solidjs/router": "file:.yalc/@solidjs/router"
+    "@noble/hashes": "~1.2.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230807.0",
-    "@marbemac/eslint-config": "workspace:*",
-    "@marbemac/tsconfig": "workspace:*",
-    "cross-spawn": "^7.0.3",
-    "nx": "16.6.0",
-    "nx-cloud": "16.2.0",
-    "prettier": "3.0.1",
-    "typescript": "5.1.6"
+    "@cloudflare/workers-types": "^4.20240222.0",
+    "@types/node": "^20.11.25",
+    "@types/react": "18.2.64",
+    "@types/react-dom": "18.2.21",
+    "@yarnpkg/types": "~4.0.0",
+    "nx": "18.0.7",
+    "nx-cloud": "18.0.0",
+    "prettier": "3.2.5",
+    "prettier-plugin-classnames": "~0.6.1",
+    "typescript": "5.4.2"
   },
   "--https://fig.io/docs/guides/autocomplete-for-npm-scripts#adding-the-fig-object--": "",
   "fig": {
@@ -53,11 +54,6 @@
       "description": "Start everything for local development",
       "icon": "⭐️",
       "priority": 100
-    },
-    "nuke": {
-      "description": "Stops local dev servers + docker containers, and deletes db data",
-      "icon": "💥",
-      "priority": 90
     },
     "test": {
       "description": "Test everything",
@@ -81,15 +77,24 @@
     }
   },
   "prettier": {
+    "plugins": [
+      "prettier-plugin-classnames"
+    ],
+    "customAttributes": [],
+    "customFunctions": [
+      "tx",
+      "tw"
+    ],
+    "endingPosition": "absolute-with-indent",
+    "tailwindFunctions": [
+      "tw",
+      "tx"
+    ],
     "arrowParens": "avoid",
     "printWidth": 120,
     "trailingComma": "all",
     "proseWrap": "always",
     "singleQuote": true,
-    "tailwindFunctions": [
-      "tw",
-      "tx"
-    ],
     "overrides": [
       {
         "files": "package*.json",

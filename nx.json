@@ -1,38 +1,26 @@
 {
   "extends": "nx/presets/npm.json",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "defaultProject": "TBD",
   "affected": {
     "defaultBase": "main"
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx-cloud",
+      "runner": "nx/tasks-runners/default",
       "options": {
+        "parallel": 5,
         "cacheableOperations": ["build", "lint", "test", "typecheck", "e2e", "package", "prepare"],
-        "accessToken": "",
         "canTrackAnalytics": false,
-        "cacheDirectory": "/tmp/nx-cache",
-        "parallel": 4,
         "runtimeCacheInputs": ["echo $CI", "node -v"],
         "useDaemonProcess": false
       }
     }
   },
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [],
-    "production": ["default"]
-  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
-    },
-    "prepare": {
-      "dependsOn": ["^prepare"]
-    },
-    "package": {
-      "dependsOn": ["^package"]
     }
+  },
+  "cli": {
+    "packageManager": "yarn"
   }
 }
