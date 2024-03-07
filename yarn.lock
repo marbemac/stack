@@ -36,6 +36,44 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@auth/core@npm:^0.10.1":
+  version: 0.10.1
+  resolution: "@auth/core@npm:0.10.1"
+  dependencies:
+    "@panva/hkdf": "npm:^1.0.4"
+    cookie: "npm:0.5.0"
+    jose: "npm:^4.11.1"
+    oauth4webapi: "npm:^2.0.6"
+    preact: "npm:10.11.3"
+    preact-render-to-string: "npm:5.2.3"
+  peerDependencies:
+    nodemailer: ^6.8.0
+  peerDependenciesMeta:
+    nodemailer:
+      optional: true
+  checksum: 007dfb2384f5c3853645392bd235f6dc3623da74a5557c769d2f128d0cc7a85d10ab1fad1c9a854717c3032d2c5dbfc8a2286d3234b0907045a5cecc3f7e2fba
+  languageName: node
+  linkType: hard
+
+"@auth/core@npm:experimental":
+  version: 0.0.0-manual.8fcd46b0
+  resolution: "@auth/core@npm:0.0.0-manual.8fcd46b0"
+  dependencies:
+    "@panva/hkdf": "npm:^1.0.4"
+    cookie: "npm:0.5.0"
+    jose: "npm:^4.11.1"
+    oauth4webapi: "npm:^2.0.6"
+    preact: "npm:10.11.3"
+    preact-render-to-string: "npm:5.2.3"
+  peerDependencies:
+    nodemailer: ^6.8.0
+  peerDependenciesMeta:
+    nodemailer:
+      optional: true
+  checksum: 488bd5e46b71fe1560c6a71a9f5ff250674d77365d2b5cd3a9c5d0e2a892159660c9d2b4485e1871c42f7853949d904d722fef52ee37d1379afd64aaa00b02d7
+  languageName: node
+  linkType: hard
+
 "@aw-web-design/x-default-browser@npm:1.4.126":
   version: 1.4.126
   resolution: "@aw-web-design/x-default-browser@npm:1.4.126"
@@ -2925,6 +2963,13 @@ __metadata:
   version: 16.6.0
   resolution: "@nx/nx-win32-x64-msvc@npm:16.6.0"
   conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@panva/hkdf@npm:^1.0.4":
+  version: 1.1.1
+  resolution: "@panva/hkdf@npm:1.1.1"
+  checksum: f0dd12903751d8792420353f809ed3c7de860cf506399759fff5f59f7acfef8a77e2b64012898cee7e5b047708fa0bd91dff5ef55a502bf8ea11aad9842160da
   languageName: node
   linkType: hard
 
@@ -11383,6 +11428,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^4.11.1":
+  version: 4.14.4
+  resolution: "jose@npm:4.14.4"
+  checksum: 44c5fee3df63bb4094f3fe2e135285bfd6cdd8418765b7920375090fe7db396c861f7cae142a6339850196575cf7551d13b73c37e0d6e792f27c70103b8bc901
+  languageName: node
+  linkType: hard
+
 "joycon@npm:^3.0.1":
   version: 3.1.1
   resolution: "joycon@npm:3.1.1"
@@ -12413,6 +12465,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-auth@npm:0.0.0-manual.d0952342":
+  version: 0.0.0-manual.d0952342
+  resolution: "next-auth@npm:0.0.0-manual.d0952342"
+  dependencies:
+    "@auth/core": "npm:experimental"
+  peerDependencies:
+    next: ^13.4.10
+    nodemailer: ^6.6.5
+    react: ^18.2.0
+  peerDependenciesMeta:
+    nodemailer:
+      optional: true
+  checksum: 0775163e56b99b44cf9ddfc74ec986c5df881b0032e1a980e4308f95e7a94c3457f167250319d12fd48797c15e48a8e899e110d351456b5c3c173e79cf79e935
+  languageName: node
+  linkType: hard
+
 "next-tick@npm:1, next-tick@npm:^1.1.0":
   version: 1.1.0
   resolution: "next-tick@npm:1.1.0"
@@ -12780,6 +12848,13 @@ __metadata:
   bin:
     nx: bin/nx.js
   checksum: 1a54cb88e8004b58968862b38fa3cb5db5ca2290e212ffc2675eb82f6b39dcf54e2a3f4ab17390ee744dceb6c378b65136359495cc64d7d13bddc28752fda155
+  languageName: node
+  linkType: hard
+
+"oauth4webapi@npm:^2.0.6":
+  version: 2.3.0
+  resolution: "oauth4webapi@npm:2.3.0"
+  checksum: f0ec83060a2ceb6297c898a9c6c3f4c4a4af0539813ec6eb17f053b3f7b6260bd9052df35444afdfe7aa2c3791bcb6dc63e642e621c35ab1c9a8ada83e611032
   languageName: node
   linkType: hard
 
@@ -13512,6 +13587,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"preact-render-to-string@npm:5.2.3":
+  version: 5.2.3
+  resolution: "preact-render-to-string@npm:5.2.3"
+  dependencies:
+    pretty-format: "npm:^3.8.0"
+  peerDependencies:
+    preact: ">=10"
+  checksum: 7441fecbda332f4051d16589049f333aad7472739f4d02a036bab07c11133bfd15372f07b29af9d8590559dd38c887a1d2b25a2908a76cf3ae6cb81d14052078
+  languageName: node
+  linkType: hard
+
+"preact@npm:10.11.3":
+  version: 10.11.3
+  resolution: "preact@npm:10.11.3"
+  checksum: 5ecfa9aee951c62510990c031cb2990b90b9493812498e6aa65c9c748ab7161394edcfb7719ae18b894adcb923d11bdab7e81e7e5e084c90f2b849d70f95fa4f
+  languageName: node
+  linkType: hard
+
 "prebuild-install@npm:^7.1.0":
   version: 7.1.1
   resolution: "prebuild-install@npm:7.1.1"
@@ -13578,6 +13671,13 @@ __metadata:
     ansi-styles: "npm:^5.0.0"
     react-is: "npm:^18.0.0"
   checksum: 5db1faf52552341e5026fd72f847d88116b08f758ef904f1635415b53ec2a193a0114fdede9f55a2c1174fa6eca896531f860db6f208c5698a52a5c354bb6f8d
+  languageName: node
+  linkType: hard
+
+"pretty-format@npm:^3.8.0":
+  version: 3.8.0
+  resolution: "pretty-format@npm:3.8.0"
+  checksum: c80009217dea7fc8f6006f644cbefc3ec57833c1f1f325158d83a5bcbc3ccc15d1e2cc658cd7d87b9c196a43f15d6d9125a2415c5ec4357882643534e25e9829
   languageName: node
   linkType: hard
 
@@ -17078,6 +17178,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "writing-next@workspace:apps/writing-next"
   dependencies:
+    "@auth/core": "npm:^0.10.1"
     "@hookform/resolvers": "npm:^3.2.0"
     "@libs/db": "workspace:*"
     "@libs/db-model": "workspace:*"
@@ -17089,6 +17190,7 @@ __metadata:
     "@types/react-dom": "npm:18.2.7"
     autoprefixer: "npm:10.4.14"
     next: "npm:13.4.13"
+    next-auth: "npm:0.0.0-manual.d0952342"
     postcss: "npm:8.4.27"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
