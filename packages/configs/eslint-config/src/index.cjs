@@ -2,7 +2,7 @@
 const config = {
   root: true,
 
-  extends: ['@marbemac/eslint-config/base'],
+  extends: ['./base.cjs'],
 };
 
 module.exports = config;

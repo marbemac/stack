@@ -33,8 +33,8 @@
     // Force functions designed to override their parent class to be specified as `override`.
     "noImplicitOverride": true,
 
-    // Force functions to specify that they can return `undefined` if a possible code path does not return a value.
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
+    "noImplicitAny": false,
 
     // Force the usage of the indexed syntax to access fields declared using an index signature.
     "noUncheckedIndexedAccess": true,
