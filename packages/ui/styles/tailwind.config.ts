@@ -1,11 +1,9 @@
 import type { Config } from 'tailwindcss';
 
-import { themeObj } from './src/theme.ts';
+import { preset } from './src/tailwind/index.ts';
 
 export default {
-  plugins: [],
+  presets: [preset()],
 
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
-
-  theme: themeObj,
 } satisfies Config;

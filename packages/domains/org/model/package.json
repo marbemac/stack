@@ -1,0 +1,25 @@
+{
+  "name": "@marbemac/org-model",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./ids": "./src/ids.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@marbemac/db-model": "workspace:*",
+    "@marbemac/db-pg-client": "workspace:*",
+    "@marbemac/utils-ids": "workspace:*",
+    "drizzle-orm": "~0.29.5",
+    "kysely": "0.27.2"
+  },
+  "devDependencies": {
+    "@marbemac/utils-types": "workspace:*"
+  }
+}

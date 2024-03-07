@@ -1,5 +1,3 @@
-export type { TemplatedRoutePaths } from './routing.js';
-
 /**
  * Use this when you need a "relaxed" string union type to preserve autocomplete.
  *
@@ -12,4 +10,11 @@ export type StringWithAutocomplete<T> = T | (string & Record<never, never>);
 /**
  * Anything we need from type-fest, re-export here.
  */
-export type { SetOptional, SetRequired } from 'type-fest';
+export type {
+  CamelCasedProperties,
+  ReadonlyDeep,
+  SetOptional,
+  SetRequired,
+  Simplify,
+  SnakeCasedProperties,
+} from 'type-fest';

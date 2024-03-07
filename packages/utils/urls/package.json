@@ -1,0 +1,17 @@
+{
+  "name": "@marbemac/utils-urls",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "test.watch": "vitest watch"
+  },
+  "devDependencies": {
+    "vitest": "~1.3.1"
+  }
+}

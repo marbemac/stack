@@ -3,13 +3,17 @@ export const cssObjToString = (json: Record<string, Record<string, unknown>>) =>
   return selectors
     .map(selector => {
       const definition = json[selector]!;
-      const rules = Object.keys(definition);
-      const result = rules
-        .map(rule => {
-          return `${rule}:${definition[rule]}`;
-        })
-        .join(';');
-      return `${selector}{${result}}`;
+
+      return `${selector}{${cssPropsToString(definition)}}`;
     })
     .join('\n');
+};
+
+export const cssPropsToString = (props: Record<string, unknown>, format?: boolean) => {
+  const rules = Object.keys(props);
+  return rules
+    .map(rule => {
+      return `${rule}: ${props[rule]}`;
+    })
+    .join(`;${format ? '\n' : ''}`);
 };

@@ -1,0 +1,16 @@
+{
+  "name": "@marbemac/db-pg-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "kysely": "0.27.2",
+    "kysely-postgres-js": "2.0.0",
+    "postgres": "~3.4.3"
+  }
+}

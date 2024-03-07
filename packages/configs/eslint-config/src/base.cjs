@@ -42,7 +42,7 @@ const config = {
       tags: ['tw'],
       classRegex: '^(inactiveClassName|activeClassName|className)$',
       whitelist: ['ui\\-[\\w]+'], // any custom classes must be prefixed with `ui-` to clearly call them out
-      config: require.resolve('@supastack/ui-styles/default-tailwind-config'),
+      config: require.resolve('@marbemac/ui-styles/default-tailwind-config'),
     },
   },
 

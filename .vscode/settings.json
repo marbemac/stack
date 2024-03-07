@@ -3,7 +3,8 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.preferences.importModuleSpecifierEnding": "js",
   "files.associations": {
-    "wrangler.json": "jsonc"
+    "wrangler.json": "jsonc",
+    "*.css": "tailwindcss"
   },
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
@@ -12,6 +13,11 @@
     "strings": true
   },
   "tailwindCSS.validate": false,
-  "tailwindCSS.experimental.classRegex": [["tx\\(([^)]*)\\)", "'([^']*)'"]],
-  "tailwindCSS.classAttributes": ["tw", "tx", "twInactive", "twActive"]
+  "tailwindCSS.experimental.classRegex": [
+    "tw`([^`]*)`",
+    ["(?:tx|twMerge|twJoin)\\(([^\\);]*)[\\);]", "[`'\"`]([^'\"`,;]*)[`'\"`]"]
+  ],
+  "tailwindCSS.classAttributes": ["className", "inactiveClassName", "activeClassName"],
+  "todo-tree.general.statusBar": "tags",
+  "todo-tree.general.tags": ["@TODO", "@BUG", "@FIXME"]
 }

@@ -1,11 +1,14 @@
 /**
  * Original credit to NextUI
- * https://github.com/nextui-org/nextui/blob/feat/v2/packages/core/system/src/utils.ts#L46
+ * https://github.com/nextui-org/nextui/blob/62d307117a4ef5464834289901fc8c7a87f59025/packages/core/system-rsc/src/utils.ts#L46
+ *
+ * Adjusted to solve for this issue: https://github.com/nextui-org/nextui/issues/1294#issuecomment-1725931575
  */
 
 export const splitPropsVariants = <T extends {}, K extends keyof T>(
   props: T,
   variantKeys?: K[],
+  defaultValues?: Partial<Pick<T, K>>,
   removeVariantProps = true,
 ): readonly [Omit<T, K>, Pick<T, K>] => {
   if (!variantKeys) {
@@ -14,12 +17,7 @@ export const splitPropsVariants = <T extends {}, K extends keyof T>(
   }
 
   const picked = variantKeys.reduce((acc, key) => {
-    // Only include the key in `picked` if it exists in `props`
-    if (key in props) {
-      return { ...acc, [key]: props[key] };
-    } else {
-      return acc;
-    }
+    return { ...acc, [key]: props[key] ?? defaultValues?.[key] };
   }, {});
 
   if (removeVariantProps) {

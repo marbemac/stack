@@ -1,1 +1,1 @@
-export const INTENTS = ['neutral', 'primary', 'success', 'warning', 'danger'] as const;
+export const INTENTS = ['neutral', 'primary', 'danger'] as const;

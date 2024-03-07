@@ -1,7 +1,6 @@
 import {
   alphaFromArgb,
   argbFromHex,
-  Blend,
   blueFromArgb,
   greenFromArgb,
   Hct,
@@ -9,36 +8,37 @@ import {
   redFromArgb,
   TonalPalette,
 } from '@material/material-color-utilities';
-import { getLuminance, parseToRgba, rgba, toHex, transparentize } from 'color2k';
+import type { AnyColor, ParsedRgba } from '@marbemac/utils-colors';
+import { getAlphaColor, mix, readableColor } from '@marbemac/utils-colors';
+import { getLuminance, mix as mix2, parseToRgba, rgba, toHex, transparentize } from 'color2k';
 import deepmerge from 'deepmerge';
+import mem from 'mem';
+import QuickLRU from 'quick-lru';
 
 import { INTENTS } from './consts.ts';
-import { mix } from './mix.ts';
 import type { PrebuiltThemeIds } from './prebuilt-themes.ts';
 import { PREBUILT_THEMES } from './prebuilt-themes.ts';
-import { readableColor } from './readable-color.ts';
 import type {
-  BorderFoundation,
   CanvasFoundation,
   ColorPrefix,
   FgFoundation,
   Intent,
   IntentColor,
+  Shadow,
   Theme,
   ThemeColorObj,
-  ThemeCookieVal,
+  ThemeConfig,
 } from './types.ts';
-import type { RgbaColor } from './types.ts';
 import type { CustomTheme } from './types.ts';
 
 export type GeneratedTheme = ReturnType<typeof generateTheme>;
 
-export const generateTheme = (baseThemeId: PrebuiltThemeIds, customTheme: CustomTheme = { colors: {} }) => {
+const $generateTheme = (baseThemeId: PrebuiltThemeIds, customTheme: CustomTheme = { colors: {} }) => {
   const theme = deepmerge(PREBUILT_THEMES[baseThemeId], customTheme) as Theme;
   const fgColor = readableColor(theme.colors.background, { preferred: theme.colors.text, fallback: '#FFF' });
   const fgLuminance = getLuminance(fgColor);
   const bgLuminance = getLuminance(theme.colors.background);
-  const isDark = theme.isDark || fgLuminance > bgLuminance;
+  const isDark = theme.isDark ?? fgLuminance > bgLuminance;
 
   const vars = computeCssVariables(theme, fgColor, isDark);
 
@@ -57,7 +57,9 @@ export const generateTheme = (baseThemeId: PrebuiltThemeIds, customTheme: Custom
   };
 };
 
-export const generateThemesForCookie = (theme: ThemeCookieVal | null) => {
+export const generateTheme = mem($generateTheme, { cacheKey: JSON.stringify, cache: new QuickLRU({ maxSize: 50 }) });
+
+export const generateThemesForCookie = (theme: ThemeConfig | null) => {
   let generatedTheme;
   try {
     generatedTheme = theme ? generateTheme(theme.baseThemeId, theme.customTheme) : generateTheme('default');
@@ -75,13 +77,13 @@ const guard = (low: number, high: number, value: number): number => {
   return Math.min(Math.max(low, value), high);
 };
 
-const rgbaFromArgb = (argb: number): RgbaColor => {
+const rgbaFromArgb = (argb: number): ParsedRgba => {
   return [redFromArgb(argb), greenFromArgb(argb), blueFromArgb(argb), alphaFromArgb(argb)];
 };
 
-const computeCssVariables = (theme: Theme, textColor: string, isDark: boolean): ThemeColorObj => {
+const computeCssVariables = (theme: Theme, textColor: AnyColor, isDark: boolean): ThemeColorObj => {
   const colorVariables: Record<string, string | number> = {};
-  const addColorVariables = (vars: Record<string, RgbaColor>, prefix?: ColorPrefix) => {
+  const addColorVariables = (vars: Record<string, ParsedRgba>, prefix?: ColorPrefix) => {
     for (const name in vars) {
       const rgba = vars[name];
       if (!rgba) continue;
@@ -101,58 +103,66 @@ const computeCssVariables = (theme: Theme, textColor: string, isDark: boolean): 
   });
 
   const bgColor = toHex(rgba(...canvasColors.default));
+  const bgArgb = argbFromHex(bgColor);
+  const { tone: bgTone } = Hct.fromInt(bgArgb);
+  const bgPalette = TonalPalette.fromInt(bgArgb);
+  const neutralColor = hexFromArgb(bgPalette.tone(isDark ? 85 : 25));
 
   addColorVariables(canvasColors, 'canvas');
   addColorVariables(computeFgColors({ textColor, bgColor }), 'fg');
-  addColorVariables(computeBorderColors({ textColor }), 'border');
 
+  let neutralIntentColors: Record<IntentColor<'neutral'>, ParsedRgba>;
   for (const r of INTENTS) {
-    const baseColor = r === 'neutral' ? textColor : theme.colors[r];
+    const baseColor = r === 'neutral' ? neutralColor : theme.colors[r];
 
-    const intentColors = computeIntentColors(r, toHex(baseColor || textColor), {
+    const intentColors = computeIntentColors(r, baseColor, {
       textColor,
       isDark,
       bgColor,
-      blend: !['primary'].includes(r),
     });
+
+    if (r === 'neutral') {
+      neutralIntentColors = intentColors;
+    }
 
     addColorVariables(intentColors);
   }
 
-  const shadows = computeShadows({ bgColor, isDark });
+  addColorVariables({
+    panel: isDark ? neutralIntentColors!['neutral-surface'] : [255, 255, 255, 1],
+    'panel-a': isDark
+      ? parseToRgba(transparentize(hexFromArgb(bgPalette.tone(bgTone + 3)), 0.4))
+      : [255, 255, 255, 0.8],
+    surface: isDark ? [0, 0, 0, 0.25] : [255, 255, 255, 0.9],
+  });
+
+  const shadowVariables = computeShadowColors({ isDark });
 
   // @ts-expect-error ignore
   return {
     ...colorVariables,
+    ...shadowVariables,
 
-    '--shadow-sm': shadows['sm'],
-    '--shadow-default': shadows['default'],
-    '--shadow-md': shadows['md'],
-    '--shadow-lg': shadows['lg'],
-    '--shadow-xl': shadows['xl'],
-    '--shadow-2xl': shadows['2xl'],
-    '--shadow-inner': shadows['inner'],
-
-    // TODO
+    // @TODO - don't hardcode Inter... check out fontaine
     '--font-ui':
       "Inter, Inter-fallback, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-    '--font-headings': ``,
-    '--font-prose': ``,
-    '--font-mono': ``,
+    '--font-headings': `var(--font-ui)`,
+    '--font-prose': `var(--font-ui)`,
+    '--font-mono': `ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace`,
   };
 };
 
-const computeShadows = ({ bgColor }: { bgColor: string; isDark?: boolean }) => {
-  const sm = '0 1px 2px 0 rgb(0 0 0 / 0.05)';
-  const defaultShadow = '0 0px 1px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.1)';
-  const md = '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)';
-  const lg = '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)';
-  const xl = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
-  const xl2 = '0 25px 50px -12px rgb(0 0 0 / 0.25)';
-  const inner = 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)';
-
-  return { sm, default: defaultShadow, md, lg, xl, '2xl': xl2, inner };
-};
+const computeShadowColors = ({ isDark }: { isDark: boolean }): Record<`--shadow-${Shadow}`, string> => ({
+  '--shadow-sm': `0 0 0 1px ${isDark ? '#373737' : 'rgba(0,0,0,0.055)'}, 0px 8px 40px ${
+    isDark ? 'rgba(0,0,0,0.169)' : 'rgba(0,0,0,0.055)'
+  }, 0px 12px 32px -16px ${isDark ? `rgba(0,0,0,0.267)` : 'rgba(0,0,0,0.055)'}`,
+  '--shadow-md': `0 0 0 1px ${isDark ? '#373737' : 'rgba(0,0,0,0.055)'}, 0px 12px 60px ${
+    isDark ? 'rgba(0,0,0,0.267)' : 'rgba(0,0,0,0.133)'
+  }, 0px 12px 32px -16px ${isDark ? `rgba(0,0,0,0.498)` : 'rgba(0,0,0,0.133)'}`,
+  '--shadow-lg': `0 0 0 1px ${isDark ? '#373737' : 'rgba(0,0,0,0.055)'}, 0px 16px 64px ${
+    isDark ? 'rgba(0,0,0,0.608)' : 'rgba(0,0,0,0.169)'
+  }, 0px 16px 36px -20px ${isDark ? `rgba(0,0,0,0.875)` : 'rgba(0,0,0,0.169)'}`,
+});
 
 const computeFgColors = ({
   textColor,
@@ -160,18 +170,11 @@ const computeFgColors = ({
 }: {
   textColor: string;
   bgColor: string;
-}): Record<FgFoundation, RgbaColor> => ({
+}): Record<FgFoundation, ParsedRgba> => ({
   default: parseToRgba(textColor),
-  muted: parseToRgba(transparentize(textColor, 0.45)),
+  muted: parseToRgba(transparentize(textColor, 0.5)),
   soft: parseToRgba(transparentize(textColor, 0.65)),
-  'on-solid': parseToRgba(transparentize(bgColor, 0.1)),
-});
-
-const computeBorderColors = ({ textColor }: { textColor: string }): Record<BorderFoundation, RgbaColor> => ({
-  default: parseToRgba(transparentize(textColor, 0.75)),
-  muted: parseToRgba(transparentize(textColor, 0.85)),
-  soft: parseToRgba(transparentize(textColor, 0.9)),
-  emphasis: parseToRgba(textColor),
+  'on-emphasis': parseToRgba(transparentize(bgColor, 0.1)),
 });
 
 const computeCanvasColors = ({
@@ -182,7 +185,7 @@ const computeCanvasColors = ({
   bgColor: string;
   primaryColor: string;
   isDark?: boolean;
-}): Record<CanvasFoundation, RgbaColor> => {
+}): Record<CanvasFoundation, ParsedRgba> => {
   const primaryHtc = Hct.fromInt(argbFromHex(primaryColor));
   const hct = Hct.fromInt(argbFromHex(bgColor));
   const { hue, chroma, tone } = hct;
@@ -194,62 +197,83 @@ const computeCanvasColors = ({
   return {
     inset: rgbaFromArgb(tones.tone(isDark ? baseTone - 5 : baseTone - 6)),
     default: rgbaFromArgb(tones.tone(baseTone)),
-    soft: rgbaFromArgb(tones.tone(isDark ? baseTone + 5 : baseTone - 5)),
-    overlay: rgbaFromArgb(tones.tone(isDark ? 10 : 98)),
+    overlay: isDark
+      ? parseToRgba(transparentize(hexFromArgb(guard(0, 20, tones.tone(tone / 5) - 10)), 0.5))
+      : getAlphaColor(rgbaFromArgb(tones.tone(30)), bgColor),
     emphasis: rgbaFromArgb(tones.tone(isDark ? 85 : 20)),
   };
 };
 
 const computeIntentColors = <I extends Intent>(
   intent: Readonly<I>,
-  intentColor: string,
-  { textColor, bgColor, isDark, blend }: { textColor: string; bgColor: string; isDark?: boolean; blend?: boolean },
-): Record<IntentColor<I>, RgbaColor> => {
-  let target = argbFromHex(intentColor);
-  if (blend) {
-    const from = target;
-    const to = argbFromHex(bgColor);
-    target = Blend.harmonize(from, to);
-  }
+  intentColor: AnyColor,
+  { textColor, bgColor, isDark }: { textColor: AnyColor; bgColor: AnyColor; isDark?: boolean },
+): Record<IntentColor<I>, ParsedRgba> => {
+  const textRgba = parseToRgba(textColor);
+  const bgRgba = parseToRgba(bgColor);
 
-  const hct = Hct.fromInt(target);
-  const { hue, chroma, tone } = hct;
+  const target = argbFromHex(toHex(intentColor));
+  const { tone: bgTone, chroma: bgChroma } = Hct.fromInt(argbFromHex(toHex(bgColor)));
+  const { hue, chroma, tone } = Hct.fromInt(target);
 
-  const tones = TonalPalette.fromHueAndChroma(hue, chroma);
+  const baseChroma = isDark ? guard(0, 70, chroma) : chroma;
+  const tones = TonalPalette.fromHueAndChroma(hue, baseChroma);
   const baseTone = isDark ? guard(0, 90, tone) : guard(10, 100, tone);
 
-  const fg = rgbaFromArgb(tones.tone(isDark ? guard(80, 90, tone) : guard(30, 60, tone)));
+  const fgTone = isDark ? guard(80, 80, tone) : guard(25, 50, tone * 0.7);
+  const fg = rgbaFromArgb(tones.tone(fgTone));
 
-  const solid = hexFromArgb(tones.tone(baseTone));
-  const fgOnSolid = readableColor(solid, { preferred: 'white', fallback: bgColor });
-  // const fgOnNeutral = readableColor(textColor, {
-  //   preferred: saturate(hexFromArgb(tones.tone(isDark ? 45 : 25)), 0.5),
-  //   fallback: fgOnSolid,
-  // });
+  const solidHex = hexFromArgb(tones.tone(baseTone));
+  const solid = parseToRgba(solidHex);
+  const fgOnSolid = parseToRgba(readableColor(solidHex, { preferred: 'white', fallback: bgColor }));
 
-  const solidHover = mix(fgOnSolid, solid, 0.12);
-  const solidActive = mix(fgOnSolid, solid, 0.2);
-  const solidGradient = rgbaFromArgb(tones.tone(isDark ? 50 : 50));
+  const solidHover = mix(fgOnSolid, solid, 0.15);
+  const solidActive = mix(fgOnSolid, solid, 0.23);
 
-  const softChroma = isDark ? guard(10, 100, chroma * 0.9) : guard(0, 80, chroma);
+  const softChroma = isDark ? guard(10, 90, chroma * 0.9) : guard(0, 70, chroma);
   const softTones = TonalPalette.fromHueAndChroma(hue, softChroma);
-  const softTone = isDark ? guard(65, 80, baseTone) : guard(40, 90, baseTone);
-  const softBaseColor = hexFromArgb(softTones.tone(softTone));
+  const softBaseColor = rgbaFromArgb(softTones.tone(baseTone));
 
-  const soft = mix(softBaseColor, bgColor, 0.12);
-  const softHover = mix(softBaseColor, bgColor, 0.18);
-  const softActive = mix(softBaseColor, bgColor, 0.28);
+  let softVsBgToneDiff = isDark ? 100 - (baseTone - bgTone) : 100 - (bgTone - baseTone);
+  softVsBgToneDiff = guard(0, 90, softVsBgToneDiff - 35);
+  const toneMult = guard(1, 6, 1 + (softVsBgToneDiff / 90) * 2);
+  const chromaMult = 1 + (chroma - bgChroma) / 100;
+
+  const line = mix(softBaseColor, bgRgba, 0.2 * toneMult * chromaMult);
+  const lineHover = mix(textRgba, line, 0.12);
+  const lineActive = mix(textRgba, line, 0.22);
+
+  const soft = mix(softBaseColor, bgRgba, 0.07 * toneMult * chromaMult);
+  const softHover = mix(softBaseColor, bgRgba, 0.11 * toneMult * chromaMult);
+  const softActive = mix(softBaseColor, bgRgba, 0.16 * toneMult * chromaMult);
+
+  // Using mix2 so that resulting color is fully opaque, which is important for surfaces
+  const surface = parseToRgba(mix2(rgba(...bgRgba), rgba(...softBaseColor), 0.035 * toneMult));
 
   return {
     [`${intent}-fg`]: fg,
-    [`${intent}-solid`]: parseToRgba(solid),
-    [`${intent}-solid-hover`]: parseToRgba(solidHover),
-    [`${intent}-solid-active`]: parseToRgba(solidActive),
-    [`${intent}-solid-gradient`]: solidGradient,
-    [`${intent}-soft`]: parseToRgba(soft),
-    [`${intent}-soft-hover`]: parseToRgba(softHover),
-    [`${intent}-soft-active`]: parseToRgba(softActive),
-    [`on-${intent}`]: parseToRgba(fgOnSolid),
-    // [`${intent}-on-neutral`]: parseToRgba(fgOnNeutral),
-  } as Record<IntentColor<I>, RgbaColor>;
+    [`${intent}-fg-a`]: getAlphaColor(fg, bgRgba),
+    [`${intent}-solid-1`]: solid,
+    [`${intent}-solid-1-a`]: getAlphaColor(solid, bgRgba),
+    [`${intent}-solid-2`]: solidHover,
+    [`${intent}-solid-2-a`]: getAlphaColor(solidHover, bgRgba),
+    [`${intent}-solid-3`]: solidActive,
+    [`${intent}-solid-3-a`]: getAlphaColor(solidActive, bgRgba),
+    [`${intent}-line-1`]: line,
+    [`${intent}-line-1-a`]: getAlphaColor(line, bgRgba),
+    [`${intent}-line-2`]: lineHover,
+    [`${intent}-line-2-a`]: getAlphaColor(lineHover, bgRgba),
+    [`${intent}-line-3`]: lineActive,
+    [`${intent}-line-3-a`]: getAlphaColor(lineActive, bgRgba),
+    [`${intent}-soft-1`]: soft,
+    [`${intent}-soft-1-a`]: getAlphaColor(soft, bgRgba),
+    [`${intent}-soft-2`]: softHover,
+    [`${intent}-soft-2-a`]: getAlphaColor(softHover, bgRgba),
+    [`${intent}-soft-3`]: softActive,
+    [`${intent}-soft-3-a`]: getAlphaColor(softActive, bgRgba),
+    [`${intent}-surface`]: surface,
+    [`${intent}-surface-a`]: getAlphaColor(surface, bgRgba),
+    [`on-${intent}`]: fgOnSolid,
+    [`on-${intent}-a`]: getAlphaColor(fgOnSolid, solid),
+  } as Record<IntentColor<I>, ParsedRgba>;
 };

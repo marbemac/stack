@@ -1,0 +1,79 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`supports .-_ in qualifiers 1`] = `
+{
+  "input": "payments.plan-type_is:enterprise",
+  "result": [
+    "payments.plan-type_is = enterprise",
+  ],
+}
+`;
+
+exports[`supports @.-_ in qualifier values 1`] = `
+{
+  "input": "email:jane@example.com type:public-company_x",
+  "result": [
+    "email = jane@example.com",
+    "type = public-company_x",
+  ],
+}
+`;
+
+exports[`supports freeform search mixed throughout 1`] = `
+{
+  "input": "freeform1 age:5 freeform2 search",
+  "result": [
+    "freeform1",
+    "age = 5",
+    "freeform2",
+    "search",
+  ],
+}
+`;
+
+exports[`supports multiple values on the same key 1`] = `
+{
+  "input": "user:[jane, john doe] release:[12.0]",
+  "result": [
+    "user IN (jane, john doe)",
+    "release IN (12.0)",
+  ],
+}
+`;
+
+exports[`supports operators 1`] = `
+{
+  "input": "num_members:>5.0",
+  "result": [
+    "num_members > 5.0",
+  ],
+}
+`;
+
+exports[`supports qualifiers 1`] = `
+{
+  "input": "plan:enterprise age:5",
+  "result": [
+    "plan = enterprise",
+    "age = 5",
+  ],
+}
+`;
+
+exports[`supports quoted qualifiers 1`] = `
+{
+  "input": "user:\\"john doe\\"",
+  "result": [
+    "user = john doe",
+  ],
+}
+`;
+
+exports[`treats freeform as a string 1`] = `
+{
+  "input": "freeform",
+  "result": [
+    "freeform",
+  ],
+}
+`;

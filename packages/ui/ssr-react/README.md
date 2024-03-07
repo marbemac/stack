@@ -1,1 +1,0 @@
-# @marbemac/ssr-solid

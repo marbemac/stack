@@ -10,8 +10,12 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@marbemac/utils-colors": "workspace:*",
     "@material/material-color-utilities": "~0.2.7",
-    "color2k": "^2.0.2",
-    "deepmerge": "^4.3.1"
+    "color2k": "^2.0.3",
+    "deepmerge": "^4.3.1",
+    "mem": "10.0.0",
+    "quick-lru": "7.0.0",
+    "valibot": "~0.30.0"
   }
 }

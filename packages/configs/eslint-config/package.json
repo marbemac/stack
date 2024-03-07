@@ -1,5 +1,5 @@
 {
-  "name": "@supastack/eslint-config",
+  "name": "@marbemac/eslint-config",
   "version": "0.0.0",
   "main": "src/index.cjs",
   "module": "src/index.cjs",

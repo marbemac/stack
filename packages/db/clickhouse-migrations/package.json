@@ -1,0 +1,20 @@
+{
+  "name": "@marbemac/db-clickhouse-migrations",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./drivers/clickhouse": "./src/drivers/clickhouse.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@clickhouse/client": "0.2.10",
+    "@marbemac/db-clickhouse-client": "workspace:*",
+    "@marbemac/utils-urls": "workspace:*"
+  }
+}

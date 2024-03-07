@@ -1,0 +1,27 @@
+{
+  "name": "@marbemac/db-clickhouse-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test.ch": "vitest run",
+    "test.ch.watch": "vitest watch"
+  },
+  "exports": {
+    ".": {
+      "worker": "./src/edge/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@clickhouse/client": "0.2.10",
+    "@marbemac/utils-ids": "workspace:*",
+    "@marbemac/utils-streams": "workspace:*",
+    "@marbemac/utils-urls": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "~1.3.1"
+  }
+}

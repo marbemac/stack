@@ -5,6 +5,7 @@
     "dbaeumer.vscode-eslint",
     "yoavbls.pretty-ts-errors",
     "bradlc.vscode-tailwindcss",
-    "astro-build.astro-vscode"
+    "github.vscode-github-actions",
+    "gruntfuggly.todo-tree"
   ]
 }

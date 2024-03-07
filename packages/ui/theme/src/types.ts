@@ -1,15 +1,12 @@
+import type { AnyColor, HslaColor } from '@marbemac/utils-colors';
+
 import type { INTENTS } from './consts.ts';
 import type { PrebuiltThemeIds } from './prebuilt-themes.ts';
-
-export type Color = string;
-export type HslaColor = string;
-export type RgbaColor = [number, number, number, number];
-export type RgbColor = [number, number, number];
 
 export type ColorMode = 'light' | 'dark';
 export type ConfigColorMode = ColorMode | 'system';
 
-export type ThemeCookieVal = { baseThemeId: PrebuiltThemeIds; customTheme?: CustomTheme };
+export type ThemeConfig = { baseThemeId: PrebuiltThemeIds; customTheme?: CustomTheme };
 
 export type Theme = {
   name: string;
@@ -17,17 +14,20 @@ export type Theme = {
 
   // https://theme-ui.com/theme-spec#color
   colors: {
-    text: Color; // Body foreground color
-    background: Color; // Body background color, the background hue is used to derive a few other colors
-    primary: Color; // Primary brand color for links, buttons, etc.
-    // secondary: Color; // A secondary brand color for alternative styling
-    // accent: Color; // A contrast color for emphasizing UI
-    // highlight: Color; // A background color for highlighting text
-    // muted: Color; // A faint color for backgrounds, borders, and accents that do not require high contrast with the background color
+    text: AnyColor; // Body foreground color
+    background: AnyColor; // Body background color, the background hue is used to derive a few other colors
+    primary: AnyColor; // Primary brand color for links, buttons, etc.
+    danger: AnyColor;
 
-    success: Color;
-    warning: Color;
-    danger: Color;
+    /**
+     * TBD whether we ever have a use for the below...
+     */
+    // secondary: AnyColor; // A secondary brand color for alternative styling
+    // accent: AnyColor; // A contrast color for emphasizing UI
+    // highlight: AnyColor; // A background color for highlighting text
+    // muted: AnyColor; // A faint color for backgrounds, borders, and accents that do not require high contrast with the background color
+    // success: AnyColor;
+    // warning: AnyColor;
   };
 };
 
@@ -43,36 +43,36 @@ export type CustomTheme = {
  */
 
 export type FgPrefix = 'fg';
-export type FgFoundation = 'default' | 'muted' | 'soft' | 'on-solid';
+export type FgFoundation = 'default' | 'muted' | 'soft' | 'on-emphasis';
 export type FgColor = `${FgPrefix}-${FgFoundation}`;
 
 export type CanvasPrefix = 'canvas';
-export type CanvasFoundation = 'default' | 'overlay' | 'inset' | 'soft' | 'emphasis';
-export type CanavasColor = `${CanvasPrefix}-${CanvasFoundation}`;
+export type CanvasFoundation = 'default' | 'overlay' | 'inset' | 'emphasis';
+export type CanavasColor = `${CanvasPrefix}-${CanvasFoundation}` | 'panel' | 'panel-a' | 'surface';
 
-export type BorderPrefix = 'border';
-export type BorderFoundation = 'default' | 'muted' | 'soft' | 'emphasis';
-export type BorderColor = `${BorderPrefix}-${BorderFoundation}`;
-
-export type ColorPrefix = FgPrefix | CanvasPrefix | BorderPrefix;
+export type ColorPrefix = FgPrefix | CanvasPrefix;
 
 export type Intent = (typeof INTENTS)[number];
 export type IntentFoundation =
   | 'fg'
-  | 'solid'
-  | 'solid-hover'
-  | 'solid-active'
-  | 'solid-gradient'
-  | 'soft'
-  | 'soft-hover'
-  | 'soft-active';
-export type IntentColor<I extends Intent = Intent> = `${I}-${IntentFoundation}` | `on-${I}`;
+  | 'solid-1'
+  | 'solid-2'
+  | 'solid-3'
+  | 'soft-1'
+  | 'soft-2'
+  | 'soft-3'
+  | 'line-1'
+  | 'line-2'
+  | 'line-3'
+  | 'surface';
 
-export type ThemeColorVariable = FgColor | CanavasColor | BorderColor | IntentColor;
+export type IntentFoundationWAlpha = IntentFoundation | `${IntentFoundation}-a`;
 
-export type Shadow = 'sm' | 'default' | 'md' | 'lg' | 'xl' | '2xl' | 'inner';
+export type IntentColor<I extends Intent = Intent> = `${I}-${IntentFoundationWAlpha}` | `on-${I}` | `on-${I}-a`;
+
+export type ThemeColorVariable = FgColor | CanavasColor | IntentColor;
+
+export type Shadow = 'sm' | 'md' | 'lg';
 export type Font = 'ui' | 'headings' | 'prose' | 'mono';
 
-export type ThemeColorObj = Record<`--color-${ThemeColorVariable}`, HslaColor> &
-  Record<`--shadow-${Shadow}`, string> &
-  Record<`--font-${Font}`, string>;
+export type ThemeColorObj = Record<`--color-${ThemeColorVariable}`, HslaColor> & Record<`--font-${Font}`, string>;

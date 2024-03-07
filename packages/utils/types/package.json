@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc"
   },
-  "devDependencies": {
-    "type-fest": "^4.2.0"
+  "dependencies": {
+    "type-fest": "^4.11.1"
   }
 }
