@@ -16,7 +16,7 @@
     "@marbemac/db-model": "workspace:*",
     "@marbemac/db-pg-client": "workspace:*",
     "@marbemac/utils-ids": "workspace:*",
-    "drizzle-orm": "~0.29.5",
+    "drizzle-orm": "~0.30.0",
     "kysely": "0.27.2"
   },
   "devDependencies": {

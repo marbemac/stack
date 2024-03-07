@@ -5,20 +5,7 @@
   "sideEffects": false,
   "main": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./accordion": "./src/components/Accordion/index.ts",
-    "./avatar": "./src/components/Avatar/index.ts",
-    "./dropdown-menu": "./src/components/DropdownMenu/index.ts",
-    "./forms": "./src/components/Forms/index.ts",
-    "./label": "./src/components/Label/index.ts",
-    "./modal": "./src/components/Modal/index.ts",
-    "./scroll-area": "./src/components/ScrollArea/index.ts",
-    "./select": "./src/components/Select/index.ts",
-    "./settings": "./src/components/Settings/index.ts",
-    "./tabs": "./src/components/Tabs/index.ts",
-    "./themed": "./src/components/Themed/index.ts",
-    "./time-ago": "./src/components/TimeAgo/index.ts",
-    "./tooltip": "./src/components/Tooltip/index.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "lint": "eslint .",
@@ -43,7 +30,6 @@
     "@marbemac/utils-colors": "workspace:*",
     "@marbemac/utils-dates": "workspace:*",
     "copy-to-clipboard-ultralight": "1.0.15",
-    "react-polymorphed": "~2.2.2",
     "styled-jsx": "^5.1.2"
   },
   "devDependencies": {

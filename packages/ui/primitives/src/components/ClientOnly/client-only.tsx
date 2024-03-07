@@ -1,7 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 
-export { ClientOnly };
-
 interface ClientOnlyProps {
   component: () => Promise<{ default: React.ComponentType<any> }>;
   fallback: React.ReactNode;
@@ -14,7 +12,7 @@ interface ClientOnlyProps {
  *   fallback={<Loading />}
  * />
  */
-function ClientOnly(props: ClientOnlyProps) {
+export function ClientOnly(props: ClientOnlyProps) {
   const [Component, setComponent] = useState(() => () => props.fallback);
 
   useEffect(() => {

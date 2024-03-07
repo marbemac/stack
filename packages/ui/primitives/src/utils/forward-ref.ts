@@ -1,5 +1,4 @@
 import { forwardRef as baseForwardRef } from 'react';
-import type { PolymorphicComponent, PolyRefFunction } from 'react-polymorphed';
 
 // Declare a type that works with
 // generic components
@@ -9,10 +8,3 @@ type FixedForwardRef = <T, P = {}>(
 
 // Cast the old forwardRef to the new one
 export const forwardRefWithGeneric = baseForwardRef as FixedForwardRef;
-
-// @TODO remove me
-export const forwardRef = baseForwardRef as FixedForwardRef;
-
-export const polyRef = baseForwardRef as PolyRefFunction;
-
-export type { PolymorphicComponent };
