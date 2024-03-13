@@ -5,15 +5,17 @@
   "compilerOptions": {
     "rootDir": ".",
 
-    "strict": true,
-
     // Enable top-level await, and other modern ESM features.
     "target": "ESNext",
-    "module": "ESNext",
     "lib": ["esnext"],
 
-    // Enable support for package.json "exports" property in TSC / vscode
-    "moduleResolution": "bundler",
+    // Strictness
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitAny": false,
 
     // Enable stricter transpilation for better output.
     "isolatedModules": true,
@@ -26,35 +28,22 @@
 
     // Skip typechecking libraries and .d.ts files
     "skipLibCheck": true,
-
-    // Report errors for fallthrough cases in switch statements
-    "noFallthroughCasesInSwitch": true,
-
-    // Force functions designed to override their parent class to be specified as `override`.
-    "noImplicitOverride": true,
-
-    "noImplicitReturns": false,
-    "noImplicitAny": false,
-
-    // Force the usage of the indexed syntax to access fields declared using an index signature.
-    "noUncheckedIndexedAccess": true,
-
-    // Report an error for unused labels instead of just a warning.
-    "allowUnusedLabels": false,
+    "skipDefaultLibCheck": true,
 
     // Disallow JavaScript files from being imported
     "allowJs": false,
 
-    "sourceMap": true,
-    "declaration": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
+    // Allow importing JSON files
+    "resolveJsonModule": true,
+
+    // Allow importing .ts files
     "allowImportingTsExtensions": true,
-    "skipDefaultLibCheck": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "jsx": "preserve",
-    "resolveJsonModule": false,
+
+    // If not transpiling with typescript
+    // Enable support for package.json "exports" property in TSC / vscode
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "module": "Preserve",
     "noEmit": true
   }
 }
