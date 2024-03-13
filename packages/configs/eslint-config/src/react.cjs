@@ -26,6 +26,9 @@ const config = {
           { name: 'Link', linkAttribute: 'to' },
           { name: 'NavLink', linkAttribute: 'to' },
         ],
+        'import/resolver': {
+          typescript: {},
+        },
       },
 
       rules: {

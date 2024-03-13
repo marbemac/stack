@@ -33,14 +33,11 @@
     "test": "nx run-many --target test",
     "typecheck": "nx run-many --target typecheck"
   },
-  "resolutions": {
-    "@noble/hashes": "~1.2.0"
-  },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240312.0",
     "@types/node": "^20.11.27",
-    "@types/react": "18.2.65",
-    "@types/react-dom": "18.2.22",
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.22",
     "@yarnpkg/types": "~4.0.0",
     "nx": "18.0.8",
     "prettier": "3.2.5",

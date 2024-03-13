@@ -63,8 +63,21 @@ const config = {
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/stylistic-type-checked',
+        'plugin:import/recommended',
+        'plugin:import/typescript',
         'prettier',
       ],
+      settings: {
+        'import/internal-regex': '^~/',
+        'import/resolver': {
+          node: {
+            extensions: ['.ts', '.tsx'],
+          },
+          typescript: {
+            alwaysTryTypes: true,
+          },
+        },
+      },
       rules: {
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
         '@typescript-eslint/no-floating-promises': 'error',
@@ -99,6 +112,14 @@ const config = {
       files: ['**/*.(test|spec).{js,jsx,ts,tsx}'],
       plugins: ['vitest'],
       extends: ['plugin:vitest/recommended', 'prettier'],
+    },
+
+    // Node
+    {
+      files: ['.eslintrc.cjs'],
+      env: {
+        node: true,
+      },
     },
   ],
 };
