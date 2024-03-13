@@ -2168,15 +2168,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:^3.3.4":
-  version: 3.3.4
-  resolution: "@hookform/resolvers@npm:3.3.4"
-  peerDependencies:
-    react-hook-form: ^7.0.0
-  checksum: 10/0845e15f53b515ab5dc8d970d4ee7f47bbdfc4f4391bc166361535482d96b6ae3d1812669107fca05bf8687fa5447e3ed65f2eee3e349759b23b229ca978f917
-  languageName: node
-  linkType: hard
-
 "@humanwhocodes/config-array@npm:^0.11.14":
   version: 0.11.14
   resolution: "@humanwhocodes/config-array@npm:0.11.14"
@@ -2368,6 +2359,7 @@ __metadata:
     eslint-plugin-simple-import-sort: "npm:^12.0.0"
     eslint-plugin-tailwindcss: "npm:^3.15.1"
     eslint-plugin-vitest: "npm:0.3.26"
+    tailwindcss: "npm:~3.4.1"
   languageName: unknown
   linkType: soft
 
@@ -2390,8 +2382,8 @@ __metadata:
   dependencies:
     "@cloudflare/workers-types": "npm:^4.20240312.0"
     "@types/node": "npm:^20.11.27"
-    "@types/react": "npm:18.2.65"
-    "@types/react-dom": "npm:18.2.22"
+    "@types/react": "npm:^18.2.65"
+    "@types/react-dom": "npm:^18.2.22"
     "@yarnpkg/types": "npm:~4.0.0"
     nx: "npm:18.0.8"
     prettier: "npm:3.2.5"
@@ -2415,7 +2407,6 @@ __metadata:
     "@fortawesome/fontawesome-common-types": "npm:^6.5.1"
     "@fortawesome/fontawesome-svg-core": "npm:^6.5.1"
     "@fortawesome/free-solid-svg-icons": "npm:^6.5.1"
-    "@hookform/resolvers": "npm:^3.3.4"
     "@marbemac/ui-styles": "workspace:*"
     "@marbemac/ui-theme": "workspace:*"
     "@marbemac/utils-colors": "workspace:*"
@@ -2433,6 +2424,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:~4.2.1"
     autoprefixer: "npm:10.4.18"
     copy-to-clipboard-ultralight: "npm:1.0.15"
+    eslint: "npm:^8.57.0"
     eslint-plugin-storybook: "npm:^0.8.0"
     http-server: "npm:^14.1.1"
     postcss: "npm:8.4.35"
@@ -2556,6 +2548,7 @@ __metadata:
     moo: "npm:^0.5.2"
     nearley: "npm:^2.20.1"
     solid-js: "npm:^1.8.15"
+    vite: "npm:5.1.6"
     vite-plugin-solid: "npm:^2.10.1"
     vitest: "npm:~1.3.1"
   languageName: unknown
@@ -2631,10 +2624,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:~1.2.0":
-  version: 1.2.0
-  resolution: "@noble/hashes@npm:1.2.0"
-  checksum: 10/c295684a2799f4ddad10a855efd9b82c70c27ac5f7437642df9700e120087c796851dd95b12d2e7596802303fe6afbfdf0f8733b5c7453f70c4c080746dde6ff
+"@noble/hashes@npm:^1.1.5":
+  version: 1.3.3
+  resolution: "@noble/hashes@npm:1.3.3"
+  checksum: 10/1025ddde4d24630e95c0818e63d2d54ee131b980fe113312d17ed7468bc18f54486ac86c907685759f8a7e13c2f9b9e83ec7b67d1cc20836f36b5e4a65bb102d
   languageName: node
   linkType: hard
 
@@ -4130,7 +4123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.22":
+"@types/react-dom@npm:^18.2.22":
   version: 18.2.22
   resolution: "@types/react-dom@npm:18.2.22"
   dependencies:
@@ -4150,7 +4143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.2.65":
+"@types/react@npm:^18.2.65":
   version: 18.2.65
   resolution: "@types/react@npm:18.2.65"
   dependencies:
