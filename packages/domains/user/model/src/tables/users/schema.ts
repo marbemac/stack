@@ -12,7 +12,7 @@ export const baseUserCols = {
   id: idCol<TUserId>()('id').primaryKey(),
 
   email: text('email').notNull().unique(),
-  emailVerified: timestampCol('email_verified'),
+  emailVerifiedAt: timestampCol('email_verified_at'),
 
   name: text('name'),
   image: text('image'),

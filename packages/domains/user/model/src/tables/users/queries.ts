@@ -26,7 +26,7 @@ type SelectQueryOpts<T extends UsersDb> = BaseSelectQueryOpts<T>;
 type InsertQueryOpts<T extends UsersDb> = BaseInsertQueryOpts<T>;
 
 const summarySelect = ['id', 'email', 'name', 'image'] satisfies BaseUserColNames[];
-const detailedSelect = [...summarySelect, 'emailVerified', 'email'] satisfies BaseUserColNames[];
+const detailedSelect = [...summarySelect, 'emailVerifiedAt', 'email'] satisfies BaseUserColNames[];
 
 const userById = ({ db }: SelectQueryOpts<UsersDb>) => {
   return (params: { id: TUserId }, { withPassword }: { withPassword?: boolean } = {}) =>
