@@ -63,21 +63,8 @@ const config = {
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/stylistic-type-checked',
-        'plugin:import/recommended',
-        'plugin:import/typescript',
         'prettier',
       ],
-      settings: {
-        'import/internal-regex': '^~/',
-        'import/resolver': {
-          node: {
-            extensions: ['.ts', '.tsx'],
-          },
-          typescript: {
-            alwaysTryTypes: true,
-          },
-        },
-      },
       rules: {
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
         '@typescript-eslint/no-floating-promises': 'error',
@@ -97,15 +84,16 @@ const config = {
             },
           },
         ],
+        // 'import/extensions': ['error', 'always', { ignorePackages: true }],
       },
     },
 
-    // Markdown
-    {
-      files: ['**/*.md'],
-      plugins: ['markdown'],
-      extends: ['plugin:markdown/recommended', 'prettier'],
-    },
+    // Markdown (NOTE, causing issues atm, so commented out for now - check back later)
+    // {
+    //   files: ['**/*.md'],
+    //   plugins: ['markdown'],
+    //   extends: ['plugin:markdown/recommended', 'prettier'],
+    // },
 
     // Jest/Vitest
     {

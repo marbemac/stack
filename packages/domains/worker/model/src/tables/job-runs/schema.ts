@@ -24,12 +24,12 @@ export enum JobRunLogLevel {
   debug = 7,
 }
 
-export type JobRunLog = {
+export interface JobRunLog {
   ts: number; // unix timestamp (milliseconds)
   lvl: JobRunLogLevel;
   msg: string;
   ext: string; // optional extra key/val pairs related to the log
-};
+}
 
 export const baseJobRunColumns = {
   id: idCol<TJobRunId>()('id').primaryKey(),

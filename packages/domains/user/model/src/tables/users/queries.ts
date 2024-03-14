@@ -29,13 +29,23 @@ const summarySelect = ['id', 'email', 'name', 'image'] satisfies BaseUserColName
 const detailedSelect = [...summarySelect, 'emailVerified', 'email'] satisfies BaseUserColNames[];
 
 const userById = ({ db }: SelectQueryOpts<UsersDb>) => {
-  return (params: { id: TUserId }) =>
-    db.selectFrom(USERS_KEY).select(detailedSelect).where('id', '=', params.id).executeTakeFirst();
+  return (params: { id: TUserId }, { withPassword }: { withPassword?: boolean } = {}) =>
+    db
+      .selectFrom(USERS_KEY)
+      .select(detailedSelect)
+      .$if(!!withPassword, qb => qb.select(['password', 'passwordHasher']))
+      .where('id', '=', params.id)
+      .executeTakeFirst();
 };
 
 const userByEmail = ({ db }: SelectQueryOpts<UsersDb>) => {
-  return (params: { email: string }) =>
-    db.selectFrom(USERS_KEY).select(detailedSelect).where('email', '=', params.email.toLowerCase()).executeTakeFirst();
+  return (params: { email: string }, { withPassword }: { withPassword?: boolean } = {}) =>
+    db
+      .selectFrom(USERS_KEY)
+      .select(detailedSelect)
+      .$if(!!withPassword, qb => qb.select(['password', 'passwordHasher']))
+      .where('email', '=', params.email.toLowerCase())
+      .executeTakeFirst();
 };
 
 const createUser = ({ db }: InsertQueryOpts<UsersDb>) => {

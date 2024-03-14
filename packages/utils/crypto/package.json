@@ -9,7 +9,12 @@
     "lint": "eslint .",
     "typecheck": "tsc"
   },
+  "dependencies": {
+    "@marbemac/utils-ids": "workspace:*",
+    "oslo": "~1.1.3"
+  },
   "devDependencies": {
+    "@marbemac/utils-types": "workspace:*",
     "vitest": "~1.3.1"
   }
 }

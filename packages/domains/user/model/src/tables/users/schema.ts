@@ -16,6 +16,8 @@ export const baseUserCols = {
 
   name: text('name'),
   image: text('image'),
+  password: text('password'),
+  passwordHasher: text('password_hasher'),
 
   createdAt: timestampCol('created_at').notNull().defaultNow(),
   updatedAt: timestampCol('updated_at').defaultNow(),

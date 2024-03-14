@@ -22,7 +22,7 @@ type Opts<T extends VerificationTokensDb> = BuildQueriesOpts<T>;
 type SelectQueryOpts<T extends VerificationTokensDb> = BaseSelectQueryOpts<T>;
 type InsertQueryOpts<T extends VerificationTokensDb> = BaseInsertQueryOpts<T>;
 
-const summarySelect = ['token', 'userId', 'expires'] satisfies BaseVerificationTokenColNames[];
+const summarySelect = ['token', 'userId', 'expiresAt'] satisfies BaseVerificationTokenColNames[];
 const detailedSelect = [...summarySelect, 'token', 'purpose'] satisfies BaseVerificationTokenColNames[];
 
 const byToken = ({ db }: SelectQueryOpts<VerificationTokensDb>) => {

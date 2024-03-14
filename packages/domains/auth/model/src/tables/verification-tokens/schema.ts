@@ -1,8 +1,8 @@
-import { type DrizzleToKysely, idCol } from '@marbemac/db-model';
+import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
 import { type BaseUsersTableCols, type USERS_KEY } from '@marbemac/user-model';
 import type { TUserId } from '@marbemac/user-model/ids';
 import type { BuildColumns } from 'drizzle-orm';
-import { bigint, index, pgTable, text } from 'drizzle-orm/pg-core';
+import { index, pgTable, text } from 'drizzle-orm/pg-core';
 
 export const VERIFICATION_TOKENS_KEY = 'verificationTokens' as const;
 export const VERIFICATION_TOKENS_TABLE = 'verification_tokens' as const;
@@ -10,7 +10,7 @@ export const VERIFICATION_TOKENS_TABLE = 'verification_tokens' as const;
 export const baseVerificationTokenCols = {
   token: text('token').primaryKey(),
   userId: idCol<TUserId>()('user_id').notNull(),
-  expires: bigint('expires', { mode: 'number' }).notNull(),
+  expiresAt: timestampCol('expires_at').notNull(),
   purpose: text('purpose', { enum: ['magic-link'] }).notNull(),
 };
 
@@ -36,10 +36,10 @@ export type BaseVerificationToken = typeof baseVerificationTokens.$inferSelect;
 export type BaseVerificationTokenColNames = NonNullable<keyof BaseVerificationToken>;
 
 /** The table we are defining + any other tables in the DB this table must be aware of (for queries, etc) */
-export type VerificationTokensDb<
+export interface VerificationTokensDb<
   T extends BaseVerificationTokensTableCols = BaseVerificationTokensTableCols,
   U extends BaseUsersTableCols = BaseUsersTableCols,
-> = {
+> {
   [VERIFICATION_TOKENS_KEY]: T;
   [USERS_KEY]: U;
-};
+}

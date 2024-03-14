@@ -1,4 +1,9 @@
-import type { BaseInsertQueryOpts, BaseSelectQueryOpts, BaseUpdateQueryOpts, BuildQueriesOpts } from '@marbemac/db-model';
+import type {
+  BaseInsertQueryOpts,
+  BaseSelectQueryOpts,
+  BaseUpdateQueryOpts,
+  BuildQueriesOpts,
+} from '@marbemac/db-model';
 import type { TOrgId } from '@marbemac/org-model/ids';
 import { dayjs } from '@marbemac/utils-dates';
 import { type Kysely, sql } from 'kysely';
