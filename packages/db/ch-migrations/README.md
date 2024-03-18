@@ -1,4 +1,4 @@
-# @marbemac/db-clickhouse-migrations
+# @marbemac/db-ch-migrations
 
 See `products/plg/apps/clickhouse` for an example of how to use this library.
 

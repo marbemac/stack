@@ -1,4 +1,4 @@
-# @marbemac/db-clickhouse-client
+# @marbemac/db-ch-client
 
 Defines an interface that covers a subset of the official `@clickhouse/client` JS client.
 
@@ -8,7 +8,7 @@ Uses the official `@clickhouse/client` client in `node` environments, and a cust
 ```bash
 # To debug and experiment during development
 # Not running these as tests ATM, because would require clickhouse infra to be online in all the places we run tests
-yarn workspace @marbemac/db-clickhouse-client debug.watch
+yarn workspace @marbemac/db-ch-client debug.watch
 ```
 
 ## Examples
@@ -16,7 +16,7 @@ yarn workspace @marbemac/db-clickhouse-client debug.watch
 ### Create a Client
 
 ```ts
-import { createClient } from '@marbemac/db-clickhouse-client';
+import { createClient } from '@marbemac/db-ch-client';
 
 const CLICKHOUSE_HTTP_URL = 'http://db_user:db_password@localhost:8123/db_name';
 
@@ -76,7 +76,7 @@ ORDER BY size DESC;
 **Basic Query**
 
 ```ts
-import type { JSONResult } from '@marbemac/db-clickhouse-client';
+import type { JSONResult } from '@marbemac/db-ch-client';
 
 const q = await c.query<JSONResult<{ time_zone: string }>>({
   format: 'JSON',
@@ -87,7 +87,7 @@ const q = await c.query<JSONResult<{ time_zone: string }>>({
 **With Query Parameters**
 
 ```ts
-import type { JSONResult } from '@marbemac/db-clickhouse-client';
+import type { JSONResult } from '@marbemac/db-ch-client';
 
 const q = await c.query<JSONResult<{ company_external_id: string; first_event_at: string }>>({
   format: 'JSON',

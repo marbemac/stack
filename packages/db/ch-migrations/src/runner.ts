@@ -47,7 +47,7 @@ export const processMigrations = async ({
 
 const readMigrationFiles = async ({ migrationFolder }: { migrationFolder: string }) => {
   const migrationFiles = await fs.readdir(migrationFolder);
-  if (!migrationFiles || !migrationFiles.length) {
+  if (!migrationFiles?.length) {
     throw new Error(`No migrations found at "${path.resolve(migrationFolder)}"`);
   }
 

@@ -1,5 +1,5 @@
 {
-  "name": "@marbemac/db-clickhouse-migrations",
+  "name": "@marbemac/db-ch-migrations",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@clickhouse/client": "0.2.10",
-    "@marbemac/db-clickhouse-client": "workspace:*",
+    "@marbemac/db-ch-client": "workspace:*",
     "@marbemac/utils-urls": "workspace:*"
   }
 }

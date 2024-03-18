@@ -1,5 +1,5 @@
 import type { ClickHouseClient } from '@clickhouse/client';
-import { createClient as baseCreateClient } from '@marbemac/db-clickhouse-client';
+import { createClient as baseCreateClient } from '@marbemac/db-ch-client';
 import { parseDatabaseUrl } from '@marbemac/utils-urls';
 
 import { DEFAULT_MIGRATIONS_TABLE } from '../consts.ts';
@@ -137,7 +137,7 @@ export class ClickHouseDriver implements Driver {
       query: 'SHOW TABLES',
     });
 
-    const tables = (await tablesRes.json<Array<{ name: string }>>()).map(t => t.name).sort();
+    const tables = (await tablesRes.json<{ name: string }[]>()).map(t => t.name).sort();
 
     for (const table of tables) {
       // skip auto generated inner tables
@@ -148,7 +148,7 @@ export class ClickHouseDriver implements Driver {
         query: `SHOW CREATE TABLE ${table}`,
       });
 
-      const tableDetails = (await tableRes.json<Array<{ statement: string }>>())?.[0]!.statement;
+      const tableDetails = (await tableRes.json<{ statement: string }[]>())?.[0]!.statement;
 
       lines.push(`${tableDetails};\n\n`);
     }

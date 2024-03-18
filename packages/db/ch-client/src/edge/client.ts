@@ -174,7 +174,7 @@ export class EdgeClickHouseClient implements ClickHouseClient {
   }
 
   #buildUserAgent() {
-    let agent = '@marbemac/db-clickhouse-client/edge';
+    let agent = '@marbemac/db-ch-client/edge';
 
     if (this.#config.application) {
       agent = `${this.#config.application} ${agent}`;
