@@ -13,7 +13,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@clickhouse/client": "0.2.10",
+    "@clickhouse/client": "0.3.0",
     "@marbemac/db-ch-client": "workspace:*",
     "@marbemac/utils-urls": "workspace:*"
   }

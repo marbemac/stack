@@ -16,7 +16,7 @@
     }
   },
   "dependencies": {
-    "@clickhouse/client": "0.2.10",
+    "@clickhouse/client": "0.3.0",
     "@marbemac/utils-ids": "workspace:*",
     "@marbemac/utils-streams": "workspace:*",
     "@marbemac/utils-urls": "workspace:*"
