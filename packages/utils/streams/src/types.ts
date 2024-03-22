@@ -1,7 +1,10 @@
 export type Transform<S, T = S> = TransformStream<S, T>;
 
-export type TransformError = { error: unknown; meta?: unknown };
+export interface TransformError {
+  error: unknown;
+  meta?: unknown;
+}
 
-export type TransformOpts = {
+export interface TransformOpts {
   errorWriter?: WritableStreamDefaultWriter<TransformError>;
-};
+}
