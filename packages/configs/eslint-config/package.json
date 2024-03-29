@@ -10,8 +10,8 @@
     "./react": "./src/react.cjs"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.3.1",
-    "@typescript-eslint/parser": "^7.3.1",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -21,7 +21,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "eslint-plugin-tailwindcss": "^3.15.1",
-    "eslint-plugin-vitest": "0.3.26",
-    "tailwindcss": "~3.4.1"
+    "eslint-plugin-vitest": "0.4.0",
+    "tailwindcss": "~3.4.3"
   }
 }

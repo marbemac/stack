@@ -1,6 +1,7 @@
 export * from './batch.ts';
 export * from './close.ts';
 export * from './collect.ts';
+export * from './every-x.ts';
 export * from './flatten.ts';
 export * from './for-each.ts';
 export * from './guards.ts';
@@ -9,4 +10,5 @@ export * from './map.ts';
 export * from './merge.ts';
 export * from './split.ts';
 export * from './subchain.ts';
+export * from './subscribe.ts';
 export * from './types.ts';

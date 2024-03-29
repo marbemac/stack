@@ -5,6 +5,8 @@ export interface TransformError {
   meta?: unknown;
 }
 
+export type ErrorWriter = WritableStreamDefaultWriter<TransformError>;
+
 export interface TransformOpts {
-  errorWriter?: WritableStreamDefaultWriter<TransformError>;
+  errorWriter?: ErrorWriter;
 }

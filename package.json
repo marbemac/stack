@@ -36,10 +36,10 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240320.1",
     "@types/node": "^20.11.30",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/react": "^18.2.73",
+    "@types/react-dom": "^18.2.23",
     "@yarnpkg/types": "~4.0.0",
-    "nx": "18.1.2",
+    "nx": "18.2.1",
     "prettier": "3.2.5",
     "prettier-plugin-classnames": "~0.6.3",
     "typescript": "5.4.3"

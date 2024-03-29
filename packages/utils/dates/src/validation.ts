@@ -59,3 +59,7 @@ export const isValidDate = (maybeDate: unknown) => {
 
   return dayjs(maybeDate as any, ACCEPTED_FORMATS, true).isValid();
 };
+
+export const isUnixTimestampSeconds = (t: unknown): t is number => {
+  return typeof t === 'number' && String(t).length === 10;
+};
