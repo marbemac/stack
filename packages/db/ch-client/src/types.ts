@@ -68,7 +68,7 @@ export interface QueryParams<F extends DataFormat = 'JSON'> extends BaseParams {
   format: F;
 }
 
-export type InsertValues<T> = ReadonlyArray<T> | ReadableStream<T>;
+export type InsertValues<T> = readonly T[] | ReadableStream<T>;
 
 export interface InsertParams<T = unknown> extends BaseParams {
   /** Name of a table to insert into. */
@@ -85,12 +85,12 @@ export interface InsertParams<T = unknown> extends BaseParams {
   format: 'JSONEachRow';
 }
 
-export type JSONResult<T> = {
+export interface JSONResult<T> {
   data: T[];
   statistics: { bytes_read: number; elapsed: number; rows_read: number };
   rows: number;
   meta: { name: string; type: string }[];
-};
+}
 
 export interface ResultSet<T, T2 = T> {
   text(): Promise<string>;
