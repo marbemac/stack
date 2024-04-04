@@ -21,7 +21,7 @@
     "@marbemac/utils-types": "workspace:*",
     "@types/moo": "^0.5.9",
     "@types/nearley": "^2.11.5",
-    "vite": "5.2.7",
+    "vite": "5.2.8",
     "vite-plugin-solid": "^2.10.2",
     "vitest": "~1.4.0"
   }
