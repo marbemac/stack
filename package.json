@@ -34,15 +34,15 @@
     "typecheck": "nx run-many --target typecheck"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240403.0",
+    "@cloudflare/workers-types": "^4.20240404.0",
     "@types/node": "^20.12.4",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
     "@yarnpkg/types": "~4.0.0",
     "nx": "18.2.2",
     "prettier": "3.2.5",
-    "prettier-plugin-classnames": "~0.6.4",
-    "typescript": "5.4.3"
+    "prettier-plugin-classnames": "~0.6.5",
+    "typescript": "5.4.4"
   },
   "--https://fig.io/docs/guides/autocomplete-for-npm-scripts#adding-the-fig-object--": "",
   "fig": {
