@@ -9,18 +9,18 @@ import type { TOrgId } from '../../ids.ts';
 export const ORGS_KEY = 'orgs' as const;
 export const ORGS_TABLE = 'orgs' as const;
 
-export const baseOrgColumns = {
+export const baseOrgCols = {
   id: idCol<TOrgId>()('id').primaryKey(),
   slug: text('slug').notNull().unique(),
   createdAt: timestampCol('created_at').notNull().defaultNow(),
   updatedAt: timestampCol('updated_at').defaultNow(),
 };
 
-export const baseOrgConfig = (table: BuildColumns<typeof ORGS_TABLE, typeof baseOrgColumns, 'pg'>) => {
+export const baseOrgConfig = (table: BuildColumns<typeof ORGS_TABLE, typeof baseOrgCols, 'pg'>) => {
   return {};
 };
 
-const baseOrgs = pgTable(ORGS_TABLE, baseOrgColumns, baseOrgConfig);
+const baseOrgs = pgTable(ORGS_TABLE, baseOrgCols, baseOrgConfig);
 
 export type BaseOrgsTableCols = DrizzleToKysely<typeof baseOrgs>;
 export type BaseNewOrg = SetOptional<typeof baseOrgs.$inferInsert, 'id'>;

@@ -31,7 +31,7 @@ export interface JobRunLog {
   ext: string; // optional extra key/val pairs related to the log
 }
 
-export const baseJobRunColumns = {
+export const baseJobRunCols = {
   id: idCol<TJobRunId>()('id').primaryKey(),
 
   orgId: idCol<TOrgId>()('org_id').notNull(),
@@ -52,7 +52,6 @@ export const baseJobRunColumns = {
   state: jsonb('state').$type<Record<string, unknown>>().default({}).notNull(),
   last_error: text('last_error'),
 
-  // Setting default w sql until this is fixed: https://github.com/drizzle-team/drizzle-orm/issues/1036
   logs: jsonb('logs').$type<JobRunLog[]>().default([]).notNull(),
 
   createdAt: timestampCol('created_at').defaultNow().notNull(),
@@ -62,7 +61,7 @@ export const baseJobRunColumns = {
   completedAt: timestampCol('completed_at'),
 };
 
-export const baseJobRunConfig = (table: BuildColumns<typeof JOB_RUNS_TABLE, typeof baseJobRunColumns, 'pg'>) => {
+export const baseJobRunConfig = (table: BuildColumns<typeof JOB_RUNS_TABLE, typeof baseJobRunCols, 'pg'>) => {
   return {
     orgLookupKeyIdx: index('job_runs_org_lookup_key_idx').on(table.orgId, table.lookupKey, table.lookupSubkey),
 
@@ -71,7 +70,7 @@ export const baseJobRunConfig = (table: BuildColumns<typeof JOB_RUNS_TABLE, type
   };
 };
 
-const baseJobRuns = pgTable(JOB_RUNS_TABLE, baseJobRunColumns, baseJobRunConfig);
+const baseJobRuns = pgTable(JOB_RUNS_TABLE, baseJobRunCols, baseJobRunConfig);
 
 export type BaseJobRunsTableCols = DrizzleToKysely<typeof baseJobRuns>;
 export type BaseNewJobRun = SetOptional<typeof baseJobRuns.$inferInsert, 'id'>;
