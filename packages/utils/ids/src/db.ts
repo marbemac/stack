@@ -24,7 +24,7 @@ export function dbIdFactory<NS extends string>(namespace: NS, idLength = 12) {
     generate: (): DbId<NS> => create(namespace, createDbId),
     isNamespace: (id: DbId, throwIfNotMatch = false) => isDbIdNamespace(id, namespace, throwIfNotMatch),
     validator,
-    isValid: (input: unknown): input is DbId<NS> => !!validator._parse(input as any).issues?.length,
+    isValid: (input: unknown): input is DbId<NS> => !validator._parse(input as any).issues?.length,
   };
 }
 
