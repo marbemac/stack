@@ -1,7 +1,7 @@
 import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
 import type { TOrgId } from '@marbemac/org-model/ids';
 import type { TUserId } from '@marbemac/user-model/ids';
-import type { SetOptional } from '@marbemac/utils-types';
+import type { SetOptional, StringWithAutocomplete } from '@marbemac/utils-types';
 import type { BuildColumns } from 'drizzle-orm';
 import { index, jsonb, pgTable, text } from 'drizzle-orm/pg-core';
 import type { Updateable } from 'kysely';
@@ -12,7 +12,7 @@ import type { detailedSelect, summarySelect } from './queries.ts';
 export const JOB_RUNS_KEY = 'jobRuns' as const;
 export const JOB_RUNS_TABLE = 'job_runs' as const;
 
-export type JobRunActorType = 'user';
+export type JobRunActorType = StringWithAutocomplete<'user'>;
 export type JobRunStatus = 'pending' | 'queued' | 'failed' | 'success' | 'started' | 'canceled' | 'timed_out';
 
 export enum JobRunLogLevel {
@@ -39,10 +39,10 @@ export const baseJobRunCols = {
   lookupKey: text('lookup_key').notNull(),
   lookupSubkey: text('lookup_subkey'),
 
-  // the graphile-worker jobs.id, if applicable
-  workerJobId: text('worker_job_id'),
+  // the graphile-worker jobs.id
+  workerJobId: text('worker_job_id').notNull().unique(),
 
-  actorType: text('actor_type').$type<JobRunActorType>().notNull(),
+  actorType: text('actor_type').$type<JobRunActorType>(),
   actorId: idCol<TUserId | string>()('actor_id'),
 
   title: text('title'),

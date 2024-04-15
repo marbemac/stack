@@ -20,7 +20,9 @@ export const baseJobRunQueries = <T extends JobRunsDb>(opts: Opts<T>) => {
 
   return {
     byId: byId({ db }),
+    byWorkerJobId: byWorkerJobId({ db }),
     create: create({ db }),
+    upsert: upsert({ db }),
     updateById: updateById({ db }),
     byLookupKeyAndGroupedSubkeys: latestSubkeysByLookupKey({ db }),
     appendLogs: appendLogs({ db }),
@@ -36,6 +38,7 @@ type InsertQueryOpts<T extends JobRunsDb> = BaseInsertQueryOpts<T>;
 export const summarySelect = [
   'id',
   'orgId',
+  'workerJobId',
   'lookupKey',
   'lookupSubkey',
   'actorType',
@@ -54,6 +57,11 @@ export const detailedSelect = [...summarySelect, 'state', 'payload'] satisfies B
 const byId = ({ db }: SelectQueryOpts<JobRunsDb>) => {
   return (params: { id: TJobRunId }) =>
     db.selectFrom(JOB_RUNS_KEY).select(detailedSelect).where('id', '=', params.id).executeTakeFirstOrThrow();
+};
+
+const byWorkerJobId = ({ db }: SelectQueryOpts<JobRunsDb>) => {
+  return (params: { id: string }) =>
+    db.selectFrom(JOB_RUNS_KEY).select(detailedSelect).where('workerJobId', '=', params.id).executeTakeFirst();
 };
 
 const appendLogs = ({ db }: SelectQueryOpts<JobRunsDb>) => {
@@ -132,6 +140,24 @@ const create = ({ db }: InsertQueryOpts<JobRunsDb>) => {
         id: JobRunId.generate(),
         ...values,
       })
+      .returning('id')
+      .executeTakeFirstOrThrow();
+  };
+};
+
+const upsert = ({ db }: InsertQueryOpts<JobRunsDb>) => {
+  return (values: BaseNewJobRun) => {
+    return db
+      .insertInto(JOB_RUNS_KEY)
+      .values({
+        id: JobRunId.generate(),
+        ...values,
+      })
+      .onConflict(oc =>
+        oc.columns(['workerJobId']).doUpdateSet({
+          payload: eb => eb.ref('excluded.payload'),
+        }),
+      )
       .returning('id')
       .executeTakeFirstOrThrow();
   };
