@@ -55,6 +55,6 @@
     "storybook": "^8.0.8",
     "storybook-addon-performance": "~0.17.3",
     "tailwindcss": "~3.4.3",
-    "vite": "5.2.8"
+    "vite": "5.2.9"
   }
 }

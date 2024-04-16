@@ -34,7 +34,7 @@ export interface JobRunLog {
 export const baseJobRunCols = {
   id: idCol<TJobRunId>()('id').primaryKey(),
 
-  orgId: idCol<TOrgId>()('org_id').notNull(),
+  orgId: idCol<TOrgId>()('org_id'),
 
   lookupKey: text('lookup_key').notNull(),
   lookupSubkey: text('lookup_subkey'),

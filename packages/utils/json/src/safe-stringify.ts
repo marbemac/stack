@@ -2,6 +2,8 @@
 // Be very careful if considering switching out the underlying library to a different one!
 import fastStringify from 'safe-stable-stringify';
 
+export type StringifiedJSON = string;
+
 export const safeStringify = (
   value: unknown,
   replacer?: (key: string, value: unknown) => unknown | Array<number | string> | null,
