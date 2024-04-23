@@ -15,11 +15,18 @@ export interface CreateClientOpts {
    */
   noDatabase?: boolean;
 
-  // The request timeout in milliseconds. Default value: 30_000
+  /** The request timeout in milliseconds.
+   *  @default 30_000 */
   requestTimeout?: number;
 
   // Optional extra session identifier
   sessionId?: string;
+
+  keep_alive?: {
+    /** Enable or disable HTTP Keep-Alive mechanism.
+     *  @default true */
+    enabled?: boolean;
+  };
 
   clickhouse_settings?: ClickHouseSettings;
 
@@ -49,6 +56,8 @@ export interface BaseParams {
   /** A specific `query_id` that will be sent with this request.
    * If it is not set, a random identifier will be generated automatically by the client. */
   query_id?: string;
+
+  abort_signal?: AbortSignal;
 }
 
 export interface ExecParams extends BaseParams {

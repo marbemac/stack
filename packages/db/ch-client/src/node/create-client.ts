@@ -16,6 +16,7 @@ export const createClient: CreateClientFn = ({
   sessionId,
   compression,
   clickhouse_settings,
+  keep_alive,
 }) => {
   const clientId = [applicationName, noDatabase, sessionId].join('_');
 
@@ -35,8 +36,9 @@ export const createClient: CreateClientFn = ({
     username: username || undefined,
     password: password || undefined,
     database: noDatabase ? undefined : database,
-    request_timeout: requestTimeout,
+    request_timeout: requestTimeout || 30_000,
     compression,
+    keep_alive,
     clickhouse_settings: {
       ...defaultClickhouseSettings,
       ...clickhouse_settings,

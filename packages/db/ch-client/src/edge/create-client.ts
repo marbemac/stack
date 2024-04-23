@@ -11,6 +11,8 @@ export const createClient: CreateClientFn = ({
   sessionId,
   clickhouse_settings,
   compression,
+  requestTimeout,
+  keep_alive,
 }) => {
   const { origin, username, password, database } = parseDatabaseUrl(uri);
 
@@ -18,10 +20,12 @@ export const createClient: CreateClientFn = ({
     application: applicationName,
     session_id: sessionId ? [applicationName, sessionId].filter(Boolean).join('_') : undefined,
     host: origin,
-    username,
-    password,
+    username: username || '',
+    password: password || '',
     database: noDatabase ? undefined : database,
+    request_timeout: requestTimeout || 30_000,
     compression,
+    keep_alive,
     clickhouse_settings: {
       ...defaultClickhouseSettings,
       ...clickhouse_settings,

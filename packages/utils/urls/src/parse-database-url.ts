@@ -9,9 +9,10 @@ export const parseDatabaseUrl = (databaseUrl: string) => {
     targetUrl = targetUrl.replace(originalProtocol, 'http:');
   }
 
-  const { host, hostname, username, password, pathname, port } = new URL(targetUrl);
+  const { origin, host, hostname, username, password, pathname, port } = new URL(targetUrl);
 
   return {
+    origin: origin.replace('http:', originalProtocol),
     host,
     hostname,
     port: port ? Number(port) : undefined,

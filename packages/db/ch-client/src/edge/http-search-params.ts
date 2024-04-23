@@ -7,7 +7,7 @@ import type { ClickHouseSettings } from '@clickhouse/client';
 import { formatQueryParams } from './format-query-params.ts';
 import { formatQuerySettings } from './format-query-settings.ts';
 
-type ToSearchParamsOptions = {
+export type ToSearchParamsOptions = {
   database?: string;
   clickhouse_settings?: ClickHouseSettings;
   query_params?: Record<string, unknown>;

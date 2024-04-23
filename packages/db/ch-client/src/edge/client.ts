@@ -1,6 +1,7 @@
 import type { ClickHouseSettings } from '@clickhouse/client';
 import { Id } from '@marbemac/utils-ids';
 import { isReadableStream } from '@marbemac/utils-streams';
+import type { SetRequired } from '@marbemac/utils-types';
 
 import type {
   BaseParams,
@@ -12,8 +13,10 @@ import type {
   QueryParams,
 } from '../types.ts';
 import { encodeValues } from './encoding.ts';
-import { addSearchParams } from './http-search-params.ts';
+import { addSearchParams, type ToSearchParamsOptions } from './http-search-params.ts';
 import { ResultSet } from './result.ts';
+import { isSuccessfulResponse, parseError } from '@clickhouse/client-common';
+import { getAsText } from './streams.ts';
 
 export interface EdgeClickHouseClientConfig {
   /** A ClickHouse instance URL. EG `http://localhost:8123`. */
@@ -28,6 +31,15 @@ export interface EdgeClickHouseClientConfig {
   /** Database name to use. Default value: `default`. */
   database?: string;
 
+  /** The request timeout in milliseconds. Default value: `30_000`. */
+  request_timeout?: number;
+
+  keep_alive?: {
+    /** Enable or disable HTTP Keep-Alive mechanism.
+     *  @default true */
+    enabled?: boolean;
+  };
+
   session_id?: string;
 
   clickhouse_settings?: ClickHouseSettings;
@@ -36,83 +48,66 @@ export interface EdgeClickHouseClientConfig {
 }
 
 export class EdgeClickHouseClient implements ClickHouseClient {
-  #config: EdgeClickHouseClientConfig;
+  #config: SetRequired<EdgeClickHouseClientConfig, 'database' | 'request_timeout' | 'keep_alive'>;
 
-  constructor(config: EdgeClickHouseClientConfig) {
-    this.#config = Object.freeze({ ...config });
+  constructor({ database = 'default', request_timeout = 30_000, keep_alive, ...config }: EdgeClickHouseClientConfig) {
+    this.#config = Object.freeze({
+      database,
+      request_timeout,
+      keep_alive: { enabled: keep_alive?.enabled ?? true },
+      ...config,
+    });
   }
 
   async query(params: QueryParams<DataFormat>) {
-    const u = new URL(this.#config.host);
     const format = params.format ?? 'JSON';
     const query_id = this.#getQueryId(params);
 
     const clickhouse_settings = this.#withHttpSettings(this.#config.clickhouse_settings, this.#shouldCompressResponses);
 
-    addSearchParams(u.searchParams, {
-      clickhouse_settings,
-      query_params: params.query_params,
-      session_id: this.#config.session_id,
-      query_id,
+    const res = await this.#request({
+      params,
+      searchParamOpts: {
+        clickhouse_settings,
+        query_params: params.query_params,
+        query_id,
+      },
+      req: {
+        method: 'POST',
+        body: params.query,
+        headers: this.#buildHeaders(format, { decompressResponse: this.#shouldCompressResponses }),
+      },
     });
-
-    const res = await fetch(u, {
-      method: 'POST',
-      body: params.query,
-      headers: this.#buildHeaders(format, { decompressResponse: this.#shouldCompressResponses }),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Clickhouse query error [query_id: ${query_id}]: ${(await res.text()) || res.statusText}`);
-    }
-
-    if (!res.body) {
-      throw new Error(`Clickhouse query has null body [query_id: ${query_id}]`);
-    }
 
     return new ResultSet(res.body as ReadableStream, format, query_id);
   }
 
   async exec(params: ExecParams) {
-    const u = new URL(this.#config.host);
-
     const query_id = this.#getQueryId(params);
 
-    addSearchParams(u.searchParams, {
-      clickhouse_settings: this.#config.clickhouse_settings,
-      query_params: params.query_params,
-      session_id: this.#config.session_id,
+    const res = await this.#request({
+      params,
+      searchParamOpts: {
+        query_params: params.query_params,
+        query_id,
+      },
+      req: {
+        method: 'POST',
+        body: params.query,
+        headers: this.#buildHeaders(),
+      },
+    });
+
+    return {
+      stream: (res.body as ReadableStream) || new ReadableStream<Uint8Array>(),
       query_id,
-    });
-
-    const req = fetch(u, {
-      method: 'POST',
-      body: params.query,
-      headers: this.#buildHeaders(),
-    });
-
-    const res = await req;
-    if (!res.ok) {
-      console.error(`Clickhouse exec error: ${await res.text()}`, { query_id, query: params.query });
-    }
-
-    return req;
+    };
   }
 
   async insert(params: InsertParams) {
-    const u = new URL(this.#config.host);
     const format = params.format || 'JSONEachRow';
     const query_id = this.#getQueryId(params);
-
     const query = `INSERT INTO ${params.table.trim()} FORMAT ${format}`;
-
-    addSearchParams(u.searchParams, {
-      clickhouse_settings: this.#config.clickhouse_settings,
-      query_params: params.query_params,
-      query,
-      session_id: this.#config.session_id,
-      query_id,
-    });
 
     const encodedBody = encodeValues(params.values, format);
 
@@ -121,18 +116,92 @@ export class EdgeClickHouseClient implements ClickHouseClient {
       ? encodedBody.pipeThrough(new TextEncoderStream())
       : new Blob([encodedBody], { type: 'text/plain' }).stream();
 
-    const res = await fetch(u, {
-      method: 'POST',
-      body: bodyStream as ReadableStream,
-      headers: this.#buildHeaders(format, { compressRequest: this.#shouldCompressRequests }),
-      duplex: 'half',
+    const res = await this.#request({
+      params,
+      searchParamOpts: {
+        query_params: params.query_params,
+        query,
+        query_id,
+      },
+      req: {
+        method: 'POST',
+        body: bodyStream as ReadableStream,
+        headers: this.#buildHeaders(format, { compressRequest: this.#shouldCompressRequests }),
+        duplex: 'half',
+      },
     });
 
-    if (!res.ok) {
-      console.error(`Clickhouse insert error: ${await res.text()}`, { query_id, query });
+    if (res.body !== null) {
+      await res.text(); // drain the response (it's empty anyway)
     }
 
     return { query_id };
+  }
+
+  async #request({
+    params,
+    searchParamOpts,
+    req,
+  }: {
+    params: BaseParams;
+    searchParamOpts: ToSearchParamsOptions;
+    req: RequestInit;
+  }) {
+    const u = new URL(this.#config.host);
+
+    addSearchParams(u.searchParams, {
+      clickhouse_settings: this.#config.clickhouse_settings,
+      session_id: this.#config.session_id,
+      ...searchParamOpts,
+    });
+
+    const abortController = new AbortController();
+
+    let isTimedOut = false;
+    const timeout = setTimeout(() => {
+      isTimedOut = true;
+      abortController.abort();
+    }, this.#config.request_timeout);
+
+    let isAborted = false;
+    if (params?.abort_signal !== undefined) {
+      params.abort_signal.onabort = () => {
+        isAborted = true;
+        abortController.abort();
+      };
+    }
+
+    try {
+      const res = await fetch(u, {
+        keepalive: this.#config.keep_alive.enabled,
+        signal: abortController.signal,
+        ...req,
+      });
+
+      clearTimeout(timeout);
+
+      if (isSuccessfulResponse(res.status)) {
+        return res;
+      } else {
+        return Promise.reject(
+          parseError(await getAsText((res.body as ReadableStream) || new ReadableStream<Uint8Array>())),
+        );
+      }
+    } catch (err) {
+      clearTimeout(timeout);
+      if (isAborted) {
+        return Promise.reject(new Error('The user aborted a request.'));
+      }
+      if (isTimedOut) {
+        return Promise.reject(new Error('Timeout error.'));
+      }
+      if (err instanceof Error) {
+        // maybe it's a ClickHouse error
+        return Promise.reject(parseError(err));
+      }
+      // shouldn't happen
+      throw err;
+    }
   }
 
   #buildHeaders(
