@@ -26,9 +26,23 @@ export type InitClientOptsWithSql = BaseInitClientOpts & {
 
 export type InitClientOpts = InitClientOptsWithUri | InitClientOptsWithSql;
 
+export interface PgClientMetrics {
+  reset(): void;
+  query: number;
+  error: number;
+  kind: {
+    select: number;
+    insert: number;
+    update: number;
+    delete: number;
+    other: number;
+  };
+}
+
 export interface PgClient<T> {
   db: Kysely<T>;
   sql: Sql;
+  metrics: PgClientMetrics;
 }
 
 export type InitClientFn = <T>(opts: InitClientOpts) => PgClient<T>;
