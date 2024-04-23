@@ -9,13 +9,26 @@ export const parseDatabaseUrl = (databaseUrl: string) => {
     targetUrl = targetUrl.replace(originalProtocol, 'http:');
   }
 
-  const { origin, host, username, password, pathname } = new URL(targetUrl);
+  const { host, hostname, username, password, pathname, port } = new URL(targetUrl);
 
   return {
-    origin,
     host,
+    hostname,
+    port: port ? Number(port) : undefined,
+    username: username ? decodeURIComponent(username) : undefined,
+    password: password ? decodeURIComponent(password) : undefined,
+    database: pathname.slice(1) || undefined,
+  };
+};
+
+export const parseRedisUrl = (redisUrl: string) => {
+  const { hostname, port, username, password, database } = parseDatabaseUrl(redisUrl);
+
+  return {
+    host: hostname, // popular libs like ioredis expects a host property, without the port :/
+    port,
     username,
     password,
-    database: pathname.slice(1),
+    db: Number(database || '0'),
   };
 };
