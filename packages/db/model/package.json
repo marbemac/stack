@@ -10,7 +10,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "drizzle-orm": "~0.30.8",
+    "drizzle-orm": "~0.30.9",
     "kysely": "0.27.3"
   },
   "devDependencies": {

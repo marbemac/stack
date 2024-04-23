@@ -10,6 +10,6 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "type-fest": "^4.15.0"
+    "type-fest": "^4.16.0"
   }
 }
