@@ -12,6 +12,7 @@
   "exports": {
     ".": {
       "worker": "./src/edge/index.ts",
+      "bun": "./src/edge/index.ts",
       "default": "./src/index.ts"
     }
   },
