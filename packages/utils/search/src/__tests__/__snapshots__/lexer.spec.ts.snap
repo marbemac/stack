@@ -84,7 +84,7 @@ exports[`supports qualifiers 1`] = `
 
 exports[`supports quoted qualifiers 1`] = `
 {
-  "input": "user:\\"john doe\\"",
+  "input": "user:"john doe"",
   "result": [
     "[qualKey] user (text=user:)",
     "[quote]",

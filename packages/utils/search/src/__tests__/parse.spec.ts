@@ -10,7 +10,7 @@ const prettyPrintParseResult = (input: string) => {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
   const res = parseSearchQuery(input as SearchString, { parser });
 
-  const pretty = [];
+  const pretty: string[] = [];
   for (const r of res.tokens) {
     if (isRawToken(r)) {
       pretty.push(`${r.value}`);

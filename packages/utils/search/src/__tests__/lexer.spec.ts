@@ -8,7 +8,7 @@ const prettyPrintLexer = (text: string) => {
 
   lexer.reset(text);
 
-  const pretty = [];
+  const pretty: string[] = [];
   for (const r of lexer) {
     if (['qualKey', 'qualVal', 'string', 'qualOp'].includes(r.type || '')) {
       pretty.push(`[${r.type}] ${r.value}${r.value !== r.text ? ` (text=${r.text})` : ''}`);

@@ -11,3 +11,10 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz');
 export const generateAuthToken = () => {
   return [...Array(4)].map(() => nanoid(5)).join('-');
 };
+
+const nanoidShortToken = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
+
+// 33K tokens needed in order to have a 1% probability of at least one collision
+export const generateShortToken = (length = 6) => {
+  return nanoidShortToken(length);
+};
