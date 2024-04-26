@@ -10,19 +10,18 @@
     "typecheck": "tsc",
     "test": "vitest run",
     "test.watch": "vitest watch",
-    "build.grammar": "nearleyc src/grammar.ne -o src/grammar.ts && sed -i '' '1s;^;/* eslint-disable */\\n// @ts-nocheck\\n;' src/grammar.ts"
+    "build.grammar": "peggy -o src/grammar.ts --format es --plugin ts-pegjs src/grammar.peggy"
   },
   "dependencies": {
-    "moo": "^0.5.2",
-    "nearley": "^2.20.1",
-    "solid-js": "^1.8.17"
+    "@marbemac/utils-dates": "workspace:*",
+    "peggy": "4.0.2",
+    "remeda": "^1.61.0"
   },
   "devDependencies": {
+    "@marbemac/utils-testing": "workspace:*",
     "@marbemac/utils-types": "workspace:*",
-    "@types/moo": "^0.5.9",
-    "@types/nearley": "^2.11.5",
-    "vite": "5.2.10",
-    "vite-plugin-solid": "^2.10.2",
-    "vitest": "~1.5.0"
+    "eslint": "8.57.0",
+    "ts-pegjs": "4.2.1",
+    "vitest": "~1.5.2"
   }
 }

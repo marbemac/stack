@@ -1,8 +1,10 @@
 # @marbemac/utils-search
 
-Functions for parsing and transforming search strings.
+Functions for parsing and transforming search strings. The majority of this implementation is copied from Sentry's
+search implementation. WIP!
 
-If the grammar in `./src/grammar.ne` is updated, run `yarn workspace @marbemac/utils-search build.grammar` to re-build.
+If the grammar in `./src/grammar.peggy` is updated, run `yarn workspace @marbemac/utils-search build.grammar` to
+re-build.
 
 ## Search Examples
 
@@ -25,6 +27,8 @@ name:"john doe"
 ```
 
 ## Library Usage
+
+@TODO this is the old nearley based usage. To update once the manipulation API is in place.
 
 ```ts
 import { createSearchQuery } from '@marbemac/utils-search';

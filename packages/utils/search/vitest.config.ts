@@ -2,14 +2,11 @@
 /// <reference types="vite/client" />
 
 import { defineConfig } from 'vite';
-import solidPlugin from 'vite-plugin-solid';
 
 export default defineConfig({
-  plugins: [solidPlugin()],
+  root: 'src',
+  plugins: [],
   build: {
     target: 'esnext',
-  },
-  test: {
-    environment: 'node',
   },
 });
