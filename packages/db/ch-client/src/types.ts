@@ -1,4 +1,4 @@
-import type { ClickHouseSettings } from '@clickhouse/client';
+import type { ClickHouseSettings } from '@clickhouse/client-common';
 
 export interface CreateClientOpts {
   /**

@@ -15,7 +15,7 @@ export class ClickHouseDriver implements Driver {
   constructor({ databaseUrl, migrationsTable }: DriverOpts) {
     this.#rootClient = createClient({ uri: databaseUrl, noDatabase: true });
     this.#databaseClient = createClient({ uri: databaseUrl });
-    this.#databaseName = parseDatabaseUrl(databaseUrl).database;
+    this.#databaseName = parseDatabaseUrl(databaseUrl).database!;
     this.#migrationsTable = migrationsTable || DEFAULT_MIGRATIONS_TABLE;
     this.#migrationsLockTable = `${this.#migrationsTable}_lock`;
   }
@@ -79,7 +79,7 @@ export class ClickHouseDriver implements Driver {
       `,
     });
 
-    return res.json<MigrationRow[]>();
+    return res.json<MigrationRow>();
   };
 
   public selectMigrationLock = async () => {
@@ -93,7 +93,7 @@ export class ClickHouseDriver implements Driver {
       `,
     });
 
-    const isLocked = (await res.json<MigrationLockRow[]>())?.[0]?.is_locked;
+    const isLocked = (await res.json<MigrationLockRow>())?.[0]?.is_locked;
 
     return isLocked === void 0 ? false : isLocked;
   };
@@ -137,7 +137,7 @@ export class ClickHouseDriver implements Driver {
       query: 'SHOW TABLES',
     });
 
-    const tables = (await tablesRes.json<{ name: string }[]>()).map(t => t.name).sort();
+    const tables = (await tablesRes.json<{ name: string }>()).map(t => t.name).sort();
 
     for (const table of tables) {
       // skip auto generated inner tables
@@ -148,7 +148,7 @@ export class ClickHouseDriver implements Driver {
         query: `SHOW CREATE TABLE ${table}`,
       });
 
-      const tableDetails = (await tableRes.json<{ statement: string }[]>())?.[0]!.statement;
+      const tableDetails = (await tableRes.json<{ statement: string }>())?.[0]!.statement;
 
       lines.push(`${tableDetails};\n\n`);
     }
@@ -167,5 +167,5 @@ const createClient = (opts: { uri: string; noDatabase?: boolean }) => {
   return baseCreateClient({
     applicationName: 'migrations',
     ...opts,
-  }) as ClickHouseClient;
+  }) as unknown as ClickHouseClient;
 };

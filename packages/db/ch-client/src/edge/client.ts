@@ -1,4 +1,5 @@
 import type { ClickHouseSettings } from '@clickhouse/client';
+import { isSuccessfulResponse, parseError } from '@clickhouse/client-common';
 import { Id } from '@marbemac/utils-ids';
 import { isReadableStream } from '@marbemac/utils-streams';
 import type { SetRequired } from '@marbemac/utils-types';
@@ -15,7 +16,6 @@ import type {
 import { encodeValues } from './encoding.ts';
 import { addSearchParams, type ToSearchParamsOptions } from './http-search-params.ts';
 import { ResultSet } from './result.ts';
-import { isSuccessfulResponse, parseError } from '@clickhouse/client-common';
 import { getAsText } from './streams.ts';
 
 export interface EdgeClickHouseClientConfig {
