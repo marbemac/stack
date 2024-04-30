@@ -1,5 +1,5 @@
 import { createId, init } from '@paralleldrive/cuid2';
-import { custom } from 'valibot';
+import { z } from 'zod';
 
 export type CUID2 = string;
 
@@ -15,16 +15,17 @@ export type DbId<NS extends string = string> = `${NS}_${CUID2}`;
 // Can reduce this for entities where we know the cardinality is low (e.g. customer records... we're not going ot have a billion companies)
 export function dbIdFactory<NS extends string>(namespace: NS, idLength = 12) {
   const createDbId = init({ length: idLength });
-  const validator = custom<DbId<NS>>(val => {
-    return typeof val === 'string' && isDbIdNamespace(val, namespace);
+
+  const validator = z.custom<DbId<NS>>(val => {
+    return typeof val === 'string' && isDbIdNamespace(val as any, namespace);
   }, 'Invalid ID');
 
   return {
     namespace,
     generate: (): DbId<NS> => create(namespace, createDbId),
     isNamespace: (id: DbId, throwIfNotMatch = false) => isDbIdNamespace(id, namespace, throwIfNotMatch),
+    isValid: (input: unknown): input is DbId<NS> => validator.safeParse(input).success,
     validator,
-    isValid: (input: unknown): input is DbId<NS> => !validator._parse(input as any).issues?.length,
   };
 }
 

@@ -12,6 +12,6 @@
     "test.watch": "vitest watch"
   },
   "devDependencies": {
-    "vitest": "~1.5.2"
+    "vitest": "~1.5.3"
   }
 }

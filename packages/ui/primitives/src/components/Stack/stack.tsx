@@ -9,7 +9,6 @@ import React, { forwardRef, useMemo } from 'react';
 
 import { createElement, type Options, type Props } from '../../utils/composition.tsx';
 import { type ContextValue, createContext, useContextProps } from '../../utils/context.tsx';
-import { Box } from '../Box/box.tsx';
 
 export interface StackOptions extends Options, StackStyleProps, StackSlotProps {
   divider?: boolean | React.ReactNode;
