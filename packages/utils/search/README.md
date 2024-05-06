@@ -1,29 +1,41 @@
 # @marbemac/utils-search
 
-Functions for parsing and transforming search strings. The majority of this implementation is copied from Sentry's
-search implementation. WIP!
+Functions for parsing and transforming a search query syntax. Leverages the
+[Chevrotain](https://github.com/Chevrotain/chevrotain).
 
-If the grammar in `./src/grammar.peggy` is updated, run `yarn workspace @marbemac/utils-search build.grammar` to
-re-build.
+If the grammar in `./src/grammar/parser.ts` is updated, run `yarn workspace @marbemac/utils-search build.grammar-types`
+to re-build the types.
 
 ## Search Examples
 
-The search syntax is inspired primarily by GitHub
-(https://docs.github.com/en/search-github/github-code-search/understanding-github-code-search-syntax) and Sentry
-(https://docs.sentry.io/product/sentry-basics/search).
+The search syntax is inspired primarily by
+[GitHub](https://docs.github.com/en/search-github/github-code-search/understanding-github-code-search-syntax) and
+[Sentry](https://docs.sentry.io/product/sentry-basics/search). .
 
 ```bash
-# qualifiers (by default, "and")
+# free form
+john
+
+# qualifiers ("and" by default)
 plan:free country:us
 
-# multi-value qualifiers ("or")
+# multi-value qualifiers ("in/or")
 plan:[free, enterprise]
 
 # operators
 num_members:>=5
 
+# negation
+!plan:free
+
 # quoted literals
-name:"john doe"
+name:"john doe" "freeform quoted literal"
+
+# functions
+count():>5 divide(one, two)
+
+# functions with nested filters
+count_if(companies, plan:free country:"united states")
 ```
 
 ## Library Usage

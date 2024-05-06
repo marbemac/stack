@@ -10,18 +10,19 @@
     "typecheck": "tsc",
     "test": "vitest run",
     "test.watch": "vitest watch",
-    "build.grammar": "peggy -o src/grammar.ts --format es --plugin ts-pegjs src/grammar.peggy"
+    "build.grammar-types": "tsx scripts/gen-typings.ts"
   },
   "dependencies": {
     "@marbemac/utils-dates": "workspace:*",
-    "peggy": "4.0.2",
+    "chevrotain": "11.0.3",
     "remeda": "^1.61.0"
   },
   "devDependencies": {
     "@marbemac/utils-testing": "workspace:*",
     "@marbemac/utils-types": "workspace:*",
     "eslint": "8.57.0",
-    "ts-pegjs": "4.2.1",
+    "tsx": "4.7.3",
+    "vite": "5.2.10",
     "vitest": "~1.5.3"
   }
 }

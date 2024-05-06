@@ -18,8 +18,16 @@ search
       return [space, ...terms.flat()];
     }
 
+simple_search
+  = space:spaces terms:simple_term* {
+      return [space, ...terms.flat()];
+    }
+
 term
   = (boolean_operator / paren_group / filter / free_text) spaces
+
+simple_term
+  = (boolean_operator / paren_group / simple_filter / free_text) spaces
 
 boolean_operator
   = (or_operator / and_operator) {
@@ -50,6 +58,10 @@ free_parens
 // All key:value filter types
 
 filter
+  = simple_filter
+  / aggregate_filter
+
+simple_filter
   = date_filter
   / specific_date_filter
   / rel_date_filter
@@ -58,16 +70,18 @@ filter
   / boolean_filter
   / numeric_in_filter
   / numeric_filter
-  / aggregate_duration_filter
+  / has_filter
+  / is_filter
+  / text_in_filter
+  / text_filter
+
+aggregate_filter
+  = aggregate_duration_filter
   / aggregate_size_filter
   / aggregate_numeric_filter
   / aggregate_percentage_filter
   / aggregate_date_filter
   / aggregate_rel_date_filter
-  / has_filter
-  / is_filter
-  / text_in_filter
-  / text_filter
 
 // filter for dates
 date_filter
@@ -244,9 +258,12 @@ aggregate_key
 
 function_args
   = arg1:aggregate_param
-    args:(spaces comma spaces !comma aggregate_param?)* {
+    args:(spaces comma spaces !comma aggregate_param_or_search?)* {
       return tc.tokenKeyAggregateArgs(arg1, args);
     }
+
+aggregate_param_or_search
+  = simple_search / aggregate_param
 
 aggregate_param
   = quoted_aggregate_param / raw_aggregate_param

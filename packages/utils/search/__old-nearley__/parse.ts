@@ -28,12 +28,14 @@ export type QualifierToken<T extends LexerT = LexerT> = QualifierSingleToken<T> 
 export type QualifierOp = LexerQualOps | '=';
 
 export interface QualifierSingleToken<T extends LexerT = LexerT> {
+  negated: boolean;
   key: T extends 'default' ? LexerToken<'qualKey'> : SimpleLexerToken<'qualKey'>;
   op: QualifierOp;
   val: T extends 'default' ? LexerToken<'qualVal'> : SimpleLexerToken<'qualVal'>;
 }
 
 export interface QualifierMultiToken<T extends LexerT = LexerT> {
+  negated: boolean;
   key: T extends 'default' ? LexerToken<'qualKey'> : SimpleLexerToken<'qualKey'>;
   op: LexerQualOps | '=';
   val: T extends 'default' ? LexerToken<'qualVal'>[] : SimpleLexerToken<'qualVal'>[];

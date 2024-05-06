@@ -21,9 +21,16 @@ const qualValWithSpace = { match: /[a-zA-Z0-9@_\s\\.]+/, value: (s: string) => s
 
 const QUAL_OPS = ['>', '<', '>=', '<='] as const;
 const qualOp = { match: [...QUAL_OPS] };
+const negationOp = { match: ['!'] };
 
 const STATES = {
   main: {
+    negation: { ...negationOp },
+    funcName: {
+      match: /[a-zA-Z0-9\-_]+\(/,
+      value: s => s.slice(0, -1), // chop the opening paren off
+      push: 'function',
+    },
     qualKey: {
       match: /[a-zA-Z0-9\-_\\.]+:/,
       push: 'qualifier',
@@ -52,6 +59,20 @@ const STATES = {
     qualVal: { ...qualValWithSpace, lineBreaks: true },
     comma: ',',
     rbracket: { match: ']', pop: 1 },
+  } satisfies Rules,
+
+  function: {
+    negation: { ...negationOp },
+    qualKey: {
+      match: /[a-zA-Z0-9\-_.]+:/,
+      push: 'qualifier',
+      // remove the : from the end
+      value: s => s.slice(0, -1),
+    },
+    comma: ',',
+    rparen: { match: ')', pop: 1 },
+    string: { match: /[a-zA-Z0-9_\\.]+/ },
+    space: { match: /\s+/, lineBreaks: true },
   } satisfies Rules,
 };
 

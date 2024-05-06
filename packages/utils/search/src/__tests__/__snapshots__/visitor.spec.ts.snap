@@ -1,0 +1,707 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`freeform > mixed throughout 1`] = `
+{
+  "input": "freeform1 age:5 freeform2 search",
+  "result": [
+    {
+      "quoted": false,
+      "type": "atomicFilterVal",
+      "value": "freeform1",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "age",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5",
+      },
+      "type": "filter",
+    },
+    {
+      "quoted": false,
+      "type": "atomicFilterVal",
+      "value": "freeform2",
+    },
+    {
+      "quoted": false,
+      "type": "atomicFilterVal",
+      "value": "search",
+    },
+  ],
+}
+`;
+
+exports[`freeform > quoted 1`] = `
+{
+  "input": ""a quoted:freeform" age:5",
+  "result": [
+    {
+      "quoted": true,
+      "type": "atomicFilterVal",
+      "value": "a quoted:freeform",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "age",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`freeform > treats as a string 1`] = `
+{
+  "input": "freeform",
+  "result": [
+    {
+      "quoted": false,
+      "type": "atomicFilterVal",
+      "value": "freeform",
+    },
+  ],
+}
+`;
+
+exports[`functions > no args 1`] = `
+{
+  "input": "full_name()",
+  "result": [
+    {
+      "lhs": {
+        "args": [],
+        "name": "full_name",
+        "type": "function",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": undefined,
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`functions > no args with space 1`] = `
+{
+  "input": "full_name(  )",
+  "result": [
+    {
+      "lhs": {
+        "args": [],
+        "name": "full_name",
+        "type": "function",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": undefined,
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`functions > single string arg 1`] = `
+{
+  "input": "count(events)",
+  "result": [
+    {
+      "lhs": {
+        "args": [
+          [
+            {
+              "quoted": false,
+              "type": "atomicFilterVal",
+              "value": "events",
+            },
+          ],
+        ],
+        "name": "count",
+        "type": "function",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": undefined,
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`functions > with filter argument 1`] = `
+{
+  "input": "count(projects, plan:free !has:email):>5",
+  "result": [
+    {
+      "lhs": {
+        "args": [
+          [
+            {
+              "quoted": false,
+              "type": "atomicFilterVal",
+              "value": "projects",
+            },
+          ],
+          [
+            {
+              "lhs": {
+                "type": "filterKey",
+                "value": "plan",
+              },
+              "negated": false,
+              "op": "=",
+              "rhs": {
+                "quoted": false,
+                "type": "atomicFilterVal",
+                "value": "free",
+              },
+              "type": "filter",
+            },
+            {
+              "lhs": {
+                "type": "filterKey",
+                "value": "has",
+              },
+              "negated": true,
+              "op": "=",
+              "rhs": {
+                "quoted": false,
+                "type": "atomicFilterVal",
+                "value": "email",
+              },
+              "type": "filter",
+            },
+          ],
+        ],
+        "name": "count",
+        "type": "function",
+      },
+      "negated": false,
+      "op": ">",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`functions > with quoted argument 1`] = `
+{
+  "input": "count(projects, "free search"):>0.5",
+  "result": [
+    {
+      "lhs": {
+        "args": [
+          [
+            {
+              "quoted": false,
+              "type": "atomicFilterVal",
+              "value": "projects",
+            },
+          ],
+          [
+            {
+              "quoted": true,
+              "type": "atomicFilterVal",
+              "value": "free search",
+            },
+          ],
+        ],
+        "name": "count",
+        "type": "function",
+      },
+      "negated": false,
+      "op": ">",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "0.5",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`functions > with rhs 1`] = `
+{
+  "input": "divide(projects, max_projects):>0.5",
+  "result": [
+    {
+      "lhs": {
+        "args": [
+          [
+            {
+              "quoted": false,
+              "type": "atomicFilterVal",
+              "value": "projects",
+            },
+          ],
+          [
+            {
+              "quoted": false,
+              "type": "atomicFilterVal",
+              "value": "max_projects",
+            },
+          ],
+        ],
+        "name": "divide",
+        "type": "function",
+      },
+      "negated": false,
+      "op": ">",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "0.5",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`in filters > negation 1`] = `
+{
+  "input": "!user:[jane, john doe]",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "user",
+      },
+      "negated": true,
+      "op": "=",
+      "rhs": {
+        "type": "filterIn",
+        "values": [
+          {
+            "quoted": false,
+            "type": "atomicFilterVal",
+            "value": "jane",
+          },
+          {
+            "quoted": false,
+            "type": "atomicFilterVal",
+            "value": "john",
+          },
+        ],
+      },
+      "type": "filter",
+    },
+    {
+      "quoted": false,
+      "type": "atomicFilterVal",
+      "value": "doe",
+    },
+  ],
+}
+`;
+
+exports[`in filters > works 1`] = `
+{
+  "input": "user:[jane, john doe] release:[12.0]",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "user",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "type": "filterIn",
+        "values": [
+          {
+            "quoted": false,
+            "type": "atomicFilterVal",
+            "value": "jane",
+          },
+          {
+            "quoted": false,
+            "type": "atomicFilterVal",
+            "value": "john",
+          },
+        ],
+      },
+      "type": "filter",
+    },
+    {
+      "quoted": false,
+      "type": "atomicFilterVal",
+      "value": "doe",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "release",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "type": "filterIn",
+        "values": [
+          {
+            "quoted": false,
+            "type": "atomicFilterVal",
+            "value": "12.0",
+          },
+        ],
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`operators > < 1`] = `
+{
+  "input": "num_members:<5.0",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "num_members",
+      },
+      "negated": false,
+      "op": "<",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5.0",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`operators > <= 1`] = `
+{
+  "input": "num_members:<=5.0",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "num_members",
+      },
+      "negated": false,
+      "op": "<=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5.0",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`operators > = 1`] = `
+{
+  "input": "num_members:=5",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "num_members",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`operators > > 1`] = `
+{
+  "input": "num_members:>5.0",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "num_members",
+      },
+      "negated": false,
+      "op": ">",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5.0",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`operators > >= 1`] = `
+{
+  "input": "num_members:>=5",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "num_members",
+      },
+      "negated": false,
+      "op": ">=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > .-_ in keys 1`] = `
+{
+  "input": "payments.plan-type_is:free",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "payments.plan-type_is",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "free",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > @.-_ in values 1`] = `
+{
+  "input": "email:jane@example.com type:public-company_x",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "email",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "jane@example.com",
+      },
+      "type": "filter",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "type",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "public-company_x",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > multiple 1`] = `
+{
+  "input": "plan:free age:5",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "plan",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "free",
+      },
+      "type": "filter",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "age",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "5",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > negation 1`] = `
+{
+  "input": "!plan:free",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "plan",
+      },
+      "negated": true,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "free",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > negation in quoted 1`] = `
+{
+  "input": "!user:"john doe"",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "user",
+      },
+      "negated": true,
+      "op": "=",
+      "rhs": {
+        "quoted": true,
+        "type": "atomicFilterVal",
+        "value": "john doe",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > partial filter still parses 1`] = `
+{
+  "input": "age:> plan:free user:",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "age",
+      },
+      "negated": false,
+      "op": ">",
+      "rhs": undefined,
+      "type": "filter",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "plan",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "free",
+      },
+      "type": "filter",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "user",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": undefined,
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > quoted value 1`] = `
+{
+  "input": "user:"john doe"",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "user",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": true,
+        "type": "atomicFilterVal",
+        "value": "john doe",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`text filters > works 1`] = `
+{
+  "input": "plan:free",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "plan",
+      },
+      "negated": false,
+      "op": "=",
+      "rhs": {
+        "quoted": false,
+        "type": "atomicFilterVal",
+        "value": "free",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;

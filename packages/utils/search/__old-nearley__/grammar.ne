@@ -10,34 +10,27 @@ const lexer = createLexer();
 
 # https://omrelli.ug/nearley-playground/ is helpful to experiment
 # Required adjustments to the content of this file if copy pasting over to playground:
-#   - need to remove "@preprocessor typescript" statement
-#   - need to copy createLexer function from lexer.ts, and change add "const moo = require('moo')" (es6 imports not supported)
+#   - remove "@preprocessor typescript" statement on line ~1
+#   - paste contents of `lexer.ts` over the `import ... ./lexer.js` statement on line ~5
+#   - remove all typescript typings from the copied code (easiest is to copy into JS file to highlight and delete)
+#   - change `import moo from 'moo';` to `const moo = require('moo')` (es6 imports not supported)
 
 @lexer lexer
 
-Main -> (Qual | _ | Raw):*  {% transformMain %}
+Main -> (Filter | _ | Raw):*  {% transformMain %}
 
-Qual ->
-	QualKey QualVal:? {% ([key,val]) => ({ key, op: '=', val: val || '' }) %}
-	| QualKey QualOp QualVal:? {% ([key,op,val]) => ({ key, op: op.value, val: val || '' }) %}
-	| QualKey Quote QualVal:? Quote:? {% ([key,,val]) => ({ key, op: '=', val: val || '' }) %}
-	| QualKey LBracket QualMultiVal:? RBracket:? {% ([key,,val]) => ({ key, op: '=', val: val || '' }) %}
+Filter ->
+	TextFilter {% id %}
+	| QuotedTextFilter {% id %}
+	| TextFilterIn {% id %}
 
-QualKey -> %qualKey {% id %}
+TextFilter -> %negation:? %qualKey %qualOp:? %qualVal:? {% ([negated,key,op,val]) => ({ negated: Boolean(negated), key, op: op || '=', val: val || '' }) %}
 
-QualOp -> %qualOp {% id %}
+QuotedTextFilter -> %negation:? %qualKey %quote %qualVal:? %quote:? {% ([negated,key,,val]) => ({ negated: Boolean(negated), key, op: '=', val: val || '' }) %}
 
-QualVal -> %qualVal {% id %}
+TextFilterIn -> %negation:? %qualKey %lbracket QualMultiVal:? %rbracket:? {% ([negated, key,,val]) => ({ negated: Boolean(negated), key, op: '=', val: val || '' }) %}
 
-QualMultiVal -> (QualVal Comma:?):+ {% ([val]) => val.map((v) => v[0]) %}
-
-Quote -> %quote {% () => null %}
-
-LBracket -> %lbracket {% () => null %}
-
-RBracket -> %rbracket {% () => null %}
-
-Comma -> %comma {% () => null %}
+QualMultiVal -> (%qualVal %comma:?):+ {% ([val]) => val.map((v) => v[0]) %}
 
 Raw -> %string {% id %}
 

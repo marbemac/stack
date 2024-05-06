@@ -29,14 +29,22 @@ export const caseGroups = {
     ['<=', 'num_members:<=5.0'],
   ],
 
-  'relative time': [],
+  // 'time': [
+  //   ['-', 'last_seen:-1d'],
+  //   ['+', 'renews_at:+30d'],
+  // ],
+
+  // 'relative time': [
+  //   ['-', 'last_seen:-1d'],
+  //   ['+', 'renews_at:+30d'],
+  // ],
 
   functions: [
     ['no args', 'full_name()'],
     ['no args with space', 'full_name(  )'],
     ['single string arg', 'count(events)'],
-    // ['', 'divide(projects, max_projects):>0.5']
+    ['with rhs', 'divide(projects, max_projects):>0.5'],
+    ['with filter argument', 'count(projects, plan:free !has:email):>5'],
+    ['with quoted argument', 'count(projects, "free search"):>0.5'],
   ],
-
-  'logic groups': [],
 };

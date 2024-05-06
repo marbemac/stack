@@ -453,308 +453,313 @@ function peg$parse(input, options) {
       return [space, ...terms.flat()];
     };// @ts-ignore
 
-  var peg$f1 = function() {
+  var peg$f1 = function(space, terms) {
+// @ts-ignore
+      return [space, ...terms.flat()];
+    };// @ts-ignore
+
+  var peg$f2 = function() {
 // @ts-ignore
       return tc.tokenLogicBoolean(text().toUpperCase());
     };// @ts-ignore
 
-  var peg$f2 = function(spaces, inner) {
+  var peg$f3 = function(spaces, inner) {
 // @ts-ignore
       return tc.tokenLogicGroup([spaces, ...inner].flat());
     };// @ts-ignore
 
-  var peg$f3 = function() {
+  var peg$f4 = function() {
 // @ts-ignore
       return tc.tokenFreeText(text(), false);
     };// @ts-ignore
 
-  var peg$f4 = function(value) {
+  var peg$f5 = function(value) {
 // @ts-ignore
       return tc.tokenFreeText(value.value, true);
     };// @ts-ignore
 
-  var peg$f5 = function(key, op, value) {
+  var peg$f6 = function(key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.DATE, key, value, op)
     };// @ts-ignore
 
-  var peg$f6 = function(key, op, value) {
+  var peg$f7 = function(key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.DATE, key, value, op, false);
     };// @ts-ignore
 
-  var peg$f7 = function(key, value) {
+  var peg$f8 = function(key, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.SPECIFIC_DATE, key)
     };// @ts-ignore
 
-  var peg$f8 = function(key, value) {
+  var peg$f9 = function(key, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.SPECIFIC_DATE, key, value, opDefault, false);
     };// @ts-ignore
 
-  var peg$f9 = function(key, value) {
+  var peg$f10 = function(key, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.RELATIVE_DATE, key)
     };// @ts-ignore
 
-  var peg$f10 = function(key, value) {
+  var peg$f11 = function(key, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.RELATIVE_DATE, key, value, opDefault, false);
     };// @ts-ignore
 
-  var peg$f11 = function(negation, key, op, value) {
+  var peg$f12 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.DURATION, key)
     };// @ts-ignore
 
-  var peg$f12 = function(negation, key, op, value) {
+  var peg$f13 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.DURATION, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f13 = function(negation, key, op, value) {
+  var peg$f14 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.SIZE, key)
     };// @ts-ignore
 
-  var peg$f14 = function(negation, key, op, value) {
+  var peg$f15 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.SIZE, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f15 = function(negation, key, value) {
+  var peg$f16 = function(negation, key, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.BOOLEAN, key)
     };// @ts-ignore
 
-  var peg$f16 = function(negation, key, value) {
+  var peg$f17 = function(negation, key, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.BOOLEAN, key, value, opDefault, !!negation);
     };// @ts-ignore
 
-  var peg$f17 = function(negation, key, value) {
+  var peg$f18 = function(negation, key, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.NUMERIC_IN, key)
     };// @ts-ignore
 
-  var peg$f18 = function(negation, key, value) {
+  var peg$f19 = function(negation, key, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.NUMERIC_IN, key, value, opDefault, !!negation);
     };// @ts-ignore
 
-  var peg$f19 = function(negation, key, op, value) {
+  var peg$f20 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.NUMERIC, key)
     };// @ts-ignore
 
-  var peg$f20 = function(negation, key, op, value) {
+  var peg$f21 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.NUMERIC, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f21 = function(negation, key, op, value) {
+  var peg$f22 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.AGGREGATE_DURATION, key)
   };// @ts-ignore
 
-  var peg$f22 = function(negation, key, op, value) {
+  var peg$f23 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.AGGREGATE_DURATION, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f23 = function(negation, key, op, value) {
+  var peg$f24 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.AGGREGATE_SIZE, key)
   };// @ts-ignore
 
-  var peg$f24 = function(negation, key, op, value) {
+  var peg$f25 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.AGGREGATE_SIZE, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f25 = function(negation, key, op, value) {
+  var peg$f26 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.AGGREGATE_PERCENTAGE, key)
     };// @ts-ignore
 
-  var peg$f26 = function(negation, key, op, value) {
+  var peg$f27 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.AGGREGATE_PERCENTAGE, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f27 = function(negation, key, op, value) {
+  var peg$f28 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.AGGREGATE_NUMERIC, key)
     };// @ts-ignore
 
-  var peg$f28 = function(negation, key, op, value) {
+  var peg$f29 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.AGGREGATE_NUMERIC, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f29 = function(negation, key, op, value) {
+  var peg$f30 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.AGGREGATE_DATE, key)
     };// @ts-ignore
 
-  var peg$f30 = function(negation, key, op, value) {
+  var peg$f31 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.AGGREGATE_DATE, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f31 = function(negation, key, op, value) {
+  var peg$f32 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.AGGREGATE_RELATIVE_DATE, key)
     };// @ts-ignore
 
-  var peg$f32 = function(negation, key, op, value) {
+  var peg$f33 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.AGGREGATE_RELATIVE_DATE, key, value, op, !!negation);
     };// @ts-ignore
 
-  var peg$f33 = function(negation, key, value) {
+  var peg$f34 = function(negation, key, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.HAS, key)
     };// @ts-ignore
 
-  var peg$f34 = function(negation, key, value) {
+  var peg$f35 = function(negation, key, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.HAS, key, value, opDefault, !!negation);
     };// @ts-ignore
 
-  var peg$f35 = function(negation, key, value) {
+  var peg$f36 = function(negation, key, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.IS, key)
     };// @ts-ignore
 
-  var peg$f36 = function(negation, key, value) {
+  var peg$f37 = function(negation, key, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.IS, key, value, opDefault, !!negation);
     };// @ts-ignore
 
-  var peg$f37 = function(negation, key, value) {
+  var peg$f38 = function(negation, key, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.TEXT_IN, key)
     };// @ts-ignore
 
-  var peg$f38 = function(negation, key, value) {
+  var peg$f39 = function(negation, key, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.TEXT_IN, key, value, opDefault, !!negation);
     };// @ts-ignore
 
-  var peg$f39 = function(negation, key) {// @ts-ignore
+  var peg$f40 = function(negation, key) {// @ts-ignore
  return tc.predicateTextOperator(key); };// @ts-ignore
 
-  var peg$f40 = function(negation, key, op, value) {
+  var peg$f41 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.predicateFilter(FilterType.TEXT, key)
     };// @ts-ignore
 
-  var peg$f41 = function(negation, key, op, value) {
+  var peg$f42 = function(negation, key, op, value) {
 // @ts-ignore
       return tc.tokenFilter(FilterType.TEXT, key, value, op ? op[0] : opDefault, !!negation);
     };// @ts-ignore
 
-  var peg$f42 = function(value) {
+  var peg$f43 = function(value) {
 // @ts-ignore
       return tc.tokenKeySimple(value.join(''), false);
     };// @ts-ignore
 
-  var peg$f43 = function(key) {
+  var peg$f44 = function(key) {
 // @ts-ignore
       return tc.tokenKeySimple(key.join(''), true);
     };// @ts-ignore
 
-  var peg$f44 = function(prefix, key) {
+  var peg$f45 = function(prefix, key) {
 // @ts-ignore
       return tc.tokenKeyExplicitTag(prefix, key);
     };// @ts-ignore
 
-  var peg$f45 = function(name, s1, args, s2) {
+  var peg$f46 = function(name, s1, args, s2) {
 // @ts-ignore
       return tc.tokenKeyAggregate(name, args, s1, s2);
     };// @ts-ignore
 
-  var peg$f46 = function(arg1, args) {
+  var peg$f47 = function(arg1, args) {
 // @ts-ignore
       return tc.tokenKeyAggregateArgs(arg1, args);
     };// @ts-ignore
 
-  var peg$f47 = function(param) {
+  var peg$f48 = function(param) {
 // @ts-ignore
       return tc.tokenKeyAggregateParam(param.join(''), false);
     };// @ts-ignore
 
-  var peg$f48 = function(param) {
+  var peg$f49 = function(param) {
 // @ts-ignore
       return tc.tokenKeyAggregateParam(`"${param.join('')}"`, true);
     };// @ts-ignore
 
-  var peg$f49 = function(value) {
+  var peg$f50 = function(value) {
 // @ts-ignore
       return tc.tokenValueText(value.join(''), false);
     };// @ts-ignore
 
-  var peg$f50 = function(value) {
+  var peg$f51 = function(value) {
 // @ts-ignore
       return tc.tokenValueText(value.join(''), true);
     };// @ts-ignore
 
-  var peg$f51 = function() {
+  var peg$f52 = function() {
 // @ts-ignore
         return tc.tokenValueText(text(), false);
     };// @ts-ignore
 
-  var peg$f52 = function(value, unit) {
+  var peg$f53 = function(value, unit) {
 // @ts-ignore
       return tc.tokenValueNumber(value.join(''), unit);
     };// @ts-ignore
 
-  var peg$f53 = function(value) {
+  var peg$f54 = function(value) {
 // @ts-ignore
       return tc.tokenValueBoolean(value);
     };// @ts-ignore
 
-  var peg$f54 = function(item1, items) {
+  var peg$f55 = function(item1, items) {
 // @ts-ignore
       return tc.tokenValueTextList(item1, items);
     };// @ts-ignore
 
-  var peg$f55 = function(item1, items) {
+  var peg$f56 = function(item1, items) {
 // @ts-ignore
       return tc.tokenValueNumberList(item1, items);
     };// @ts-ignore
 
-  var peg$f56 = function() {
+  var peg$f57 = function() {
 // @ts-ignore
       return tc.tokenValueIso8601Date(text());
     };// @ts-ignore
 
-  var peg$f57 = function(sign, value, unit) {
+  var peg$f58 = function(sign, value, unit) {
 // @ts-ignore
       return tc.tokenValueRelativeDate(value.join(''), sign, unit);
     };// @ts-ignore
 
-  var peg$f58 = function(value, unit) {
+  var peg$f59 = function(value, unit) {
 // @ts-ignore
       return tc.tokenValueDuration(value, unit);
     };// @ts-ignore
 
-  var peg$f59 = function(value, unit) {
+  var peg$f60 = function(value, unit) {
 // @ts-ignore
       return tc.tokenValueSize(value, unit);
     };// @ts-ignore
 
-  var peg$f60 = function(value) {
+  var peg$f61 = function(value) {
 // @ts-ignore
       return tc.tokenValuePercentage(value);
     };// @ts-ignore
 
-  var peg$f61 = function() {// @ts-ignore
+  var peg$f62 = function() {// @ts-ignore
  return text(); };// @ts-ignore
 
-  var peg$f62 = function() {// @ts-ignore
+  var peg$f63 = function() {// @ts-ignore
  return tc.tokenSpaces(text()) };
 // @ts-ignore
   var peg$currPos = options.peg$currPos | 0;
@@ -1050,6 +1055,36 @@ peg$parsesearch() {
 
 // @ts-ignore
   function // @ts-ignore
+peg$parsesimple_search() {
+// @ts-ignore
+    var s0, s1, s2, s3;
+
+// @ts-ignore
+    s0 = peg$currPos;
+// @ts-ignore
+    s1 = peg$parsespaces();
+// @ts-ignore
+    s2 = [];
+// @ts-ignore
+    s3 = peg$parsesimple_term();
+// @ts-ignore
+    while (s3 !== peg$FAILED) {
+// @ts-ignore
+      s2.push(s3);
+// @ts-ignore
+      s3 = peg$parsesimple_term();
+    }
+// @ts-ignore
+    peg$savedPos = s0;
+// @ts-ignore
+    s0 = peg$f1(s1, s2);
+
+// @ts-ignore
+    return s0;
+  }
+
+// @ts-ignore
+  function // @ts-ignore
 peg$parseterm() {
 // @ts-ignore
     var s0, s1, s2;
@@ -1066,6 +1101,51 @@ peg$parseterm() {
       if (s1 === peg$FAILED) {
 // @ts-ignore
         s1 = peg$parsefilter();
+// @ts-ignore
+        if (s1 === peg$FAILED) {
+// @ts-ignore
+          s1 = peg$parsefree_text();
+        }
+      }
+    }
+// @ts-ignore
+    if (s1 !== peg$FAILED) {
+// @ts-ignore
+      s2 = peg$parsespaces();
+// @ts-ignore
+      s1 = [s1, s2];
+// @ts-ignore
+      s0 = s1;
+// @ts-ignore
+    } else {
+// @ts-ignore
+      peg$currPos = s0;
+// @ts-ignore
+      s0 = peg$FAILED;
+    }
+
+// @ts-ignore
+    return s0;
+  }
+
+// @ts-ignore
+  function // @ts-ignore
+peg$parsesimple_term() {
+// @ts-ignore
+    var s0, s1, s2;
+
+// @ts-ignore
+    s0 = peg$currPos;
+// @ts-ignore
+    s1 = peg$parseboolean_operator();
+// @ts-ignore
+    if (s1 === peg$FAILED) {
+// @ts-ignore
+      s1 = peg$parseparen_group();
+// @ts-ignore
+      if (s1 === peg$FAILED) {
+// @ts-ignore
+        s1 = peg$parsesimple_filter();
 // @ts-ignore
         if (s1 === peg$FAILED) {
 // @ts-ignore
@@ -1113,7 +1193,7 @@ peg$parseboolean_operator() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s1 = peg$f1();
+      s1 = peg$f2();
     }
 // @ts-ignore
     s0 = s1;
@@ -1163,7 +1243,7 @@ peg$parseparen_group() {
 // @ts-ignore
           peg$savedPos = s0;
 // @ts-ignore
-          s0 = peg$f2(s2, s3);
+          s0 = peg$f3(s2, s3);
 // @ts-ignore
         } else {
 // @ts-ignore
@@ -1471,7 +1551,7 @@ peg$parsefree_text_unquoted() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s1 = peg$f3();
+      s1 = peg$f4();
     }
 // @ts-ignore
     s0 = s1;
@@ -1495,7 +1575,7 @@ peg$parsefree_text_quoted() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s1 = peg$f4(s1);
+      s1 = peg$f5(s1);
     }
 // @ts-ignore
     s0 = s1;
@@ -1557,6 +1637,24 @@ peg$parsefilter() {
     var s0;
 
 // @ts-ignore
+    s0 = peg$parsesimple_filter();
+// @ts-ignore
+    if (s0 === peg$FAILED) {
+// @ts-ignore
+      s0 = peg$parseaggregate_filter();
+    }
+
+// @ts-ignore
+    return s0;
+  }
+
+// @ts-ignore
+  function // @ts-ignore
+peg$parsesimple_filter() {
+// @ts-ignore
+    var s0;
+
+// @ts-ignore
     s0 = peg$parsedate_filter();
 // @ts-ignore
     if (s0 === peg$FAILED) {
@@ -1589,55 +1687,63 @@ peg$parsefilter() {
 // @ts-ignore
                   if (s0 === peg$FAILED) {
 // @ts-ignore
-                    s0 = peg$parseaggregate_duration_filter();
+                    s0 = peg$parsehas_filter();
 // @ts-ignore
                     if (s0 === peg$FAILED) {
 // @ts-ignore
-                      s0 = peg$parseaggregate_size_filter();
+                      s0 = peg$parseis_filter();
 // @ts-ignore
                       if (s0 === peg$FAILED) {
 // @ts-ignore
-                        s0 = peg$parseaggregate_numeric_filter();
+                        s0 = peg$parsetext_in_filter();
 // @ts-ignore
                         if (s0 === peg$FAILED) {
 // @ts-ignore
-                          s0 = peg$parseaggregate_percentage_filter();
-// @ts-ignore
-                          if (s0 === peg$FAILED) {
-// @ts-ignore
-                            s0 = peg$parseaggregate_date_filter();
-// @ts-ignore
-                            if (s0 === peg$FAILED) {
-// @ts-ignore
-                              s0 = peg$parseaggregate_rel_date_filter();
-// @ts-ignore
-                              if (s0 === peg$FAILED) {
-// @ts-ignore
-                                s0 = peg$parsehas_filter();
-// @ts-ignore
-                                if (s0 === peg$FAILED) {
-// @ts-ignore
-                                  s0 = peg$parseis_filter();
-// @ts-ignore
-                                  if (s0 === peg$FAILED) {
-// @ts-ignore
-                                    s0 = peg$parsetext_in_filter();
-// @ts-ignore
-                                    if (s0 === peg$FAILED) {
-// @ts-ignore
-                                      s0 = peg$parsetext_filter();
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
+                          s0 = peg$parsetext_filter();
                         }
                       }
                     }
                   }
                 }
               }
+            }
+          }
+        }
+      }
+    }
+
+// @ts-ignore
+    return s0;
+  }
+
+// @ts-ignore
+  function // @ts-ignore
+peg$parseaggregate_filter() {
+// @ts-ignore
+    var s0;
+
+// @ts-ignore
+    s0 = peg$parseaggregate_duration_filter();
+// @ts-ignore
+    if (s0 === peg$FAILED) {
+// @ts-ignore
+      s0 = peg$parseaggregate_size_filter();
+// @ts-ignore
+      if (s0 === peg$FAILED) {
+// @ts-ignore
+        s0 = peg$parseaggregate_numeric_filter();
+// @ts-ignore
+        if (s0 === peg$FAILED) {
+// @ts-ignore
+          s0 = peg$parseaggregate_percentage_filter();
+// @ts-ignore
+          if (s0 === peg$FAILED) {
+// @ts-ignore
+            s0 = peg$parseaggregate_date_filter();
+// @ts-ignore
+            if (s0 === peg$FAILED) {
+// @ts-ignore
+              s0 = peg$parseaggregate_rel_date_filter();
             }
           }
         }
@@ -1675,7 +1781,7 @@ peg$parsedate_filter() {
 // @ts-ignore
             peg$savedPos = peg$currPos;
 // @ts-ignore
-            s5 = peg$f5(s1, s3, s4);
+            s5 = peg$f6(s1, s3, s4);
 // @ts-ignore
             if (s5) {
 // @ts-ignore
@@ -1690,7 +1796,7 @@ peg$parsedate_filter() {
 // @ts-ignore
               peg$savedPos = s0;
 // @ts-ignore
-              s0 = peg$f6(s1, s3, s4);
+              s0 = peg$f7(s1, s3, s4);
 // @ts-ignore
             } else {
 // @ts-ignore
@@ -1754,7 +1860,7 @@ peg$parsespecific_date_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s4 = peg$f7(s1, s3);
+          s4 = peg$f8(s1, s3);
 // @ts-ignore
           if (s4) {
 // @ts-ignore
@@ -1769,7 +1875,7 @@ peg$parsespecific_date_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f8(s1, s3);
+            s0 = peg$f9(s1, s3);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -1826,7 +1932,7 @@ peg$parserel_date_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s4 = peg$f9(s1, s3);
+          s4 = peg$f10(s1, s3);
 // @ts-ignore
           if (s4) {
 // @ts-ignore
@@ -1841,7 +1947,7 @@ peg$parserel_date_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f10(s1, s3);
+            s0 = peg$f11(s1, s3);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -1912,7 +2018,7 @@ peg$parseduration_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f11(s1, s2, s4, s5);
+          s6 = peg$f12(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -1927,7 +2033,7 @@ peg$parseduration_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f12(s1, s2, s4, s5);
+            s0 = peg$f13(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -1998,7 +2104,7 @@ peg$parsesize_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f13(s1, s2, s4, s5);
+          s6 = peg$f14(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2013,7 +2119,7 @@ peg$parsesize_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f14(s1, s2, s4, s5);
+            s0 = peg$f15(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2077,7 +2183,7 @@ peg$parseboolean_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s5 = peg$f15(s1, s2, s4);
+          s5 = peg$f16(s1, s2, s4);
 // @ts-ignore
           if (s5) {
 // @ts-ignore
@@ -2092,7 +2198,7 @@ peg$parseboolean_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f16(s1, s2, s4);
+            s0 = peg$f17(s1, s2, s4);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2156,7 +2262,7 @@ peg$parsenumeric_in_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s5 = peg$f17(s1, s2, s4);
+          s5 = peg$f18(s1, s2, s4);
 // @ts-ignore
           if (s5) {
 // @ts-ignore
@@ -2171,7 +2277,7 @@ peg$parsenumeric_in_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f18(s1, s2, s4);
+            s0 = peg$f19(s1, s2, s4);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2242,7 +2348,7 @@ peg$parsenumeric_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f19(s1, s2, s4, s5);
+          s6 = peg$f20(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2257,7 +2363,7 @@ peg$parsenumeric_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f20(s1, s2, s4, s5);
+            s0 = peg$f21(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2328,7 +2434,7 @@ peg$parseaggregate_duration_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f21(s1, s2, s4, s5);
+          s6 = peg$f22(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2343,7 +2449,7 @@ peg$parseaggregate_duration_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f22(s1, s2, s4, s5);
+            s0 = peg$f23(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2414,7 +2520,7 @@ peg$parseaggregate_size_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f23(s1, s2, s4, s5);
+          s6 = peg$f24(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2429,7 +2535,7 @@ peg$parseaggregate_size_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f24(s1, s2, s4, s5);
+            s0 = peg$f25(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2500,7 +2606,7 @@ peg$parseaggregate_percentage_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f25(s1, s2, s4, s5);
+          s6 = peg$f26(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2515,7 +2621,7 @@ peg$parseaggregate_percentage_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f26(s1, s2, s4, s5);
+            s0 = peg$f27(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2586,7 +2692,7 @@ peg$parseaggregate_numeric_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f27(s1, s2, s4, s5);
+          s6 = peg$f28(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2601,7 +2707,7 @@ peg$parseaggregate_numeric_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f28(s1, s2, s4, s5);
+            s0 = peg$f29(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2672,7 +2778,7 @@ peg$parseaggregate_date_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f29(s1, s2, s4, s5);
+          s6 = peg$f30(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2687,7 +2793,7 @@ peg$parseaggregate_date_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f30(s1, s2, s4, s5);
+            s0 = peg$f31(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2758,7 +2864,7 @@ peg$parseaggregate_rel_date_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f31(s1, s2, s4, s5);
+          s6 = peg$f32(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -2773,7 +2879,7 @@ peg$parseaggregate_rel_date_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f32(s1, s2, s4, s5);
+            s0 = peg$f33(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -2874,7 +2980,7 @@ peg$parsehas_filter() {
 // @ts-ignore
             peg$savedPos = peg$currPos;
 // @ts-ignore
-            s6 = peg$f33(s1, s3, s5);
+            s6 = peg$f34(s1, s3, s5);
 // @ts-ignore
             if (s6) {
 // @ts-ignore
@@ -2889,7 +2995,7 @@ peg$parsehas_filter() {
 // @ts-ignore
               peg$savedPos = s0;
 // @ts-ignore
-              s0 = peg$f34(s1, s3, s5);
+              s0 = peg$f35(s1, s3, s5);
 // @ts-ignore
             } else {
 // @ts-ignore
@@ -2992,7 +3098,7 @@ peg$parseis_filter() {
 // @ts-ignore
             peg$savedPos = peg$currPos;
 // @ts-ignore
-            s6 = peg$f35(s1, s3, s5);
+            s6 = peg$f36(s1, s3, s5);
 // @ts-ignore
             if (s6) {
 // @ts-ignore
@@ -3007,7 +3113,7 @@ peg$parseis_filter() {
 // @ts-ignore
               peg$savedPos = s0;
 // @ts-ignore
-              s0 = peg$f36(s1, s3, s5);
+              s0 = peg$f37(s1, s3, s5);
 // @ts-ignore
             } else {
 // @ts-ignore
@@ -3078,7 +3184,7 @@ peg$parsetext_in_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s5 = peg$f37(s1, s2, s4);
+          s5 = peg$f38(s1, s2, s4);
 // @ts-ignore
           if (s5) {
 // @ts-ignore
@@ -3093,7 +3199,7 @@ peg$parsetext_in_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f38(s1, s2, s4);
+            s0 = peg$f39(s1, s2, s4);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -3159,7 +3265,7 @@ peg$parsetext_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f39(s1, s2);
+          s6 = peg$f40(s1, s2);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -3201,7 +3307,7 @@ peg$parsetext_filter() {
 // @ts-ignore
           peg$savedPos = peg$currPos;
 // @ts-ignore
-          s6 = peg$f40(s1, s2, s4, s5);
+          s6 = peg$f41(s1, s2, s4, s5);
 // @ts-ignore
           if (s6) {
 // @ts-ignore
@@ -3216,7 +3322,7 @@ peg$parsetext_filter() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f41(s1, s2, s4, s5);
+            s0 = peg$f42(s1, s2, s4, s5);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -3303,7 +3409,7 @@ peg$parsekey() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s1 = peg$f42(s1);
+      s1 = peg$f43(s1);
     }
 // @ts-ignore
     s0 = s1;
@@ -3395,7 +3501,7 @@ peg$parsequoted_key() {
 // @ts-ignore
           peg$savedPos = s0;
 // @ts-ignore
-          s0 = peg$f43(s2);
+          s0 = peg$f44(s2);
 // @ts-ignore
         } else {
 // @ts-ignore
@@ -3460,7 +3566,7 @@ peg$parseexplicit_tag_key() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f44(s1, s3);
+            s0 = peg$f45(s1, s3);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -3528,7 +3634,7 @@ peg$parseaggregate_key() {
 // @ts-ignore
           peg$savedPos = s0;
 // @ts-ignore
-          s0 = peg$f45(s1, s3, s4, s5);
+          s0 = peg$f46(s1, s3, s4, s5);
 // @ts-ignore
         } else {
 // @ts-ignore
@@ -3601,7 +3707,7 @@ peg$parsefunction_args() {
 // @ts-ignore
         if (s7 !== peg$FAILED) {
 // @ts-ignore
-          s8 = peg$parseaggregate_param();
+          s8 = peg$parseaggregate_param_or_search();
 // @ts-ignore
           if (s8 === peg$FAILED) {
 // @ts-ignore
@@ -3661,7 +3767,7 @@ peg$parsefunction_args() {
 // @ts-ignore
           if (s7 !== peg$FAILED) {
 // @ts-ignore
-            s8 = peg$parseaggregate_param();
+            s8 = peg$parseaggregate_param_or_search();
 // @ts-ignore
             if (s8 === peg$FAILED) {
 // @ts-ignore
@@ -3689,7 +3795,7 @@ peg$parsefunction_args() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s0 = peg$f46(s1, s2);
+      s0 = peg$f47(s1, s2);
 // @ts-ignore
     } else {
 // @ts-ignore
@@ -3697,6 +3803,19 @@ peg$parsefunction_args() {
 // @ts-ignore
       s0 = peg$FAILED;
     }
+
+// @ts-ignore
+    return s0;
+  }
+
+// @ts-ignore
+  function // @ts-ignore
+peg$parseaggregate_param_or_search() {
+// @ts-ignore
+    var s0;
+
+// @ts-ignore
+    s0 = peg$parsesimple_search();
 
 // @ts-ignore
     return s0;
@@ -3773,7 +3892,7 @@ peg$parseraw_aggregate_param() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s1 = peg$f47(s1);
+      s1 = peg$f48(s1);
     }
 // @ts-ignore
     s0 = s1;
@@ -3888,7 +4007,7 @@ peg$parsequoted_aggregate_param() {
 // @ts-ignore
         peg$savedPos = s0;
 // @ts-ignore
-        s0 = peg$f48(s2);
+        s0 = peg$f49(s2);
 // @ts-ignore
       } else {
 // @ts-ignore
@@ -3988,7 +4107,7 @@ peg$parsevalue() {
 // @ts-ignore
     peg$savedPos = s0;
 // @ts-ignore
-    s1 = peg$f49(s1);
+    s1 = peg$f50(s1);
 // @ts-ignore
     s0 = s1;
 
@@ -4102,7 +4221,7 @@ peg$parsequoted_value() {
 // @ts-ignore
         peg$savedPos = s0;
 // @ts-ignore
-        s0 = peg$f50(s2);
+        s0 = peg$f51(s2);
 // @ts-ignore
       } else {
 // @ts-ignore
@@ -4239,7 +4358,7 @@ peg$parsein_value() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s1 = peg$f51();
+      s1 = peg$f52();
     }
 // @ts-ignore
     s0 = s1;
@@ -4376,7 +4495,7 @@ peg$parsenumeric_value() {
 // @ts-ignore
         peg$savedPos = s0;
 // @ts-ignore
-        s0 = peg$f52(s1, s2);
+        s0 = peg$f53(s1, s2);
 // @ts-ignore
       } else {
 // @ts-ignore
@@ -4491,7 +4610,7 @@ peg$parseboolean_value() {
 // @ts-ignore
         peg$savedPos = s0;
 // @ts-ignore
-        s0 = peg$f53(s1);
+        s0 = peg$f54(s1);
 // @ts-ignore
       } else {
 // @ts-ignore
@@ -4674,7 +4793,7 @@ peg$parsetext_in_list() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f54(s2, s3);
+            s0 = peg$f55(s2, s3);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -4871,7 +4990,7 @@ peg$parsenumeric_in_list() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f55(s2, s3);
+            s0 = peg$f56(s2, s3);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -5798,7 +5917,7 @@ peg$parseiso_8601_date_format() {
 // @ts-ignore
         peg$savedPos = s0;
 // @ts-ignore
-        s0 = peg$f56();
+        s0 = peg$f57();
 // @ts-ignore
       } else {
 // @ts-ignore
@@ -5922,7 +6041,7 @@ peg$parserel_date_format() {
 // @ts-ignore
             peg$savedPos = s0;
 // @ts-ignore
-            s0 = peg$f57(s1, s2, s3);
+            s0 = peg$f58(s1, s2, s3);
 // @ts-ignore
           } else {
 // @ts-ignore
@@ -5996,7 +6115,7 @@ peg$parseduration_format() {
 // @ts-ignore
           peg$savedPos = s0;
 // @ts-ignore
-          s0 = peg$f58(s1, s2);
+          s0 = peg$f59(s1, s2);
 // @ts-ignore
         } else {
 // @ts-ignore
@@ -6063,7 +6182,7 @@ peg$parsesize_format() {
 // @ts-ignore
           peg$savedPos = s0;
 // @ts-ignore
-          s0 = peg$f59(s1, s2);
+          s0 = peg$f60(s1, s2);
 // @ts-ignore
         } else {
 // @ts-ignore
@@ -6120,7 +6239,7 @@ peg$parsepercentage_format() {
 // @ts-ignore
         peg$savedPos = s0;
 // @ts-ignore
-        s0 = peg$f60(s1);
+        s0 = peg$f61(s1);
 // @ts-ignore
       } else {
 // @ts-ignore
@@ -6995,7 +7114,7 @@ peg$parsenumeric() {
 // @ts-ignore
       peg$savedPos = s0;
 // @ts-ignore
-      s0 = peg$f61();
+      s0 = peg$f62();
 // @ts-ignore
     } else {
 // @ts-ignore
@@ -7220,7 +7339,7 @@ peg$parsespaces() {
 // @ts-ignore
     peg$savedPos = s0;
 // @ts-ignore
-    s1 = peg$f62();
+    s1 = peg$f63();
 // @ts-ignore
     s0 = s1;
 
@@ -7446,14 +7565,27 @@ export type Search = [
       : InnerArr
     : Term[])[]
 ];
+export type SimpleSearch = [
+  Spaces,
+  ...(SimpleTerm[] extends (infer InnerArr)[]
+    ? InnerArr extends (infer InnerArr)[]
+      ? InnerArr
+      : InnerArr
+    : SimpleTerm[])[]
+];
 export type Term = [BooleanOperator | ParenGroup | Filter | FreeText, Spaces];
+export type SimpleTerm = [
+  BooleanOperator | ParenGroup | SimpleFilter | FreeText,
+  Spaces
+];
 export type BooleanOperator = any;
 export type ParenGroup = any;
 export type FreeText = FreeTextQuoted | FreeTextUnquoted;
 export type FreeTextUnquoted = any;
 export type FreeTextQuoted = any;
 export type FreeParens = [OpenParen, FreeText | null, ClosedParen];
-export type Filter =
+export type Filter = SimpleFilter | AggregateFilter;
+export type SimpleFilter =
   | DateFilter
   | SpecificDateFilter
   | RelDateFilter
@@ -7462,16 +7594,17 @@ export type Filter =
   | BooleanFilter
   | NumericInFilter
   | NumericFilter
+  | HasFilter
+  | IsFilter
+  | TextInFilter
+  | TextFilter;
+export type AggregateFilter =
   | AggregateDurationFilter
   | AggregateSizeFilter
   | AggregateNumericFilter
   | AggregatePercentageFilter
   | AggregateDateFilter
-  | AggregateRelDateFilter
-  | HasFilter
-  | IsFilter
-  | TextInFilter
-  | TextFilter;
+  | AggregateRelDateFilter;
 export type DateFilter = any;
 export type SpecificDateFilter = any;
 export type RelDateFilter = any;
@@ -7495,6 +7628,7 @@ export type QuotedKey = any;
 export type ExplicitTagKey = any;
 export type AggregateKey = any;
 export type FunctionArgs = any;
+export type AggregateParamOrSearch = SimpleSearch | AggregateParam;
 export type AggregateParam = QuotedAggregateParam | RawAggregateParam;
 export type RawAggregateParam = any;
 export type QuotedAggregateParam = any;

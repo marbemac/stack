@@ -1,10 +1,10 @@
 import nearley from 'nearley';
-import { expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import grammar from '../grammar.ts';
 import { isRawToken, parseSearchQuery } from '../parse.ts';
 import type { SearchString } from '../types.ts';
-import { cases } from './cases.ts';
+import { caseGroups } from './cases.ts';
 
 const prettyPrintParseResult = (input: string) => {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
@@ -18,19 +18,30 @@ const prettyPrintParseResult = (input: string) => {
     }
 
     if (Array.isArray(r.val)) {
-      pretty.push(`${r.key.value} IN (${r.val.map(v => v.value).join(', ')})`);
+      if (r.negated) {
+        pretty.push(`${r.key.value} NOT IN (${r.val.map(v => v.value).join(', ')})`);
+      } else {
+        pretty.push(`${r.key.value} IN (${r.val.map(v => v.value).join(', ')})`);
+      }
+
       continue;
     }
 
-    pretty.push(`${r.key.value} ${r.op} ${r.val.value}`);
+    if (r.negated) {
+      pretty.push(`!(${r.key.value} ${r.op} ${r.val.value})`);
+    } else {
+      pretty.push(`${r.key.value} ${r.op} ${r.val.value}`);
+    }
   }
 
   return pretty;
 };
 
-it.each(cases)('%s', (_, input) => {
-  expect({
-    input,
-    result: prettyPrintParseResult(input),
-  }).toMatchSnapshot();
+describe.each(Object.entries(caseGroups))('%s', (_, cases) => {
+  it.each(cases)('%s', (_, input) => {
+    expect({
+      input,
+      result: prettyPrintParseResult(input),
+    }).toMatchSnapshot();
+  });
 });

@@ -120,6 +120,32 @@ export enum Token {
   VALUE_TEXT_LIST = 'valueTextList',
 }
 
+export const SimpleToken = {
+  SPACES: 'spaces',
+  FILTER: 'filter',
+  FREE_TEXT: 'freeText',
+  LOGIC_GROUP: 'logicGroup',
+  LOGIC_BOOLEAN: 'logicBoolean',
+  KEY_SIMPLE: 'keySimple',
+  KEY_EXPLICIT_TAG: 'keyExplicitTag',
+  VALUE_ISO_8601_DATE: 'valueIso8601Date',
+  VALUE_RELATIVE_DATE: 'valueRelativeDate',
+  VALUE_DURATION: 'valueDuration',
+  VALUE_SIZE: 'valueSize',
+  VALUE_PERCENTAGE: 'valuePercentage',
+  VALUE_BOOLEAN: 'valueBoolean',
+  VALUE_NUMBER: 'valueNumber',
+  VALUE_TEXT: 'valueText',
+  VALUE_NUMBER_LIST: 'valueNumberList',
+  VALUE_TEXT_LIST: 'valueTextList',
+} as const;
+
+export const AggregateToken = {
+  KEY_AGGREGATE: 'keyAggregate',
+  KEY_AGGREGATE_ARGS: 'keyAggregateArgs',
+  KEY_AGGREGATE_PARAMS: 'keyAggregateParam',
+} as const;
+
 /**
  * An operator in a key value term
  */
@@ -162,6 +188,21 @@ export enum FilterType {
   AGGREGATE_NUMERIC = 'aggregateNumeric',
   AGGREGATE_DATE = 'aggregateDate',
   AGGREGATE_RELATIVE_DATE = 'aggregateRelativeDate',
+  HAS = 'has',
+  IS = 'is',
+}
+
+export enum SimpleFilterType {
+  TEXT = 'text',
+  TEXT_IN = 'textIn',
+  DATE = 'date',
+  SPECIFIC_DATE = 'specificDate',
+  RELATIVE_DATE = 'relativeDate',
+  DURATION = 'duration',
+  SIZE = 'size',
+  NUMERIC = 'numeric',
+  NUMERIC_IN = 'numericIn',
+  BOOLEAN = 'boolean',
   HAS = 'has',
   IS = 'is',
 }
@@ -399,6 +440,7 @@ type InFilter = FilterMap[FilterType.TEXT_IN] | FilterMap[FilterType.NUMERIC_IN]
  * operator results are.
  */
 type FilterResult = FilterMap[FilterType];
+type SimpleFilterResult = FilterMap[SimpleFilterType];
 
 interface TokenConverterOpts {
   config: SearchConfig;
@@ -513,7 +555,16 @@ export class TokenConverter {
     key,
   });
 
-  tokenKeyAggregateParam = (value: string, quoted: boolean) => ({
+  tokenKeyAggregateParam = (
+    // value: (
+    //   | string
+    // | ReturnType<TokenConverter['tokenLogicBoolean']>
+    // | SimpleFilterResult
+    // | ReturnType<TokenConverter['tokenFreeText']>
+    // )[],
+    value: string,
+    quoted: boolean,
+  ) => ({
     ...this.defaultTokenFields,
     type: Token.KEY_AGGREGATE_PARAMS as const,
     value,
@@ -536,7 +587,13 @@ export class TokenConverter {
 
   tokenKeyAggregateArgs = (
     arg1: ReturnType<TokenConverter['tokenKeyAggregateParam']>,
-    args: ListItem<ReturnType<TokenConverter['tokenKeyAggregateParam']>>[],
+    args: ListItem<
+      (
+        | ReturnType<TokenConverter['tokenLogicBoolean']>
+        | SimpleFilterResult
+        | ReturnType<TokenConverter['tokenFreeText']>
+      )[]
+    >[],
   ) => ({
     ...this.defaultTokenFields,
     type: Token.KEY_AGGREGATE_ARGS as const,
@@ -670,7 +727,10 @@ export class TokenConverter {
     const { isNumeric, isDuration, isBoolean, isDate, isPercentage, isSize } = this.keyValidation;
 
     const checkAggregate = (check: (s: string) => boolean) =>
-      aggregateKey.args?.args.some(arg => check(arg?.value?.value ?? ''));
+      aggregateKey.args?.args.some(arg => {
+        const val = Array.isArray(arg.value) ? '' : arg.value?.value;
+        return check(val ?? '');
+      });
 
     switch (type) {
       case FilterType.NUMERIC:

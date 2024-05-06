@@ -38,6 +38,10 @@ const normalizeResult = (tokens: TokenResult<Token>[]) =>
   treeTransformer({
     tree: tokens,
     transform: token => {
+      if (token.type === Token.SPACES && !token.value.length) {
+        return null;
+      }
+
       // XXX: This attempts to keep the test data simple, only including keys
       // that are really needed to validate functionality.
 
@@ -100,6 +104,7 @@ const defaultConfig: Partial<SearchConfig> = {
     'end',
     'firstSeen',
     'lastSeen',
+    'last_seen',
     'last_seen()',
     'time',
     'event.timestamp',
@@ -151,11 +156,206 @@ describe('parser', () => {
       expect(normalizeResult(result)).toEqual(testCase.result);
     });
 
-  Object.entries(testData).map(([name, cases]) =>
-    describe(`${name}`, () => {
-      cases.map(c => registerTestCase(c, { parse: true }));
-    }),
-  );
+  // Object.entries(testData).map(([name, cases]) =>
+  //   describe(`${name}`, () => {
+  //     cases.map(c => registerTestCase(c, { parse: true }));
+  //   }),
+  // );
+
+  it.only('debug', () => {
+    // 'count(foo:bar):>5'
+
+    // const q = 'count_if(people, foo:bar fee:foo):5';
+    // const q = 'count_if(people, foo:[bar, foo]):5';
+    // const q = 'count_if(people, count():2):5';
+    const q = 'count_if(people, has:role):5';
+    // const q = 'transaction.duration:5d';
+    const result = parseSearch(q, {
+      ...defaultConfig,
+    });
+
+    expect(normalizeResult(result!)).toMatchInlineSnapshot(`
+      [
+        {
+          "filter": "aggregateNumeric",
+          "invalid": null,
+          "key": {
+            "args": {
+              "args": [
+                {
+                  "separator": "",
+                  "value": {
+                    "location": {
+                      "end": {
+                        "column": 16,
+                        "line": 1,
+                        "offset": 15,
+                      },
+                      "source": undefined,
+                      "start": {
+                        "column": 10,
+                        "line": 1,
+                        "offset": 9,
+                      },
+                    },
+                    "quoted": false,
+                    "type": "keyAggregateParam",
+                    "value": "people",
+                  },
+                },
+                {
+                  "separator": ", ",
+                  "value": [
+                    {
+                      "filter": "has",
+                      "invalid": null,
+                      "key": {
+                        "location": {
+                          "end": {
+                            "column": 21,
+                            "line": 1,
+                            "offset": 20,
+                          },
+                          "source": undefined,
+                          "start": {
+                            "column": 18,
+                            "line": 1,
+                            "offset": 17,
+                          },
+                        },
+                        "quoted": false,
+                        "type": "keySimple",
+                        "value": "has",
+                      },
+                      "location": {
+                        "end": {
+                          "column": 26,
+                          "line": 1,
+                          "offset": 25,
+                        },
+                        "source": undefined,
+                        "start": {
+                          "column": 18,
+                          "line": 1,
+                          "offset": 17,
+                        },
+                      },
+                      "negated": false,
+                      "operator": "",
+                      "type": "filter",
+                      "value": {
+                        "location": {
+                          "end": {
+                            "column": 26,
+                            "line": 1,
+                            "offset": 25,
+                          },
+                          "source": undefined,
+                          "start": {
+                            "column": 22,
+                            "line": 1,
+                            "offset": 21,
+                          },
+                        },
+                        "quoted": false,
+                        "type": "keySimple",
+                        "value": "role",
+                      },
+                      "warning": null,
+                    },
+                  ],
+                },
+              ],
+              "location": {
+                "end": {
+                  "column": 26,
+                  "line": 1,
+                  "offset": 25,
+                },
+                "source": undefined,
+                "start": {
+                  "column": 10,
+                  "line": 1,
+                  "offset": 9,
+                },
+              },
+              "type": "keyAggregateArgs",
+            },
+            "argsSpaceAfter": null,
+            "argsSpaceBefore": null,
+            "location": {
+              "end": {
+                "column": 27,
+                "line": 1,
+                "offset": 26,
+              },
+              "source": undefined,
+              "start": {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "name": {
+              "location": {
+                "end": {
+                  "column": 9,
+                  "line": 1,
+                  "offset": 8,
+                },
+                "source": undefined,
+                "start": {
+                  "column": 1,
+                  "line": 1,
+                  "offset": 0,
+                },
+              },
+              "quoted": false,
+              "type": "keySimple",
+              "value": "count_if",
+            },
+            "type": "keyAggregate",
+          },
+          "location": {
+            "end": {
+              "column": 29,
+              "line": 1,
+              "offset": 28,
+            },
+            "source": undefined,
+            "start": {
+              "column": 1,
+              "line": 1,
+              "offset": 0,
+            },
+          },
+          "negated": false,
+          "operator": "",
+          "type": "filter",
+          "value": {
+            "location": {
+              "end": {
+                "column": 29,
+                "line": 1,
+                "offset": 28,
+              },
+              "source": undefined,
+              "start": {
+                "column": 28,
+                "line": 1,
+                "offset": 27,
+              },
+            },
+            "parsed": undefined,
+            "type": "valueNumber",
+            "unit": null,
+            "value": "5",
+          },
+          "warning": null,
+        },
+      ]
+    `);
+  });
 
   it('returns token warnings', () => {
     const result = parseSearch('foo:bar bar:baz tags[foo]:bar tags[bar]:baz', {

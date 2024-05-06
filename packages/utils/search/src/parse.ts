@@ -1,0 +1,42 @@
+import type { ILexingResult, Lexer } from 'chevrotain';
+
+import { createSearchLexer } from './grammar/lexer.ts';
+import { createSearchParser, type SearchParser } from './grammar/parser.ts';
+import type { SearchString } from './types.ts';
+
+let lexerSingleton: Lexer;
+let parserSingleton: SearchParser;
+
+export interface ParseQueryOpts<T extends InputType> {
+  input: SearchString;
+  inputType: T;
+  lexer?: Lexer;
+  parser?: SearchParser;
+}
+
+type InputType = 'searchQuery' | 'selectClause' | 'fromClause' | 'whereClause' | 'whereExpression';
+
+export const parseQuery = <T extends InputType>({
+  input,
+  inputType,
+  ...rest
+}: ParseQueryOpts<T>): { cst: ReturnType<SearchParser[T]>; lexResult: ILexingResult } => {
+  let lexer = rest.lexer || lexerSingleton;
+  if (!lexer) {
+    lexer = lexerSingleton = createSearchLexer();
+  }
+
+  const lexResult = lexer.tokenize(input);
+
+  let parser = rest.parser || parserSingleton;
+  if (!parser) {
+    parser = parserSingleton = createSearchParser();
+  }
+
+  // "input" is a setter which will reset the parser's state.
+  parser.input = lexResult.tokens;
+
+  const cst = parser[inputType]() as ReturnType<SearchParser[T]>;
+
+  return { cst, lexResult };
+};
