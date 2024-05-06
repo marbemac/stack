@@ -31,8 +31,8 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
 
       // The Identifier must appear after the keywords because all keywords are valid identifiers.
       t.Identifier,
-
-      t.Integer,
+      t.DateUnit,
+      t.Number,
     ],
 
     quoted_mode: [t.RQuote, t.QuotedIdentifier],

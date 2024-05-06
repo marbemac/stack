@@ -94,7 +94,7 @@ export class SearchParser extends CstParser {
   });
 
   #functionArg = this.#RULE('functionArg', () => {
-    this.MANY_SEP2({
+    this.MANY_SEP({
       SEP: t.WhiteSpace,
       DEF: () => {
         this.OR([
@@ -110,7 +110,11 @@ export class SearchParser extends CstParser {
   });
 
   #filterVal = this.#RULE('filterVal', () => {
-    this.OR([{ ALT: () => this.SUBRULE(this.#filterIn) }, { ALT: () => this.SUBRULE(this.#atomicFilterVal) }]);
+    this.OR([
+      { ALT: () => this.SUBRULE(this.#filterIn, { LABEL: 'val' }) },
+      { ALT: () => this.SUBRULE(this.#relativeDateFilterVal, { LABEL: 'val' }) },
+      { ALT: () => this.SUBRULE(this.#atomicFilterVal, { LABEL: 'val' }) },
+    ]);
   });
 
   #filterIn = this.#RULE('filterIn', () => {
@@ -124,6 +128,16 @@ export class SearchParser extends CstParser {
     this.CONSUME2(t.RBracket);
   });
 
+  #relativeDateFilterVal = this.#RULE('relativeDateFilterVal', () => {
+    this.OR([
+      { ALT: () => this.CONSUME(t.Plus, { LABEL: 'op' }) },
+      { ALT: () => this.CONSUME(t.Minus, { LABEL: 'op' }) },
+    ]);
+
+    this.CONSUME(t.Number);
+    this.CONSUME(t.DateUnit);
+  });
+
   #atomicFilterVal = this.#RULE('atomicFilterVal', () => {
     this.OR([
       {
@@ -134,6 +148,7 @@ export class SearchParser extends CstParser {
         },
       },
       { ALT: () => this.CONSUME(t.Identifier) },
+      { ALT: () => this.CONSUME(t.Number) },
     ]);
   });
 
@@ -142,8 +157,6 @@ export class SearchParser extends CstParser {
 
     this.OPTION(() => {
       this.OR([
-        { ALT: () => this.CONSUME(t.Minus, { LABEL: 'op' }) },
-        { ALT: () => this.CONSUME(t.Plus, { LABEL: 'op' }) },
         { ALT: () => this.CONSUME(t.Equals, { LABEL: 'op' }) },
         { ALT: () => this.CONSUME(t.GreaterEq, { LABEL: 'op' }) },
         { ALT: () => this.CONSUME(t.LessEq, { LABEL: 'op' }) },

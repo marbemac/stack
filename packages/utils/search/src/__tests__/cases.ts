@@ -17,8 +17,10 @@ export const caseGroups = {
   ],
 
   'in filters': [
-    ['works', 'user:[jane, john doe] release:[12.0]'],
-    ['negation', '!user:[jane, john doe]'],
+    ['works', 'user:[jane, john]'],
+    ['negation', '!user:[jane, john]'],
+    ['numbers', 'release:[12.0]'],
+    ['quoted', 'release:[jane, "john doe"]'],
   ],
 
   operators: [
@@ -34,10 +36,12 @@ export const caseGroups = {
   //   ['+', 'renews_at:+30d'],
   // ],
 
-  // 'relative time': [
-  //   ['-', 'last_seen:-1d'],
-  //   ['+', 'renews_at:+30d'],
-  // ],
+  'relative date': [
+    ['-', 'last_seen:-1d'],
+    ['+', 'renews_at:+30d'],
+    ['decimal', 'renews_at:+1.2s'],
+    ['with other filters', 'plan:free renews_at:+4w "free form"'],
+  ],
 
   functions: [
     ['no args', 'full_name()'],

@@ -5,7 +5,7 @@ exports[`freeform > mixed throughout 1`] = `
   "input": "freeform1 age:5 freeform2 search",
   "result": [
     {
-      "type": "atomicFilterVal",
+      "type": "textVal",
       "value": "freeform1",
     },
     {
@@ -13,19 +13,19 @@ exports[`freeform > mixed throughout 1`] = `
         "type": "filterKey",
         "value": "age",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5",
       },
       "type": "filter",
     },
     {
-      "type": "atomicFilterVal",
+      "type": "textVal",
       "value": "freeform2",
     },
     {
-      "type": "atomicFilterVal",
+      "type": "textVal",
       "value": "search",
     },
   ],
@@ -38,7 +38,7 @@ exports[`freeform > quoted 1`] = `
   "result": [
     {
       "quoted": true,
-      "type": "atomicFilterVal",
+      "type": "textVal",
       "value": "a quoted:freeform",
     },
     {
@@ -46,9 +46,9 @@ exports[`freeform > quoted 1`] = `
         "type": "filterKey",
         "value": "age",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5",
       },
       "type": "filter",
@@ -62,7 +62,7 @@ exports[`freeform > treats as a string 1`] = `
   "input": "freeform",
   "result": [
     {
-      "type": "atomicFilterVal",
+      "type": "textVal",
       "value": "freeform",
     },
   ],
@@ -79,7 +79,7 @@ exports[`functions > no args 1`] = `
         "name": "full_name",
         "type": "function",
       },
-      "op": "=",
+      "op": "",
       "rhs": undefined,
       "type": "filter",
     },
@@ -97,7 +97,7 @@ exports[`functions > no args with space 1`] = `
         "name": "full_name",
         "type": "function",
       },
-      "op": "=",
+      "op": "",
       "rhs": undefined,
       "type": "filter",
     },
@@ -114,7 +114,7 @@ exports[`functions > single string arg 1`] = `
         "args": [
           [
             {
-              "type": "atomicFilterVal",
+              "type": "textVal",
               "value": "events",
             },
           ],
@@ -122,7 +122,7 @@ exports[`functions > single string arg 1`] = `
         "name": "count",
         "type": "function",
       },
-      "op": "=",
+      "op": "",
       "rhs": undefined,
       "type": "filter",
     },
@@ -139,7 +139,7 @@ exports[`functions > with filter argument 1`] = `
         "args": [
           [
             {
-              "type": "atomicFilterVal",
+              "type": "textVal",
               "value": "projects",
             },
           ],
@@ -149,9 +149,9 @@ exports[`functions > with filter argument 1`] = `
                 "type": "filterKey",
                 "value": "plan",
               },
-              "op": "=",
+              "op": "",
               "rhs": {
-                "type": "atomicFilterVal",
+                "type": "textVal",
                 "value": "free",
               },
               "type": "filter",
@@ -162,9 +162,9 @@ exports[`functions > with filter argument 1`] = `
                 "value": "has",
               },
               "negated": true,
-              "op": "=",
+              "op": "",
               "rhs": {
-                "type": "atomicFilterVal",
+                "type": "textVal",
                 "value": "email",
               },
               "type": "filter",
@@ -176,7 +176,7 @@ exports[`functions > with filter argument 1`] = `
       },
       "op": ">",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5",
       },
       "type": "filter",
@@ -194,14 +194,14 @@ exports[`functions > with quoted argument 1`] = `
         "args": [
           [
             {
-              "type": "atomicFilterVal",
+              "type": "textVal",
               "value": "projects",
             },
           ],
           [
             {
               "quoted": true,
-              "type": "atomicFilterVal",
+              "type": "textVal",
               "value": "free search",
             },
           ],
@@ -211,7 +211,7 @@ exports[`functions > with quoted argument 1`] = `
       },
       "op": ">",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "0.5",
       },
       "type": "filter",
@@ -229,13 +229,13 @@ exports[`functions > with rhs 1`] = `
         "args": [
           [
             {
-              "type": "atomicFilterVal",
+              "type": "textVal",
               "value": "projects",
             },
           ],
           [
             {
-              "type": "atomicFilterVal",
+              "type": "textVal",
               "value": "max_projects",
             },
           ],
@@ -245,7 +245,7 @@ exports[`functions > with rhs 1`] = `
       },
       "op": ">",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "0.5",
       },
       "type": "filter",
@@ -256,7 +256,7 @@ exports[`functions > with rhs 1`] = `
 
 exports[`in filters > negation 1`] = `
 {
-  "input": "!user:[jane, john doe]",
+  "input": "!user:[jane, john]",
   "result": [
     {
       "lhs": {
@@ -264,25 +264,76 @@ exports[`in filters > negation 1`] = `
         "value": "user",
       },
       "negated": true,
-      "op": "=",
+      "op": "",
       "rhs": {
         "type": "filterIn",
         "values": [
           {
-            "type": "atomicFilterVal",
+            "type": "textVal",
             "value": "jane",
           },
           {
-            "type": "atomicFilterVal",
+            "type": "textVal",
             "value": "john",
           },
         ],
       },
       "type": "filter",
     },
+  ],
+}
+`;
+
+exports[`in filters > numbers 1`] = `
+{
+  "input": "release:[12.0]",
+  "result": [
     {
-      "type": "atomicFilterVal",
-      "value": "doe",
+      "lhs": {
+        "type": "filterKey",
+        "value": "release",
+      },
+      "op": "",
+      "rhs": {
+        "type": "filterIn",
+        "values": [
+          {
+            "type": "numberVal",
+            "value": "12.0",
+          },
+        ],
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`in filters > quoted 1`] = `
+{
+  "input": "release:[jane, "john doe"]",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "release",
+      },
+      "op": "",
+      "rhs": {
+        "type": "filterIn",
+        "values": [
+          {
+            "type": "textVal",
+            "value": "jane",
+          },
+          {
+            "quoted": true,
+            "type": "textVal",
+            "value": "john doe",
+          },
+        ],
+      },
+      "type": "filter",
     },
   ],
 }
@@ -290,45 +341,24 @@ exports[`in filters > negation 1`] = `
 
 exports[`in filters > works 1`] = `
 {
-  "input": "user:[jane, john doe] release:[12.0]",
+  "input": "user:[jane, john]",
   "result": [
     {
       "lhs": {
         "type": "filterKey",
         "value": "user",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
         "type": "filterIn",
         "values": [
           {
-            "type": "atomicFilterVal",
+            "type": "textVal",
             "value": "jane",
           },
           {
-            "type": "atomicFilterVal",
+            "type": "textVal",
             "value": "john",
-          },
-        ],
-      },
-      "type": "filter",
-    },
-    {
-      "type": "atomicFilterVal",
-      "value": "doe",
-    },
-    {
-      "lhs": {
-        "type": "filterKey",
-        "value": "release",
-      },
-      "op": "=",
-      "rhs": {
-        "type": "filterIn",
-        "values": [
-          {
-            "type": "atomicFilterVal",
-            "value": "12.0",
           },
         ],
       },
@@ -349,7 +379,7 @@ exports[`operators > < 1`] = `
       },
       "op": "<",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5.0",
       },
       "type": "filter",
@@ -369,7 +399,7 @@ exports[`operators > <= 1`] = `
       },
       "op": "<=",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5.0",
       },
       "type": "filter",
@@ -389,7 +419,7 @@ exports[`operators > = 1`] = `
       },
       "op": "=",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5",
       },
       "type": "filter",
@@ -409,7 +439,7 @@ exports[`operators > > 1`] = `
       },
       "op": ">",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5.0",
       },
       "type": "filter",
@@ -429,10 +459,115 @@ exports[`operators > >= 1`] = `
       },
       "op": ">=",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5",
       },
       "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`relative date > + 1`] = `
+{
+  "input": "renews_at:+30d",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "renews_at",
+      },
+      "op": "",
+      "rhs": {
+        "sign": "+",
+        "type": "relativeDateVal",
+        "unit": "d",
+        "value": "30",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`relative date > - 1`] = `
+{
+  "input": "last_seen:-1d",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "last_seen",
+      },
+      "op": "",
+      "rhs": {
+        "sign": "-",
+        "type": "relativeDateVal",
+        "unit": "d",
+        "value": "1",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`relative date > decimal 1`] = `
+{
+  "input": "renews_at:+1.2s",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "renews_at",
+      },
+      "op": "",
+      "rhs": {
+        "sign": "+",
+        "type": "relativeDateVal",
+        "unit": "s",
+        "value": "1.2",
+      },
+      "type": "filter",
+    },
+  ],
+}
+`;
+
+exports[`relative date > with other filters 1`] = `
+{
+  "input": "plan:free renews_at:+4w "free form"",
+  "result": [
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "plan",
+      },
+      "op": "",
+      "rhs": {
+        "type": "textVal",
+        "value": "free",
+      },
+      "type": "filter",
+    },
+    {
+      "lhs": {
+        "type": "filterKey",
+        "value": "renews_at",
+      },
+      "op": "",
+      "rhs": {
+        "sign": "+",
+        "type": "relativeDateVal",
+        "unit": "w",
+        "value": "4",
+      },
+      "type": "filter",
+    },
+    {
+      "quoted": true,
+      "type": "textVal",
+      "value": "free form",
     },
   ],
 }
@@ -447,9 +582,9 @@ exports[`text filters > .-_ in keys 1`] = `
         "type": "filterKey",
         "value": "payments.plan-type_is",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "free",
       },
       "type": "filter",
@@ -467,9 +602,9 @@ exports[`text filters > @.-_ in values 1`] = `
         "type": "filterKey",
         "value": "email",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "jane@example.com",
       },
       "type": "filter",
@@ -479,9 +614,9 @@ exports[`text filters > @.-_ in values 1`] = `
         "type": "filterKey",
         "value": "type",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "public-company_x",
       },
       "type": "filter",
@@ -499,9 +634,9 @@ exports[`text filters > multiple 1`] = `
         "type": "filterKey",
         "value": "plan",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "free",
       },
       "type": "filter",
@@ -511,9 +646,9 @@ exports[`text filters > multiple 1`] = `
         "type": "filterKey",
         "value": "age",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "numberVal",
         "value": "5",
       },
       "type": "filter",
@@ -532,9 +667,9 @@ exports[`text filters > negation 1`] = `
         "value": "plan",
       },
       "negated": true,
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "free",
       },
       "type": "filter",
@@ -553,10 +688,10 @@ exports[`text filters > negation in quoted 1`] = `
         "value": "user",
       },
       "negated": true,
-      "op": "=",
+      "op": "",
       "rhs": {
         "quoted": true,
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "john doe",
       },
       "type": "filter",
@@ -583,9 +718,9 @@ exports[`text filters > partial filter still parses 1`] = `
         "type": "filterKey",
         "value": "plan",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "free",
       },
       "type": "filter",
@@ -595,7 +730,7 @@ exports[`text filters > partial filter still parses 1`] = `
         "type": "filterKey",
         "value": "user",
       },
-      "op": "=",
+      "op": "",
       "rhs": undefined,
       "type": "filter",
     },
@@ -612,10 +747,10 @@ exports[`text filters > quoted value 1`] = `
         "type": "filterKey",
         "value": "user",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
         "quoted": true,
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "john doe",
       },
       "type": "filter",
@@ -633,9 +768,9 @@ exports[`text filters > works 1`] = `
         "type": "filterKey",
         "value": "plan",
       },
-      "op": "=",
+      "op": "",
       "rhs": {
-        "type": "atomicFilterVal",
+        "type": "textVal",
         "value": "free",
       },
       "type": "filter",

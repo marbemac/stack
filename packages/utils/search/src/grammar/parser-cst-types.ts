@@ -105,8 +105,7 @@ export interface FilterValCstNode extends CstNode {
 }
 
 export type FilterValCstChildren = {
-  filterIn?: FilterInCstNode[];
-  atomicFilterVal?: AtomicFilterValCstNode[];
+  val?: (FilterInCstNode | RelativeDateFilterValCstNode | AtomicFilterValCstNode)[];
 };
 
 export interface FilterInCstNode extends CstNode {
@@ -121,6 +120,17 @@ export type FilterInCstChildren = {
   RBracket: IToken[];
 };
 
+export interface RelativeDateFilterValCstNode extends CstNode {
+  name: "relativeDateFilterVal";
+  children: RelativeDateFilterValCstChildren;
+}
+
+export type RelativeDateFilterValCstChildren = {
+  op?: (IToken)[];
+  Number: IToken[];
+  DateUnit: IToken[];
+};
+
 export interface AtomicFilterValCstNode extends CstNode {
   name: "atomicFilterVal";
   children: AtomicFilterValCstChildren;
@@ -131,6 +141,7 @@ export type AtomicFilterValCstChildren = {
   QuotedIdentifier?: IToken[];
   RQuote?: IToken[];
   Identifier?: IToken[];
+  Number?: IToken[];
 };
 
 export interface FilterOpCstNode extends CstNode {
@@ -155,6 +166,7 @@ export interface TSearchCstVisitor<IN, OUT> extends ICstVisitor<IN, OUT> {
   filterKey(children: FilterKeyCstChildren, param?: IN): OUT;
   filterVal(children: FilterValCstChildren, param?: IN): OUT;
   filterIn(children: FilterInCstChildren, param?: IN): OUT;
+  relativeDateFilterVal(children: RelativeDateFilterValCstChildren, param?: IN): OUT;
   atomicFilterVal(children: AtomicFilterValCstChildren, param?: IN): OUT;
   filterOp(children: FilterOpCstChildren, param?: IN): OUT;
 }

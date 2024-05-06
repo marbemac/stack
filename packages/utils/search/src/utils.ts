@@ -68,10 +68,6 @@ export function treeTransformer({ tree, transform }: TreeTransformerOpts) {
           values: treeTransformer({ tree: token.values, transform }),
         });
 
-      case SearchToken.FilterKey:
-      case SearchToken.AtomicFilterVal:
-        return transform(token);
-
       default:
         return transform(token);
     }

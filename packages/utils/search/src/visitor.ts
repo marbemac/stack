@@ -20,6 +20,8 @@ import type {
   FunctionArgCstNode,
   FunctionCstChildren,
   FunctionCstNode,
+  RelativeDateFilterValCstChildren,
+  RelativeDateFilterValCstNode,
   SearchQueryCstChildren,
   SearchQueryCstNode,
   SelectClauseCstChildren,
@@ -40,7 +42,9 @@ export const enum SearchToken {
   Function = 'function',
   FilterKey = 'filterKey',
   FilterIn = 'filterIn',
-  AtomicFilterVal = 'atomicFilterVal',
+  RelativeDateVal = 'relativeDateVal',
+  TextVal = 'textVal',
+  NumberVal = 'numberVal',
 }
 
 export type AnySearchToken =
@@ -52,6 +56,7 @@ export type AnySearchToken =
   | FunctionAstNode
   | FilterKeyAstNode
   | FilterInAstNode
+  | RelativeDateValAstNode
   | AtomicFilterValAstNode;
 
 export interface SearchQueryAstNode {
@@ -99,20 +104,27 @@ export interface FilterKeyAstNode {
   value: string;
 }
 
-export type FilterValAstNode = FilterInAstNode | AtomicFilterValAstNode;
+export type FilterValAstNode = FilterInAstNode | AtomicFilterValAstNode | RelativeDateValAstNode;
 
 export interface FilterInAstNode {
   type: SearchToken.FilterIn;
   values: AtomicFilterValAstNode[];
 }
 
+export interface RelativeDateValAstNode {
+  type: SearchToken.RelativeDateVal;
+  value: string;
+  sign: '+' | '-';
+  unit: 's' | 'mi' | 'h' | 'd' | 'w' | 'm' | 'q' | 'y';
+}
+
 export interface AtomicFilterValAstNode {
-  type: SearchToken.AtomicFilterVal;
+  type: SearchToken.TextVal | SearchToken.NumberVal;
   quoted;
   value: string;
 }
 
-export type FilterOpAstNode = '=' | '>' | '<' | '>=' | '<=' | '+' | '-';
+export type FilterOpAstNode = '=' | '>' | '<' | '>=' | '<=';
 
 export type SearchVisitor = ReturnType<typeof createSearchVisitor>;
 
@@ -163,11 +175,13 @@ export const createSearchVisitor = () => {
                       ? FilterValAstNode
                       : T extends FilterInCstNode
                         ? FilterInAstNode
-                        : T extends AtomicFilterValCstNode
-                          ? AtomicFilterValAstNode
-                          : T extends FilterOpCstNode
-                            ? FilterOpAstNode
-                            : never;
+                        : T extends RelativeDateFilterValCstNode
+                          ? RelativeDateValAstNode
+                          : T extends AtomicFilterValCstNode
+                            ? AtomicFilterValAstNode
+                            : T extends FilterOpCstNode
+                              ? FilterOpAstNode
+                              : never;
 
   type VisitFn = <T extends CstNode | CstNode[]>(cstNode: T, param?: unknown) => GetReturnType<T>;
 
@@ -245,9 +259,9 @@ export const createSearchVisitor = () => {
     }
 
     filterVal(ctx: FilterValCstChildren) {
-      const res = ctx.atomicFilterVal ? this.#visit(ctx.atomicFilterVal) : this.#visit(ctx.filterIn!);
+      if (!ctx.val) return undefined;
 
-      return res satisfies FilterValAstNode;
+      return this.#visit(ctx.val) satisfies FilterValAstNode;
     }
 
     filterIn(ctx: FilterInCstChildren) {
@@ -257,8 +271,18 @@ export const createSearchVisitor = () => {
       } satisfies FilterInAstNode;
     }
 
+    relativeDateFilterVal(ctx: RelativeDateFilterValCstChildren) {
+      return {
+        type: SearchToken.RelativeDateVal as const,
+        value: ctx.Number?.[0]?.image || '',
+        sign: ctx.op?.[0]?.image as RelativeDateValAstNode['sign'],
+        unit: ctx.DateUnit?.[0]?.image as RelativeDateValAstNode['unit'],
+      } satisfies RelativeDateValAstNode;
+    }
+
     atomicFilterVal(ctx: AtomicFilterValCstChildren) {
-      let target = ctx.Identifier?.[0];
+      const type = ctx.Number ? SearchToken.NumberVal : SearchToken.TextVal;
+      let target = ctx.Identifier?.[0] || ctx.Number?.[0];
 
       let quoted = false;
       if (ctx.QuotedIdentifier) {
@@ -267,14 +291,14 @@ export const createSearchVisitor = () => {
       }
 
       return {
-        type: SearchToken.AtomicFilterVal as const,
+        type,
         quoted,
         value: target?.image || '',
       } satisfies AtomicFilterValAstNode;
     }
 
     filterOp(ctx: FilterOpCstChildren) {
-      return (ctx.op?.[0]?.image || '=') as FilterOpAstNode;
+      return (ctx.op?.[0]?.image || '') as FilterOpAstNode;
     }
   }
 
