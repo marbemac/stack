@@ -15,6 +15,6 @@
     "safe-stable-stringify": "^2.4.3"
   },
   "devDependencies": {
-    "vitest": "~1.5.3"
+    "vitest": "~1.6.0"
   }
 }
