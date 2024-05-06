@@ -4,7 +4,7 @@ import { parseQuery } from '../parse.ts';
 import type { SearchString } from '../types.ts';
 import { treeTransformer } from '../utils.ts';
 import { createSearchVisitor } from '../visitor.ts';
-import { whereCaseGroups } from './fixtures/where.ts';
+import { whereCaseGroups } from './fixtures/common.ts';
 
 const prettyPrintParseResult = (input: string) => {
   const { cst } = parseQuery({ input: input as SearchString, inputType: 'whereExpression' });

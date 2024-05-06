@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`where freeform > mixed throughout 1`] = `
+exports[`select freeform > mixed throughout 1`] = `
 {
   "input": "freeform1 age:5 freeform2 search",
   "result": [
@@ -10,7 +10,7 @@ exports[`where freeform > mixed throughout 1`] = `
     },
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "age",
       },
       "op": "",
@@ -18,7 +18,7 @@ exports[`where freeform > mixed throughout 1`] = `
         "type": "numberVal",
         "value": "5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
     {
       "type": "textVal",
@@ -32,7 +32,7 @@ exports[`where freeform > mixed throughout 1`] = `
 }
 `;
 
-exports[`where freeform > quoted 1`] = `
+exports[`select freeform > quoted 1`] = `
 {
   "input": ""a quoted:freeform" age:5",
   "result": [
@@ -43,7 +43,7 @@ exports[`where freeform > quoted 1`] = `
     },
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "age",
       },
       "op": "",
@@ -51,13 +51,13 @@ exports[`where freeform > quoted 1`] = `
         "type": "numberVal",
         "value": "5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where freeform > treats as a string 1`] = `
+exports[`select freeform > treats as a string 1`] = `
 {
   "input": "freeform",
   "result": [
@@ -69,7 +69,7 @@ exports[`where freeform > treats as a string 1`] = `
 }
 `;
 
-exports[`where functions > no args 1`] = `
+exports[`select functions > no args 1`] = `
 {
   "input": "full_name()",
   "result": [
@@ -81,13 +81,13 @@ exports[`where functions > no args 1`] = `
       },
       "op": "",
       "rhs": undefined,
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where functions > no args with space 1`] = `
+exports[`select functions > no args with space 1`] = `
 {
   "input": "full_name(  )",
   "result": [
@@ -99,13 +99,13 @@ exports[`where functions > no args with space 1`] = `
       },
       "op": "",
       "rhs": undefined,
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where functions > single string arg 1`] = `
+exports[`select functions > single string arg 1`] = `
 {
   "input": "count(events)",
   "result": [
@@ -124,13 +124,13 @@ exports[`where functions > single string arg 1`] = `
       },
       "op": "",
       "rhs": undefined,
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where functions > with filter argument 1`] = `
+exports[`select functions > with filter argument 1`] = `
 {
   "input": "count(projects, plan:free !has:email):>5",
   "result": [
@@ -146,7 +146,7 @@ exports[`where functions > with filter argument 1`] = `
           [
             {
               "lhs": {
-                "type": "filterKey",
+                "type": "qualifierKey",
                 "value": "plan",
               },
               "op": "",
@@ -154,11 +154,11 @@ exports[`where functions > with filter argument 1`] = `
                 "type": "textVal",
                 "value": "free",
               },
-              "type": "filter",
+              "type": "qualifier",
             },
             {
               "lhs": {
-                "type": "filterKey",
+                "type": "qualifierKey",
                 "value": "has",
               },
               "negated": true,
@@ -167,7 +167,7 @@ exports[`where functions > with filter argument 1`] = `
                 "type": "textVal",
                 "value": "email",
               },
-              "type": "filter",
+              "type": "qualifier",
             },
           ],
         ],
@@ -179,13 +179,13 @@ exports[`where functions > with filter argument 1`] = `
         "type": "numberVal",
         "value": "5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where functions > with quoted argument 1`] = `
+exports[`select functions > with quoted argument 1`] = `
 {
   "input": "count(projects, "free search"):>0.5",
   "result": [
@@ -214,13 +214,13 @@ exports[`where functions > with quoted argument 1`] = `
         "type": "numberVal",
         "value": "0.5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where functions > with rhs 1`] = `
+exports[`select functions > with rhs 1`] = `
 {
   "input": "divide(projects, max_projects):>0.5",
   "result": [
@@ -248,25 +248,25 @@ exports[`where functions > with rhs 1`] = `
         "type": "numberVal",
         "value": "0.5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where in filters > negation 1`] = `
+exports[`select in filters > negation 1`] = `
 {
   "input": "!user:[jane, john]",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "user",
       },
       "negated": true,
       "op": "",
       "rhs": {
-        "type": "filterIn",
+        "type": "qualifierIn",
         "values": [
           {
             "type": "textVal",
@@ -278,24 +278,24 @@ exports[`where in filters > negation 1`] = `
           },
         ],
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where in filters > numbers 1`] = `
+exports[`select in filters > numbers 1`] = `
 {
   "input": "release:[12.0]",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "release",
       },
       "op": "",
       "rhs": {
-        "type": "filterIn",
+        "type": "qualifierIn",
         "values": [
           {
             "type": "numberVal",
@@ -303,24 +303,24 @@ exports[`where in filters > numbers 1`] = `
           },
         ],
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where in filters > quoted 1`] = `
+exports[`select in filters > quoted 1`] = `
 {
   "input": "release:[jane, "john doe"]",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "release",
       },
       "op": "",
       "rhs": {
-        "type": "filterIn",
+        "type": "qualifierIn",
         "values": [
           {
             "type": "textVal",
@@ -333,24 +333,24 @@ exports[`where in filters > quoted 1`] = `
           },
         ],
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where in filters > works 1`] = `
+exports[`select in filters > works 1`] = `
 {
   "input": "user:[jane, john]",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "user",
       },
       "op": "",
       "rhs": {
-        "type": "filterIn",
+        "type": "qualifierIn",
         "values": [
           {
             "type": "textVal",
@@ -362,19 +362,19 @@ exports[`where in filters > works 1`] = `
           },
         ],
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where operators > < 1`] = `
+exports[`select operators > < 1`] = `
 {
   "input": "num_members:<5.0",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "num_members",
       },
       "op": "<",
@@ -382,19 +382,19 @@ exports[`where operators > < 1`] = `
         "type": "numberVal",
         "value": "5.0",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where operators > <= 1`] = `
+exports[`select operators > <= 1`] = `
 {
   "input": "num_members:<=5.0",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "num_members",
       },
       "op": "<=",
@@ -402,19 +402,19 @@ exports[`where operators > <= 1`] = `
         "type": "numberVal",
         "value": "5.0",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where operators > = 1`] = `
+exports[`select operators > = 1`] = `
 {
   "input": "num_members:=5",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "num_members",
       },
       "op": "=",
@@ -422,19 +422,19 @@ exports[`where operators > = 1`] = `
         "type": "numberVal",
         "value": "5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where operators > > 1`] = `
+exports[`select operators > > 1`] = `
 {
   "input": "num_members:>5.0",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "num_members",
       },
       "op": ">",
@@ -442,19 +442,19 @@ exports[`where operators > > 1`] = `
         "type": "numberVal",
         "value": "5.0",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where operators > >= 1`] = `
+exports[`select operators > >= 1`] = `
 {
   "input": "num_members:>=5",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "num_members",
       },
       "op": ">=",
@@ -462,19 +462,19 @@ exports[`where operators > >= 1`] = `
         "type": "numberVal",
         "value": "5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where relative date > + 1`] = `
+exports[`select relative date > + 1`] = `
 {
   "input": "renews_at:+30d",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "renews_at",
       },
       "op": "",
@@ -484,19 +484,19 @@ exports[`where relative date > + 1`] = `
         "unit": "d",
         "value": "30",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where relative date > - 1`] = `
+exports[`select relative date > - 1`] = `
 {
   "input": "last_seen:-1d",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "last_seen",
       },
       "op": "",
@@ -506,19 +506,19 @@ exports[`where relative date > - 1`] = `
         "unit": "d",
         "value": "1",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where relative date > decimal 1`] = `
+exports[`select relative date > decimal 1`] = `
 {
   "input": "renews_at:+1.2s",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "renews_at",
       },
       "op": "",
@@ -528,19 +528,19 @@ exports[`where relative date > decimal 1`] = `
         "unit": "s",
         "value": "1.2",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where relative date > with other filters 1`] = `
+exports[`select relative date > with other filters 1`] = `
 {
   "input": "plan:free renews_at:+4w "free form"",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "plan",
       },
       "op": "",
@@ -548,11 +548,11 @@ exports[`where relative date > with other filters 1`] = `
         "type": "textVal",
         "value": "free",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "renews_at",
       },
       "op": "",
@@ -562,7 +562,7 @@ exports[`where relative date > with other filters 1`] = `
         "unit": "w",
         "value": "4",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
     {
       "quoted": true,
@@ -573,33 +573,33 @@ exports[`where relative date > with other filters 1`] = `
 }
 `;
 
-exports[`where text filters > .-_ in keys 1`] = `
+exports[`select text filters > .-_[0-9] in keys 1`] = `
 {
-  "input": "payments.plan-type_is:free",
+  "input": "payments.plan-type_is2:free",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
-        "value": "payments.plan-type_is",
+        "type": "qualifierKey",
+        "value": "payments.plan-type_is2",
       },
       "op": "",
       "rhs": {
         "type": "textVal",
         "value": "free",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where text filters > @.-_ in values 1`] = `
+exports[`select text filters > @.-_ in values 1`] = `
 {
   "input": "email:jane@example.com type:public-company_x",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "email",
       },
       "op": "",
@@ -607,11 +607,11 @@ exports[`where text filters > @.-_ in values 1`] = `
         "type": "textVal",
         "value": "jane@example.com",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "type",
       },
       "op": "",
@@ -619,19 +619,19 @@ exports[`where text filters > @.-_ in values 1`] = `
         "type": "textVal",
         "value": "public-company_x",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where text filters > multiple 1`] = `
+exports[`select text filters > multiple 1`] = `
 {
   "input": "plan:free age:5",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "plan",
       },
       "op": "",
@@ -639,11 +639,11 @@ exports[`where text filters > multiple 1`] = `
         "type": "textVal",
         "value": "free",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "age",
       },
       "op": "",
@@ -651,19 +651,19 @@ exports[`where text filters > multiple 1`] = `
         "type": "numberVal",
         "value": "5",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where text filters > negation 1`] = `
+exports[`select text filters > negation 1`] = `
 {
   "input": "!plan:free",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "plan",
       },
       "negated": true,
@@ -672,19 +672,19 @@ exports[`where text filters > negation 1`] = `
         "type": "textVal",
         "value": "free",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where text filters > negation in quoted 1`] = `
+exports[`select text filters > negation in quoted 1`] = `
 {
   "input": "!user:"john doe"",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "user",
       },
       "negated": true,
@@ -694,28 +694,28 @@ exports[`where text filters > negation in quoted 1`] = `
         "type": "textVal",
         "value": "john doe",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where text filters > partial filter still parses 1`] = `
+exports[`select text filters > partial filter still parses 1`] = `
 {
   "input": "age:> plan:free user:",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "age",
       },
       "op": ">",
       "rhs": undefined,
-      "type": "filter",
+      "type": "qualifier",
     },
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "plan",
       },
       "op": "",
@@ -723,28 +723,28 @@ exports[`where text filters > partial filter still parses 1`] = `
         "type": "textVal",
         "value": "free",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "user",
       },
       "op": "",
       "rhs": undefined,
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where text filters > quoted value 1`] = `
+exports[`select text filters > quoted value 1`] = `
 {
   "input": "user:"john doe"",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "user",
       },
       "op": "",
@@ -753,19 +753,19 @@ exports[`where text filters > quoted value 1`] = `
         "type": "textVal",
         "value": "john doe",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }
 `;
 
-exports[`where text filters > works 1`] = `
+exports[`select text filters > works 1`] = `
 {
   "input": "plan:free",
   "result": [
     {
       "lhs": {
-        "type": "filterKey",
+        "type": "qualifierKey",
         "value": "plan",
       },
       "op": "",
@@ -773,7 +773,7 @@ exports[`where text filters > works 1`] = `
         "type": "textVal",
         "value": "free",
       },
-      "type": "filter",
+      "type": "qualifier",
     },
   ],
 }

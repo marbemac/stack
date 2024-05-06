@@ -5,6 +5,7 @@ import type {
   FromClauseCstNode,
   SearchQueryCstNode,
   SelectClauseCstNode,
+  SelectExpressionCstNode,
   WhereClauseCstNode,
   WhereExpressionCstNode,
 } from './parser-cst-types.ts';
@@ -37,11 +38,15 @@ export class SearchParser extends CstParser {
 
   public selectClause = this.#RULE<SelectClauseCstNode>('selectClause', () => {
     this.CONSUME(t.Select);
-    this.AT_LEAST_ONE_SEP({
-      SEP: t.Comma,
-      DEF: () => {
-        this.CONSUME(t.Identifier);
-      },
+    this.SUBRULE(this.selectExpression);
+  });
+
+  public selectExpression = this.#RULE<SelectExpressionCstNode>('selectExpression', () => {
+    this.MANY(() => {
+      this.OR([
+        { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'columns' }) },
+        { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'columns' }) },
+      ]);
     });
   });
 
@@ -58,25 +63,25 @@ export class SearchParser extends CstParser {
   public whereExpression = this.#RULE<WhereExpressionCstNode>('whereExpression', () => {
     this.MANY(() => {
       this.OR([
-        { ALT: () => this.SUBRULE(this.#filter, { LABEL: 'conditions' }) },
-        { ALT: () => this.SUBRULE(this.#atomicFilterVal, { LABEL: 'conditions' }) },
+        { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'conditions' }) },
+        { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'conditions' }) },
       ]);
     });
   });
 
-  #filter = this.#RULE('filter', () => {
+  #qualifier = this.#RULE('qualifier', () => {
     this.OPTION(() => {
       this.CONSUME(t.Negate);
     });
 
     this.OR([
       { ALT: () => this.SUBRULE(this.#function, { LABEL: 'lhs' }) },
-      { ALT: () => this.SUBRULE(this.#filterKey, { LABEL: 'lhs' }) },
+      { ALT: () => this.SUBRULE(this.#qualifierKey, { LABEL: 'lhs' }) },
     ]);
 
-    this.SUBRULE(this.#filterOp);
+    this.SUBRULE(this.#qualifierOp);
 
-    this.SUBRULE(this.#filterVal, { LABEL: 'rhs' });
+    this.SUBRULE(this.#qualifierVal, { LABEL: 'rhs' });
   });
 
   #function = this.#RULE('function', () => {
@@ -98,37 +103,37 @@ export class SearchParser extends CstParser {
       SEP: t.WhiteSpace,
       DEF: () => {
         this.OR([
-          { ALT: () => this.SUBRULE(this.#filter, { LABEL: 'args' }) },
-          { ALT: () => this.SUBRULE(this.#atomicFilterVal, { LABEL: 'args' }) },
+          { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'args' }) },
+          { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'args' }) },
         ]);
       },
     });
   });
 
-  #filterKey = this.#RULE('filterKey', () => {
+  #qualifierKey = this.#RULE('qualifierKey', () => {
     this.CONSUME(t.Identifier);
   });
 
-  #filterVal = this.#RULE('filterVal', () => {
+  #qualifierVal = this.#RULE('qualifierVal', () => {
     this.OR([
-      { ALT: () => this.SUBRULE(this.#filterIn, { LABEL: 'val' }) },
-      { ALT: () => this.SUBRULE(this.#relativeDateFilterVal, { LABEL: 'val' }) },
-      { ALT: () => this.SUBRULE(this.#atomicFilterVal, { LABEL: 'val' }) },
+      { ALT: () => this.SUBRULE(this.#qualifierIn, { LABEL: 'val' }) },
+      { ALT: () => this.SUBRULE(this.#relativeDateVal, { LABEL: 'val' }) },
+      { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'val' }) },
     ]);
   });
 
-  #filterIn = this.#RULE('filterIn', () => {
+  #qualifierIn = this.#RULE('qualifierIn', () => {
     this.CONSUME(t.LBracket);
     this.AT_LEAST_ONE_SEP({
       SEP: t.Comma,
       DEF: () => {
-        this.SUBRULE(this.#atomicFilterVal);
+        this.SUBRULE(this.#atomicQualifierVal);
       },
     });
     this.CONSUME2(t.RBracket);
   });
 
-  #relativeDateFilterVal = this.#RULE('relativeDateFilterVal', () => {
+  #relativeDateVal = this.#RULE('relativeDateVal', () => {
     this.OR([
       { ALT: () => this.CONSUME(t.Plus, { LABEL: 'op' }) },
       { ALT: () => this.CONSUME(t.Minus, { LABEL: 'op' }) },
@@ -138,7 +143,7 @@ export class SearchParser extends CstParser {
     this.CONSUME(t.DateUnit);
   });
 
-  #atomicFilterVal = this.#RULE('atomicFilterVal', () => {
+  #atomicQualifierVal = this.#RULE('atomicQualifierVal', () => {
     this.OR([
       {
         ALT: () => {
@@ -152,7 +157,7 @@ export class SearchParser extends CstParser {
     ]);
   });
 
-  #filterOp = this.#RULE('filterOp', () => {
+  #qualifierOp = this.#RULE('qualifierOp', () => {
     this.CONSUME(t.Colon);
 
     this.OPTION(() => {

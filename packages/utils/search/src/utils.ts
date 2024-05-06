@@ -34,7 +34,6 @@ export function treeTransformer({ tree, transform }: TreeTransformerOpts) {
       case SearchToken.SelectClause:
         return transform({
           ...token,
-          // @ts-expect-error @TODO
           columns: treeTransformer({ tree: token.columns, transform }),
         });
 
@@ -49,7 +48,7 @@ export function treeTransformer({ tree, transform }: TreeTransformerOpts) {
           conditions: treeTransformer({ tree: token.conditions, transform }),
         });
 
-      case SearchToken.Filter:
+      case SearchToken.Qualifier:
         return transform({
           ...token,
           lhs: nodeVisitor(token.lhs),
@@ -62,7 +61,7 @@ export function treeTransformer({ tree, transform }: TreeTransformerOpts) {
           args: token.args.map(a => treeTransformer({ tree: a, transform })),
         });
 
-      case SearchToken.FilterIn:
+      case SearchToken.QualifierIn:
         return transform({
           ...token,
           values: treeTransformer({ tree: token.values, transform }),

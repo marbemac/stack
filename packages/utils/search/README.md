@@ -10,7 +10,7 @@ to re-build the types.
 
 The search syntax is inspired primarily by
 [GitHub](https://docs.github.com/en/search-github/github-code-search/understanding-github-code-search-syntax) and
-[Sentry](https://docs.sentry.io/product/sentry-basics/search). .
+[Sentry](https://docs.sentry.io/product/sentry-basics/search).
 
 ```bash
 # free form

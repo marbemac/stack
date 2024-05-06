@@ -8,7 +8,7 @@ export const whereCaseGroups = {
   'text filters': [
     ['works', 'plan:free'],
     ['multiple', 'plan:free age:5'],
-    ['.-_ in keys', 'payments.plan-type_is:free'],
+    ['.-_[0-9] in keys', 'payments.plan-type_is2:free'],
     ['@.-_ in values', 'email:jane@example.com type:public-company_x'],
     ['quoted value', 'user:"john doe"'],
     ['negation', '!plan:free'],

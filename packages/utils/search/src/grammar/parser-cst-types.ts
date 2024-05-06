@@ -22,8 +22,16 @@ export interface SelectClauseCstNode extends CstNode {
 
 export type SelectClauseCstChildren = {
   Select: IToken[];
-  Identifier: IToken[];
-  Comma?: IToken[];
+  selectExpression: SelectExpressionCstNode[];
+};
+
+export interface SelectExpressionCstNode extends CstNode {
+  name: "selectExpression";
+  children: SelectExpressionCstChildren;
+}
+
+export type SelectExpressionCstChildren = {
+  columns?: (QualifierCstNode | AtomicQualifierValCstNode)[];
 };
 
 export interface FromClauseCstNode extends CstNode {
@@ -52,19 +60,19 @@ export interface WhereExpressionCstNode extends CstNode {
 }
 
 export type WhereExpressionCstChildren = {
-  conditions?: (FilterCstNode | AtomicFilterValCstNode)[];
+  conditions?: (QualifierCstNode | AtomicQualifierValCstNode)[];
 };
 
-export interface FilterCstNode extends CstNode {
-  name: "filter";
-  children: FilterCstChildren;
+export interface QualifierCstNode extends CstNode {
+  name: "qualifier";
+  children: QualifierCstChildren;
 }
 
-export type FilterCstChildren = {
+export type QualifierCstChildren = {
   Negate?: IToken[];
-  lhs?: (FunctionCstNode | FilterKeyCstNode)[];
-  filterOp: FilterOpCstNode[];
-  rhs: FilterValCstNode[];
+  lhs?: (FunctionCstNode | QualifierKeyCstNode)[];
+  qualifierOp: QualifierOpCstNode[];
+  rhs: QualifierValCstNode[];
 };
 
 export interface FunctionCstNode extends CstNode {
@@ -86,57 +94,57 @@ export interface FunctionArgCstNode extends CstNode {
 }
 
 export type FunctionArgCstChildren = {
-  args?: (FilterCstNode | AtomicFilterValCstNode)[];
+  args?: (QualifierCstNode | AtomicQualifierValCstNode)[];
   WhiteSpace?: IToken[];
 };
 
-export interface FilterKeyCstNode extends CstNode {
-  name: "filterKey";
-  children: FilterKeyCstChildren;
+export interface QualifierKeyCstNode extends CstNode {
+  name: "qualifierKey";
+  children: QualifierKeyCstChildren;
 }
 
-export type FilterKeyCstChildren = {
+export type QualifierKeyCstChildren = {
   Identifier: IToken[];
 };
 
-export interface FilterValCstNode extends CstNode {
-  name: "filterVal";
-  children: FilterValCstChildren;
+export interface QualifierValCstNode extends CstNode {
+  name: "qualifierVal";
+  children: QualifierValCstChildren;
 }
 
-export type FilterValCstChildren = {
-  val?: (FilterInCstNode | RelativeDateFilterValCstNode | AtomicFilterValCstNode)[];
+export type QualifierValCstChildren = {
+  val?: (QualifierInCstNode | RelativeDateValCstNode | AtomicQualifierValCstNode)[];
 };
 
-export interface FilterInCstNode extends CstNode {
-  name: "filterIn";
-  children: FilterInCstChildren;
+export interface QualifierInCstNode extends CstNode {
+  name: "qualifierIn";
+  children: QualifierInCstChildren;
 }
 
-export type FilterInCstChildren = {
+export type QualifierInCstChildren = {
   LBracket: IToken[];
-  atomicFilterVal: AtomicFilterValCstNode[];
+  atomicQualifierVal: AtomicQualifierValCstNode[];
   Comma?: IToken[];
   RBracket: IToken[];
 };
 
-export interface RelativeDateFilterValCstNode extends CstNode {
-  name: "relativeDateFilterVal";
-  children: RelativeDateFilterValCstChildren;
+export interface RelativeDateValCstNode extends CstNode {
+  name: "relativeDateVal";
+  children: RelativeDateValCstChildren;
 }
 
-export type RelativeDateFilterValCstChildren = {
+export type RelativeDateValCstChildren = {
   op?: (IToken)[];
   Number: IToken[];
   DateUnit: IToken[];
 };
 
-export interface AtomicFilterValCstNode extends CstNode {
-  name: "atomicFilterVal";
-  children: AtomicFilterValCstChildren;
+export interface AtomicQualifierValCstNode extends CstNode {
+  name: "atomicQualifierVal";
+  children: AtomicQualifierValCstChildren;
 }
 
-export type AtomicFilterValCstChildren = {
+export type AtomicQualifierValCstChildren = {
   LQuote?: IToken[];
   QuotedIdentifier?: IToken[];
   RQuote?: IToken[];
@@ -144,12 +152,12 @@ export type AtomicFilterValCstChildren = {
   Number?: IToken[];
 };
 
-export interface FilterOpCstNode extends CstNode {
-  name: "filterOp";
-  children: FilterOpCstChildren;
+export interface QualifierOpCstNode extends CstNode {
+  name: "qualifierOp";
+  children: QualifierOpCstChildren;
 }
 
-export type FilterOpCstChildren = {
+export type QualifierOpCstChildren = {
   Colon: IToken[];
   op?: (IToken)[];
 };
@@ -157,16 +165,17 @@ export type FilterOpCstChildren = {
 export interface TSearchCstVisitor<IN, OUT> extends ICstVisitor<IN, OUT> {
   searchQuery(children: SearchQueryCstChildren, param?: IN): OUT;
   selectClause(children: SelectClauseCstChildren, param?: IN): OUT;
+  selectExpression(children: SelectExpressionCstChildren, param?: IN): OUT;
   fromClause(children: FromClauseCstChildren, param?: IN): OUT;
   whereClause(children: WhereClauseCstChildren, param?: IN): OUT;
   whereExpression(children: WhereExpressionCstChildren, param?: IN): OUT;
-  filter(children: FilterCstChildren, param?: IN): OUT;
+  qualifier(children: QualifierCstChildren, param?: IN): OUT;
   function(children: FunctionCstChildren, param?: IN): OUT;
   functionArg(children: FunctionArgCstChildren, param?: IN): OUT;
-  filterKey(children: FilterKeyCstChildren, param?: IN): OUT;
-  filterVal(children: FilterValCstChildren, param?: IN): OUT;
-  filterIn(children: FilterInCstChildren, param?: IN): OUT;
-  relativeDateFilterVal(children: RelativeDateFilterValCstChildren, param?: IN): OUT;
-  atomicFilterVal(children: AtomicFilterValCstChildren, param?: IN): OUT;
-  filterOp(children: FilterOpCstChildren, param?: IN): OUT;
+  qualifierKey(children: QualifierKeyCstChildren, param?: IN): OUT;
+  qualifierVal(children: QualifierValCstChildren, param?: IN): OUT;
+  qualifierIn(children: QualifierInCstChildren, param?: IN): OUT;
+  relativeDateVal(children: RelativeDateValCstChildren, param?: IN): OUT;
+  atomicQualifierVal(children: AtomicQualifierValCstChildren, param?: IN): OUT;
+  qualifierOp(children: QualifierOpCstChildren, param?: IN): OUT;
 }
