@@ -1,13 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseQuery } from '../parse.ts';
-import type { SearchString } from '../types.ts';
+import { parseSearch } from '../parse.ts';
 import { treeTransformer } from '../utils.ts';
 import { createSearchVisitor } from '../visitor.ts';
 import { whereCaseGroups } from './fixtures/common.ts';
 
 const prettyPrintParseResult = (input: string) => {
-  const { cst } = parseQuery({ input: input as SearchString, inputType: 'selectExpression' });
+  const { cst } = parseSearch({ input: input, inputType: 'selectExpression' });
 
   const visitor = createSearchVisitor();
   const ast = visitor.selectExpression(cst.children);

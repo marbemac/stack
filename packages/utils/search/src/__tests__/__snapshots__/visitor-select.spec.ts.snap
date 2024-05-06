@@ -74,14 +74,11 @@ exports[`select functions > no args 1`] = `
   "input": "full_name()",
   "result": [
     {
-      "lhs": {
-        "args": [],
-        "name": "full_name",
-        "type": "function",
-      },
-      "op": "",
+      "args": [],
+      "name": "full_name",
+      "op": undefined,
       "rhs": undefined,
-      "type": "qualifier",
+      "type": "function",
     },
   ],
 }
@@ -92,14 +89,31 @@ exports[`select functions > no args with space 1`] = `
   "input": "full_name(  )",
   "result": [
     {
-      "lhs": {
-        "args": [],
-        "name": "full_name",
-        "type": "function",
-      },
-      "op": "",
+      "args": [],
+      "name": "full_name",
+      "op": undefined,
       "rhs": undefined,
-      "type": "qualifier",
+      "type": "function",
+    },
+  ],
+}
+`;
+
+exports[`select functions > relatvie date rhs 1`] = `
+{
+  "input": "last_seen():-7d",
+  "result": [
+    {
+      "args": [],
+      "name": "last_seen",
+      "op": "",
+      "rhs": {
+        "sign": "-",
+        "type": "relativeDateVal",
+        "unit": "d",
+        "value": "7",
+      },
+      "type": "function",
     },
   ],
 }
@@ -110,21 +124,18 @@ exports[`select functions > single string arg 1`] = `
   "input": "count(events)",
   "result": [
     {
-      "lhs": {
-        "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "events",
-            },
-          ],
+      "args": [
+        [
+          {
+            "type": "textVal",
+            "value": "events",
+          },
         ],
-        "name": "count",
-        "type": "function",
-      },
-      "op": "",
+      ],
+      "name": "count",
+      "op": undefined,
       "rhs": undefined,
-      "type": "qualifier",
+      "type": "function",
     },
   ],
 }
@@ -135,51 +146,48 @@ exports[`select functions > with filter argument 1`] = `
   "input": "count(projects, plan:free !has:email):>5",
   "result": [
     {
-      "lhs": {
-        "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "projects",
-            },
-          ],
-          [
-            {
-              "lhs": {
-                "type": "qualifierKey",
-                "value": "plan",
-              },
-              "op": "",
-              "rhs": {
-                "type": "textVal",
-                "value": "free",
-              },
-              "type": "qualifier",
-            },
-            {
-              "lhs": {
-                "type": "qualifierKey",
-                "value": "has",
-              },
-              "negated": true,
-              "op": "",
-              "rhs": {
-                "type": "textVal",
-                "value": "email",
-              },
-              "type": "qualifier",
-            },
-          ],
+      "args": [
+        [
+          {
+            "type": "textVal",
+            "value": "projects",
+          },
         ],
-        "name": "count",
-        "type": "function",
-      },
+        [
+          {
+            "lhs": {
+              "type": "qualifierKey",
+              "value": "plan",
+            },
+            "op": "",
+            "rhs": {
+              "type": "textVal",
+              "value": "free",
+            },
+            "type": "qualifier",
+          },
+          {
+            "lhs": {
+              "type": "qualifierKey",
+              "value": "has",
+            },
+            "negated": true,
+            "op": "",
+            "rhs": {
+              "type": "textVal",
+              "value": "email",
+            },
+            "type": "qualifier",
+          },
+        ],
+      ],
+      "name": "count",
       "op": ">",
       "rhs": {
         "type": "numberVal",
         "value": "5",
       },
-      "type": "qualifier",
+      "type": "function",
     },
   ],
 }
@@ -190,31 +198,28 @@ exports[`select functions > with quoted argument 1`] = `
   "input": "count(projects, "free search"):>0.5",
   "result": [
     {
-      "lhs": {
-        "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "projects",
-            },
-          ],
-          [
-            {
-              "quoted": true,
-              "type": "textVal",
-              "value": "free search",
-            },
-          ],
+      "args": [
+        [
+          {
+            "type": "textVal",
+            "value": "projects",
+          },
         ],
-        "name": "count",
-        "type": "function",
-      },
+        [
+          {
+            "quoted": true,
+            "type": "textVal",
+            "value": "free search",
+          },
+        ],
+      ],
+      "name": "count",
       "op": ">",
       "rhs": {
         "type": "numberVal",
         "value": "0.5",
       },
-      "type": "qualifier",
+      "type": "function",
     },
   ],
 }
@@ -225,30 +230,27 @@ exports[`select functions > with rhs 1`] = `
   "input": "divide(projects, max_projects):>0.5",
   "result": [
     {
-      "lhs": {
-        "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "projects",
-            },
-          ],
-          [
-            {
-              "type": "textVal",
-              "value": "max_projects",
-            },
-          ],
+      "args": [
+        [
+          {
+            "type": "textVal",
+            "value": "projects",
+          },
         ],
-        "name": "divide",
-        "type": "function",
-      },
+        [
+          {
+            "type": "textVal",
+            "value": "max_projects",
+          },
+        ],
+      ],
+      "name": "divide",
       "op": ">",
       "rhs": {
         "type": "numberVal",
         "value": "0.5",
       },
-      "type": "qualifier",
+      "type": "function",
     },
   ],
 }
@@ -730,7 +732,7 @@ exports[`select text filters > partial filter still parses 1`] = `
         "type": "qualifierKey",
         "value": "user",
       },
-      "op": "",
+      "op": undefined,
       "rhs": undefined,
       "type": "qualifier",
     },

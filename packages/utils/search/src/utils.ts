@@ -59,6 +59,7 @@ export function treeTransformer({ tree, transform }: TreeTransformerOpts) {
         return transform({
           ...token,
           args: token.args.map(a => treeTransformer({ tree: a, transform })),
+          rhs: nodeVisitor(token.rhs),
         });
 
       case SearchToken.QualifierIn:

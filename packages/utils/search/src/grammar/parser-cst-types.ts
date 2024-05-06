@@ -31,7 +31,7 @@ export interface SelectExpressionCstNode extends CstNode {
 }
 
 export type SelectExpressionCstChildren = {
-  columns?: (QualifierCstNode | AtomicQualifierValCstNode)[];
+  columns?: (QualifierCstNode | FunctionCstNode | AtomicQualifierValCstNode)[];
 };
 
 export interface FromClauseCstNode extends CstNode {
@@ -60,7 +60,7 @@ export interface WhereExpressionCstNode extends CstNode {
 }
 
 export type WhereExpressionCstChildren = {
-  conditions?: (QualifierCstNode | AtomicQualifierValCstNode)[];
+  conditions?: (QualifierCstNode | FunctionCstNode | AtomicQualifierValCstNode)[];
 };
 
 export interface QualifierCstNode extends CstNode {
@@ -70,9 +70,9 @@ export interface QualifierCstNode extends CstNode {
 
 export type QualifierCstChildren = {
   Negate?: IToken[];
-  lhs?: (FunctionCstNode | QualifierKeyCstNode)[];
-  qualifierOp: QualifierOpCstNode[];
-  rhs: QualifierValCstNode[];
+  lhs: QualifierKeyCstNode[];
+  qualifierOp?: QualifierOpCstNode[];
+  rhs?: QualifierValCstNode[];
 };
 
 export interface FunctionCstNode extends CstNode {
@@ -81,11 +81,14 @@ export interface FunctionCstNode extends CstNode {
 }
 
 export type FunctionCstChildren = {
+  Negate?: IToken[];
   Identifier: IToken[];
   LParen: IToken[];
   functionArg?: FunctionArgCstNode[];
   Comma?: IToken[];
   RParen: IToken[];
+  qualifierOp: QualifierOpCstNode[];
+  rhs?: QualifierValCstNode[];
 };
 
 export interface FunctionArgCstNode extends CstNode {
@@ -95,7 +98,6 @@ export interface FunctionArgCstNode extends CstNode {
 
 export type FunctionArgCstChildren = {
   args?: (QualifierCstNode | AtomicQualifierValCstNode)[];
-  WhiteSpace?: IToken[];
 };
 
 export interface QualifierKeyCstNode extends CstNode {
@@ -104,7 +106,7 @@ export interface QualifierKeyCstNode extends CstNode {
 }
 
 export type QualifierKeyCstChildren = {
-  Identifier: IToken[];
+  QualifierKey: IToken[];
 };
 
 export interface QualifierValCstNode extends CstNode {
@@ -158,7 +160,6 @@ export interface QualifierOpCstNode extends CstNode {
 }
 
 export type QualifierOpCstChildren = {
-  Colon: IToken[];
   op?: (IToken)[];
 };
 

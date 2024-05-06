@@ -72,7 +72,7 @@ export interface SelectClauseAstNode {
   columns: SelectExpressionAstNode;
 }
 
-export type SelectExpressionAstNode = (QualifierAstNode | AtomicQualifierValAstNode)[];
+export type SelectExpressionAstNode = (QualifierAstNode | FunctionAstNode | AtomicQualifierValAstNode)[];
 
 export interface FromClauseAstNode {
   type: SearchToken.FromClause;
@@ -84,12 +84,12 @@ export interface WhereClauseAstNode {
   conditions: WhereExpressionAstNode;
 }
 
-export type WhereExpressionAstNode = (QualifierAstNode | AtomicQualifierValAstNode)[];
+export type WhereExpressionAstNode = (QualifierAstNode | FunctionAstNode | AtomicQualifierValAstNode)[];
 
 export interface QualifierAstNode {
   type: SearchToken.Qualifier;
   negated: boolean;
-  lhs: FunctionAstNode | QualifierKeyAstNode;
+  lhs: QualifierKeyAstNode;
   op?: QualifierOpAstNode;
   rhs?: QualifierValAstNode;
 }
@@ -97,7 +97,10 @@ export interface QualifierAstNode {
 export interface FunctionAstNode {
   type: SearchToken.Function;
   name: string;
+  negated: boolean;
   args: FunctionArgAstNode[];
+  op?: QualifierOpAstNode;
+  rhs?: QualifierValAstNode;
 }
 
 export type FunctionArgAstNode = (QualifierAstNode | AtomicQualifierValAstNode)[];
@@ -121,9 +124,20 @@ export interface RelativeDateValAstNode {
   unit: 's' | 'mi' | 'h' | 'd' | 'w' | 'm' | 'q' | 'y';
 }
 
+export interface TextValAstNode {
+  type: SearchToken.TextVal;
+  quoted: boolean;
+  value: string;
+}
+
+export interface NumberValAstNode {
+  type: SearchToken.TextVal;
+  value: string;
+}
+
 export interface AtomicQualifierValAstNode {
   type: SearchToken.TextVal | SearchToken.NumberVal;
-  quoted;
+  quoted: boolean;
   value: string;
 }
 
@@ -138,14 +152,18 @@ export const isQualifierNode = (node: unknown): node is QualifierAstNode => chec
 
 export const isFunctionNode = (node: unknown): node is FunctionAstNode => checkNodeType(node, SearchToken.Function);
 
-export const isQualifierKeyAstNode = (node: unknown): node is QualifierKeyAstNode =>
+export const isQualifierKeyNode = (node: unknown): node is QualifierKeyAstNode =>
   checkNodeType(node, SearchToken.QualifierKey);
 
-export const isQualifierInAstNode = (node: unknown): node is QualifierInAstNode =>
+export const isQualifierInNode = (node: unknown): node is QualifierInAstNode =>
   checkNodeType(node, SearchToken.QualifierIn);
 
-export const isAtomicQualifierValAstNode = (node: unknown): node is AtomicQualifierValAstNode =>
-  checkNodeType(node, 'valueText');
+export const isAtomicQualifierValNode = (node: unknown): node is AtomicQualifierValAstNode =>
+  checkNodeType(node, SearchToken.TextVal) || checkNodeType(node, SearchToken.NumberVal);
+
+export const isTextValNode = (node: unknown): node is TextValAstNode => checkNodeType(node, SearchToken.TextVal);
+
+export const isNumberValNode = (node: unknown): node is NumberValAstNode => checkNodeType(node, SearchToken.NumberVal);
 
 let parserSingleton: SearchParser;
 
@@ -241,8 +259,8 @@ export const createSearchVisitor = () => {
         type: SearchToken.Qualifier as const,
         negated: !!ctx.Negate,
         lhs: this.#visit(ctx.lhs!),
-        op: this.#visit(ctx.qualifierOp),
-        rhs: this.#visit(ctx.rhs),
+        op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
+        rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
       } satisfies QualifierAstNode;
     }
 
@@ -250,19 +268,21 @@ export const createSearchVisitor = () => {
       return {
         type: SearchToken.Function as const,
         name: ctx.Identifier[0]!.image,
+        negated: !!ctx.Negate,
         args: (ctx.functionArg || []).map(arg => this.#visit(arg)).filter(arg => !!arg.length),
+        op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
+        rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
       } satisfies FunctionAstNode;
     }
 
     functionArg(ctx: FunctionArgCstChildren) {
-      // args: (ctx.args || []).map(arg => this.#visit(arg)),
       return (ctx.args || []).map(arg => this.#visit(arg)) satisfies FunctionArgAstNode;
     }
 
     qualifierKey(ctx: QualifierKeyCstChildren) {
       return {
         type: SearchToken.QualifierKey as const,
-        value: ctx.Identifier?.[0]?.image || '',
+        value: (ctx.QualifierKey?.[0]?.image || '').slice(0, -1), // slice the ":" off
       } satisfies QualifierKeyAstNode;
     }
 

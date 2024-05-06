@@ -50,5 +50,6 @@ export const whereCaseGroups = {
     ['with rhs', 'divide(projects, max_projects):>0.5'],
     ['with filter argument', 'count(projects, plan:free !has:email):>5'],
     ['with quoted argument', 'count(projects, "free search"):>0.5'],
+    ['relatvie date rhs', 'last_seen():-7d'],
   ],
 };

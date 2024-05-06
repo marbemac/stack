@@ -1,4 +1,11 @@
-import { createToken } from 'chevrotain';
+import { createToken, Lexer } from 'chevrotain';
+
+/**
+ * @example
+ * plan:
+ * foo.bar:
+ */
+export const QualifierKey = createToken({ name: 'QualifierKey', pattern: /[@_A-Za-z][a-zA-Z0-9@_\-.]+:/ });
 
 // Must not start with a number
 export const Identifier = createToken({ name: 'Identifier', pattern: /[@_A-Za-z][a-zA-Z0-9@_\-.]+/ });
@@ -46,6 +53,7 @@ export const DateUnit = createToken({ name: 'DateUnit', pattern: /[s|mi|h|d|w|m|
 export const WhiteSpace = createToken({
   name: 'WhiteSpace',
   pattern: /\s+/,
+  group: Lexer.SKIPPED,
 });
 
 export const LQuote = createToken({ name: 'LQuote', pattern: /"/, push_mode: 'quoted_mode' });

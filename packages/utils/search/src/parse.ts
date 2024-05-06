@@ -1,4 +1,4 @@
-import type { ILexingResult, Lexer } from 'chevrotain';
+import type { ILexingResult, IRecognitionException, Lexer } from 'chevrotain';
 
 import { SearchLexer } from './grammar/lexer.ts';
 import { SearchParser } from './grammar/parser.ts';
@@ -16,11 +16,15 @@ export interface ParseQueryOpts<T extends InputType> {
 
 type InputType = 'searchQuery' | 'selectClause' | 'selectExpression' | 'fromClause' | 'whereClause' | 'whereExpression';
 
-export const parseQuery = <T extends InputType>({
+export const parseSearch = <T extends InputType>({
   input,
   inputType,
   ...rest
-}: ParseQueryOpts<T>): { cst: ReturnType<SearchParser[T]>; lexResult: ILexingResult } => {
+}: ParseQueryOpts<T>): {
+  cst: ReturnType<SearchParser[T]>;
+  errors: IRecognitionException[];
+  lexResult: ILexingResult;
+} => {
   let lexer = rest.lexer || lexerSingleton;
   if (!lexer) {
     lexer = lexerSingleton = new SearchLexer();
@@ -38,5 +42,5 @@ export const parseQuery = <T extends InputType>({
 
   const cst = parser[inputType]() as ReturnType<SearchParser[T]>;
 
-  return { cst, lexResult };
+  return { cst, errors: parser.errors, lexResult };
 };

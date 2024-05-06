@@ -13,6 +13,7 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
       t.Select,
       t.From,
       t.Where,
+      t.QualifierKey,
       t.LParen,
       t.RParen,
       t.LBracket,

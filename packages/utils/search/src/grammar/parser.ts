@@ -45,6 +45,7 @@ export class SearchParser extends CstParser {
     this.MANY(() => {
       this.OR([
         { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'columns' }) },
+        { ALT: () => this.SUBRULE(this.#function, { LABEL: 'columns' }) },
         { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'columns' }) },
       ]);
     });
@@ -64,6 +65,7 @@ export class SearchParser extends CstParser {
     this.MANY(() => {
       this.OR([
         { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'conditions' }) },
+        { ALT: () => this.SUBRULE(this.#function, { LABEL: 'conditions' }) },
         { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'conditions' }) },
       ]);
     });
@@ -74,17 +76,19 @@ export class SearchParser extends CstParser {
       this.CONSUME(t.Negate);
     });
 
-    this.OR([
-      { ALT: () => this.SUBRULE(this.#function, { LABEL: 'lhs' }) },
-      { ALT: () => this.SUBRULE(this.#qualifierKey, { LABEL: 'lhs' }) },
-    ]);
+    this.SUBRULE(this.#qualifierKey, { LABEL: 'lhs' });
 
-    this.SUBRULE(this.#qualifierOp);
-
-    this.SUBRULE(this.#qualifierVal, { LABEL: 'rhs' });
+    this.OPTION2(() => {
+      this.SUBRULE(this.#qualifierOp);
+      this.SUBRULE(this.#qualifierVal, { LABEL: 'rhs' });
+    });
   });
 
   #function = this.#RULE('function', () => {
+    this.OPTION(() => {
+      this.CONSUME(t.Negate);
+    });
+
     this.CONSUME(t.Identifier);
     this.CONSUME(t.LParen);
 
@@ -96,22 +100,25 @@ export class SearchParser extends CstParser {
     });
 
     this.CONSUME(t.RParen);
+
+    this.OPTION2(() => {
+      this.CONSUME(t.Colon);
+      this.SUBRULE(this.#qualifierOp);
+      this.SUBRULE(this.#qualifierVal, { LABEL: 'rhs' });
+    });
   });
 
   #functionArg = this.#RULE('functionArg', () => {
-    this.MANY_SEP({
-      SEP: t.WhiteSpace,
-      DEF: () => {
-        this.OR([
-          { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'args' }) },
-          { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'args' }) },
-        ]);
-      },
+    this.MANY(() => {
+      this.OR([
+        { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'args' }) },
+        { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'args' }) },
+      ]);
     });
   });
 
   #qualifierKey = this.#RULE('qualifierKey', () => {
-    this.CONSUME(t.Identifier);
+    this.CONSUME(t.QualifierKey);
   });
 
   #qualifierVal = this.#RULE('qualifierVal', () => {
@@ -158,8 +165,6 @@ export class SearchParser extends CstParser {
   });
 
   #qualifierOp = this.#RULE('qualifierOp', () => {
-    this.CONSUME(t.Colon);
-
     this.OPTION(() => {
       this.OR([
         { ALT: () => this.CONSUME(t.Equals, { LABEL: 'op' }) },
