@@ -5,7 +5,6 @@ exports[`freeform > mixed throughout 1`] = `
   "input": "freeform1 age:5 freeform2 search",
   "result": [
     {
-      "quoted": false,
       "type": "atomicFilterVal",
       "value": "freeform1",
     },
@@ -14,22 +13,18 @@ exports[`freeform > mixed throughout 1`] = `
         "type": "filterKey",
         "value": "age",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5",
       },
       "type": "filter",
     },
     {
-      "quoted": false,
       "type": "atomicFilterVal",
       "value": "freeform2",
     },
     {
-      "quoted": false,
       "type": "atomicFilterVal",
       "value": "search",
     },
@@ -51,10 +46,8 @@ exports[`freeform > quoted 1`] = `
         "type": "filterKey",
         "value": "age",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5",
       },
@@ -69,7 +62,6 @@ exports[`freeform > treats as a string 1`] = `
   "input": "freeform",
   "result": [
     {
-      "quoted": false,
       "type": "atomicFilterVal",
       "value": "freeform",
     },
@@ -87,7 +79,6 @@ exports[`functions > no args 1`] = `
         "name": "full_name",
         "type": "function",
       },
-      "negated": false,
       "op": "=",
       "rhs": undefined,
       "type": "filter",
@@ -106,7 +97,6 @@ exports[`functions > no args with space 1`] = `
         "name": "full_name",
         "type": "function",
       },
-      "negated": false,
       "op": "=",
       "rhs": undefined,
       "type": "filter",
@@ -124,7 +114,6 @@ exports[`functions > single string arg 1`] = `
         "args": [
           [
             {
-              "quoted": false,
               "type": "atomicFilterVal",
               "value": "events",
             },
@@ -133,7 +122,6 @@ exports[`functions > single string arg 1`] = `
         "name": "count",
         "type": "function",
       },
-      "negated": false,
       "op": "=",
       "rhs": undefined,
       "type": "filter",
@@ -151,7 +139,6 @@ exports[`functions > with filter argument 1`] = `
         "args": [
           [
             {
-              "quoted": false,
               "type": "atomicFilterVal",
               "value": "projects",
             },
@@ -162,10 +149,8 @@ exports[`functions > with filter argument 1`] = `
                 "type": "filterKey",
                 "value": "plan",
               },
-              "negated": false,
               "op": "=",
               "rhs": {
-                "quoted": false,
                 "type": "atomicFilterVal",
                 "value": "free",
               },
@@ -179,7 +164,6 @@ exports[`functions > with filter argument 1`] = `
               "negated": true,
               "op": "=",
               "rhs": {
-                "quoted": false,
                 "type": "atomicFilterVal",
                 "value": "email",
               },
@@ -190,10 +174,8 @@ exports[`functions > with filter argument 1`] = `
         "name": "count",
         "type": "function",
       },
-      "negated": false,
       "op": ">",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5",
       },
@@ -212,7 +194,6 @@ exports[`functions > with quoted argument 1`] = `
         "args": [
           [
             {
-              "quoted": false,
               "type": "atomicFilterVal",
               "value": "projects",
             },
@@ -228,10 +209,8 @@ exports[`functions > with quoted argument 1`] = `
         "name": "count",
         "type": "function",
       },
-      "negated": false,
       "op": ">",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "0.5",
       },
@@ -250,14 +229,12 @@ exports[`functions > with rhs 1`] = `
         "args": [
           [
             {
-              "quoted": false,
               "type": "atomicFilterVal",
               "value": "projects",
             },
           ],
           [
             {
-              "quoted": false,
               "type": "atomicFilterVal",
               "value": "max_projects",
             },
@@ -266,10 +243,8 @@ exports[`functions > with rhs 1`] = `
         "name": "divide",
         "type": "function",
       },
-      "negated": false,
       "op": ">",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "0.5",
       },
@@ -294,12 +269,10 @@ exports[`in filters > negation 1`] = `
         "type": "filterIn",
         "values": [
           {
-            "quoted": false,
             "type": "atomicFilterVal",
             "value": "jane",
           },
           {
-            "quoted": false,
             "type": "atomicFilterVal",
             "value": "john",
           },
@@ -308,7 +281,6 @@ exports[`in filters > negation 1`] = `
       "type": "filter",
     },
     {
-      "quoted": false,
       "type": "atomicFilterVal",
       "value": "doe",
     },
@@ -325,18 +297,15 @@ exports[`in filters > works 1`] = `
         "type": "filterKey",
         "value": "user",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
         "type": "filterIn",
         "values": [
           {
-            "quoted": false,
             "type": "atomicFilterVal",
             "value": "jane",
           },
           {
-            "quoted": false,
             "type": "atomicFilterVal",
             "value": "john",
           },
@@ -345,7 +314,6 @@ exports[`in filters > works 1`] = `
       "type": "filter",
     },
     {
-      "quoted": false,
       "type": "atomicFilterVal",
       "value": "doe",
     },
@@ -354,13 +322,11 @@ exports[`in filters > works 1`] = `
         "type": "filterKey",
         "value": "release",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
         "type": "filterIn",
         "values": [
           {
-            "quoted": false,
             "type": "atomicFilterVal",
             "value": "12.0",
           },
@@ -381,10 +347,8 @@ exports[`operators > < 1`] = `
         "type": "filterKey",
         "value": "num_members",
       },
-      "negated": false,
       "op": "<",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5.0",
       },
@@ -403,10 +367,8 @@ exports[`operators > <= 1`] = `
         "type": "filterKey",
         "value": "num_members",
       },
-      "negated": false,
       "op": "<=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5.0",
       },
@@ -425,10 +387,8 @@ exports[`operators > = 1`] = `
         "type": "filterKey",
         "value": "num_members",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5",
       },
@@ -447,10 +407,8 @@ exports[`operators > > 1`] = `
         "type": "filterKey",
         "value": "num_members",
       },
-      "negated": false,
       "op": ">",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5.0",
       },
@@ -469,10 +427,8 @@ exports[`operators > >= 1`] = `
         "type": "filterKey",
         "value": "num_members",
       },
-      "negated": false,
       "op": ">=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5",
       },
@@ -491,10 +447,8 @@ exports[`text filters > .-_ in keys 1`] = `
         "type": "filterKey",
         "value": "payments.plan-type_is",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "free",
       },
@@ -513,10 +467,8 @@ exports[`text filters > @.-_ in values 1`] = `
         "type": "filterKey",
         "value": "email",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "jane@example.com",
       },
@@ -527,10 +479,8 @@ exports[`text filters > @.-_ in values 1`] = `
         "type": "filterKey",
         "value": "type",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "public-company_x",
       },
@@ -549,10 +499,8 @@ exports[`text filters > multiple 1`] = `
         "type": "filterKey",
         "value": "plan",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "free",
       },
@@ -563,10 +511,8 @@ exports[`text filters > multiple 1`] = `
         "type": "filterKey",
         "value": "age",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "5",
       },
@@ -588,7 +534,6 @@ exports[`text filters > negation 1`] = `
       "negated": true,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "free",
       },
@@ -629,7 +574,6 @@ exports[`text filters > partial filter still parses 1`] = `
         "type": "filterKey",
         "value": "age",
       },
-      "negated": false,
       "op": ">",
       "rhs": undefined,
       "type": "filter",
@@ -639,10 +583,8 @@ exports[`text filters > partial filter still parses 1`] = `
         "type": "filterKey",
         "value": "plan",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "free",
       },
@@ -653,7 +595,6 @@ exports[`text filters > partial filter still parses 1`] = `
         "type": "filterKey",
         "value": "user",
       },
-      "negated": false,
       "op": "=",
       "rhs": undefined,
       "type": "filter",
@@ -671,7 +612,6 @@ exports[`text filters > quoted value 1`] = `
         "type": "filterKey",
         "value": "user",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
         "quoted": true,
@@ -693,10 +633,8 @@ exports[`text filters > works 1`] = `
         "type": "filterKey",
         "value": "plan",
       },
-      "negated": false,
       "op": "=",
       "rhs": {
-        "quoted": false,
         "type": "atomicFilterVal",
         "value": "free",
       },

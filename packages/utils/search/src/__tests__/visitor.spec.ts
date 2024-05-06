@@ -12,19 +12,18 @@ const prettyPrintParseResult = (input: string) => {
   const visitor = createSearchVisitor();
   const ast = visitor.whereExpression(cst.children);
 
-  return ast;
-  // return treeTransformer({
-  //   tree: ast,
-  //   transform: token => {
-  //     // @ts-expect-error remove `quoted` property if false, since that's the default
-  //     if (token.quoted === false) delete token.quoted;
+  return treeTransformer({
+    tree: ast,
+    transform: token => {
+      // @ts-expect-error remove `quoted` property if false, since that's the default
+      if (token.quoted === false) delete token.quoted;
 
-  //     // @ts-expect-error remove `negated` property if false, since that's the default
-  //     if (token.negated === false) delete token.negated;
+      // @ts-expect-error remove `negated` property if false, since that's the default
+      if (token.negated === false) delete token.negated;
 
-  //     return token;
-  //   },
-  // });
+      return token;
+    },
+  });
 };
 
 describe.each(Object.entries(caseGroups))('%s', (_, cases) => {
