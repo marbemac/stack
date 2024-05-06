@@ -1,4 +1,4 @@
-export const caseGroups = {
+export const whereCaseGroups = {
   freeform: [
     ['treats as a string', 'freeform'],
     ['mixed throughout', 'freeform1 age:5 freeform2 search'],
@@ -31,9 +31,9 @@ export const caseGroups = {
     ['<=', 'num_members:<=5.0'],
   ],
 
-  // 'time': [
-  //   ['-', 'last_seen:-1d'],
-  //   ['+', 'renews_at:+30d'],
+  // 'dates': [
+  //   ['date only', 'last_seen:>2024-01-12'],
+  //   ['date time', 'last_seen:2024-01-12T10:15:01'],
   // ],
 
   'relative date': [

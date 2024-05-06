@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`freeform > mixed throughout 1`] = `
+exports[`where freeform > mixed throughout 1`] = `
 {
   "input": "freeform1 age:5 freeform2 search",
   "result": [
@@ -32,7 +32,7 @@ exports[`freeform > mixed throughout 1`] = `
 }
 `;
 
-exports[`freeform > quoted 1`] = `
+exports[`where freeform > quoted 1`] = `
 {
   "input": ""a quoted:freeform" age:5",
   "result": [
@@ -57,7 +57,7 @@ exports[`freeform > quoted 1`] = `
 }
 `;
 
-exports[`freeform > treats as a string 1`] = `
+exports[`where freeform > treats as a string 1`] = `
 {
   "input": "freeform",
   "result": [
@@ -69,7 +69,7 @@ exports[`freeform > treats as a string 1`] = `
 }
 `;
 
-exports[`functions > no args 1`] = `
+exports[`where functions > no args 1`] = `
 {
   "input": "full_name()",
   "result": [
@@ -87,7 +87,7 @@ exports[`functions > no args 1`] = `
 }
 `;
 
-exports[`functions > no args with space 1`] = `
+exports[`where functions > no args with space 1`] = `
 {
   "input": "full_name(  )",
   "result": [
@@ -105,7 +105,7 @@ exports[`functions > no args with space 1`] = `
 }
 `;
 
-exports[`functions > single string arg 1`] = `
+exports[`where functions > single string arg 1`] = `
 {
   "input": "count(events)",
   "result": [
@@ -130,7 +130,7 @@ exports[`functions > single string arg 1`] = `
 }
 `;
 
-exports[`functions > with filter argument 1`] = `
+exports[`where functions > with filter argument 1`] = `
 {
   "input": "count(projects, plan:free !has:email):>5",
   "result": [
@@ -185,7 +185,7 @@ exports[`functions > with filter argument 1`] = `
 }
 `;
 
-exports[`functions > with quoted argument 1`] = `
+exports[`where functions > with quoted argument 1`] = `
 {
   "input": "count(projects, "free search"):>0.5",
   "result": [
@@ -220,7 +220,7 @@ exports[`functions > with quoted argument 1`] = `
 }
 `;
 
-exports[`functions > with rhs 1`] = `
+exports[`where functions > with rhs 1`] = `
 {
   "input": "divide(projects, max_projects):>0.5",
   "result": [
@@ -254,7 +254,7 @@ exports[`functions > with rhs 1`] = `
 }
 `;
 
-exports[`in filters > negation 1`] = `
+exports[`where in filters > negation 1`] = `
 {
   "input": "!user:[jane, john]",
   "result": [
@@ -284,7 +284,7 @@ exports[`in filters > negation 1`] = `
 }
 `;
 
-exports[`in filters > numbers 1`] = `
+exports[`where in filters > numbers 1`] = `
 {
   "input": "release:[12.0]",
   "result": [
@@ -309,7 +309,7 @@ exports[`in filters > numbers 1`] = `
 }
 `;
 
-exports[`in filters > quoted 1`] = `
+exports[`where in filters > quoted 1`] = `
 {
   "input": "release:[jane, "john doe"]",
   "result": [
@@ -339,7 +339,7 @@ exports[`in filters > quoted 1`] = `
 }
 `;
 
-exports[`in filters > works 1`] = `
+exports[`where in filters > works 1`] = `
 {
   "input": "user:[jane, john]",
   "result": [
@@ -368,7 +368,7 @@ exports[`in filters > works 1`] = `
 }
 `;
 
-exports[`operators > < 1`] = `
+exports[`where operators > < 1`] = `
 {
   "input": "num_members:<5.0",
   "result": [
@@ -388,7 +388,7 @@ exports[`operators > < 1`] = `
 }
 `;
 
-exports[`operators > <= 1`] = `
+exports[`where operators > <= 1`] = `
 {
   "input": "num_members:<=5.0",
   "result": [
@@ -408,7 +408,7 @@ exports[`operators > <= 1`] = `
 }
 `;
 
-exports[`operators > = 1`] = `
+exports[`where operators > = 1`] = `
 {
   "input": "num_members:=5",
   "result": [
@@ -428,7 +428,7 @@ exports[`operators > = 1`] = `
 }
 `;
 
-exports[`operators > > 1`] = `
+exports[`where operators > > 1`] = `
 {
   "input": "num_members:>5.0",
   "result": [
@@ -448,7 +448,7 @@ exports[`operators > > 1`] = `
 }
 `;
 
-exports[`operators > >= 1`] = `
+exports[`where operators > >= 1`] = `
 {
   "input": "num_members:>=5",
   "result": [
@@ -468,7 +468,7 @@ exports[`operators > >= 1`] = `
 }
 `;
 
-exports[`relative date > + 1`] = `
+exports[`where relative date > + 1`] = `
 {
   "input": "renews_at:+30d",
   "result": [
@@ -490,7 +490,7 @@ exports[`relative date > + 1`] = `
 }
 `;
 
-exports[`relative date > - 1`] = `
+exports[`where relative date > - 1`] = `
 {
   "input": "last_seen:-1d",
   "result": [
@@ -512,7 +512,7 @@ exports[`relative date > - 1`] = `
 }
 `;
 
-exports[`relative date > decimal 1`] = `
+exports[`where relative date > decimal 1`] = `
 {
   "input": "renews_at:+1.2s",
   "result": [
@@ -534,7 +534,7 @@ exports[`relative date > decimal 1`] = `
 }
 `;
 
-exports[`relative date > with other filters 1`] = `
+exports[`where relative date > with other filters 1`] = `
 {
   "input": "plan:free renews_at:+4w "free form"",
   "result": [
@@ -573,7 +573,7 @@ exports[`relative date > with other filters 1`] = `
 }
 `;
 
-exports[`text filters > .-_ in keys 1`] = `
+exports[`where text filters > .-_ in keys 1`] = `
 {
   "input": "payments.plan-type_is:free",
   "result": [
@@ -593,7 +593,7 @@ exports[`text filters > .-_ in keys 1`] = `
 }
 `;
 
-exports[`text filters > @.-_ in values 1`] = `
+exports[`where text filters > @.-_ in values 1`] = `
 {
   "input": "email:jane@example.com type:public-company_x",
   "result": [
@@ -625,7 +625,7 @@ exports[`text filters > @.-_ in values 1`] = `
 }
 `;
 
-exports[`text filters > multiple 1`] = `
+exports[`where text filters > multiple 1`] = `
 {
   "input": "plan:free age:5",
   "result": [
@@ -657,7 +657,7 @@ exports[`text filters > multiple 1`] = `
 }
 `;
 
-exports[`text filters > negation 1`] = `
+exports[`where text filters > negation 1`] = `
 {
   "input": "!plan:free",
   "result": [
@@ -678,7 +678,7 @@ exports[`text filters > negation 1`] = `
 }
 `;
 
-exports[`text filters > negation in quoted 1`] = `
+exports[`where text filters > negation in quoted 1`] = `
 {
   "input": "!user:"john doe"",
   "result": [
@@ -700,7 +700,7 @@ exports[`text filters > negation in quoted 1`] = `
 }
 `;
 
-exports[`text filters > partial filter still parses 1`] = `
+exports[`where text filters > partial filter still parses 1`] = `
 {
   "input": "age:> plan:free user:",
   "result": [
@@ -738,7 +738,7 @@ exports[`text filters > partial filter still parses 1`] = `
 }
 `;
 
-exports[`text filters > quoted value 1`] = `
+exports[`where text filters > quoted value 1`] = `
 {
   "input": "user:"john doe"",
   "result": [
@@ -759,7 +759,7 @@ exports[`text filters > quoted value 1`] = `
 }
 `;
 
-exports[`text filters > works 1`] = `
+exports[`where text filters > works 1`] = `
 {
   "input": "plan:free",
   "result": [

@@ -4,7 +4,7 @@ import { parseQuery } from '../parse.ts';
 import type { SearchString } from '../types.ts';
 import { treeTransformer } from '../utils.ts';
 import { createSearchVisitor } from '../visitor.ts';
-import { caseGroups } from './cases.ts';
+import { whereCaseGroups } from './fixtures/where.ts';
 
 const prettyPrintParseResult = (input: string) => {
   const { cst } = parseQuery({ input: input as SearchString, inputType: 'whereExpression' });
@@ -29,7 +29,7 @@ const prettyPrintParseResult = (input: string) => {
   });
 };
 
-describe.each(Object.entries(caseGroups))('%s', (_, cases) => {
+describe.each(Object.entries(whereCaseGroups))('where %s', (_, cases) => {
   it.each(cases)('%s', (_, input) => {
     expect({
       input,
@@ -39,66 +39,14 @@ describe.each(Object.entries(caseGroups))('%s', (_, cases) => {
 });
 
 it('debug', { skip: true }, () => {
-  // const input = 'one: two():boo';
+  const input = 'user:[jane, "john doe"] release:[12.0]';
   // const input = 'one:two "foo bar" three:four';
-  const input = 'count(projects, plan:foo jam:2)';
+  // const input = 'last_seen:+1d';
 
   const lexResult = { tokens: [] };
   // const { lexResult } = parseQuery({ input: input as SearchString, inputType: 'whereExpression' });
 
   expect(lexResult.tokens).toMatchInlineSnapshot(`[]`);
 
-  expect(prettyPrintParseResult(input)).toMatchInlineSnapshot(`
-    [
-      {
-        "lhs": {
-          "args": [
-            [
-              {
-                "quoted": false,
-                "type": "atomicFilterVal",
-                "value": "projects",
-              },
-            ],
-            [
-              {
-                "lhs": {
-                  "type": "filterKey",
-                  "value": "plan",
-                },
-                "negated": false,
-                "op": "=",
-                "rhs": {
-                  "quoted": false,
-                  "type": "atomicFilterVal",
-                  "value": "foo",
-                },
-                "type": "filter",
-              },
-              {
-                "lhs": {
-                  "type": "filterKey",
-                  "value": "jam",
-                },
-                "negated": false,
-                "op": "=",
-                "rhs": {
-                  "quoted": false,
-                  "type": "atomicFilterVal",
-                  "value": "2",
-                },
-                "type": "filter",
-              },
-            ],
-          ],
-          "name": "count",
-          "type": "function",
-        },
-        "negated": false,
-        "op": "=",
-        "rhs": undefined,
-        "type": "filter",
-      },
-    ]
-  `);
+  expect(prettyPrintParseResult(input)).toMatchInlineSnapshot();
 });
