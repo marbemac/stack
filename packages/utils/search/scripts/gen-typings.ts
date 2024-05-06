@@ -3,11 +3,11 @@ import { writeFileSync } from 'fs';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createSearchParser } from '../src/grammar/parser.ts';
+import { SearchParser } from '../src/grammar/parser.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const parser = createSearchParser();
+const parser = new SearchParser();
 const productions: Record<string, Rule> = parser.getGAstProductions();
 
 const dtsString = generateCstDts(productions, {

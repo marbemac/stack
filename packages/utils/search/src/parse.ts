@@ -1,7 +1,7 @@
 import type { ILexingResult, Lexer } from 'chevrotain';
 
-import { createSearchLexer } from './grammar/lexer.ts';
-import { createSearchParser, type SearchParser } from './grammar/parser.ts';
+import { SearchLexer } from './grammar/lexer.ts';
+import { SearchParser } from './grammar/parser.ts';
 import type { SearchString } from './types.ts';
 
 let lexerSingleton: Lexer;
@@ -23,14 +23,14 @@ export const parseQuery = <T extends InputType>({
 }: ParseQueryOpts<T>): { cst: ReturnType<SearchParser[T]>; lexResult: ILexingResult } => {
   let lexer = rest.lexer || lexerSingleton;
   if (!lexer) {
-    lexer = lexerSingleton = createSearchLexer();
+    lexer = lexerSingleton = new SearchLexer();
   }
 
   const lexResult = lexer.tokenize(input);
 
   let parser = rest.parser || parserSingleton;
   if (!parser) {
-    parser = parserSingleton = createSearchParser();
+    parser = parserSingleton = new SearchParser();
   }
 
   // "input" is a setter which will reset the parser's state.

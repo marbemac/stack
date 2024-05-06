@@ -1,11 +1,4 @@
-import {
-  type CstNode,
-  CstParser,
-  type IParserConfig,
-  type IRuleConfig,
-  type ParserMethod,
-  type TokenVocabulary,
-} from 'chevrotain';
+import { type CstNode, CstParser, type IParserConfig, type IRuleConfig, type ParserMethod } from 'chevrotain';
 
 import { lexerTokenDef } from './lexer.ts';
 import type {
@@ -17,9 +10,11 @@ import type {
 } from './parser-cst-types.ts';
 import * as t from './tokens.ts';
 
-class SearchParserImpl extends CstParser {
-  constructor(tokenVocabulary: TokenVocabulary, config?: IParserConfig) {
-    super(tokenVocabulary, config);
+export interface SearchParserOpts extends IParserConfig {}
+
+export class SearchParser extends CstParser {
+  constructor(config?: SearchParserOpts) {
+    super(lexerTokenDef, { recoveryEnabled: true, ...config });
     this.performSelfAnalysis();
   }
 
@@ -158,11 +153,3 @@ class SearchParserImpl extends CstParser {
     });
   });
 }
-
-interface SearchParserOpts extends IParserConfig {}
-
-export type SearchParser = SearchParserImpl;
-
-export const createSearchParser = (opts?: SearchParserOpts) => {
-  return new SearchParserImpl(lexerTokenDef, { recoveryEnabled: true, ...opts });
-};

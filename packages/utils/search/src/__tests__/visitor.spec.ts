@@ -12,6 +12,9 @@ const prettyPrintParseResult = (input: string) => {
   const visitor = createSearchVisitor();
   const ast = visitor.whereExpression(cst.children);
 
+  /**
+   * Just cleans up the snapshots a little bit for easier review
+   */
   return treeTransformer({
     tree: ast,
     transform: token => {

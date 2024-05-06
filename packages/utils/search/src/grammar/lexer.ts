@@ -41,6 +41,8 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
 
 interface SearchLexerOpts extends ILexerConfig {}
 
-export const createSearchLexer = (opts?: SearchLexerOpts) => {
-  return new Lexer(lexerTokenDef, { positionTracking: 'onlyOffset', ...opts });
-};
+export class SearchLexer extends Lexer {
+  constructor(config?: SearchLexerOpts) {
+    super(lexerTokenDef, { positionTracking: 'onlyOffset', ...config });
+  }
+}

@@ -1,7 +1,6 @@
 import type { CstNode } from 'chevrotain';
 
-import type { SearchParser } from './grammar/parser.ts';
-import { createSearchParser } from './grammar/parser.ts';
+import { SearchParser } from './grammar/parser.ts';
 import type {
   AtomicFilterValCstChildren,
   AtomicFilterValCstNode,
@@ -136,7 +135,7 @@ let parserSingleton: SearchParser;
 
 export const createSearchVisitor = () => {
   if (!parserSingleton) {
-    parserSingleton = createSearchParser();
+    parserSingleton = new SearchParser();
   }
 
   const BaseVisitor = parserSingleton.getBaseCstVisitorConstructor();
