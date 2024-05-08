@@ -2,7 +2,7 @@
   "name": "@marbemac/root",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@4.2.1",
   "engines": {
     "node": ">= 20"
   },
@@ -38,7 +38,7 @@
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "@yarnpkg/types": "~4.0.0",
-    "nx": "18.3.4",
+    "nx": "19.0.1",
     "prettier": "3.2.5",
     "prettier-plugin-classnames": "~0.6.6",
     "typescript": "5.4.5"

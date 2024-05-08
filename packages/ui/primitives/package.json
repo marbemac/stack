@@ -29,7 +29,7 @@
     "@marbemac/utils-colors": "workspace:*",
     "@marbemac/utils-dates": "workspace:*",
     "copy-to-clipboard-ultralight": "1.0.15",
-    "styled-jsx": "^5.1.2"
+    "styled-jsx": "^5.1.3"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-common-types": "^6.5.2",
