@@ -48,100 +48,141 @@ export const enum SearchToken {
   NumberVal = 'numberVal',
 }
 
-export type AnySearchToken =
-  | SearchQueryAstNode
-  | SelectClauseAstNode
-  | FromClauseAstNode
-  | WhereClauseAstNode
-  | QualifierAstNode
-  | FunctionAstNode
-  | QualifierKeyAstNode
-  | QualifierInAstNode
-  | RelativeDateValAstNode
-  | AtomicQualifierValAstNode;
+/**
+ * Object representing an invalid token state.
+ *
+ * Provide custom types or expectedTypes via the generics.
+ */
+export interface InvalidToken<T = unknown, ET = unknown> {
+  /**
+   * The message indicating why the token is invalid
+   */
+  reason: string;
 
-export interface SearchQueryAstNode {
+  /**
+   * The invalid reason type
+   */
+  type: T;
+
+  /**
+   * In the case where a filter is invalid, we may be expecting a different
+   * type for this filter based on the key. This can be useful to hint to the
+   * user what values they should be providing.
+   *
+   * This may be multiple filter types.
+   */
+  expectedType?: ET[];
+}
+
+interface SearchTokenBase<T = unknown, ET = unknown> {
+  invalid?: InvalidToken<T, ET>;
+}
+
+export type AnySearchToken<T = unknown, ET = unknown> =
+  | SearchQueryAstNode<T, ET>
+  | SelectClauseAstNode<T, ET>
+  | FromClauseAstNode<T, ET>
+  | WhereClauseAstNode<T, ET>
+  | QualifierAstNode<T, ET>
+  | FunctionAstNode<T, ET>
+  | QualifierKeyAstNode<T, ET>
+  | QualifierInAstNode<T, ET>
+  | RelativeDateValAstNode<T, ET>
+  | AtomicQualifierValAstNode<T, ET>;
+
+export interface SearchQueryAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.SearchQuery;
-  selectClause: SelectClauseAstNode;
-  fromClause: FromClauseAstNode;
-  whereClause: WhereClauseAstNode;
+  selectClause: SelectClauseAstNode<T, ET>;
+  fromClause: FromClauseAstNode<T, ET>;
+  whereClause: WhereClauseAstNode<T, ET>;
 }
 
-export interface SelectClauseAstNode {
+export interface SelectClauseAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.SelectClause;
-  columns: SelectExpressionAstNode;
+  columns: SelectExpressionAstColumns<T, ET>;
 }
 
-export type SelectExpressionAstNode = (QualifierAstNode | FunctionAstNode | AtomicQualifierValAstNode)[];
+export type SelectExpressionAstColumns<T = unknown, ET = unknown> = (
+  | QualifierAstNode<T, ET>
+  | FunctionAstNode<T, ET>
+  | AtomicQualifierValAstNode<T, ET>
+)[];
 
-export interface FromClauseAstNode {
+export interface FromClauseAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.FromClause;
   table: string;
 }
 
-export interface WhereClauseAstNode {
+export interface WhereClauseAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.WhereClause;
-  conditions: WhereExpressionAstNode;
+  conditions: WhereExpressionAstConditions<T, ET>;
 }
 
-export type WhereExpressionAstNode = (QualifierAstNode | FunctionAstNode | AtomicQualifierValAstNode)[];
+export type WhereExpressionAstConditions<T = unknown, ET = unknown> = (
+  | QualifierAstNode<T, ET>
+  | FunctionAstNode<T, ET>
+  | AtomicQualifierValAstNode<T, ET>
+)[];
 
-export interface QualifierAstNode {
+export interface QualifierAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.Qualifier;
   negated: boolean;
-  lhs: QualifierKeyAstNode;
-  op?: QualifierOpAstNode;
-  rhs?: QualifierValAstNode;
+  lhs: QualifierKeyAstNode<T, ET>;
+  op?: QualifierOp;
+  rhs?: QualifierRhs<T, ET>;
 }
 
-export interface FunctionAstNode {
+export interface FunctionAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.Function;
   name: string;
   negated: boolean;
-  args: FunctionArgAstNode[];
-  op?: QualifierOpAstNode;
-  rhs?: QualifierValAstNode;
+  args: FunctionAstArgs<T, ET>[];
+  op?: QualifierOp;
+  rhs?: QualifierRhs<T, ET>;
 }
 
-export type FunctionArgAstNode = (QualifierAstNode | AtomicQualifierValAstNode)[];
+export type FunctionAstArgs<T = unknown, ET = unknown> = (QualifierAstNode<T, ET> | AtomicQualifierValAstNode<T, ET>)[];
 
-export interface QualifierKeyAstNode {
+export interface QualifierKeyAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.QualifierKey;
   value: string;
 }
 
-export type QualifierValAstNode = QualifierInAstNode | AtomicQualifierValAstNode | RelativeDateValAstNode;
+export type QualifierRhs<T = unknown, ET = unknown> =
+  | QualifierInAstNode<T, ET>
+  | AtomicQualifierValAstNode<T, ET>
+  | RelativeDateValAstNode<T, ET>;
 
-export interface QualifierInAstNode {
+export interface QualifierInAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.QualifierIn;
-  values: AtomicQualifierValAstNode[];
+  values: AtomicQualifierValAstNode<T, ET>[];
 }
 
-export interface RelativeDateValAstNode {
+export interface RelativeDateValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.RelativeDateVal;
   value: string;
   sign: '+' | '-';
   unit: 's' | 'mi' | 'h' | 'd' | 'w' | 'm' | 'q' | 'y';
 }
 
-export interface TextValAstNode {
+export interface TextValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.TextVal;
   quoted?: boolean;
   value: string;
 }
 
-export interface NumberValAstNode {
+export interface NumberValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.TextVal;
   value: string;
 }
 
-export interface AtomicQualifierValAstNode {
+export interface AtomicQualifierValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.TextVal | SearchToken.NumberVal;
   quoted?: boolean;
   value: string;
 }
 
-export type QualifierOpAstNode = '=' | '>' | '<' | '>=' | '<=';
+export type QualifierOp = '=' | '>' | '<' | '>=' | '<=';
 
 export type SearchVisitor = ReturnType<typeof createSearchVisitor>;
 
@@ -167,7 +208,15 @@ export const isNumberValNode = (node: unknown): node is NumberValAstNode => chec
 
 let parserSingleton: SearchParser;
 
-export const createSearchVisitor = () => {
+interface CreateSearchVisitorOpts {
+  transform?: <T extends AnySearchToken>(node: T) => T;
+}
+
+export const createSearchVisitor = ({ transform }: CreateSearchVisitorOpts = {}) => {
+  function maybeTransform<T extends AnySearchToken>(node: T): T {
+    return transform ? transform(node) : node;
+  }
+
   if (!parserSingleton) {
     parserSingleton = new SearchParser();
   }
@@ -177,32 +226,32 @@ export const createSearchVisitor = () => {
   /** This simply helps keep this visitor typings tight. Maps CST nodes to AST nodes. */
   type GetReturnType<T> = T extends SearchQueryCstNode
     ? SearchQueryAstNode
-    : T extends SelectClauseCstNode
+    : T extends SelectClauseCstNode | SelectClauseCstNode[]
       ? SelectClauseAstNode
-      : T extends FromClauseCstNode
+      : T extends FromClauseCstNode | FromClauseCstNode[]
         ? FromClauseAstNode
-        : T extends WhereClauseCstNode
+        : T extends WhereClauseCstNode | WhereClauseCstNode[]
           ? WhereClauseAstNode
-          : T extends WhereExpressionCstNode
-            ? WhereExpressionAstNode
-            : T extends QualifierCstNode
+          : T extends WhereExpressionCstNode | WhereExpressionCstNode[]
+            ? WhereExpressionAstConditions
+            : T extends QualifierCstNode | QualifierCstNode[]
               ? QualifierAstNode
-              : T extends FunctionCstNode
+              : T extends FunctionCstNode | FunctionCstNode[]
                 ? FunctionAstNode
-                : T extends FunctionArgCstNode
-                  ? FunctionArgAstNode
-                  : T extends QualifierKeyCstNode
+                : T extends FunctionArgCstNode | FunctionArgCstNode[]
+                  ? FunctionAstArgs
+                  : T extends QualifierKeyCstNode | QualifierKeyCstNode[]
                     ? QualifierKeyAstNode
-                    : T extends QualifierValCstNode
-                      ? QualifierValAstNode
-                      : T extends QualifierInCstNode
+                    : T extends QualifierValCstNode | QualifierValCstNode[]
+                      ? QualifierRhs
+                      : T extends QualifierInCstNode | QualifierInCstNode[]
                         ? QualifierInAstNode
-                        : T extends RelativeDateValCstNode
+                        : T extends RelativeDateValCstNode | RelativeDateValCstNode[]
                           ? RelativeDateValAstNode
-                          : T extends AtomicQualifierValCstNode
+                          : T extends AtomicQualifierValCstNode | AtomicQualifierValCstNode[]
                             ? AtomicQualifierValAstNode
-                            : T extends QualifierOpCstNode
-                              ? QualifierOpAstNode
+                            : T extends QualifierOpCstNode | QualifierOpCstNode[]
+                              ? QualifierOp
                               : never;
 
   type VisitFn = <T extends CstNode | CstNode[]>(cstNode: T, param?: unknown) => GetReturnType<T>;
@@ -217,95 +266,95 @@ export const createSearchVisitor = () => {
     }
 
     searchQuery(ctx: SearchQueryCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.SearchQuery as const,
         selectClause: this.#visit(ctx.selectClause),
         fromClause: this.#visit(ctx.fromClause),
         whereClause: this.#visit(ctx.whereClause!),
-      } satisfies SearchQueryAstNode;
+      }) satisfies SearchQueryAstNode;
     }
 
     selectClause(ctx: SelectClauseCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.SelectClause as const,
         columns: this.#visit(ctx.selectExpression),
-      } satisfies SelectClauseAstNode;
+      }) satisfies SelectClauseAstNode;
     }
 
     selectExpression(ctx: SelectExpressionCstChildren) {
-      return (ctx.columns || []).map(f => this.#visit(f)) satisfies SelectExpressionAstNode;
+      return (ctx.columns || []).map(f => this.#visit(f)) satisfies SelectExpressionAstColumns;
     }
 
     fromClause(ctx: FromClauseCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.FromClause as const,
         table: ctx.Identifier[0]?.image || '',
-      } satisfies FromClauseAstNode;
+      }) satisfies FromClauseAstNode;
     }
 
     whereClause(ctx: WhereClauseCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.WhereClause as const,
         conditions: this.#visit(ctx.whereExpression),
-      } satisfies WhereClauseAstNode;
+      }) satisfies WhereClauseAstNode;
     }
 
     whereExpression(ctx: WhereExpressionCstChildren) {
-      return (ctx.conditions || []).map(f => this.#visit(f)) satisfies WhereExpressionAstNode;
+      return (ctx.conditions || []).map(f => this.#visit(f)) satisfies WhereExpressionAstConditions;
     }
 
     qualifier(ctx: QualifierCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.Qualifier as const,
         negated: !!ctx.Negate,
         lhs: this.#visit(ctx.lhs!),
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
-      } satisfies QualifierAstNode;
+      }) satisfies QualifierAstNode;
     }
 
     function(ctx: FunctionCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.Function as const,
         name: ctx.Identifier[0]!.image,
         negated: !!ctx.Negate,
         args: (ctx.functionArg || []).map(arg => this.#visit(arg)).filter(arg => !!arg.length),
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
-      } satisfies FunctionAstNode;
+      }) satisfies FunctionAstNode;
     }
 
     functionArg(ctx: FunctionArgCstChildren) {
-      return (ctx.args || []).map(arg => this.#visit(arg)) satisfies FunctionArgAstNode;
+      return (ctx.args || []).map(arg => this.#visit(arg)) satisfies FunctionAstArgs;
     }
 
     qualifierKey(ctx: QualifierKeyCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.QualifierKey as const,
         value: (ctx.QualifierKey?.[0]?.image || '').slice(0, -1), // slice the ":" off
-      } satisfies QualifierKeyAstNode;
+      }) satisfies QualifierKeyAstNode;
     }
 
     qualifierVal(ctx: QualifierValCstChildren) {
       if (!ctx.val) return undefined;
 
-      return this.#visit(ctx.val) satisfies QualifierValAstNode;
+      return maybeTransform(this.#visit(ctx.val)) satisfies QualifierRhs;
     }
 
     qualifierIn(ctx: QualifierInCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.QualifierIn as const,
         values: ctx.atomicQualifierVal.map(val => this.#visit(val)),
-      } satisfies QualifierInAstNode;
+      }) satisfies QualifierInAstNode;
     }
 
     relativeDateVal(ctx: RelativeDateValCstChildren) {
-      return {
+      return maybeTransform({
         type: SearchToken.RelativeDateVal as const,
         value: ctx.Number?.[0]?.image || '',
         sign: ctx.op?.[0]?.image as RelativeDateValAstNode['sign'],
         unit: ctx.DateUnit?.[0]?.image as RelativeDateValAstNode['unit'],
-      } satisfies RelativeDateValAstNode;
+      }) satisfies RelativeDateValAstNode;
     }
 
     atomicQualifierVal(ctx: AtomicQualifierValCstChildren) {
@@ -318,15 +367,15 @@ export const createSearchVisitor = () => {
         target = ctx.QuotedIdentifier?.[0];
       }
 
-      return {
+      return maybeTransform({
         type,
         quoted,
         value: target?.image || '',
-      } satisfies AtomicQualifierValAstNode;
+      }) satisfies AtomicQualifierValAstNode;
     }
 
     qualifierOp(ctx: QualifierOpCstChildren) {
-      return (ctx.op?.[0]?.image || '') as QualifierOpAstNode;
+      return (ctx.op?.[0]?.image || '') as QualifierOp;
     }
   }
 

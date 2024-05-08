@@ -3,780 +3,882 @@
 exports[`select freeform > mixed throughout 1`] = `
 {
   "input": "freeform1 age:5 freeform2 search",
-  "result": [
-    {
-      "type": "textVal",
-      "value": "freeform1",
-    },
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "age",
+  "result": {
+    "ast": [
+      {
+        "type": "textVal",
+        "value": "freeform1",
       },
-      "op": "",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5",
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "age",
+        },
+        "op": "",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5",
+        },
+        "type": "qualifier",
       },
-      "type": "qualifier",
-    },
-    {
-      "type": "textVal",
-      "value": "freeform2",
-    },
-    {
-      "type": "textVal",
-      "value": "search",
-    },
-  ],
+      {
+        "type": "textVal",
+        "value": "freeform2",
+      },
+      {
+        "type": "textVal",
+        "value": "search",
+      },
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select freeform > quoted 1`] = `
 {
   "input": ""a quoted:freeform" age:5",
-  "result": [
-    {
-      "quoted": true,
-      "type": "textVal",
-      "value": "a quoted:freeform",
-    },
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "age",
+  "result": {
+    "ast": [
+      {
+        "quoted": true,
+        "type": "textVal",
+        "value": "a quoted:freeform",
       },
-      "op": "",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5",
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "age",
+        },
+        "op": "",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5",
+        },
+        "type": "qualifier",
       },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select freeform > treats as a string 1`] = `
 {
   "input": "freeform",
-  "result": [
-    {
-      "type": "textVal",
-      "value": "freeform",
-    },
-  ],
+  "result": {
+    "ast": [
+      {
+        "type": "textVal",
+        "value": "freeform",
+      },
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select functions > no args 1`] = `
 {
   "input": "full_name()",
-  "result": [
-    {
-      "args": [],
-      "name": "full_name",
-      "op": undefined,
-      "rhs": undefined,
-      "type": "function",
-    },
-  ],
+  "result": {
+    "ast": [
+      {
+        "args": [],
+        "name": "full_name",
+        "op": undefined,
+        "rhs": undefined,
+        "type": "function",
+      },
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select functions > no args with space 1`] = `
 {
   "input": "full_name(  )",
-  "result": [
-    {
-      "args": [],
-      "name": "full_name",
-      "op": undefined,
-      "rhs": undefined,
-      "type": "function",
-    },
-  ],
+  "result": {
+    "ast": [
+      {
+        "args": [],
+        "name": "full_name",
+        "op": undefined,
+        "rhs": undefined,
+        "type": "function",
+      },
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select functions > relatvie date rhs 1`] = `
 {
   "input": "last_seen():-7d",
-  "result": [
-    {
-      "args": [],
-      "name": "last_seen",
-      "op": "",
-      "rhs": {
-        "sign": "-",
-        "type": "relativeDateVal",
-        "unit": "d",
-        "value": "7",
+  "result": {
+    "ast": [
+      {
+        "args": [],
+        "name": "last_seen",
+        "op": "",
+        "rhs": {
+          "sign": "-",
+          "type": "relativeDateVal",
+          "unit": "d",
+          "value": "7",
+        },
+        "type": "function",
       },
-      "type": "function",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select functions > single string arg 1`] = `
 {
   "input": "count(events)",
-  "result": [
-    {
-      "args": [
-        [
-          {
-            "type": "textVal",
-            "value": "events",
-          },
+  "result": {
+    "ast": [
+      {
+        "args": [
+          [
+            {
+              "type": "textVal",
+              "value": "events",
+            },
+          ],
         ],
-      ],
-      "name": "count",
-      "op": undefined,
-      "rhs": undefined,
-      "type": "function",
-    },
-  ],
+        "name": "count",
+        "op": undefined,
+        "rhs": undefined,
+        "type": "function",
+      },
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select functions > with filter argument 1`] = `
 {
   "input": "count(projects, plan:free !has:email):>5",
-  "result": [
-    {
-      "args": [
-        [
-          {
-            "type": "textVal",
-            "value": "projects",
-          },
-        ],
-        [
-          {
-            "lhs": {
-              "type": "qualifierKey",
-              "value": "plan",
-            },
-            "op": "",
-            "rhs": {
+  "result": {
+    "ast": [
+      {
+        "args": [
+          [
+            {
               "type": "textVal",
-              "value": "free",
+              "value": "projects",
             },
-            "type": "qualifier",
-          },
-          {
-            "lhs": {
-              "type": "qualifierKey",
-              "value": "has",
+          ],
+          [
+            {
+              "lhs": {
+                "type": "qualifierKey",
+                "value": "plan",
+              },
+              "op": "",
+              "rhs": {
+                "type": "textVal",
+                "value": "free",
+              },
+              "type": "qualifier",
             },
-            "negated": true,
-            "op": "",
-            "rhs": {
-              "type": "textVal",
-              "value": "email",
+            {
+              "lhs": {
+                "type": "qualifierKey",
+                "value": "has",
+              },
+              "negated": true,
+              "op": "",
+              "rhs": {
+                "type": "textVal",
+                "value": "email",
+              },
+              "type": "qualifier",
             },
-            "type": "qualifier",
-          },
+          ],
         ],
-      ],
-      "name": "count",
-      "op": ">",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5",
+        "name": "count",
+        "op": ">",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5",
+        },
+        "type": "function",
       },
-      "type": "function",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select functions > with quoted argument 1`] = `
 {
   "input": "count(projects, "free search"):>0.5",
-  "result": [
-    {
-      "args": [
-        [
-          {
-            "type": "textVal",
-            "value": "projects",
-          },
+  "result": {
+    "ast": [
+      {
+        "args": [
+          [
+            {
+              "type": "textVal",
+              "value": "projects",
+            },
+          ],
+          [
+            {
+              "quoted": true,
+              "type": "textVal",
+              "value": "free search",
+            },
+          ],
         ],
-        [
-          {
-            "quoted": true,
-            "type": "textVal",
-            "value": "free search",
-          },
-        ],
-      ],
-      "name": "count",
-      "op": ">",
-      "rhs": {
-        "type": "numberVal",
-        "value": "0.5",
+        "name": "count",
+        "op": ">",
+        "rhs": {
+          "type": "numberVal",
+          "value": "0.5",
+        },
+        "type": "function",
       },
-      "type": "function",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select functions > with rhs 1`] = `
 {
   "input": "divide(projects, max_projects):>0.5",
-  "result": [
-    {
-      "args": [
-        [
-          {
-            "type": "textVal",
-            "value": "projects",
-          },
+  "result": {
+    "ast": [
+      {
+        "args": [
+          [
+            {
+              "type": "textVal",
+              "value": "projects",
+            },
+          ],
+          [
+            {
+              "type": "textVal",
+              "value": "max_projects",
+            },
+          ],
         ],
-        [
-          {
-            "type": "textVal",
-            "value": "max_projects",
-          },
-        ],
-      ],
-      "name": "divide",
-      "op": ">",
-      "rhs": {
-        "type": "numberVal",
-        "value": "0.5",
+        "name": "divide",
+        "op": ">",
+        "rhs": {
+          "type": "numberVal",
+          "value": "0.5",
+        },
+        "type": "function",
       },
-      "type": "function",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select in filters > negation 1`] = `
 {
   "input": "!user:[jane, john]",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "user",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "user",
+        },
+        "negated": true,
+        "op": "",
+        "rhs": {
+          "type": "qualifierIn",
+          "values": [
+            {
+              "type": "textVal",
+              "value": "jane",
+            },
+            {
+              "type": "textVal",
+              "value": "john",
+            },
+          ],
+        },
+        "type": "qualifier",
       },
-      "negated": true,
-      "op": "",
-      "rhs": {
-        "type": "qualifierIn",
-        "values": [
-          {
-            "type": "textVal",
-            "value": "jane",
-          },
-          {
-            "type": "textVal",
-            "value": "john",
-          },
-        ],
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select in filters > numbers 1`] = `
 {
   "input": "release:[12.0]",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "release",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "release",
+        },
+        "op": "",
+        "rhs": {
+          "type": "qualifierIn",
+          "values": [
+            {
+              "type": "numberVal",
+              "value": "12.0",
+            },
+          ],
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "qualifierIn",
-        "values": [
-          {
-            "type": "numberVal",
-            "value": "12.0",
-          },
-        ],
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select in filters > quoted 1`] = `
 {
   "input": "release:[jane, "john doe"]",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "release",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "release",
+        },
+        "op": "",
+        "rhs": {
+          "type": "qualifierIn",
+          "values": [
+            {
+              "type": "textVal",
+              "value": "jane",
+            },
+            {
+              "quoted": true,
+              "type": "textVal",
+              "value": "john doe",
+            },
+          ],
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "qualifierIn",
-        "values": [
-          {
-            "type": "textVal",
-            "value": "jane",
-          },
-          {
-            "quoted": true,
-            "type": "textVal",
-            "value": "john doe",
-          },
-        ],
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select in filters > works 1`] = `
 {
   "input": "user:[jane, john]",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "user",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "user",
+        },
+        "op": "",
+        "rhs": {
+          "type": "qualifierIn",
+          "values": [
+            {
+              "type": "textVal",
+              "value": "jane",
+            },
+            {
+              "type": "textVal",
+              "value": "john",
+            },
+          ],
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "qualifierIn",
-        "values": [
-          {
-            "type": "textVal",
-            "value": "jane",
-          },
-          {
-            "type": "textVal",
-            "value": "john",
-          },
-        ],
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select operators > < 1`] = `
 {
   "input": "num_members:<5.0",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "num_members",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "num_members",
+        },
+        "op": "<",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5.0",
+        },
+        "type": "qualifier",
       },
-      "op": "<",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5.0",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select operators > <= 1`] = `
 {
   "input": "num_members:<=5.0",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "num_members",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "num_members",
+        },
+        "op": "<=",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5.0",
+        },
+        "type": "qualifier",
       },
-      "op": "<=",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5.0",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select operators > = 1`] = `
 {
   "input": "num_members:=5",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "num_members",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "num_members",
+        },
+        "op": "=",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5",
+        },
+        "type": "qualifier",
       },
-      "op": "=",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select operators > > 1`] = `
 {
   "input": "num_members:>5.0",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "num_members",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "num_members",
+        },
+        "op": ">",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5.0",
+        },
+        "type": "qualifier",
       },
-      "op": ">",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5.0",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select operators > >= 1`] = `
 {
   "input": "num_members:>=5",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "num_members",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "num_members",
+        },
+        "op": ">=",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5",
+        },
+        "type": "qualifier",
       },
-      "op": ">=",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select relative date > + 1`] = `
 {
   "input": "renews_at:+30d",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "renews_at",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "renews_at",
+        },
+        "op": "",
+        "rhs": {
+          "sign": "+",
+          "type": "relativeDateVal",
+          "unit": "d",
+          "value": "30",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "sign": "+",
-        "type": "relativeDateVal",
-        "unit": "d",
-        "value": "30",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select relative date > - 1`] = `
 {
   "input": "last_seen:-1d",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "last_seen",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "last_seen",
+        },
+        "op": "",
+        "rhs": {
+          "sign": "-",
+          "type": "relativeDateVal",
+          "unit": "d",
+          "value": "1",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "sign": "-",
-        "type": "relativeDateVal",
-        "unit": "d",
-        "value": "1",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select relative date > decimal 1`] = `
 {
   "input": "renews_at:+1.2s",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "renews_at",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "renews_at",
+        },
+        "op": "",
+        "rhs": {
+          "sign": "+",
+          "type": "relativeDateVal",
+          "unit": "s",
+          "value": "1.2",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "sign": "+",
-        "type": "relativeDateVal",
-        "unit": "s",
-        "value": "1.2",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select relative date > with other filters 1`] = `
 {
   "input": "plan:free renews_at:+4w "free form"",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "plan",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "plan",
+        },
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "free",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "renews_at",
+        },
+        "op": "",
+        "rhs": {
+          "sign": "+",
+          "type": "relativeDateVal",
+          "unit": "w",
+          "value": "4",
+        },
+        "type": "qualifier",
+      },
+      {
+        "quoted": true,
         "type": "textVal",
-        "value": "free",
+        "value": "free form",
       },
-      "type": "qualifier",
-    },
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "renews_at",
-      },
-      "op": "",
-      "rhs": {
-        "sign": "+",
-        "type": "relativeDateVal",
-        "unit": "w",
-        "value": "4",
-      },
-      "type": "qualifier",
-    },
-    {
-      "quoted": true,
-      "type": "textVal",
-      "value": "free form",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select text filters > .-_[0-9] in keys 1`] = `
 {
   "input": "payments.plan-type_is2:free",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "payments.plan-type_is2",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "payments.plan-type_is2",
+        },
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "free",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "textVal",
-        "value": "free",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select text filters > @.-_ in values 1`] = `
 {
   "input": "email:jane@example.com type:public-company_x",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "email",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "email",
+        },
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "jane@example.com",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "textVal",
-        "value": "jane@example.com",
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "type",
+        },
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "public-company_x",
+        },
+        "type": "qualifier",
       },
-      "type": "qualifier",
-    },
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "type",
-      },
-      "op": "",
-      "rhs": {
-        "type": "textVal",
-        "value": "public-company_x",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select text filters > multiple 1`] = `
 {
   "input": "plan:free age:5",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "plan",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "plan",
+        },
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "free",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "textVal",
-        "value": "free",
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "age",
+        },
+        "op": "",
+        "rhs": {
+          "type": "numberVal",
+          "value": "5",
+        },
+        "type": "qualifier",
       },
-      "type": "qualifier",
-    },
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "age",
-      },
-      "op": "",
-      "rhs": {
-        "type": "numberVal",
-        "value": "5",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select text filters > negation 1`] = `
 {
   "input": "!plan:free",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "plan",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "plan",
+        },
+        "negated": true,
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "free",
+        },
+        "type": "qualifier",
       },
-      "negated": true,
-      "op": "",
-      "rhs": {
-        "type": "textVal",
-        "value": "free",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select text filters > negation in quoted 1`] = `
 {
   "input": "!user:"john doe"",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "user",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "user",
+        },
+        "negated": true,
+        "op": "",
+        "rhs": {
+          "quoted": true,
+          "type": "textVal",
+          "value": "john doe",
+        },
+        "type": "qualifier",
       },
-      "negated": true,
-      "op": "",
-      "rhs": {
-        "quoted": true,
-        "type": "textVal",
-        "value": "john doe",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select text filters > partial filter still parses 1`] = `
 {
   "input": "age:> plan:free user:",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "age",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "age",
+        },
+        "op": ">",
+        "rhs": undefined,
+        "type": "qualifier",
       },
-      "op": ">",
-      "rhs": undefined,
-      "type": "qualifier",
-    },
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "plan",
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "plan",
+        },
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "free",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "textVal",
-        "value": "free",
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "user",
+        },
+        "op": undefined,
+        "rhs": undefined,
+        "type": "qualifier",
       },
-      "type": "qualifier",
-    },
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "user",
-      },
-      "op": undefined,
-      "rhs": undefined,
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [
+      [NoViableAltException: Expecting: one of these possible Token sequences:
+  1. [LBracket]
+  2. [+]
+  3. [Minus]
+  4. [LQuote]
+  5. [Identifier]
+  6. [Number]
+but found: 'plan:'],
+    ],
+  },
 }
 `;
 
 exports[`select text filters > quoted value 1`] = `
 {
   "input": "user:"john doe"",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "user",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "user",
+        },
+        "op": "",
+        "rhs": {
+          "quoted": true,
+          "type": "textVal",
+          "value": "john doe",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "quoted": true,
-        "type": "textVal",
-        "value": "john doe",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
 
 exports[`select text filters > works 1`] = `
 {
   "input": "plan:free",
-  "result": [
-    {
-      "lhs": {
-        "type": "qualifierKey",
-        "value": "plan",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "plan",
+        },
+        "op": "",
+        "rhs": {
+          "type": "textVal",
+          "value": "free",
+        },
+        "type": "qualifier",
       },
-      "op": "",
-      "rhs": {
-        "type": "textVal",
-        "value": "free",
-      },
-      "type": "qualifier",
-    },
-  ],
+    ],
+    "errors": [],
+  },
 }
 `;
