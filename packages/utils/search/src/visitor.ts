@@ -126,7 +126,7 @@ export interface RelativeDateValAstNode {
 
 export interface TextValAstNode {
   type: SearchToken.TextVal;
-  quoted: boolean;
+  quoted?: boolean;
   value: string;
 }
 
@@ -137,7 +137,7 @@ export interface NumberValAstNode {
 
 export interface AtomicQualifierValAstNode {
   type: SearchToken.TextVal | SearchToken.NumberVal;
-  quoted: boolean;
+  quoted?: boolean;
   value: string;
 }
 
@@ -159,7 +159,7 @@ export const isQualifierInNode = (node: unknown): node is QualifierInAstNode =>
   checkNodeType(node, SearchToken.QualifierIn);
 
 export const isAtomicQualifierValNode = (node: unknown): node is AtomicQualifierValAstNode =>
-  checkNodeType(node, SearchToken.TextVal) || checkNodeType(node, SearchToken.NumberVal);
+  isTextValNode(node) || isNumberValNode(node);
 
 export const isTextValNode = (node: unknown): node is TextValAstNode => checkNodeType(node, SearchToken.TextVal);
 
