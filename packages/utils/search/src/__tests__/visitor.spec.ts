@@ -4,11 +4,43 @@ import { parseSearch } from '../parse.ts';
 import { createSearchVisitor } from '../visitor.ts';
 
 describe('parse full query', () => {
-  it('works', () => {
+  it('supports just select', () => {
     const { cst, errors } = parseSearch({
       inputType: 'searchQuery',
       input: `
-        SELECT id slug count(invoices)
+        FROM accounts
+        SELECT id
+      `,
+    });
+
+    expect(errors).toEqual([]);
+
+    const visitor = createSearchVisitor();
+    const ast = visitor.searchQuery(cst.children);
+
+    expect(ast).toMatchObject({
+      type: 'searchQuery',
+      fromClause: {
+        type: 'fromClause',
+        table: 'accounts',
+      },
+      selectClause: {
+        type: 'selectClause',
+        columns: [
+          {
+            type: 'textVal',
+            quoted: false,
+            value: 'id',
+          },
+        ],
+      },
+    });
+  });
+
+  it('supports just where', () => {
+    const { cst, errors } = parseSearch({
+      inputType: 'searchQuery',
+      input: `
         FROM accounts
         WHERE plan:free
       `,
@@ -22,27 +54,72 @@ describe('parse full query', () => {
     expect(ast).toMatchObject({
       type: 'searchQuery',
       fromClause: {
-        table: 'accounts',
         type: 'fromClause',
+        table: 'accounts',
+      },
+      whereClause: {
+        type: 'whereClause',
+        conditions: [
+          {
+            type: 'qualifier',
+            lhs: {
+              type: 'qualifierKey',
+              value: 'plan',
+            },
+            negated: false,
+            op: '',
+            rhs: {
+              type: 'textVal',
+              quoted: false,
+              value: 'free',
+            },
+          },
+        ],
+      },
+    });
+  });
+
+  it('supports select + where', () => {
+    const { cst, errors } = parseSearch({
+      inputType: 'searchQuery',
+      input: `
+        FROM accounts
+        SELECT id slug count(invoices)
+        WHERE plan:free
+      `,
+    });
+
+    expect(errors).toEqual([]);
+
+    const visitor = createSearchVisitor();
+    const ast = visitor.searchQuery(cst.children);
+
+    expect(ast).toMatchObject({
+      type: 'searchQuery',
+      fromClause: {
+        type: 'fromClause',
+        table: 'accounts',
       },
       selectClause: {
+        type: 'selectClause',
         columns: [
           {
-            quoted: false,
             type: 'textVal',
+            quoted: false,
             value: 'id',
           },
           {
-            quoted: false,
             type: 'textVal',
+            quoted: false,
             value: 'slug',
           },
           {
+            type: 'function',
             args: [
               [
                 {
-                  quoted: false,
                   type: 'textVal',
+                  quoted: false,
                   value: 'invoices',
                 },
               ],
@@ -51,14 +128,14 @@ describe('parse full query', () => {
             negated: false,
             op: undefined,
             rhs: undefined,
-            type: 'function',
           },
         ],
-        type: 'selectClause',
       },
       whereClause: {
+        type: 'whereClause',
         conditions: [
           {
+            type: 'qualifier',
             lhs: {
               type: 'qualifierKey',
               value: 'plan',
@@ -66,14 +143,12 @@ describe('parse full query', () => {
             negated: false,
             op: '',
             rhs: {
-              quoted: false,
               type: 'textVal',
+              quoted: false,
               value: 'free',
             },
-            type: 'qualifier',
           },
         ],
-        type: 'whereClause',
       },
     });
   });

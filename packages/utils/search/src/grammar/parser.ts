@@ -29,9 +29,13 @@ export class SearchParser extends CstParser {
   }
 
   public searchQuery = this.#RULE<SearchQueryCstNode>('searchQuery', () => {
-    this.SUBRULE(this.selectClause);
     this.SUBRULE(this.fromClause);
+
     this.OPTION(() => {
+      this.SUBRULE(this.selectClause);
+    });
+
+    this.OPTION2(() => {
       this.SUBRULE(this.whereClause);
     });
   });

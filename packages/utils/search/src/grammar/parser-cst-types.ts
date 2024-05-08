@@ -10,8 +10,8 @@ export interface SearchQueryCstNode extends CstNode {
 }
 
 export type SearchQueryCstChildren = {
-  selectClause: SelectClauseCstNode[];
   fromClause: FromClauseCstNode[];
+  selectClause?: SelectClauseCstNode[];
   whereClause?: WhereClauseCstNode[];
 };
 
@@ -87,7 +87,8 @@ export type FunctionCstChildren = {
   functionArg?: FunctionArgCstNode[];
   Comma?: IToken[];
   RParen: IToken[];
-  qualifierOp: QualifierOpCstNode[];
+  Colon?: IToken[];
+  qualifierOp?: QualifierOpCstNode[];
   rhs?: QualifierValCstNode[];
 };
 
