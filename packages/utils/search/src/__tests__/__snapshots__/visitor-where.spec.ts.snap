@@ -144,12 +144,16 @@ exports[`where functions > single string arg 1`] = `
     "ast": [
       {
         "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "events",
-            },
-          ],
+          {
+            "position": 0,
+            "type": "functionArg",
+            "vals": [
+              {
+                "type": "textVal",
+                "value": "events",
+              },
+            ],
+          },
         ],
         "name": "count",
         "op": undefined,
@@ -169,39 +173,47 @@ exports[`where functions > with filter argument 1`] = `
     "ast": [
       {
         "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "projects",
-            },
-          ],
-          [
-            {
-              "lhs": {
-                "type": "qualifierKey",
-                "value": "plan",
-              },
-              "op": "",
-              "rhs": {
+          {
+            "position": 0,
+            "type": "functionArg",
+            "vals": [
+              {
                 "type": "textVal",
-                "value": "free",
+                "value": "projects",
               },
-              "type": "qualifier",
-            },
-            {
-              "lhs": {
-                "type": "qualifierKey",
-                "value": "has",
+            ],
+          },
+          {
+            "position": 1,
+            "type": "functionArg",
+            "vals": [
+              {
+                "lhs": {
+                  "type": "qualifierKey",
+                  "value": "plan",
+                },
+                "op": "",
+                "rhs": {
+                  "type": "textVal",
+                  "value": "free",
+                },
+                "type": "qualifier",
               },
-              "negated": true,
-              "op": "",
-              "rhs": {
-                "type": "textVal",
-                "value": "email",
+              {
+                "lhs": {
+                  "type": "qualifierKey",
+                  "value": "has",
+                },
+                "negated": true,
+                "op": "",
+                "rhs": {
+                  "type": "textVal",
+                  "value": "email",
+                },
+                "type": "qualifier",
               },
-              "type": "qualifier",
-            },
-          ],
+            ],
+          },
         ],
         "name": "count",
         "op": ">",
@@ -224,19 +236,27 @@ exports[`where functions > with quoted argument 1`] = `
     "ast": [
       {
         "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "projects",
-            },
-          ],
-          [
-            {
-              "quoted": true,
-              "type": "textVal",
-              "value": "free search",
-            },
-          ],
+          {
+            "position": 0,
+            "type": "functionArg",
+            "vals": [
+              {
+                "type": "textVal",
+                "value": "projects",
+              },
+            ],
+          },
+          {
+            "position": 1,
+            "type": "functionArg",
+            "vals": [
+              {
+                "quoted": true,
+                "type": "textVal",
+                "value": "free search",
+              },
+            ],
+          },
         ],
         "name": "count",
         "op": ">",
@@ -259,18 +279,26 @@ exports[`where functions > with rhs 1`] = `
     "ast": [
       {
         "args": [
-          [
-            {
-              "type": "textVal",
-              "value": "projects",
-            },
-          ],
-          [
-            {
-              "type": "textVal",
-              "value": "max_projects",
-            },
-          ],
+          {
+            "position": 0,
+            "type": "functionArg",
+            "vals": [
+              {
+                "type": "textVal",
+                "value": "projects",
+              },
+            ],
+          },
+          {
+            "position": 1,
+            "type": "functionArg",
+            "vals": [
+              {
+                "type": "textVal",
+                "value": "max_projects",
+              },
+            ],
+          },
         ],
         "name": "divide",
         "op": ">",

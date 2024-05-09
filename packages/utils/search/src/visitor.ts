@@ -43,6 +43,7 @@ export const enum SearchToken {
   WhereExpression = 'whereExpression',
   Qualifier = 'qualifier',
   Function = 'function',
+  FunctionArg = 'functionArg',
   QualifierKey = 'qualifierKey',
   QualifierIn = 'qualifierIn',
   RelativeDateVal = 'relativeDateVal',
@@ -87,6 +88,7 @@ export type AnySearchToken<T = unknown, ET = unknown> =
   | WhereClauseAstNode<T, ET>
   | QualifierAstNode<T, ET>
   | FunctionAstNode<T, ET>
+  | FunctionArgAstNode<T, ET>
   | QualifierKeyAstNode<T, ET>
   | QualifierInAstNode<T, ET>
   | RelativeDateValAstNode<T, ET>
@@ -139,12 +141,16 @@ export interface FunctionAstNode<T = unknown, ET = unknown> extends SearchTokenB
   type: SearchToken.Function;
   name: string;
   negated: boolean;
-  args: FunctionAstArgs<T, ET>[];
+  args: FunctionArgAstNode<T, ET>[];
   op?: QualifierOp;
   rhs?: QualifierVal<T, ET>;
 }
 
-export type FunctionAstArgs<T = unknown, ET = unknown> = (QualifierAstNode<T, ET> | AtomicQualifierVal<T, ET>)[];
+export interface FunctionArgAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
+  type: SearchToken.FunctionArg;
+  position: number;
+  vals: (QualifierAstNode<T, ET> | AtomicQualifierVal<T, ET>)[];
+}
 
 export interface QualifierKeyAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.QualifierKey;
@@ -207,12 +213,34 @@ export const isNumberValNode = (node: unknown): node is NumberValAstNode => chec
 
 let parserSingleton: SearchParser;
 
+/**
+ * For some nodes, it is useful to expose some of the (shallow) data associated with the node to the
+ * enter/exit hooks. This is a mapping of the token type to the data that is available.
+ */
+export interface OnEnterExitDataMap {
+  [SearchToken.SearchQuery]: {};
+  [SearchToken.SelectClause]: {};
+  [SearchToken.SelectExpression]: {};
+  [SearchToken.FromClause]: {};
+  [SearchToken.WhereClause]: {};
+  [SearchToken.WhereExpression]: {};
+  [SearchToken.Qualifier]: {};
+  [SearchToken.Function]: Pick<FunctionAstNode, 'name'>;
+  [SearchToken.FunctionArg]: Pick<FunctionArgAstNode, 'position'>;
+  [SearchToken.QualifierKey]: {};
+  [SearchToken.QualifierIn]: {};
+  [SearchToken.RelativeDateVal]: {};
+  [SearchToken.TextVal]: {};
+  [SearchToken.NumberVal]: {};
+}
+
 interface CreateSearchVisitorOpts {
-  onVisit?: (type: SearchToken) => void;
+  onEnter?: <T extends SearchToken>(type: T, data: OnEnterExitDataMap[T]) => void;
+  onExit?: <T extends SearchToken>(type: T, data: OnEnterExitDataMap[T]) => void;
   transform?: <T extends AnySearchToken>(node: T) => T;
 }
 
-export const createSearchVisitor = ({ onVisit, transform }: CreateSearchVisitorOpts = {}) => {
+export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearchVisitorOpts = {}) => {
   function maybeTransform<T extends AnySearchToken>(node: T): T {
     return transform ? transform(node) : node;
   }
@@ -239,7 +267,7 @@ export const createSearchVisitor = ({ onVisit, transform }: CreateSearchVisitorO
               : T extends FunctionCstNode | FunctionCstNode[]
                 ? FunctionAstNode
                 : T extends FunctionArgCstNode | FunctionArgCstNode[]
-                  ? FunctionAstArgs
+                  ? FunctionArgAstNode
                   : T extends QualifierKeyCstNode | QualifierKeyCstNode[]
                     ? QualifierKeyAstNode
                     : T extends QualifierValCstNode | QualifierValCstNode[]
@@ -266,9 +294,9 @@ export const createSearchVisitor = ({ onVisit, transform }: CreateSearchVisitorO
     }
 
     searchQuery(ctx: SearchQueryCstChildren) {
-      onVisit?.(SearchToken.SearchQuery);
+      onEnter?.(SearchToken.SearchQuery, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.SearchQuery as const,
         /**
          * Important that we visit from first!
@@ -280,83 +308,131 @@ export const createSearchVisitor = ({ onVisit, transform }: CreateSearchVisitorO
         selectClause: this.#visit(ctx.selectClause!),
         whereClause: this.#visit(ctx.whereClause!),
       }) satisfies SearchQueryAstNode;
+
+      onExit?.(SearchToken.SearchQuery, {});
+
+      return t;
     }
 
     fromClause(ctx: FromClauseCstChildren) {
-      onVisit?.(SearchToken.FromClause);
+      onEnter?.(SearchToken.FromClause, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.FromClause as const,
         table: ctx.Identifier[0]?.image || '',
       }) satisfies FromClauseAstNode;
+
+      onExit?.(SearchToken.FromClause, {});
+
+      return t;
     }
 
     selectClause(ctx: SelectClauseCstChildren) {
-      onVisit?.(SearchToken.SelectClause);
+      onEnter?.(SearchToken.SelectClause, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.SelectClause as const,
         columns: this.#visit(ctx.selectExpression),
       }) satisfies SelectClauseAstNode;
+
+      onExit?.(SearchToken.SelectClause, {});
+
+      return t;
     }
 
     selectExpression(ctx: SelectExpressionCstChildren) {
-      onVisit?.(SearchToken.SelectExpression);
+      onEnter?.(SearchToken.SelectExpression, {});
 
-      return (ctx.columns || []).map(f => this.#visit(f)) satisfies SelectExpressionAstColumns;
+      const t = (ctx.columns || []).map(f => this.#visit(f)) satisfies SelectExpressionAstColumns;
+
+      onExit?.(SearchToken.SelectExpression, {});
+
+      return t;
     }
 
     whereClause(ctx: WhereClauseCstChildren) {
-      onVisit?.(SearchToken.WhereClause);
+      onEnter?.(SearchToken.WhereClause, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.WhereClause as const,
         conditions: this.#visit(ctx.whereExpression),
       }) satisfies WhereClauseAstNode;
+
+      onExit?.(SearchToken.WhereClause, {});
+
+      return t;
     }
 
     whereExpression(ctx: WhereExpressionCstChildren) {
-      onVisit?.(SearchToken.WhereExpression);
+      onEnter?.(SearchToken.WhereExpression, {});
 
-      return (ctx.conditions || []).map(f => this.#visit(f)) satisfies WhereExpressionAstConditions;
+      const t = (ctx.conditions || []).map(f => this.#visit(f)) satisfies WhereExpressionAstConditions;
+
+      onExit?.(SearchToken.WhereExpression, {});
+
+      return t;
     }
 
     qualifier(ctx: QualifierCstChildren) {
-      onVisit?.(SearchToken.Qualifier);
+      onEnter?.(SearchToken.Qualifier, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.Qualifier as const,
         negated: !!ctx.Negate,
         lhs: this.#visit(ctx.lhs!),
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
       }) satisfies QualifierAstNode;
+
+      onExit?.(SearchToken.Qualifier, {});
+
+      return t;
     }
 
     function(ctx: FunctionCstChildren) {
-      onVisit?.(SearchToken.Function);
+      const name = ctx.Identifier[0]!.image;
 
-      return maybeTransform({
+      onEnter?.(SearchToken.Function, { name });
+
+      const t = maybeTransform({
         type: SearchToken.Function as const,
-        name: ctx.Identifier[0]!.image,
+        name,
         negated: !!ctx.Negate,
-        args: (ctx.functionArg || []).map(arg => this.#visit(arg)).filter(arg => !!arg.length),
+        args: (ctx.functionArg || []).map((arg, i) => this.#visit(arg, { position: i })).filter(a => !!a.vals.length),
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
       }) satisfies FunctionAstNode;
+
+      onExit?.(SearchToken.Function, { name });
+
+      return t;
     }
 
-    functionArg(ctx: FunctionArgCstChildren) {
-      return (ctx.args || []).map(arg => this.#visit(arg)) satisfies FunctionAstArgs;
+    functionArg(ctx: FunctionArgCstChildren, { position }: { position: number }) {
+      onEnter?.(SearchToken.FunctionArg, { position });
+
+      const t = maybeTransform({
+        type: SearchToken.FunctionArg as const,
+        position,
+        vals: (ctx.args || []).map(arg => this.#visit(arg)),
+      }) satisfies FunctionArgAstNode;
+
+      onExit?.(SearchToken.FunctionArg, { position });
+
+      return t;
     }
 
     qualifierKey(ctx: QualifierKeyCstChildren) {
-      onVisit?.(SearchToken.QualifierKey);
+      onEnter?.(SearchToken.QualifierKey, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.QualifierKey as const,
         value: (ctx.QualifierKey?.[0]?.image || '').slice(0, -1), // slice the ":" off
       }) satisfies QualifierKeyAstNode;
+
+      onExit?.(SearchToken.QualifierKey, {});
+
+      return t;
     }
 
     qualifierVal(ctx: QualifierValCstChildren) {
@@ -367,42 +443,58 @@ export const createSearchVisitor = ({ onVisit, transform }: CreateSearchVisitorO
     }
 
     qualifierIn(ctx: QualifierInCstChildren) {
-      onVisit?.(SearchToken.QualifierIn);
+      onEnter?.(SearchToken.QualifierIn, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.QualifierIn as const,
         values: ctx.atomicQualifierVal.map(val => this.#visit(val)),
       }) satisfies QualifierInAstNode;
+
+      onExit?.(SearchToken.QualifierIn, {});
+
+      return t;
     }
 
     relativeDateVal(ctx: RelativeDateValCstChildren) {
-      onVisit?.(SearchToken.RelativeDateVal);
+      onEnter?.(SearchToken.RelativeDateVal, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.RelativeDateVal as const,
         value: ctx.Number?.[0]?.image || '',
         sign: ctx.op?.[0]?.image as RelativeDateValAstNode['sign'],
         unit: ctx.DateUnit?.[0]?.image as RelativeDateValAstNode['unit'],
       }) satisfies RelativeDateValAstNode;
+
+      onExit?.(SearchToken.RelativeDateVal, {});
+
+      return t;
     }
 
     atomicQualifierVal(ctx: AtomicQualifierValCstChildren) {
       if (ctx.Number) {
-        onVisit?.(SearchToken.NumberVal);
+        onEnter?.(SearchToken.NumberVal, {});
 
-        return maybeTransform({
+        const t = maybeTransform({
           type: SearchToken.NumberVal,
           value: ctx.Number?.[0]?.image || '',
         }) satisfies NumberValAstNode;
+
+        onExit?.(SearchToken.NumberVal, {});
+
+        return t;
       }
 
-      onVisit?.(SearchToken.TextVal);
+      onEnter?.(SearchToken.TextVal, {});
 
-      return maybeTransform({
+      const t = maybeTransform({
         type: SearchToken.TextVal,
         quoted: ctx.QuotedIdentifier?.[0] ? true : false,
         value: (ctx.QuotedIdentifier?.[0] || ctx.Identifier?.[0])?.image || '',
       }) satisfies TextValAstNode;
+
+      onExit?.(SearchToken.TextVal, {});
+
+      return t;
     }
 
     qualifierOp(ctx: QualifierOpCstChildren) {

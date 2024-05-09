@@ -116,13 +116,17 @@ describe('parse full query', () => {
           {
             type: 'function',
             args: [
-              [
-                {
-                  type: 'textVal',
-                  quoted: false,
-                  value: 'invoices',
-                },
-              ],
+              {
+                type: 'functionArg',
+                position: 0,
+                vals: [
+                  {
+                    type: 'textVal',
+                    quoted: false,
+                    value: 'invoices',
+                  },
+                ],
+              },
             ],
             name: 'count',
             negated: false,
