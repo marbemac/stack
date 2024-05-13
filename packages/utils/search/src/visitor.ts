@@ -52,6 +52,11 @@ export interface InvalidSearchNode {
 
 interface SearchNodeBase {
   invalid?: InvalidSearchNode;
+
+  /**
+   * Returns true if this node, or any children of this node, are invalid.
+   */
+  isBranchInvalid: boolean;
 }
 
 export type SearchNode =
@@ -85,7 +90,7 @@ export interface SelectClauseAstNode extends SearchNodeBase {
   expr: SelectExprAstNode;
 }
 
-export interface SelectExprAstNode {
+export interface SelectExprAstNode extends SearchNodeBase {
   type: 'select_expr';
   columns: (QualifierAstNode | FunctionAstNode | AtomicQualifierVal)[];
 }
@@ -100,7 +105,7 @@ export interface WhereClauseAstNode extends SearchNodeBase {
   expr: WhereExprAstNode;
 }
 
-export interface WhereExprAstNode {
+export interface WhereExprAstNode extends SearchNodeBase {
   type: 'where_expr';
   conditions: (QualifierAstNode | FunctionAstNode | AtomicQualifierVal)[];
 }
@@ -269,6 +274,15 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         fromClause: this.#visit(ctx.fromClause),
         selectClause: this.#visit(ctx.selectClause!),
         whereClause: this.#visit(ctx.whereClause!),
+        get isBranchInvalid() {
+          const $ = this as SearchQueryAstNode;
+          return (
+            !!$.invalid ||
+            !!$.fromClause.isBranchInvalid ||
+            !!$.selectClause?.isBranchInvalid ||
+            !!$.whereClause?.isBranchInvalid
+          );
+        },
       }) satisfies SearchQueryAstNode;
 
       onExit?.('search_query', {});
@@ -284,6 +298,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       const t = maybeTransform({
         type: 'from_clause',
         table,
+        get isBranchInvalid() {
+          const $ = this as FromClauseAstNode;
+          return !!$.invalid;
+        },
       }) satisfies FromClauseAstNode;
 
       onExit?.('from_clause', { table });
@@ -297,6 +315,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       const t = maybeTransform({
         type: 'select_clause',
         expr: this.#visit(ctx.selectExpr),
+        get isBranchInvalid() {
+          const $ = this as SelectClauseAstNode;
+          return !!$.invalid || $.expr.isBranchInvalid;
+        },
       }) satisfies SelectClauseAstNode;
 
       onExit?.('select_clause', {});
@@ -310,6 +332,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       const t = maybeTransform({
         type: 'select_expr',
         columns: (ctx.columns || []).map(f => this.#visit(f)),
+        get isBranchInvalid() {
+          const $ = this as SelectExprAstNode;
+          return !!$.invalid || $.columns.some(c => c.isBranchInvalid);
+        },
       }) satisfies SelectExprAstNode;
 
       onExit?.('select_expr', {});
@@ -323,6 +349,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       const t = maybeTransform({
         type: 'where_clause',
         expr: this.#visit(ctx.whereExpr),
+        get isBranchInvalid() {
+          const $ = this as WhereClauseAstNode;
+          return !!$.invalid || $.expr.isBranchInvalid;
+        },
       }) satisfies WhereClauseAstNode;
 
       onExit?.('where_clause', {});
@@ -336,6 +366,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       const t = maybeTransform({
         type: 'where_expr',
         conditions: (ctx.conditions || []).map(f => this.#visit(f)),
+        get isBranchInvalid() {
+          const $ = this as WhereExprAstNode;
+          return !!$.invalid || $.conditions.some(c => c.isBranchInvalid);
+        },
       }) satisfies WhereExprAstNode;
 
       onExit?.('where_expr', {});
@@ -352,6 +386,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         lhs: this.#visit(ctx.lhs!),
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
+        get isBranchInvalid() {
+          const $ = this as QualifierAstNode;
+          return !!$.invalid || $.lhs.isBranchInvalid || !!$.rhs?.isBranchInvalid;
+        },
       }) satisfies QualifierAstNode;
 
       onExit?.('qualifier', {});
@@ -371,6 +409,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         args: (ctx.functionArg || []).map((arg, i) => this.#visit(arg, { position: i })).filter(a => !!a.vals.length),
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
+        get isBranchInvalid() {
+          const $ = this as FunctionAstNode;
+          return !!$.invalid || !!$.rhs?.isBranchInvalid || $.args.some(a => a.isBranchInvalid);
+        },
       }) satisfies FunctionAstNode;
 
       onExit?.('function', { name });
@@ -385,6 +427,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         type: 'function_arg',
         position,
         vals: (ctx.args || []).map(arg => this.#visit(arg)),
+        get isBranchInvalid() {
+          const $ = this as FunctionArgAstNode;
+          return !!$.invalid || $.vals.some(a => a.isBranchInvalid);
+        },
       }) satisfies FunctionArgAstNode;
 
       onExit?.('function_arg', { position });
@@ -398,6 +444,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       const t = maybeTransform({
         type: 'qualifier_key',
         value: (ctx.QualifierKey?.[0]?.image || '').slice(0, -1), // slice the ":" off
+        get isBranchInvalid() {
+          const $ = this as QualifierKeyAstNode;
+          return !!$.invalid;
+        },
       }) satisfies QualifierKeyAstNode;
 
       onExit?.('qualifier_key', {});
@@ -418,6 +468,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       const t = maybeTransform({
         type: 'bracket_list',
         values: ctx.atomicQualifierVal.map(val => this.#visit(val)),
+        get isBranchInvalid() {
+          const $ = this as BracketListAstNode;
+          return !!$.invalid || $.values.some(v => v.isBranchInvalid);
+        },
       }) satisfies BracketListAstNode;
 
       onExit?.('bracket_list', {});
@@ -438,6 +492,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         unit,
         value,
         parsed,
+        get isBranchInvalid() {
+          const $ = this as RelativeDateValAstNode;
+          return !!$.invalid;
+        },
       }) satisfies RelativeDateValAstNode;
 
       onExit?.('relative_date', {});
@@ -456,6 +514,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
           type: 'number',
           value,
           parsed,
+          get isBranchInvalid() {
+            const $ = this as NumberValAstNode;
+            return !!$.invalid;
+          },
         }) satisfies NumberValAstNode;
 
         onExit?.('number', {});
@@ -473,6 +535,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
           type: 'boolean',
           value,
           parsed,
+          get isBranchInvalid() {
+            const $ = this as BooleanValAstNode;
+            return !!$.invalid;
+          },
         }) satisfies BooleanValAstNode;
 
         onExit?.('boolean', {});
@@ -486,6 +552,10 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         type: 'text',
         quoted: ctx.QuotedIdentifier?.[0] ? true : false,
         value: (ctx.QuotedIdentifier?.[0] || ctx.Identifier?.[0])?.image || '',
+        get isBranchInvalid() {
+          const $ = this as TextValAstNode;
+          return !!$.invalid;
+        },
       }) satisfies TextValAstNode;
 
       onExit?.('text', {});

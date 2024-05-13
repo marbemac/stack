@@ -18,6 +18,11 @@ const prettyPrintParseResult = (input: string) => {
       // @ts-expect-error remove `negated` property if false, since that's the default
       if (node.negated === false) delete node.negated;
 
+      if (node.isBranchInvalid === false) {
+        // @ts-expect-error remove `isBranchInvalid` property if false, since that's the default
+        delete node.isBranchInvalid;
+      }
+
       return node;
     },
   });
