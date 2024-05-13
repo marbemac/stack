@@ -76,5 +76,7 @@ export function stringifySearchToken(token?: AnySearchToken) {
       return token.quoted ? `"${token.value}"` : token.value;
     case SearchToken.NumberVal:
       return token.value;
+    case SearchToken.BooleanVal:
+      return token.value;
   }
 }

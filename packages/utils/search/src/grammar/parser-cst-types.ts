@@ -137,9 +137,7 @@ export interface RelativeDateValCstNode extends CstNode {
 }
 
 export type RelativeDateValCstChildren = {
-  op?: (IToken)[];
-  Number: IToken[];
-  DateUnit: IToken[];
+  RelativeDate: IToken[];
 };
 
 export interface AtomicQualifierValCstNode extends CstNode {
@@ -151,8 +149,9 @@ export type AtomicQualifierValCstChildren = {
   LQuote?: IToken[];
   QuotedIdentifier?: IToken[];
   RQuote?: IToken[];
-  Identifier?: IToken[];
   Number?: IToken[];
+  Boolean?: IToken[];
+  Identifier?: IToken[];
 };
 
 export interface QualifierOpCstNode extends CstNode {

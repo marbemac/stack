@@ -13,6 +13,10 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
       t.Select,
       t.From,
       t.Where,
+
+      // Must appear before minus, plus, and number to avoid ambiguity.
+      t.RelativeDate,
+
       t.QualifierKey,
       t.LParen,
       t.RParen,
@@ -26,14 +30,16 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
       t.LessEq,
       t.Less,
       t.Plus,
-      t.Minus,
       t.Equals,
       t.Negate,
+      t.Boolean,
+
+      // Numbers must appear before minus to avoid ambiguity with negative numbers.
+      t.Number,
+      t.Minus,
 
       // The Identifier must appear after the keywords because all keywords are valid identifiers.
       t.Identifier,
-      t.DateUnit,
-      t.Number,
     ],
 
     quoted_mode: [t.RQuote, t.QuotedIdentifier],

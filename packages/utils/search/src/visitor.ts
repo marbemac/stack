@@ -33,6 +33,7 @@ import type {
   WhereExpressionCstChildren,
   WhereExpressionCstNode,
 } from './grammar/parser-cst-types.ts';
+import type { RelativeDateTokenPayload } from './grammar/tokens.ts';
 
 export const enum SearchToken {
   SearchQuery = 'searchQuery',
@@ -49,6 +50,7 @@ export const enum SearchToken {
   RelativeDateVal = 'relativeDateVal',
   TextVal = 'textVal',
   NumberVal = 'numberVal',
+  BooleanVal = 'booleanVal',
 }
 
 /**
@@ -93,7 +95,8 @@ export type AnySearchToken<T = unknown, ET = unknown> =
   | QualifierInAstNode<T, ET>
   | RelativeDateValAstNode<T, ET>
   | TextValAstNode<T, ET>
-  | NumberValAstNode<T, ET>;
+  | NumberValAstNode<T, ET>
+  | BooleanValAstNode<T, ET>;
 
 export interface SearchQueryAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.SearchQuery;
@@ -170,8 +173,9 @@ export interface QualifierInAstNode<T = unknown, ET = unknown> extends SearchTok
 export interface RelativeDateValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.RelativeDateVal;
   value: string;
-  sign: '+' | '-';
-  unit: 's' | 'mi' | 'h' | 'd' | 'w' | 'm' | 'q' | 'y';
+  parsed: number;
+  sign: RelativeDateTokenPayload['sign'];
+  unit: RelativeDateTokenPayload['unit'];
 }
 
 export interface TextValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
@@ -183,33 +187,23 @@ export interface TextValAstNode<T = unknown, ET = unknown> extends SearchTokenBa
 export interface NumberValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
   type: SearchToken.NumberVal;
   value: string;
+  parsed: number;
 }
 
-export type AtomicQualifierVal<T = unknown, ET = unknown> = TextValAstNode<T, ET> | NumberValAstNode<T, ET>;
+export interface BooleanValAstNode<T = unknown, ET = unknown> extends SearchTokenBase<T, ET> {
+  type: SearchToken.BooleanVal;
+  value: string;
+  parsed: boolean;
+}
+
+export type AtomicQualifierVal<T = unknown, ET = unknown> =
+  | TextValAstNode<T, ET>
+  | NumberValAstNode<T, ET>
+  | BooleanValAstNode<T, ET>;
 
 export type QualifierOp = '=' | '>' | '<' | '>=' | '<=';
 
 export type SearchVisitor = ReturnType<typeof createSearchVisitor>;
-
-const checkNodeType = (node: unknown, type: string): boolean =>
-  !!node && typeof node === 'object' && 'type' in node && node.type === type;
-
-export const isQualifierNode = (node: unknown): node is QualifierAstNode => checkNodeType(node, SearchToken.Qualifier);
-
-export const isFunctionNode = (node: unknown): node is FunctionAstNode => checkNodeType(node, SearchToken.Function);
-
-export const isQualifierKeyNode = (node: unknown): node is QualifierKeyAstNode =>
-  checkNodeType(node, SearchToken.QualifierKey);
-
-export const isQualifierInNode = (node: unknown): node is QualifierInAstNode =>
-  checkNodeType(node, SearchToken.QualifierIn);
-
-export const isAtomicQualifierValNode = (node: unknown): node is AtomicQualifierVal =>
-  isTextValNode(node) || isNumberValNode(node);
-
-export const isTextValNode = (node: unknown): node is TextValAstNode => checkNodeType(node, SearchToken.TextVal);
-
-export const isNumberValNode = (node: unknown): node is NumberValAstNode => checkNodeType(node, SearchToken.NumberVal);
 
 let parserSingleton: SearchParser;
 
@@ -232,6 +226,7 @@ export interface OnEnterExitDataMap {
   [SearchToken.RelativeDateVal]: {};
   [SearchToken.TextVal]: {};
   [SearchToken.NumberVal]: {};
+  [SearchToken.BooleanVal]: {};
 }
 
 interface CreateSearchVisitorOpts {
@@ -458,11 +453,16 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
     relativeDateVal(ctx: RelativeDateValCstChildren) {
       onEnter?.(SearchToken.RelativeDateVal, {});
 
+      const { sign, unit, value } = ctx.RelativeDate[0]?.payload as RelativeDateTokenPayload;
+
+      const parsed = parseFloat(value);
+
       const t = maybeTransform({
         type: SearchToken.RelativeDateVal as const,
-        value: ctx.Number?.[0]?.image || '',
-        sign: ctx.op?.[0]?.image as RelativeDateValAstNode['sign'],
-        unit: ctx.DateUnit?.[0]?.image as RelativeDateValAstNode['unit'],
+        sign,
+        unit,
+        value,
+        parsed,
       }) satisfies RelativeDateValAstNode;
 
       onExit?.(SearchToken.RelativeDateVal, {});
@@ -474,12 +474,33 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       if (ctx.Number) {
         onEnter?.(SearchToken.NumberVal, {});
 
+        const value = ctx.Number?.[0]?.image || '';
+        const parsed = parseFloat(value);
+
         const t = maybeTransform({
           type: SearchToken.NumberVal,
-          value: ctx.Number?.[0]?.image || '',
+          value,
+          parsed,
         }) satisfies NumberValAstNode;
 
         onExit?.(SearchToken.NumberVal, {});
+
+        return t;
+      }
+
+      if (ctx.Boolean) {
+        onEnter?.(SearchToken.BooleanVal, {});
+
+        const value = ctx.Boolean?.[0]?.image || '';
+        const parsed = JSON.parse(value) as boolean;
+
+        const t = maybeTransform({
+          type: SearchToken.BooleanVal,
+          value,
+          parsed,
+        }) satisfies BooleanValAstNode;
+
+        onExit?.(SearchToken.BooleanVal, {});
 
         return t;
       }

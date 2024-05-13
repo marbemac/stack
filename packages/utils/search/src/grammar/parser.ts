@@ -145,13 +145,7 @@ export class SearchParser extends CstParser {
   });
 
   #relativeDateVal = this.#RULE('relativeDateVal', () => {
-    this.OR([
-      { ALT: () => this.CONSUME(t.Plus, { LABEL: 'op' }) },
-      { ALT: () => this.CONSUME(t.Minus, { LABEL: 'op' }) },
-    ]);
-
-    this.CONSUME(t.Number);
-    this.CONSUME(t.DateUnit);
+    this.CONSUME(t.RelativeDate);
   });
 
   #atomicQualifierVal = this.#RULE('atomicQualifierVal', () => {
@@ -163,8 +157,9 @@ export class SearchParser extends CstParser {
           this.CONSUME2(t.RQuote);
         },
       },
-      { ALT: () => this.CONSUME(t.Identifier) },
       { ALT: () => this.CONSUME(t.Number) },
+      { ALT: () => this.CONSUME(t.Boolean) },
+      { ALT: () => this.CONSUME(t.Identifier) },
     ]);
   });
 

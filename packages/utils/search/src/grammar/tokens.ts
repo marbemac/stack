@@ -43,12 +43,35 @@ export const Greater = createToken({ name: 'Greater', pattern: />/ });
 export const Less = createToken({ name: 'Less', pattern: /</ });
 export const GreaterEq = createToken({ name: 'GreaterEq', pattern: />=/ });
 export const LessEq = createToken({ name: 'LessEq', pattern: /<=/ });
+export const Boolean = createToken({ name: 'Boolean', pattern: /true|false/ });
 export const Plus = createToken({ name: '+', pattern: /\+/ });
 export const Minus = createToken({ name: 'Minus', pattern: /-/ });
 export const Equals = createToken({ name: 'Equals', pattern: /=/ });
 export const Negate = createToken({ name: 'Negate', pattern: /!/ });
 export const Number = createToken({ name: 'Number', pattern: /-?(0|[1-9]\d*)(\.\d+)?/ });
-export const DateUnit = createToken({ name: 'DateUnit', pattern: /[s|mi|h|d|w|m|q|y]/ });
+
+// https://chevrotain.io/docs/guide/custom_token_patterns.html#custom-payloads
+// We're using this to get access to the regex capture groups in payload later (in the visitor)
+export interface RelativeDateTokenPayload {
+  sign: '+' | '-';
+  value: string;
+  unit: 's' | 'mi' | 'h' | 'd' | 'w' | 'm' | 'q' | 'y';
+}
+const relativeDatePattern = /(?<sign>-|\+)(?<value>\d+)(?<unit>[s|mi|h|d|w|m|q|y])/y;
+export const RelativeDate = createToken({
+  name: 'RelativeDate',
+  pattern: (text, startOffset) => {
+    relativeDatePattern.lastIndex = startOffset;
+
+    const result = relativeDatePattern.exec(text);
+    if (result) {
+      // @ts-expect-error ignore - this is the official way to add custom payload to tokens w chevrotain
+      result.payload = result.groups;
+    }
+
+    return result;
+  },
+});
 
 export const WhiteSpace = createToken({
   name: 'WhiteSpace',

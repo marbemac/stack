@@ -1,5 +1,53 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`select boolean > false 1`] = `
+{
+  "input": "plan:false",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "plan",
+        },
+        "op": "",
+        "rhs": {
+          "parsed": false,
+          "type": "booleanVal",
+          "value": "false",
+        },
+        "type": "qualifier",
+      },
+    ],
+    "errors": [],
+  },
+}
+`;
+
+exports[`select boolean > true 1`] = `
+{
+  "input": "plan:true",
+  "result": {
+    "ast": [
+      {
+        "lhs": {
+          "type": "qualifierKey",
+          "value": "plan",
+        },
+        "op": "",
+        "rhs": {
+          "parsed": true,
+          "type": "booleanVal",
+          "value": "true",
+        },
+        "type": "qualifier",
+      },
+    ],
+    "errors": [],
+  },
+}
+`;
+
 exports[`select freeform > mixed throughout 1`] = `
 {
   "input": "freeform1 age:5 freeform2 search",
@@ -16,6 +64,7 @@ exports[`select freeform > mixed throughout 1`] = `
         },
         "op": "",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5",
         },
@@ -52,6 +101,7 @@ exports[`select freeform > quoted 1`] = `
         },
         "op": "",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5",
         },
@@ -71,6 +121,69 @@ exports[`select freeform > treats as a string 1`] = `
       {
         "type": "textVal",
         "value": "freeform",
+      },
+    ],
+    "errors": [],
+  },
+}
+`;
+
+exports[`select functions > boolean arguments 1`] = `
+{
+  "input": "my_func(true, false)",
+  "result": {
+    "ast": [
+      {
+        "args": [
+          {
+            "position": 0,
+            "type": "functionArg",
+            "vals": [
+              {
+                "parsed": true,
+                "type": "booleanVal",
+                "value": "true",
+              },
+            ],
+          },
+          {
+            "position": 1,
+            "type": "functionArg",
+            "vals": [
+              {
+                "parsed": false,
+                "type": "booleanVal",
+                "value": "false",
+              },
+            ],
+          },
+        ],
+        "name": "my_func",
+        "op": undefined,
+        "rhs": undefined,
+        "type": "function",
+      },
+    ],
+    "errors": [],
+  },
+}
+`;
+
+exports[`select functions > boolean rhs 1`] = `
+{
+  "input": "my_func():true",
+  "result": {
+    "ast": [
+      {
+        "args": [],
+        "name": "my_func",
+        "op": "",
+        "rhs": {
+          "parsed": true,
+          "type": "booleanVal",
+          "value": "true",
+        },
+        "type": "function",
       },
     ],
     "errors": [],
@@ -114,7 +227,59 @@ exports[`select functions > no args with space 1`] = `
 }
 `;
 
-exports[`select functions > relatvie date rhs 1`] = `
+exports[`select functions > number arguments 1`] = `
+{
+  "input": "my_func(2, 0.5, -2)",
+  "result": {
+    "ast": [
+      {
+        "args": [
+          {
+            "position": 0,
+            "type": "functionArg",
+            "vals": [
+              {
+                "parsed": 2,
+                "type": "numberVal",
+                "value": "2",
+              },
+            ],
+          },
+          {
+            "position": 1,
+            "type": "functionArg",
+            "vals": [
+              {
+                "parsed": 0.5,
+                "type": "numberVal",
+                "value": "0.5",
+              },
+            ],
+          },
+          {
+            "position": 2,
+            "type": "functionArg",
+            "vals": [
+              {
+                "parsed": -2,
+                "type": "numberVal",
+                "value": "-2",
+              },
+            ],
+          },
+        ],
+        "name": "my_func",
+        "op": undefined,
+        "rhs": undefined,
+        "type": "function",
+      },
+    ],
+    "errors": [],
+  },
+}
+`;
+
+exports[`select functions > relative date rhs 1`] = `
 {
   "input": "last_seen():-7d",
   "result": {
@@ -124,6 +289,7 @@ exports[`select functions > relatvie date rhs 1`] = `
         "name": "last_seen",
         "op": "",
         "rhs": {
+          "parsed": 7,
           "sign": "-",
           "type": "relativeDateVal",
           "unit": "d",
@@ -218,6 +384,7 @@ exports[`select functions > with filter argument 1`] = `
         "name": "count",
         "op": ">",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5",
         },
@@ -261,6 +428,7 @@ exports[`select functions > with quoted argument 1`] = `
         "name": "count",
         "op": ">",
         "rhs": {
+          "parsed": 0.5,
           "type": "numberVal",
           "value": "0.5",
         },
@@ -303,6 +471,7 @@ exports[`select functions > with rhs 1`] = `
         "name": "divide",
         "op": ">",
         "rhs": {
+          "parsed": 0.5,
           "type": "numberVal",
           "value": "0.5",
         },
@@ -362,6 +531,7 @@ exports[`select in filters > numbers 1`] = `
           "type": "qualifierIn",
           "values": [
             {
+              "parsed": 12,
               "type": "numberVal",
               "value": "12.0",
             },
@@ -452,6 +622,7 @@ exports[`select operators > < 1`] = `
         },
         "op": "<",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5.0",
         },
@@ -475,6 +646,7 @@ exports[`select operators > <= 1`] = `
         },
         "op": "<=",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5.0",
         },
@@ -498,6 +670,7 @@ exports[`select operators > = 1`] = `
         },
         "op": "=",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5",
         },
@@ -521,6 +694,7 @@ exports[`select operators > > 1`] = `
         },
         "op": ">",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5.0",
         },
@@ -544,6 +718,7 @@ exports[`select operators > >= 1`] = `
         },
         "op": ">=",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5",
         },
@@ -567,6 +742,7 @@ exports[`select relative date > + 1`] = `
         },
         "op": "",
         "rhs": {
+          "parsed": 30,
           "sign": "+",
           "type": "relativeDateVal",
           "unit": "d",
@@ -592,6 +768,7 @@ exports[`select relative date > - 1`] = `
         },
         "op": "",
         "rhs": {
+          "parsed": 1,
           "sign": "-",
           "type": "relativeDateVal",
           "unit": "d",
@@ -605,7 +782,7 @@ exports[`select relative date > - 1`] = `
 }
 `;
 
-exports[`select relative date > decimal 1`] = `
+exports[`select relative date > floats are not allowed 1`] = `
 {
   "input": "renews_at:+1.2s",
   "result": {
@@ -615,17 +792,19 @@ exports[`select relative date > decimal 1`] = `
           "type": "qualifierKey",
           "value": "renews_at",
         },
-        "op": "",
-        "rhs": {
-          "sign": "+",
-          "type": "relativeDateVal",
-          "unit": "s",
-          "value": "1.2",
-        },
+        "op": undefined,
+        "rhs": undefined,
         "type": "qualifier",
       },
+      {
+        "parsed": 1.2,
+        "type": "numberVal",
+        "value": "1.2",
+      },
     ],
-    "errors": [],
+    "errors": [
+      [MismatchedTokenException: Expecting token of type --> EOF <-- but found --> '+' <--],
+    ],
   },
 }
 `;
@@ -654,6 +833,7 @@ exports[`select relative date > with other filters 1`] = `
         },
         "op": "",
         "rhs": {
+          "parsed": 4,
           "sign": "+",
           "type": "relativeDateVal",
           "unit": "w",
@@ -754,6 +934,7 @@ exports[`select text filters > multiple 1`] = `
         },
         "op": "",
         "rhs": {
+          "parsed": 5,
           "type": "numberVal",
           "value": "5",
         },
@@ -853,11 +1034,11 @@ exports[`select text filters > partial filter still parses 1`] = `
     "errors": [
       [NoViableAltException: Expecting: one of these possible Token sequences:
   1. [LBracket]
-  2. [+]
-  3. [Minus]
-  4. [LQuote]
-  5. [Identifier]
-  6. [Number]
+  2. [RelativeDate]
+  3. [LQuote]
+  4. [Number]
+  5. [Boolean]
+  6. [Identifier]
 but found: 'plan:'],
     ],
   },

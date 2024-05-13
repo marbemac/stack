@@ -23,6 +23,11 @@ export const whereCaseGroups = {
     ['quoted', 'release:[jane, "john doe"]'],
   ],
 
+  boolean: [
+    ['true', 'plan:true'],
+    ['false', 'plan:false'],
+  ],
+
   operators: [
     ['=', 'num_members:=5'],
     ['>', 'num_members:>5.0'],
@@ -39,7 +44,7 @@ export const whereCaseGroups = {
   'relative date': [
     ['-', 'last_seen:-1d'],
     ['+', 'renews_at:+30d'],
-    ['decimal', 'renews_at:+1.2s'],
+    ['floats are not allowed', 'renews_at:+1.2s'],
     ['with other filters', 'plan:free renews_at:+4w "free form"'],
   ],
 
@@ -50,6 +55,9 @@ export const whereCaseGroups = {
     ['with rhs', 'divide(projects, max_projects):>0.5'],
     ['with filter argument', 'count(projects, plan:free !has:email):>5'],
     ['with quoted argument', 'count(projects, "free search"):>0.5'],
-    ['relatvie date rhs', 'last_seen():-7d'],
+    ['relative date rhs', 'last_seen():-7d'],
+    ['number arguments', 'my_func(2, 0.5, -2)'],
+    ['boolean arguments', 'my_func(true, false)'],
+    ['boolean rhs', 'my_func():true'],
   ],
 };
