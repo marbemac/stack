@@ -1,4 +1,4 @@
-import { type AnySearchToken, type FunctionAstNode, type QualifierAstNode, SearchToken } from './visitor.ts';
+import { type FunctionAstNode, type QualifierAstNode, type SearchNode } from './visitor.ts';
 
 function stringifyQualifier(token: QualifierAstNode) {
   let stringifiedToken = '';
@@ -7,12 +7,12 @@ function stringifyQualifier(token: QualifierAstNode) {
     stringifiedToken += '!';
   }
 
-  stringifiedToken += stringifySearchToken(token.lhs);
+  stringifiedToken += stringifySearchAstNode(token.lhs);
 
   if (token.rhs) {
     stringifiedToken += ':';
     stringifiedToken += token.op || '';
-    stringifiedToken += stringifySearchToken(token.rhs);
+    stringifiedToken += stringifySearchAstNode(token.rhs);
   }
 
   return stringifiedToken;
@@ -28,7 +28,7 @@ function stringifyFunction(token: FunctionAstNode) {
   stringifiedToken += `${token.name}(`;
 
   if (token.args) {
-    stringifiedToken += token.args.map(stringifySearchToken).join(', ');
+    stringifiedToken += token.args.map(stringifySearchAstNode).join(', ');
   }
 
   stringifiedToken += ')';
@@ -36,47 +36,51 @@ function stringifyFunction(token: FunctionAstNode) {
   if (token.rhs) {
     stringifiedToken += ':';
     stringifiedToken += token.op || '';
-    stringifiedToken += stringifySearchToken(token.rhs);
+    stringifiedToken += stringifySearchAstNode(token.rhs);
   }
 
   return stringifiedToken;
 }
 
-export function stringifySearchToken(token?: AnySearchToken) {
+export function stringifySearchAstNode(token?: SearchNode) {
   if (!token) return '';
 
   switch (token.type) {
-    case SearchToken.SearchQuery:
+    case 'search_query':
       return [
-        stringifySearchToken(token.fromClause),
-        stringifySearchToken(token.selectClause),
-        stringifySearchToken(token.whereClause),
+        stringifySearchAstNode(token.fromClause),
+        stringifySearchAstNode(token.selectClause),
+        stringifySearchAstNode(token.whereClause),
       ]
         .filter(Boolean)
         .join('\n');
-    case SearchToken.FromClause:
+    case 'from_clause':
       return `FROM ${token.table}`;
-    case SearchToken.SelectClause:
-      return token.columns.length ? `SELECT ${token.columns.map(stringifySearchToken).join(' ')}` : '';
-    case SearchToken.WhereClause:
-      return token.conditions.length ? `WHERE ${token.conditions.map(stringifySearchToken).join(' ')}` : '';
-    case SearchToken.Qualifier:
+    case 'select_clause':
+      return token.expr.columns.length ? `SELECT ` : '';
+    case 'select_expr':
+      return token.columns.length ? token.columns.map(stringifySearchAstNode).join(' ') : '';
+    case 'where_clause':
+      return token.expr.conditions.length ? `WHERE ` : '';
+    case 'where_expr':
+      return token.conditions.length ? token.conditions.map(stringifySearchAstNode).join(' ') : '';
+    case 'qualifier':
       return stringifyQualifier(token);
-    case SearchToken.Function:
+    case 'function':
       return stringifyFunction(token);
-    case SearchToken.FunctionArg:
-      return token.vals.map(stringifySearchToken).join(' ');
-    case SearchToken.QualifierKey:
+    case 'function_arg':
+      return token.vals.map(stringifySearchAstNode).join(' ');
+    case 'qualifier_key':
       return token.value;
-    case SearchToken.QualifierIn:
-      return `[${token.values.map(stringifySearchToken).join(', ')}]`;
-    case SearchToken.RelativeDateVal:
+    case 'bracket_list':
+      return `[${token.values.map(stringifySearchAstNode).join(', ')}]`;
+    case 'relative_date':
       return `${token.sign}${token.value}${token.unit}`;
-    case SearchToken.TextVal:
+    case 'text':
       return token.quoted ? `"${token.value}"` : token.value;
-    case SearchToken.NumberVal:
+    case 'number':
       return token.value;
-    case SearchToken.BooleanVal:
+    case 'boolean':
       return token.value;
   }
 }

@@ -14,7 +14,7 @@ export interface ParseQueryOpts<T extends InputType> {
   parser?: SearchParser;
 }
 
-type InputType = 'searchQuery' | 'selectClause' | 'selectExpression' | 'fromClause' | 'whereClause' | 'whereExpression';
+type InputType = 'searchQuery' | 'selectClause' | 'selectExpr' | 'fromClause' | 'whereClause' | 'whereExpr';
 
 export const parseSearch = <T extends InputType>({
   input,

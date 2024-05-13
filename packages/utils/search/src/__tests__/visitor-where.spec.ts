@@ -5,7 +5,7 @@ import { createSearchVisitor } from '../visitor.ts';
 import { whereCaseGroups } from './fixtures/common.ts';
 
 const prettyPrintParseResult = (input: string) => {
-  const { cst, errors } = parseSearch({ input: input, inputType: 'whereExpression' });
+  const { cst, errors } = parseSearch({ input: input, inputType: 'whereExpr' });
 
   const visitor = createSearchVisitor({
     /**
@@ -22,7 +22,7 @@ const prettyPrintParseResult = (input: string) => {
     },
   });
 
-  const ast = visitor.whereExpression(cst.children);
+  const ast = visitor.whereExpr(cst.children);
 
   return { errors, ast };
 };

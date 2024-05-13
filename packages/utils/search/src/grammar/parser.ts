@@ -5,9 +5,9 @@ import type {
   FromClauseCstNode,
   SearchQueryCstNode,
   SelectClauseCstNode,
-  SelectExpressionCstNode,
+  SelectExprCstNode,
   WhereClauseCstNode,
-  WhereExpressionCstNode,
+  WhereExprCstNode,
 } from './parser-cst-types.ts';
 import * as t from './tokens.ts';
 
@@ -42,10 +42,10 @@ export class SearchParser extends CstParser {
 
   public selectClause = this.#RULE<SelectClauseCstNode>('selectClause', () => {
     this.CONSUME(t.Select);
-    this.SUBRULE(this.selectExpression);
+    this.SUBRULE(this.selectExpr);
   });
 
-  public selectExpression = this.#RULE<SelectExpressionCstNode>('selectExpression', () => {
+  public selectExpr = this.#RULE<SelectExprCstNode>('selectExpr', () => {
     this.MANY(() => {
       this.OR([
         { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'columns' }) },
@@ -62,10 +62,10 @@ export class SearchParser extends CstParser {
 
   public whereClause = this.#RULE<WhereClauseCstNode>('whereClause', () => {
     this.CONSUME(t.Where);
-    this.SUBRULE(this.whereExpression);
+    this.SUBRULE(this.whereExpr);
   });
 
-  public whereExpression = this.#RULE<WhereExpressionCstNode>('whereExpression', () => {
+  public whereExpr = this.#RULE<WhereExprCstNode>('whereExpr', () => {
     this.MANY(() => {
       this.OR([
         { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'conditions' }) },
@@ -127,13 +127,13 @@ export class SearchParser extends CstParser {
 
   #qualifierVal = this.#RULE('qualifierVal', () => {
     this.OR([
-      { ALT: () => this.SUBRULE(this.#qualifierIn, { LABEL: 'val' }) },
+      { ALT: () => this.SUBRULE(this.#bracketList, { LABEL: 'val' }) },
       { ALT: () => this.SUBRULE(this.#relativeDateVal, { LABEL: 'val' }) },
       { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'val' }) },
     ]);
   });
 
-  #qualifierIn = this.#RULE('qualifierIn', () => {
+  #bracketList = this.#RULE('bracketList', () => {
     this.CONSUME(t.LBracket);
     this.AT_LEAST_ONE_SEP({
       SEP: t.Comma,
