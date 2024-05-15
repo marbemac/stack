@@ -71,10 +71,10 @@ export type SearchNode =
   | FunctionArgAstNode
   | QualifierKeyAstNode
   | BracketListAstNode
-  | RelativeDateValAstNode
-  | TextValAstNode
-  | NumberValAstNode
-  | BooleanValAstNode;
+  | RelativeDateAstNode
+  | TextAstNode
+  | NumberAstNode
+  | BooleanAstNode;
 
 export type SearchNodeType = SearchNode['type'];
 
@@ -138,14 +138,14 @@ export interface QualifierKeyAstNode extends SearchNodeBase {
   value: string;
 }
 
-export type QualifierVal = BracketListAstNode | AtomicQualifierVal | RelativeDateValAstNode;
+export type QualifierVal = BracketListAstNode | AtomicQualifierVal | RelativeDateAstNode;
 
 export interface BracketListAstNode extends SearchNodeBase {
   type: 'bracket_list';
   values: AtomicQualifierVal[];
 }
 
-export interface RelativeDateValAstNode extends SearchNodeBase {
+export interface RelativeDateAstNode extends SearchNodeBase {
   type: 'relative_date';
   value: string;
   parsed: number;
@@ -153,25 +153,25 @@ export interface RelativeDateValAstNode extends SearchNodeBase {
   unit: RelativeDateTokenPayload['unit'];
 }
 
-export interface TextValAstNode extends SearchNodeBase {
+export interface TextAstNode extends SearchNodeBase {
   type: 'text';
   quoted?: boolean;
   value: string;
 }
 
-export interface NumberValAstNode extends SearchNodeBase {
+export interface NumberAstNode extends SearchNodeBase {
   type: 'number';
   value: string;
   parsed: number;
 }
 
-export interface BooleanValAstNode extends SearchNodeBase {
+export interface BooleanAstNode extends SearchNodeBase {
   type: 'boolean';
   value: string;
   parsed: boolean;
 }
 
-export type AtomicQualifierVal = TextValAstNode | NumberValAstNode | BooleanValAstNode;
+export type AtomicQualifierVal = TextAstNode | NumberAstNode | BooleanAstNode;
 
 export type QualifierOp = '=' | '>' | '<' | '>=' | '<=';
 
@@ -183,27 +183,59 @@ let parserSingleton: SearchParser;
  * For some nodes, it is useful to expose some of the (shallow) data associated with the node to the
  * enter/exit hooks. This is a mapping of the token type to the data that is available.
  */
-export interface OnEnterExitDataMap {
-  search_query: {};
-  select_clause: {};
-  select_expr: {};
-  from_clause: Pick<FromClauseAstNode, 'table'>;
-  where_clause: {};
-  where_expr: {};
-  qualifier: {};
-  function: Pick<FunctionAstNode, 'name'>;
-  function_arg: Pick<FunctionArgAstNode, 'position'>;
-  qualifier_key: {};
-  bracket_list: {};
-  relative_date: {};
-  text: {};
-  number: {};
-  boolean: {};
-}
+export type OnEnterDataMap =
+  | {
+      type: 'search_query';
+    }
+  | {
+      type: 'select_clause';
+    }
+  | {
+      type: 'select_expr';
+    }
+  | {
+      type: 'from_clause';
+      table: string;
+    }
+  | {
+      type: 'where_clause';
+    }
+  | {
+      type: 'where_expr';
+    }
+  | {
+      type: 'qualifier';
+    }
+  | {
+      type: 'function';
+      name: string;
+    }
+  | {
+      type: 'function_arg';
+      position: number;
+    }
+  | {
+      type: 'qualifier_key';
+    }
+  | {
+      type: 'bracket_list';
+    }
+  | {
+      type: 'relative_date';
+    }
+  | {
+      type: 'text';
+    }
+  | {
+      type: 'number';
+    }
+  | {
+      type: 'boolean';
+    };
 
 interface CreateSearchVisitorOpts {
-  onEnter?: <T extends SearchNodeType>(type: T, data: OnEnterExitDataMap[T]) => void;
-  onExit?: <T extends SearchNodeType>(type: T, data: OnEnterExitDataMap[T]) => void;
+  onEnter?: (data: OnEnterDataMap) => void;
+  onExit?: (data: SearchNode) => void;
   transform?: <T extends SearchNode>(node: T) => T;
 }
 
@@ -242,7 +274,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
                       : T extends BracketListCstNode | BracketListCstNode[]
                         ? BracketListAstNode
                         : T extends RelativeDateValCstNode | RelativeDateValCstNode[]
-                          ? RelativeDateValAstNode
+                          ? RelativeDateAstNode
                           : T extends AtomicQualifierValCstNode | AtomicQualifierValCstNode[]
                             ? AtomicQualifierVal
                             : T extends QualifierOpCstNode | QualifierOpCstNode[]
@@ -261,7 +293,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
     }
 
     searchQuery(ctx: SearchQueryCstChildren) {
-      onEnter?.('search_query', {});
+      onEnter?.({ type: 'search_query' });
 
       const t = maybeTransform({
         type: 'search_query',
@@ -285,7 +317,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies SearchQueryAstNode;
 
-      onExit?.('search_query', {});
+      onExit?.(t);
 
       return t;
     }
@@ -293,7 +325,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
     fromClause(ctx: FromClauseCstChildren) {
       const table = ctx.Identifier[0]?.image || '';
 
-      onEnter?.('from_clause', { table });
+      onEnter?.({ type: 'from_clause', table });
 
       const t = maybeTransform({
         type: 'from_clause',
@@ -304,13 +336,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies FromClauseAstNode;
 
-      onExit?.('from_clause', { table });
+      onExit?.(t);
 
       return t;
     }
 
     selectClause(ctx: SelectClauseCstChildren) {
-      onEnter?.('select_clause', {});
+      onEnter?.({ type: 'select_clause' });
 
       const t = maybeTransform({
         type: 'select_clause',
@@ -321,13 +353,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies SelectClauseAstNode;
 
-      onExit?.('select_clause', {});
+      onExit?.(t);
 
       return t;
     }
 
     selectExpr(ctx: SelectExprCstChildren) {
-      onEnter?.('select_expr', {});
+      onEnter?.({ type: 'select_expr' });
 
       const t = maybeTransform({
         type: 'select_expr',
@@ -338,13 +370,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies SelectExprAstNode;
 
-      onExit?.('select_expr', {});
+      onExit?.(t);
 
       return t;
     }
 
     whereClause(ctx: WhereClauseCstChildren) {
-      onEnter?.('where_clause', {});
+      onEnter?.({ type: 'where_clause' });
 
       const t = maybeTransform({
         type: 'where_clause',
@@ -355,13 +387,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies WhereClauseAstNode;
 
-      onExit?.('where_clause', {});
+      onExit?.(t);
 
       return t;
     }
 
     whereExpr(ctx: WhereExprCstChildren) {
-      onEnter?.('where_expr', {});
+      onEnter?.({ type: 'where_expr' });
 
       const t = maybeTransform({
         type: 'where_expr',
@@ -372,13 +404,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies WhereExprAstNode;
 
-      onExit?.('where_expr', {});
+      onExit?.(t);
 
       return t;
     }
 
     qualifier(ctx: QualifierCstChildren) {
-      onEnter?.('qualifier', {});
+      onEnter?.({ type: 'qualifier' });
 
       const t = maybeTransform({
         type: 'qualifier',
@@ -392,7 +424,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies QualifierAstNode;
 
-      onExit?.('qualifier', {});
+      onExit?.(t);
 
       return t;
     }
@@ -400,7 +432,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
     function(ctx: FunctionCstChildren) {
       const name = ctx.Identifier[0]!.image;
 
-      onEnter?.('function', { name });
+      onEnter?.({ type: 'function', name });
 
       const t = maybeTransform({
         type: 'function',
@@ -415,13 +447,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies FunctionAstNode;
 
-      onExit?.('function', { name });
+      onExit?.(t);
 
       return t;
     }
 
     functionArg(ctx: FunctionArgCstChildren, { position }: { position: number }) {
-      onEnter?.('function_arg', { position });
+      onEnter?.({ type: 'function_arg', position });
 
       const t = maybeTransform({
         type: 'function_arg',
@@ -433,13 +465,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies FunctionArgAstNode;
 
-      onExit?.('function_arg', { position });
+      onExit?.(t);
 
       return t;
     }
 
     qualifierKey(ctx: QualifierKeyCstChildren) {
-      onEnter?.('qualifier_key', {});
+      onEnter?.({ type: 'qualifier_key' });
 
       const t = maybeTransform({
         type: 'qualifier_key',
@@ -450,7 +482,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies QualifierKeyAstNode;
 
-      onExit?.('qualifier_key', {});
+      onExit?.(t);
 
       return t;
     }
@@ -463,7 +495,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
     }
 
     bracketList(ctx: BracketListCstChildren) {
-      onEnter?.('bracket_list', {});
+      onEnter?.({ type: 'bracket_list' });
 
       const t = maybeTransform({
         type: 'bracket_list',
@@ -474,13 +506,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         },
       }) satisfies BracketListAstNode;
 
-      onExit?.('bracket_list', {});
+      onExit?.(t);
 
       return t;
     }
 
     relativeDateVal(ctx: RelativeDateValCstChildren) {
-      onEnter?.('relative_date', {});
+      onEnter?.({ type: 'relative_date' });
 
       const { sign, unit, value } = ctx.RelativeDate[0]?.payload as RelativeDateTokenPayload;
 
@@ -493,19 +525,19 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         value,
         parsed,
         get isBranchInvalid() {
-          const $ = this as RelativeDateValAstNode;
+          const $ = this as RelativeDateAstNode;
           return !!$.invalid;
         },
-      }) satisfies RelativeDateValAstNode;
+      }) satisfies RelativeDateAstNode;
 
-      onExit?.('relative_date', {});
+      onExit?.(t);
 
       return t;
     }
 
     atomicQualifierVal(ctx: AtomicQualifierValCstChildren) {
       if (ctx.Number) {
-        onEnter?.('number', {});
+        onEnter?.({ type: 'number' });
 
         const value = ctx.Number?.[0]?.image || '';
         const parsed = parseFloat(value);
@@ -515,18 +547,18 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
           value,
           parsed,
           get isBranchInvalid() {
-            const $ = this as NumberValAstNode;
+            const $ = this as NumberAstNode;
             return !!$.invalid;
           },
-        }) satisfies NumberValAstNode;
+        }) satisfies NumberAstNode;
 
-        onExit?.('number', {});
+        onExit?.(t);
 
         return t;
       }
 
       if (ctx.Boolean) {
-        onEnter?.('boolean', {});
+        onEnter?.({ type: 'boolean' });
 
         const value = ctx.Boolean?.[0]?.image || '';
         const parsed = JSON.parse(value) as boolean;
@@ -536,29 +568,29 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
           value,
           parsed,
           get isBranchInvalid() {
-            const $ = this as BooleanValAstNode;
+            const $ = this as BooleanAstNode;
             return !!$.invalid;
           },
-        }) satisfies BooleanValAstNode;
+        }) satisfies BooleanAstNode;
 
-        onExit?.('boolean', {});
+        onExit?.(t);
 
         return t;
       }
 
-      onEnter?.('text', {});
+      onEnter?.({ type: 'text' });
 
       const t = maybeTransform({
         type: 'text',
         quoted: ctx.QuotedIdentifier?.[0] ? true : false,
         value: (ctx.QuotedIdentifier?.[0] || ctx.Identifier?.[0])?.image || '',
         get isBranchInvalid() {
-          const $ = this as TextValAstNode;
+          const $ = this as TextAstNode;
           return !!$.invalid;
         },
-      }) satisfies TextValAstNode;
+      }) satisfies TextAstNode;
 
-      onExit?.('text', {});
+      onExit?.(t);
 
       return t;
     }
