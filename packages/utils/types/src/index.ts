@@ -12,6 +12,7 @@ export type StringWithAutocomplete<T> = T | (string & Record<never, never>);
  */
 export type {
   CamelCasedProperties,
+  PartialDeep,
   ReadonlyDeep,
   SetOptional,
   SetRequired,

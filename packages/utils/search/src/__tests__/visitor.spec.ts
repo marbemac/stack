@@ -1,3 +1,4 @@
+import type { PartialDeep } from '@marbemac/utils-types';
 import { describe, expect, it } from 'vitest';
 
 import { parseSearch } from '../parse.ts';
@@ -33,11 +34,12 @@ describe('parse full query', () => {
               type: 'text',
               quoted: false,
               value: 'id',
+              isBranchInvalid: false,
             },
           ],
         },
       },
-    } satisfies SearchQueryAstNode);
+    } satisfies PartialDeep<SearchQueryAstNode>);
   });
 
   it('supports just where', () => {
@@ -67,9 +69,11 @@ describe('parse full query', () => {
           conditions: [
             {
               type: 'qualifier',
+              isBranchInvalid: false,
               lhs: {
                 type: 'qualifier_key',
                 value: 'plan',
+                isBranchInvalid: false,
               },
               negated: false,
               op: '',
@@ -77,12 +81,13 @@ describe('parse full query', () => {
                 type: 'text',
                 quoted: false,
                 value: 'free',
+                isBranchInvalid: false,
               },
             },
           ],
         },
       },
-    } satisfies SearchQueryAstNode);
+    } satisfies PartialDeep<SearchQueryAstNode>);
   });
 
   it('supports select + where', () => {
@@ -115,11 +120,13 @@ describe('parse full query', () => {
               type: 'text',
               quoted: false,
               value: 'id',
+              isBranchInvalid: false,
             },
             {
               type: 'text',
               quoted: false,
               value: 'slug',
+              isBranchInvalid: false,
             },
             {
               type: 'function',
@@ -127,11 +134,13 @@ describe('parse full query', () => {
                 {
                   type: 'function_arg',
                   position: 0,
+                  isBranchInvalid: false,
                   vals: [
                     {
                       type: 'text',
                       quoted: false,
                       value: 'invoices',
+                      isBranchInvalid: false,
                     },
                   ],
                 },
@@ -140,6 +149,7 @@ describe('parse full query', () => {
               negated: false,
               op: undefined,
               rhs: undefined,
+              isBranchInvalid: false,
             },
           ],
         },
@@ -151,9 +161,11 @@ describe('parse full query', () => {
           conditions: [
             {
               type: 'qualifier',
+              isBranchInvalid: false,
               lhs: {
                 type: 'qualifier_key',
                 value: 'plan',
+                isBranchInvalid: false,
               },
               negated: false,
               op: '',
@@ -161,11 +173,12 @@ describe('parse full query', () => {
                 type: 'text',
                 quoted: false,
                 value: 'free',
+                isBranchInvalid: false,
               },
             },
           ],
         },
       },
-    } satisfies SearchQueryAstNode);
+    } satisfies PartialDeep<SearchQueryAstNode>);
   });
 });

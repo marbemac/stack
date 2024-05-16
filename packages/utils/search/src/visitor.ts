@@ -27,6 +27,7 @@ import type {
   SelectClauseCstChildren,
   SelectClauseCstNode,
   SelectExprCstChildren,
+  SortDirCstChildren,
   TSearchCstVisitor,
   WhereClauseCstChildren,
   WhereClauseCstNode,
@@ -123,6 +124,7 @@ export interface FunctionAstNode extends SearchNodeBase {
   name: string;
   negated: boolean;
   args: FunctionArgAstNode[];
+  sort?: SortDir;
   op?: QualifierOp | '';
   rhs?: QualifierVal;
 }
@@ -157,6 +159,7 @@ export interface TextAstNode extends SearchNodeBase {
   type: 'text';
   quoted?: boolean;
   value: string;
+  sort?: SortDir;
 }
 
 export interface NumberAstNode extends SearchNodeBase {
@@ -174,6 +177,8 @@ export interface BooleanAstNode extends SearchNodeBase {
 export type AtomicQualifierVal = TextAstNode | NumberAstNode | BooleanAstNode;
 
 export type QualifierOp = '=' | '>' | '<' | '>=' | '<=';
+
+export type SortDir = 'asc' | 'desc';
 
 export type SearchVisitor = ReturnType<typeof createSearchVisitor>;
 
@@ -439,6 +444,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         name,
         negated: !!ctx.Negate,
         args: (ctx.functionArg || []).map((arg, i) => this.#visit(arg, { position: i })).filter(a => !!a.vals.length),
+        sort: ctx.sortDir ? this.#visit(ctx.sortDir) : undefined,
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,
         get isBranchInvalid() {
@@ -584,6 +590,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         type: 'text',
         quoted: ctx.QuotedIdentifier?.[0] ? true : false,
         value: (ctx.QuotedIdentifier?.[0] || ctx.Identifier?.[0])?.image || '',
+        sort: ctx.sortDir ? this.#visit(ctx.sortDir) : undefined,
         get isBranchInvalid() {
           const $ = this as TextAstNode;
           return !!$.invalid;
@@ -593,6 +600,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       onExit?.(t);
 
       return t;
+    }
+
+    sortDir(ctx: SortDirCstChildren) {
+      const dir = ctx.dir?.[0]?.image;
+      if (!dir) return;
+
+      return dir === '+' ? 'asc' : 'desc';
     }
 
     qualifierOp(ctx: QualifierOpCstChildren) {

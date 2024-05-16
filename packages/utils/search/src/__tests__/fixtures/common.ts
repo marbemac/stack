@@ -1,4 +1,4 @@
-export const whereCaseGroups = {
+export const caseGroups = {
   freeform: [
     ['treats as a string', 'freeform'],
     ['mixed throughout', 'freeform1 age:5 freeform2 search'],

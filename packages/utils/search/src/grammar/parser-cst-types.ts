@@ -81,6 +81,7 @@ export interface FunctionCstNode extends CstNode {
 }
 
 export type FunctionCstChildren = {
+  sortDir?: SortDirCstNode[];
   Negate?: IToken[];
   Identifier: IToken[];
   LParen: IToken[];
@@ -146,12 +147,22 @@ export interface AtomicQualifierValCstNode extends CstNode {
 }
 
 export type AtomicQualifierValCstChildren = {
+  sortDir?: SortDirCstNode[];
   LQuote?: IToken[];
   QuotedIdentifier?: IToken[];
   RQuote?: IToken[];
   Number?: IToken[];
   Boolean?: IToken[];
   Identifier?: IToken[];
+};
+
+export interface SortDirCstNode extends CstNode {
+  name: "sortDir";
+  children: SortDirCstChildren;
+}
+
+export type SortDirCstChildren = {
+  dir?: (IToken)[];
 };
 
 export interface QualifierOpCstNode extends CstNode {
@@ -178,5 +189,6 @@ export interface TSearchCstVisitor<IN, OUT> extends ICstVisitor<IN, OUT> {
   bracketList(children: BracketListCstChildren, param?: IN): OUT;
   relativeDateVal(children: RelativeDateValCstChildren, param?: IN): OUT;
   atomicQualifierVal(children: AtomicQualifierValCstChildren, param?: IN): OUT;
+  sortDir(children: SortDirCstChildren, param?: IN): OUT;
   qualifierOp(children: QualifierOpCstChildren, param?: IN): OUT;
 }

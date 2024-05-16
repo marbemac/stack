@@ -871,8 +871,11 @@ exports[`select relative date > floats are not allowed 1`] = `
             "type": "qualifier_key",
             "value": "renews_at",
           },
-          "op": undefined,
-          "rhs": undefined,
+          "op": "",
+          "rhs": {
+            "type": "text",
+            "value": "",
+          },
           "type": "qualifier",
         },
         {
@@ -888,7 +891,12 @@ exports[`select relative date > floats are not allowed 1`] = `
       "type": "select_expr",
     },
     "errors": [
-      [MismatchedTokenException: Expecting token of type --> EOF <-- but found --> '+' <--],
+      [NoViableAltException: Expecting: one of these possible Token sequences:
+  1. [LQuote]
+  2. [Number]
+  3. [Boolean]
+  4. [Identifier]
+but found: '+'],
     ],
   },
 }
@@ -1141,10 +1149,12 @@ exports[`select text filters > partial filter still parses 1`] = `
       [NoViableAltException: Expecting: one of these possible Token sequences:
   1. [LBracket]
   2. [RelativeDate]
-  3. [LQuote]
-  4. [Number]
-  5. [Boolean]
-  6. [Identifier]
+  3. [+]
+  4. [Minus]
+  5. [LQuote]
+  6. [Number]
+  7. [Boolean]
+  8. [Identifier]
 but found: 'plan:'],
     ],
   },

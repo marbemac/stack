@@ -76,13 +76,13 @@ export class SearchParser extends CstParser {
   });
 
   #qualifier = this.#RULE('qualifier', () => {
-    this.OPTION(() => {
+    this.OPTION2(() => {
       this.CONSUME(t.Negate);
     });
 
     this.SUBRULE(this.#qualifierKey, { LABEL: 'lhs' });
 
-    this.OPTION2(() => {
+    this.OPTION3(() => {
       this.SUBRULE(this.#qualifierOp);
       this.SUBRULE(this.#qualifierVal, { LABEL: 'rhs' });
     });
@@ -90,6 +90,10 @@ export class SearchParser extends CstParser {
 
   #function = this.#RULE('function', () => {
     this.OPTION(() => {
+      this.SUBRULE(this.#sortDir);
+    });
+
+    this.OPTION2(() => {
       this.CONSUME(t.Negate);
     });
 
@@ -105,7 +109,7 @@ export class SearchParser extends CstParser {
 
     this.CONSUME(t.RParen);
 
-    this.OPTION2(() => {
+    this.OPTION3(() => {
       this.CONSUME(t.Colon);
       this.SUBRULE(this.#qualifierOp);
       this.SUBRULE(this.#qualifierVal, { LABEL: 'rhs' });
@@ -129,7 +133,7 @@ export class SearchParser extends CstParser {
     this.OR([
       { ALT: () => this.SUBRULE(this.#bracketList, { LABEL: 'val' }) },
       { ALT: () => this.SUBRULE(this.#relativeDateVal, { LABEL: 'val' }) },
-      { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'val' }) },
+      { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'val', ARGS: [true] }) },
     ]);
   });
 
@@ -148,7 +152,14 @@ export class SearchParser extends CstParser {
     this.CONSUME(t.RelativeDate);
   });
 
-  #atomicQualifierVal = this.#RULE('atomicQualifierVal', () => {
+  #atomicQualifierVal = this.#RULE('atomicQualifierVal', (skipSortDir?: boolean) => {
+    this.OPTION({
+      GATE: () => !skipSortDir,
+      DEF: () => {
+        this.SUBRULE(this.#sortDir);
+      },
+    });
+
     this.OR([
       {
         ALT: () => {
@@ -160,6 +171,13 @@ export class SearchParser extends CstParser {
       { ALT: () => this.CONSUME(t.Number) },
       { ALT: () => this.CONSUME(t.Boolean) },
       { ALT: () => this.CONSUME(t.Identifier) },
+    ]);
+  });
+
+  #sortDir = this.#RULE('sortDir', () => {
+    this.OR([
+      { ALT: () => this.CONSUME(t.Plus, { LABEL: 'dir' }) },
+      { ALT: () => this.CONSUME(t.Minus, { LABEL: 'dir' }) },
     ]);
   });
 
