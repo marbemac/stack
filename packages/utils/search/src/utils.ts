@@ -1,46 +1,10 @@
-import { type FunctionAstNode, type QualifierAstNode, type SearchNode } from './visitor.ts';
-
-function stringifyQualifier(token: QualifierAstNode) {
-  let stringifiedToken = '';
-
-  if (token.negated) {
-    stringifiedToken += '!';
-  }
-
-  stringifiedToken += stringifySearchAstNode(token.lhs);
-
-  if (token.rhs) {
-    stringifiedToken += ':';
-    stringifiedToken += token.op || '';
-    stringifiedToken += stringifySearchAstNode(token.rhs);
-  }
-
-  return stringifiedToken;
-}
-
-function stringifyFunction(token: FunctionAstNode) {
-  let stringifiedToken = '';
-
-  if (token.negated) {
-    stringifiedToken += '!';
-  }
-
-  stringifiedToken += `${token.name}(`;
-
-  if (token.args) {
-    stringifiedToken += token.args.map(stringifySearchAstNode).join(', ');
-  }
-
-  stringifiedToken += ')';
-
-  if (token.rhs) {
-    stringifiedToken += ':';
-    stringifiedToken += token.op || '';
-    stringifiedToken += stringifySearchAstNode(token.rhs);
-  }
-
-  return stringifiedToken;
-}
+import {
+  type FunctionAstNode,
+  type IsNegatableNode,
+  type IsSortableNode,
+  type QualifierAstNode,
+  type SearchNode,
+} from './visitor.ts';
 
 export function stringifySearchAstNode(token?: SearchNode) {
   if (!token) return '';
@@ -65,9 +29,9 @@ export function stringifySearchAstNode(token?: SearchNode) {
     case 'where_expr':
       return token.conditions.length ? token.conditions.map(stringifySearchAstNode).join(' ') : '';
     case 'qualifier':
-      return stringifyQualifier(token);
+      return handleNegation(token, stringifyQualifier(token));
     case 'function':
-      return stringifyFunction(token);
+      return handleSortDir(token, handleNegation(token, stringifyFunction(token)));
     case 'function_arg':
       return token.vals.map(stringifySearchAstNode).join(' ');
     case 'qualifier_key':
@@ -77,10 +41,49 @@ export function stringifySearchAstNode(token?: SearchNode) {
     case 'relative_date':
       return `${token.sign}${token.value}${token.unit}`;
     case 'text':
-      return token.quoted ? `"${token.value}"` : token.value;
+      return handleSortDir(token, token.quoted ? `"${token.value}"` : token.value);
     case 'number':
       return token.value;
     case 'boolean':
       return token.value;
   }
+}
+
+function stringifyQualifier(token: QualifierAstNode) {
+  let stringifiedToken = stringifySearchAstNode(token.lhs);
+
+  if (token.rhs) {
+    stringifiedToken += ':';
+    stringifiedToken += token.op || '';
+    stringifiedToken += stringifySearchAstNode(token.rhs);
+  }
+
+  return stringifiedToken;
+}
+
+function stringifyFunction(token: FunctionAstNode) {
+  let stringifiedToken = `${token.name}(`;
+
+  if (token.args) {
+    stringifiedToken += token.args.map(stringifySearchAstNode).join(', ');
+  }
+
+  stringifiedToken += ')';
+
+  if (token.rhs) {
+    stringifiedToken += ':';
+    stringifiedToken += token.op || '';
+    stringifiedToken += stringifySearchAstNode(token.rhs);
+  }
+
+  return stringifiedToken;
+}
+
+function handleSortDir(token: IsSortableNode, stringifiedToken: string) {
+  if (!token.sort) return stringifiedToken;
+  return `${token.sort === 'asc' ? '+' : '-'}${stringifiedToken}`;
+}
+
+function handleNegation(token: IsNegatableNode, stringifiedToken: string) {
+  return token.negated ? `!${stringifiedToken}` : stringifiedToken;
 }

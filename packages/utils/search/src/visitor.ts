@@ -79,6 +79,14 @@ export type SearchNode =
 
 export type SearchNodeType = SearchNode['type'];
 
+export interface IsSortableNode {
+  sort?: SortDir;
+}
+
+export interface IsNegatableNode {
+  negated: boolean;
+}
+
 export interface SearchQueryAstNode extends SearchNodeBase {
   type: 'search_query';
   fromClause: FromClauseAstNode;
@@ -111,20 +119,17 @@ export interface WhereExprAstNode extends SearchNodeBase {
   conditions: (QualifierAstNode | FunctionAstNode | AtomicQualifierVal)[];
 }
 
-export interface QualifierAstNode extends SearchNodeBase {
+export interface QualifierAstNode extends SearchNodeBase, IsNegatableNode {
   type: 'qualifier';
-  negated: boolean;
   lhs: QualifierKeyAstNode;
   op?: QualifierOp | '';
   rhs?: QualifierVal;
 }
 
-export interface FunctionAstNode extends SearchNodeBase {
+export interface FunctionAstNode extends SearchNodeBase, IsNegatableNode, IsSortableNode {
   type: 'function';
   name: string;
-  negated: boolean;
   args: FunctionArgAstNode[];
-  sort?: SortDir;
   op?: QualifierOp | '';
   rhs?: QualifierVal;
 }
@@ -155,11 +160,10 @@ export interface RelativeDateAstNode extends SearchNodeBase {
   unit: RelativeDateTokenPayload['unit'];
 }
 
-export interface TextAstNode extends SearchNodeBase {
+export interface TextAstNode extends SearchNodeBase, IsSortableNode {
   type: 'text';
   quoted?: boolean;
   value: string;
-  sort?: SortDir;
 }
 
 export interface NumberAstNode extends SearchNodeBase {

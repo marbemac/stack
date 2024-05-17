@@ -28,6 +28,9 @@ num_members:>=5
 # negation
 !plan:free
 
+# sorting
++slug -count(people)
+
 # quoted literals
 name:"john doe" "freeform quoted literal"
 
