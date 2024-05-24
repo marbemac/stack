@@ -20,8 +20,6 @@ import type {
   QualifierOpCstNode,
   QualifierValCstChildren,
   QualifierValCstNode,
-  RelativeDateValCstChildren,
-  RelativeDateValCstNode,
   SearchQueryCstChildren,
   SearchQueryCstNode,
   SelectClauseCstChildren,
@@ -75,7 +73,8 @@ export type SearchNode =
   | RelativeDateAstNode
   | TextAstNode
   | NumberAstNode
-  | BooleanAstNode;
+  | BooleanAstNode
+  | Iso8601DateAstNode;
 
 export type SearchNodeType = SearchNode['type'];
 
@@ -145,7 +144,7 @@ export interface QualifierKeyAstNode extends SearchNodeBase {
   value: string;
 }
 
-export type QualifierVal = BracketListAstNode | AtomicQualifierVal | RelativeDateAstNode;
+export type QualifierVal = BracketListAstNode | AtomicQualifierVal;
 
 export interface BracketListAstNode extends SearchNodeBase {
   type: 'bracket_list';
@@ -158,6 +157,11 @@ export interface RelativeDateAstNode extends SearchNodeBase {
   parsed: number;
   sign: RelativeDateTokenPayload['sign'];
   unit: RelativeDateTokenPayload['unit'];
+}
+
+export interface Iso8601DateAstNode extends SearchNodeBase {
+  type: 'iso_8601_date';
+  value: string;
 }
 
 export interface TextAstNode extends SearchNodeBase, IsSortableNode {
@@ -178,7 +182,12 @@ export interface BooleanAstNode extends SearchNodeBase {
   parsed: boolean;
 }
 
-export type AtomicQualifierVal = TextAstNode | NumberAstNode | BooleanAstNode;
+export type AtomicQualifierVal =
+  | TextAstNode
+  | NumberAstNode
+  | BooleanAstNode
+  | Iso8601DateAstNode
+  | RelativeDateAstNode;
 
 export type QualifierOp = '=' | '>' | '<' | '>=' | '<=';
 
@@ -240,6 +249,9 @@ export type OnEnterDataMap =
     }
   | {
       type: 'boolean';
+    }
+  | {
+      type: 'iso_8601_date';
     };
 
 interface CreateSearchVisitorOpts {
@@ -282,13 +294,11 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
                       ? QualifierVal
                       : T extends BracketListCstNode | BracketListCstNode[]
                         ? BracketListAstNode
-                        : T extends RelativeDateValCstNode | RelativeDateValCstNode[]
-                          ? RelativeDateAstNode
-                          : T extends AtomicQualifierValCstNode | AtomicQualifierValCstNode[]
-                            ? AtomicQualifierVal
-                            : T extends QualifierOpCstNode | QualifierOpCstNode[]
-                              ? QualifierOp
-                              : never;
+                        : T extends AtomicQualifierValCstNode | AtomicQualifierValCstNode[]
+                          ? AtomicQualifierVal
+                          : T extends QualifierOpCstNode | QualifierOpCstNode[]
+                            ? QualifierOp
+                            : never;
 
   type VisitFn = <T extends CstNode | CstNode[]>(cstNode: T, param?: unknown) => GetReturnType<T>;
 
@@ -521,30 +531,6 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       return t;
     }
 
-    relativeDateVal(ctx: RelativeDateValCstChildren) {
-      onEnter?.({ type: 'relative_date' });
-
-      const { sign, unit, value } = ctx.RelativeDate[0]?.payload as RelativeDateTokenPayload;
-
-      const parsed = parseFloat(value);
-
-      const t = maybeTransform({
-        type: 'relative_date',
-        sign,
-        unit,
-        value,
-        parsed,
-        get isBranchInvalid() {
-          const $ = this as RelativeDateAstNode;
-          return !!$.invalid;
-        },
-      }) satisfies RelativeDateAstNode;
-
-      onExit?.(t);
-
-      return t;
-    }
-
     atomicQualifierVal(ctx: AtomicQualifierValCstChildren) {
       if (ctx.Number) {
         onEnter?.({ type: 'number' });
@@ -582,6 +568,49 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
             return !!$.invalid;
           },
         }) satisfies BooleanAstNode;
+
+        onExit?.(t);
+
+        return t;
+      }
+
+      if (ctx.RelativeDate) {
+        onEnter?.({ type: 'relative_date' });
+
+        const { sign, unit, value } = ctx.RelativeDate[0]?.payload as RelativeDateTokenPayload;
+
+        const parsed = parseFloat(value);
+
+        const t = maybeTransform({
+          type: 'relative_date',
+          sign,
+          unit,
+          value,
+          parsed,
+          get isBranchInvalid() {
+            const $ = this as RelativeDateAstNode;
+            return !!$.invalid;
+          },
+        }) satisfies RelativeDateAstNode;
+
+        onExit?.(t);
+
+        return t;
+      }
+
+      if (ctx.Iso8601Date) {
+        onEnter?.({ type: 'iso_8601_date' });
+
+        const value = ctx.Iso8601Date?.[0]?.image || '';
+
+        const t = maybeTransform({
+          type: 'iso_8601_date',
+          value,
+          get isBranchInvalid() {
+            const $ = this as Iso8601DateAstNode;
+            return !!$.invalid;
+          },
+        }) satisfies Iso8601DateAstNode;
 
         onExit?.(t);
 

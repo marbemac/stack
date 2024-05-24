@@ -57,3 +57,9 @@ describe('sorting', () => {
     expect(prettyPrintParseResult('+count()').ast.columns[0]).toMatchObject({ sort: 'asc' });
   });
 });
+
+it('supports tags that start with a $', () => {
+  expect(prettyPrintParseResult('$first_seen').ast.columns[0]).toMatchObject({
+    value: '$first_seen',
+  });
+});

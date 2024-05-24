@@ -46,6 +46,8 @@ export function stringifySearchAstNode(token?: SearchNode) {
       return token.value;
     case 'boolean':
       return token.value;
+    case 'iso_8601_date':
+      return token.value;
   }
 }
 

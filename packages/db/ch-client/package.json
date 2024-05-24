@@ -17,8 +17,8 @@
     }
   },
   "dependencies": {
-    "@clickhouse/client": "1.0.1",
-    "@clickhouse/client-common": "1.0.1",
+    "@clickhouse/client": "1.0.2",
+    "@clickhouse/client-common": "1.0.2",
     "@marbemac/utils-ids": "workspace:*",
     "@marbemac/utils-streams": "workspace:*",
     "@marbemac/utils-urls": "workspace:*"

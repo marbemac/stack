@@ -54,6 +54,58 @@ exports[`where boolean > true 1`] = `
 }
 `;
 
+exports[`where dates > date only 1`] = `
+{
+  "input": "last_seen:>2024-01-12",
+  "result": {
+    "ast": {
+      "conditions": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "last_seen",
+          },
+          "op": ">",
+          "rhs": {
+            "type": "iso_8601_date",
+            "value": "2024-01-12",
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "where_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
+exports[`where dates > date time 1`] = `
+{
+  "input": "last_seen:2024-01-12T10:15:01",
+  "result": {
+    "ast": {
+      "conditions": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "last_seen",
+          },
+          "op": "",
+          "rhs": {
+            "type": "iso_8601_date",
+            "value": "2024-01-12T10:15:01",
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "where_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
 exports[`where freeform > mixed throughout 1`] = `
 {
   "input": "freeform1 age:5 freeform2 search",
@@ -895,7 +947,9 @@ exports[`where relative date > floats are not allowed 1`] = `
   1. [LQuote]
   2. [Number]
   3. [Boolean]
-  4. [Identifier]
+  4. [RelativeDate]
+  5. [Iso8601Date]
+  6. [Identifier]
 but found: '+'],
     ],
   },
@@ -1001,6 +1055,32 @@ exports[`where text filters > @.-_ in values 1`] = `
           "rhs": {
             "type": "text",
             "value": "public-company_x",
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "where_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
+exports[`where text filters > keys that start with a $ 1`] = `
+{
+  "input": "$last_seen:foo",
+  "result": {
+    "ast": {
+      "conditions": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "$last_seen",
+          },
+          "op": "",
+          "rhs": {
+            "type": "text",
+            "value": "foo",
           },
           "type": "qualifier",
         },
@@ -1148,13 +1228,14 @@ exports[`where text filters > partial filter still parses 1`] = `
     "errors": [
       [NoViableAltException: Expecting: one of these possible Token sequences:
   1. [LBracket]
-  2. [RelativeDate]
-  3. [+]
-  4. [Minus]
-  5. [LQuote]
-  6. [Number]
-  7. [Boolean]
-  8. [Identifier]
+  2. [+]
+  3. [Minus]
+  4. [LQuote]
+  5. [Number]
+  6. [Boolean]
+  7. [RelativeDate]
+  8. [Iso8601Date]
+  9. [Identifier]
 but found: 'plan:'],
     ],
   },

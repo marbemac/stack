@@ -7,12 +7,14 @@ export const formatToMonthYear = (date: string) => {
   return dayjs(date).format('MMM YY');
 };
 
+// always work w UTC when working w CH
 export const formatForClickHouse = (date: dayjs.ConfigType) => {
-  return parseDate(date).format('YYYY-MM-DD HH:mm:ss') as ClickHouseDateTime;
+  return parseDate(date).utc().format('YYYY-MM-DD HH:mm:ss') as ClickHouseDateTime;
 };
 
+// always work w UTC when working w CH
 export const formatForClickHouse64 = (date: dayjs.ConfigType) => {
-  return parseDate(date).format('YYYY-MM-DD HH:mm:ss.SSS') as ClickHouseDateTime64;
+  return parseDate(date).utc().format('YYYY-MM-DD HH:mm:ss.SSS') as ClickHouseDateTime64;
 };
 
 export const parseDate = (date: dayjs.ConfigType) => {

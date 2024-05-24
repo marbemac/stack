@@ -9,6 +9,7 @@ export const caseGroups = {
     ['works', 'plan:free'],
     ['multiple', 'plan:free age:5'],
     ['.-_[0-9] in keys', 'payments.plan-type_is2:free'],
+    ['keys that start with a $', '$last_seen:foo'],
     ['@.-_ in values', 'email:jane@example.com type:public-company_x'],
     ['quoted value', 'user:"john doe"'],
     ['negation', '!plan:free'],
@@ -36,10 +37,10 @@ export const caseGroups = {
     ['<=', 'num_members:<=5.0'],
   ],
 
-  // 'dates': [
-  //   ['date only', 'last_seen:>2024-01-12'],
-  //   ['date time', 'last_seen:2024-01-12T10:15:01'],
-  // ],
+  dates: [
+    ['date only', 'last_seen:>2024-01-12'],
+    ['date time', 'last_seen:2024-01-12T10:15:01'],
+  ],
 
   'relative date': [
     ['-', 'last_seen:-1d'],

@@ -117,7 +117,7 @@ export interface QualifierValCstNode extends CstNode {
 }
 
 export type QualifierValCstChildren = {
-  val?: (BracketListCstNode | RelativeDateValCstNode | AtomicQualifierValCstNode)[];
+  val?: (BracketListCstNode | AtomicQualifierValCstNode)[];
 };
 
 export interface BracketListCstNode extends CstNode {
@@ -132,15 +132,6 @@ export type BracketListCstChildren = {
   RBracket: IToken[];
 };
 
-export interface RelativeDateValCstNode extends CstNode {
-  name: "relativeDateVal";
-  children: RelativeDateValCstChildren;
-}
-
-export type RelativeDateValCstChildren = {
-  RelativeDate: IToken[];
-};
-
 export interface AtomicQualifierValCstNode extends CstNode {
   name: "atomicQualifierVal";
   children: AtomicQualifierValCstChildren;
@@ -153,6 +144,8 @@ export type AtomicQualifierValCstChildren = {
   RQuote?: IToken[];
   Number?: IToken[];
   Boolean?: IToken[];
+  RelativeDate?: IToken[];
+  Iso8601Date?: IToken[];
   Identifier?: IToken[];
 };
 
@@ -187,7 +180,6 @@ export interface TSearchCstVisitor<IN, OUT> extends ICstVisitor<IN, OUT> {
   qualifierKey(children: QualifierKeyCstChildren, param?: IN): OUT;
   qualifierVal(children: QualifierValCstChildren, param?: IN): OUT;
   bracketList(children: BracketListCstChildren, param?: IN): OUT;
-  relativeDateVal(children: RelativeDateValCstChildren, param?: IN): OUT;
   atomicQualifierVal(children: AtomicQualifierValCstChildren, param?: IN): OUT;
   sortDir(children: SortDirCstChildren, param?: IN): OUT;
   qualifierOp(children: QualifierOpCstChildren, param?: IN): OUT;

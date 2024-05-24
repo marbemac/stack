@@ -5,13 +5,19 @@ import { createToken, Lexer } from 'chevrotain';
  * plan:
  * foo.bar:
  */
-export const QualifierKey = createToken({ name: 'QualifierKey', pattern: /[@_A-Za-z][a-zA-Z0-9@_\-.]*:/ });
+export const QualifierKey = createToken({ name: 'QualifierKey', pattern: /[@_A-Za-z$][a-zA-Z0-9@_\-.]*:/ });
 
 // Must not start with a number
-export const Identifier = createToken({ name: 'Identifier', pattern: /[@_A-Za-z][a-zA-Z0-9@_\-.]*/ });
+export const Identifier = createToken({ name: 'Identifier', pattern: /[@_A-Za-z$][a-zA-Z0-9@_\-.]*/ });
 
 // Quoted identifiers support anything except for quotes
 export const QuotedIdentifier = createToken({ name: 'QuotedIdentifier', pattern: /[^"]+/ });
+
+export const Iso8601Date = createToken({
+  name: 'Iso8601Date',
+  pattern: /\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?/i,
+  longer_alt: Identifier,
+});
 
 // We specify the "longer_alt" property to resolve keywords vs identifiers ambiguity.
 // See: https://github.com/chevrotain/chevrotain/blob/master/examples/lexer/keywords_vs_identifiers/keywords_vs_identifiers.js
@@ -55,7 +61,7 @@ export const Number = createToken({ name: 'Number', pattern: /-?(0|[1-9]\d*)(\.\
 export interface RelativeDateTokenPayload {
   sign: '+' | '-';
   value: string;
-  unit: 's' | 'mi' | 'h' | 'd' | 'w' | 'm' | 'q' | 'y';
+  unit: 's' | 'mi' | 'h' | 'd' | 'w' | 'm' | 'y';
 }
 const relativeDatePattern = /(?<sign>-|\+)(?<value>\d+)(?<unit>[s|mi|h|d|w|m|q|y])/y;
 export const RelativeDate = createToken({

@@ -32,6 +32,7 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
       t.Plus,
       t.Equals,
       t.Negate,
+      t.Iso8601Date,
       t.Boolean,
 
       // Numbers must appear before minus to avoid ambiguity with negative numbers.

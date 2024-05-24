@@ -132,7 +132,6 @@ export class SearchParser extends CstParser {
   #qualifierVal = this.#RULE('qualifierVal', () => {
     this.OR([
       { ALT: () => this.SUBRULE(this.#bracketList, { LABEL: 'val' }) },
-      { ALT: () => this.SUBRULE(this.#relativeDateVal, { LABEL: 'val' }) },
       { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'val', ARGS: [true] }) },
     ]);
   });
@@ -146,10 +145,6 @@ export class SearchParser extends CstParser {
       },
     });
     this.CONSUME2(t.RBracket);
-  });
-
-  #relativeDateVal = this.#RULE('relativeDateVal', () => {
-    this.CONSUME(t.RelativeDate);
   });
 
   #atomicQualifierVal = this.#RULE('atomicQualifierVal', (skipSortDir?: boolean) => {
@@ -170,6 +165,8 @@ export class SearchParser extends CstParser {
       },
       { ALT: () => this.CONSUME(t.Number) },
       { ALT: () => this.CONSUME(t.Boolean) },
+      { ALT: () => this.CONSUME(t.RelativeDate) },
+      { ALT: () => this.CONSUME(t.Iso8601Date) },
       { ALT: () => this.CONSUME(t.Identifier) },
     ]);
   });
