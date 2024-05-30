@@ -9,11 +9,19 @@ export const generateDbId = () => {
 
 export type DbId<NS extends string = string> = `${NS}_${CUID2}`;
 
+const registeredNamespaces = new Set<string>();
+
 // https://github.com/paralleldrive/cuid2#parameterized-length
 // sqrt(36^(12-1)*26)
 // With length of 12, 50% chance of collision after 1,849,909,268 IDs
 // Can reduce this for entities where we know the cardinality is low (e.g. customer records... we're not going ot have a billion companies)
 export function dbIdFactory<NS extends string>(namespace: NS, idLength = 12) {
+  if (registeredNamespaces.has(namespace)) {
+    throw new Error(`ID namespace "${namespace}" is already registered.`);
+  }
+
+  registeredNamespaces.add(namespace);
+
   const createDbId = init({ length: idLength });
 
   const validator = z.custom<DbId<NS>>(val => {
