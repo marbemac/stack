@@ -9,7 +9,7 @@ describe('parse full query', () => {
     const { cst, errors } = parseSearch({
       inputType: 'searchQuery',
       input: `
-        FROM accounts
+        FROM tenants
         SELECT id
       `,
     });
@@ -23,7 +23,7 @@ describe('parse full query', () => {
       type: 'search_query',
       fromClause: {
         type: 'from_clause',
-        table: 'accounts',
+        table: 'tenants',
       },
       selectClause: {
         type: 'select_clause',
@@ -46,7 +46,7 @@ describe('parse full query', () => {
     const { cst, errors } = parseSearch({
       inputType: 'searchQuery',
       input: `
-        FROM accounts
+        FROM tenants
         WHERE plan:free
       `,
     });
@@ -60,7 +60,7 @@ describe('parse full query', () => {
       type: 'search_query',
       fromClause: {
         type: 'from_clause',
-        table: 'accounts',
+        table: 'tenants',
       },
       whereClause: {
         type: 'where_clause',
@@ -94,7 +94,7 @@ describe('parse full query', () => {
     const { cst, errors } = parseSearch({
       inputType: 'searchQuery',
       input: `
-        FROM accounts
+        FROM tenants
         SELECT id slug count(invoices)
         WHERE plan:free
       `,
@@ -109,7 +109,7 @@ describe('parse full query', () => {
       type: 'search_query',
       fromClause: {
         type: 'from_clause',
-        table: 'accounts',
+        table: 'tenants',
       },
       selectClause: {
         type: 'select_clause',
