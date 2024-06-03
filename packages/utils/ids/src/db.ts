@@ -14,7 +14,7 @@ const registeredNamespaces = new Set<string>();
 // https://github.com/paralleldrive/cuid2#parameterized-length
 // sqrt(36^(n-1)*26)
 // With length of n=12, 50% chance of collision after 1,849,909,268 IDs
-// Can reduce this for entities where we know the cardinality is low (e.g. customer records... we're not going ot have a billion companies)
+// Can reduce this for records where we know the cardinality is low (e.g. customer records... we're not going ot have a billion companies)
 export function dbIdFactory<NS extends string>(namespace: NS, idLength = 12) {
   if (registeredNamespaces.has(namespace)) {
     throw new Error(`ID namespace "${namespace}" is already registered.`);
