@@ -15,13 +15,13 @@
   "dependencies": {
     "@marbemac/utils-dates": "workspace:*",
     "chevrotain": "11.0.3",
-    "remeda": "^1.61.0"
+    "remeda": "^2.0.5"
   },
   "devDependencies": {
     "@marbemac/utils-testing": "workspace:*",
     "@marbemac/utils-types": "workspace:*",
     "eslint": "8.57.0",
-    "tsx": "4.10.5",
+    "tsx": "4.12.0",
     "vite": "5.2.12",
     "vitest": "~1.6.0"
   }

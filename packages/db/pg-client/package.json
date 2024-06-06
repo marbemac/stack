@@ -12,6 +12,6 @@
     "kysely": "0.27.3",
     "kysely-postgres-js": "2.0.0",
     "postgres": "~3.4.4",
-    "remeda": "^1.61.0"
+    "remeda": "^2.0.5"
   }
 }

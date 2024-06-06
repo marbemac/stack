@@ -34,12 +34,12 @@
     "typecheck": "nx run-many --target typecheck"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240512.0",
-    "@types/react": "^18.3.2",
+    "@cloudflare/workers-types": "^4.20240605.0",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@yarnpkg/types": "~4.0.0",
-    "nx": "19.1.1",
-    "prettier": "3.2.5",
+    "nx": "19.2.0",
+    "prettier": "3.3.1",
     "prettier-plugin-classnames": "~0.6.6",
     "typescript": "5.5.0-beta"
   },
