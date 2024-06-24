@@ -52,6 +52,7 @@ const config = {
     'simple-import-sort/exports': 'error',
     'import/extensions': ['error', 'ignorePackages'],
     'no-return-await': 'error',
+    'no-empty': ['error', { allowEmptyCatch: true }],
   },
 
   overrides: [

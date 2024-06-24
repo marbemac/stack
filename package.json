@@ -41,7 +41,7 @@
     "nx": "19.2.0",
     "prettier": "3.3.1",
     "prettier-plugin-classnames": "~0.6.6",
-    "typescript": "5.5.0-beta"
+    "typescript": "5.5.2"
   },
   "--https://fig.io/docs/guides/autocomplete-for-npm-scripts#adding-the-fig-object--": "",
   "fig": {

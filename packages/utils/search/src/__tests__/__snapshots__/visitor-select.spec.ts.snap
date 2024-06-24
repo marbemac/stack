@@ -1092,6 +1092,33 @@ exports[`select text filters > keys that start with a $ 1`] = `
 }
 `;
 
+exports[`select text filters > keys with a period and $ 1`] = `
+{
+  "input": "company.$id:123",
+  "result": {
+    "ast": {
+      "columns": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "company.$id",
+          },
+          "op": "",
+          "rhs": {
+            "parsed": 123,
+            "type": "number",
+            "value": "123",
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "select_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
 exports[`select text filters > multiple 1`] = `
 {
   "input": "plan:free age:5",

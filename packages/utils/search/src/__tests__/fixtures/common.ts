@@ -10,6 +10,7 @@ export const caseGroups = {
     ['multiple', 'plan:free age:5'],
     ['.-_[0-9] in keys', 'payments.plan-type_is2:free'],
     ['keys that start with a $', '$last_seen:foo'],
+    ['keys with a period and $', 'company.$id:123'],
     ['@.-_ in values', 'email:jane@example.com type:public-company_x'],
     ['quoted value', 'user:"john doe"'],
     ['negation', '!plan:free'],
