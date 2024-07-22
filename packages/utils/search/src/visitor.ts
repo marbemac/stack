@@ -234,6 +234,7 @@ export type OnEnterDataMap =
     }
   | {
       type: 'qualifier_key';
+      value: string;
     }
   | {
       type: 'bracket_list';
@@ -491,11 +492,13 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
     }
 
     qualifierKey(ctx: QualifierKeyCstChildren) {
-      onEnter?.({ type: 'qualifier_key' });
+      const value = (ctx.QualifierKey?.[0]?.image || '').slice(0, -1); // slice the ":" off
+
+      onEnter?.({ type: 'qualifier_key', value });
 
       const t = maybeTransform({
         type: 'qualifier_key',
-        value: (ctx.QualifierKey?.[0]?.image || '').slice(0, -1), // slice the ":" off
+        value,
         get isBranchInvalid() {
           const $ = this as QualifierKeyAstNode;
           return !!$.invalid;

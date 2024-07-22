@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@marbemac/utils-ids": "workspace:*",
-    "oslo": "~1.2.0"
+    "oslo": "~1.2.1"
   },
   "devDependencies": {
     "@marbemac/utils-types": "workspace:*",
-    "vitest": "~1.6.0"
+    "vitest": "~2.0.4"
   }
 }

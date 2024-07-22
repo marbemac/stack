@@ -17,14 +17,14 @@
     }
   },
   "dependencies": {
-    "@clickhouse/client": "1.0.2",
-    "@clickhouse/client-common": "1.0.2",
+    "@clickhouse/client": "1.4.0",
+    "@clickhouse/client-common": "1.4.0",
     "@marbemac/utils-ids": "workspace:*",
     "@marbemac/utils-streams": "workspace:*",
     "@marbemac/utils-urls": "workspace:*"
   },
   "devDependencies": {
     "@marbemac/utils-types": "workspace:*",
-    "vitest": "~1.6.0"
+    "vitest": "~2.0.4"
   }
 }
