@@ -12,9 +12,9 @@
     "test.watch": "vitest watch"
   },
   "dependencies": {
-    "safe-stable-stringify": "^2.4.3"
+    "safe-stable-stringify": "^2.5.0"
   },
   "devDependencies": {
-    "vitest": "~2.0.4"
+    "vitest": "~2.1.1"
   }
 }

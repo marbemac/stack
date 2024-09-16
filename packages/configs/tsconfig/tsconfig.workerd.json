@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "types": ["vite/client", "@cloudflare/workers-types"],
-    "customConditions": ["workerd", "worker", "browser"],
+    "types": ["vite/client"],
+    "customConditions": ["workerd", "worker", "browser"]
   }
 }

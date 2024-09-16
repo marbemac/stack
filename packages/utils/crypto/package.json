@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "@marbemac/utils-types": "workspace:*",
-    "vitest": "~2.0.4"
+    "vitest": "~2.1.1"
   }
 }
