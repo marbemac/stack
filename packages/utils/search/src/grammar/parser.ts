@@ -70,7 +70,6 @@ export class SearchParser extends CstParser {
       this.OR([
         { ALT: () => this.SUBRULE(this.#qualifier, { LABEL: 'conditions' }) },
         { ALT: () => this.SUBRULE(this.#function, { LABEL: 'conditions' }) },
-        { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'conditions' }) },
       ]);
     });
   });

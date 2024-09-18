@@ -1,10 +1,4 @@
 export const caseGroups = {
-  freeform: [
-    ['treats as a string', 'freeform'],
-    ['mixed throughout', 'freeform1 age:5 freeform2 search'],
-    ['quoted', '"a quoted:freeform" age:5'],
-  ],
-
   'text filters': [
     ['works', 'plan:free'],
     ['multiple', 'plan:free age:5'],
@@ -47,7 +41,7 @@ export const caseGroups = {
     ['-', 'last_seen:-1d'],
     ['+', 'renews_at:+30d'],
     ['floats are not allowed', 'renews_at:+1.2s'],
-    ['with other filters', 'plan:free renews_at:+4w "free form"'],
+    ['with other filters', 'plan:free renews_at:+4w'],
   ],
 
   functions: [
