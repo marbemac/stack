@@ -208,7 +208,7 @@ export class EdgeClickHouseClient implements ClickHouseClient {
     format?: QueryParams['format'] | InsertParams['format'],
     { decompressResponse, compressRequest }: { decompressResponse?: boolean; compressRequest?: boolean } = {},
   ) {
-    const headers: HeadersInit = {
+    const headers = {
       /**
        * https://github.com/ClickHouse/clickhouse-js/blob/1e152d696b93198a0e24429f36521bca90135e74/src/connection/adapter/base_http_adapter.ts#L104
        */
@@ -271,6 +271,7 @@ export class EdgeClickHouseClient implements ClickHouseClient {
     return this.#config.compression?.response ?? true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   get #shouldCompressRequests() {
     // return this.#config.compression?.request ?? true;
     // NOT SUPPORTED YET

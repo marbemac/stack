@@ -1,7 +1,7 @@
 import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
 import { type BaseUsersTableCols, type USERS_KEY } from '@marbemac/user-model';
 import type { TUserId } from '@marbemac/user-model/ids';
-import type { BuildColumns } from 'drizzle-orm';
+import type { BuildExtraConfigColumns } from 'drizzle-orm';
 import { index, pgTable, text } from 'drizzle-orm/pg-core';
 
 export const USER_SESSIONS_KEY = 'userSessions' as const;
@@ -14,7 +14,7 @@ export const baseUserSessionCols = {
 };
 
 export const baseUserSessionConfig = (
-  table: BuildColumns<typeof USER_SESSIONS_TABLE, typeof baseUserSessionCols, 'pg'>,
+  table: BuildExtraConfigColumns<typeof USER_SESSIONS_TABLE, typeof baseUserSessionCols, 'pg'>,
 ) => {
   return {
     userIdIdx: index('sessions_user_id_idx').on(table.userId),

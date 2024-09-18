@@ -1,7 +1,7 @@
 import type { DrizzleToKysely } from '@marbemac/db-model';
 import { idCol, timestampCol } from '@marbemac/db-model';
 import type { SetOptional } from '@marbemac/utils-types';
-import type { BuildColumns } from 'drizzle-orm';
+import type { BuildExtraConfigColumns } from 'drizzle-orm';
 import { pgTable, text } from 'drizzle-orm/pg-core';
 
 import type { TOrgId } from '../../ids.ts';
@@ -16,7 +16,7 @@ export const baseOrgCols = {
   updatedAt: timestampCol('updated_at').defaultNow(),
 };
 
-export const baseOrgConfig = (table: BuildColumns<typeof ORGS_TABLE, typeof baseOrgCols, 'pg'>) => {
+export const baseOrgConfig = (table: BuildExtraConfigColumns<typeof ORGS_TABLE, typeof baseOrgCols, 'pg'>) => {
   return {};
 };
 

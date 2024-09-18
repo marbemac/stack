@@ -2,7 +2,7 @@ import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
 import type { TOrgId } from '@marbemac/org-model/ids';
 import type { TUserId } from '@marbemac/user-model/ids';
 import type { SetOptional, StringWithAutocomplete } from '@marbemac/utils-types';
-import type { BuildColumns } from 'drizzle-orm';
+import type { BuildExtraConfigColumns } from 'drizzle-orm';
 import { index, jsonb, pgTable, text } from 'drizzle-orm/pg-core';
 import type { Updateable } from 'kysely';
 
@@ -61,7 +61,9 @@ export const baseJobRunCols = {
   completedAt: timestampCol('completed_at'),
 };
 
-export const baseJobRunConfig = (table: BuildColumns<typeof JOB_RUNS_TABLE, typeof baseJobRunCols, 'pg'>) => {
+export const baseJobRunConfig = (
+  table: BuildExtraConfigColumns<typeof JOB_RUNS_TABLE, typeof baseJobRunCols, 'pg'>,
+) => {
   return {
     orgLookupKeyIdx: index('job_runs_org_lookup_key_idx').on(table.orgId, table.lookupKey, table.lookupSubkey),
 

@@ -1,7 +1,7 @@
 import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
 import { type BaseUsersTableCols, type USERS_KEY } from '@marbemac/user-model';
 import type { TUserId } from '@marbemac/user-model/ids';
-import type { BuildColumns } from 'drizzle-orm';
+import type { BuildExtraConfigColumns } from 'drizzle-orm';
 import { index, pgTable, text } from 'drizzle-orm/pg-core';
 
 export const VERIFICATION_TOKENS_KEY = 'verificationTokens' as const;
@@ -15,7 +15,7 @@ export const baseVerificationTokenCols = {
 };
 
 export const baseVerificationTokenConfig = (
-  table: BuildColumns<typeof VERIFICATION_TOKENS_TABLE, typeof baseVerificationTokenCols, 'pg'>,
+  table: BuildExtraConfigColumns<typeof VERIFICATION_TOKENS_TABLE, typeof baseVerificationTokenCols, 'pg'>,
 ) => {
   return {
     userIdIdx: index('verification_tokens_user_id_idx').on(table.userId),
