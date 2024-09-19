@@ -53,7 +53,7 @@
     "react-lorem-component": "~0.13.0",
     "storybook": "^8.3.1",
     "storybook-addon-performance": "~0.17.3",
-    "tailwindcss": "~3.4.11",
+    "tailwindcss": "~3.4.12",
     "vite": "5.4.6"
   }
 }

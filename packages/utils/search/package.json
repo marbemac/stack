@@ -15,7 +15,7 @@
   "dependencies": {
     "@marbemac/utils-dates": "workspace:*",
     "chevrotain": "11.0.3",
-    "remeda": "^2.12.1"
+    "remeda": "^2.14.0"
   },
   "devDependencies": {
     "@marbemac/utils-testing": "workspace:*",
