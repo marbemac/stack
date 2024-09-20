@@ -343,7 +343,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
     }
 
     fromClause(ctx: FromClauseCstChildren) {
-      const table = ctx.Identifier[0]?.image || '';
+      const table = ctx.Identifier?.[0]?.image || '';
 
       onEnter?.({ type: 'from_clause', table });
 

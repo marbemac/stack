@@ -46,16 +46,18 @@ export function isDbIdValid(id: DbId): boolean {
   }
 }
 
-export function getDbIdNamespace<NS extends string>(id: DbId<NS>): NS {
-  const [namespace] = split(id);
+export function getDbIdNamespace<NS extends string>(id: DbId<NS>, throwIfNotMatch = false): NS {
+  const [namespace] = split(id, throwIfNotMatch);
   return namespace as NS;
 }
 
 export function isDbIdNamespace<NS extends string>(id: DbId, namespace: NS, throwIfNotMatch = false): id is DbId<NS> {
-  const isMatch = getDbIdNamespace(id) === namespace;
+  const isMatch = getDbIdNamespace(id, throwIfNotMatch) === namespace;
 
   if (!isMatch && throwIfNotMatch) {
-    throw new TypeError(`Expected ID to have namespace "${namespace}" but received ${getDbIdNamespace(id)}`);
+    throw new TypeError(
+      `Expected ID to have namespace "${namespace}" but received ${getDbIdNamespace(id, throwIfNotMatch)}`,
+    );
   }
 
   return isMatch;
@@ -63,10 +65,10 @@ export function isDbIdNamespace<NS extends string>(id: DbId, namespace: NS, thro
 
 /** Internal */
 
-function split<NS extends string>(id: DbId<NS>): [NS, CUID2] {
+function split<NS extends string>(id: DbId<NS>, throwIfNotMatch = false): [NS, CUID2] {
   const [namespace, cuid2String] = id.split('_');
 
-  validateNamespace(namespace, true);
+  validateNamespace(namespace, throwIfNotMatch);
 
   return [namespace as NS, cuid2String ?? ''];
 }
