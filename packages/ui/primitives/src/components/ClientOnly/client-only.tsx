@@ -26,3 +26,22 @@ export function ClientOnly(props: ClientOnlyProps) {
     </Suspense>
   );
 }
+
+interface NoSsrProps {
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+}
+
+export function NoSsr(props: NoSsrProps) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(typeof window !== 'undefined');
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return <Suspense fallback={props.fallback}>{props.children}</Suspense>;
+}

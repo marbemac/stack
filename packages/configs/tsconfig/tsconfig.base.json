@@ -16,6 +16,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitAny": false,
+    "useDefineForClassFields": true,
 
     // Enable stricter transpilation for better output.
     "isolatedModules": true,
