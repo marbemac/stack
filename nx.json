@@ -3,6 +3,8 @@
   "affected": {
     "defaultBase": "main"
   },
+  "useDaemonProcess": false,
+  "useLegacyCache": true,
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
@@ -10,8 +12,7 @@
         "parallel": 5,
         "cacheableOperations": ["build", "lint", "test", "typecheck", "e2e", "package", "prepare"],
         "canTrackAnalytics": false,
-        "runtimeCacheInputs": ["echo $CI", "node -v"],
-        "useDaemonProcess": false
+        "runtimeCacheInputs": ["echo $CI", "node -v"]
       }
     }
   },
