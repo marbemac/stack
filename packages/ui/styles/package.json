@@ -23,6 +23,6 @@
     "@fortawesome/fontawesome-common-types": "^6.6.0",
     "@marbemac/utils-types": "workspace:*",
     "tailwindcss": "~3.4.14",
-    "tsup": "^8.3.4"
+    "tsup": "^8.3.5"
   }
 }
