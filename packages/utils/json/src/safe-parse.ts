@@ -1,3 +1,5 @@
+import type { StringifiedJSONBranded } from './safe-stringify.ts';
+
 export const safeParse = <T>(
   text: T | string,
   reviver?: (key: string, value: unknown) => unknown,
@@ -9,4 +11,21 @@ export const safeParse = <T>(
   } catch (e) {
     return undefined;
   }
+};
+
+/**
+ * @example
+ * interface User {
+ *   id: number;
+ *   name: string;
+ *   email: string;
+ * }
+ *
+ * // Type-safe JSON string
+ * const userStringJSON: StringifiedJSONBranded<User> = '{"id": 1, "name": "John", "email": "john@example.com"}' as StringifiedJSONBranded<User>;
+ *
+ * const user = safeParseBranded(userStringJSON);
+ */
+export const safeParseBranded = <T>(text: StringifiedJSONBranded<T>) => {
+  return safeParse<T>(text);
 };

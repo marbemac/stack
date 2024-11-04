@@ -6,7 +6,7 @@ export type StringifiedJSON = string;
 
 export const safeStringify = (
   value: unknown,
-  replacer?: (key: string, value: unknown) => unknown | Array<number | string> | null,
+  replacer?: (key: string, value: unknown) => unknown | (number | string)[] | null,
   space?: string | number,
 ): string | undefined => {
   if (typeof value === 'string') {
@@ -20,4 +20,27 @@ export const safeStringify = (
   } catch {
     return fastStringify(value, replacer, space);
   }
+};
+
+export const safeStringifyBranded = <T>(value: T): StringifiedJSONBranded<T> => {
+  return safeStringify(value) as StringifiedJSONBranded<T>;
+};
+
+type JSONPrimitive = string | number | boolean | null;
+
+// Use type instead of interface to avoid circular reference
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+export interface JSONObject {
+  [key: string]: JSONValue;
+}
+
+export type JSONArray = JSONValue[];
+
+// Define JSONValue after the other types
+type JSONValue = JSONPrimitive | JSONObject | JSONArray;
+
+// Utility type for stringified JSON
+export type StringifiedJSONBranded<T> = string & {
+  __brand: 'StringifiedJSON';
+  __type: T;
 };

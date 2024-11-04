@@ -1,3 +1,3 @@
-export { safeParse } from './safe-parse.ts';
-export { safeStringify } from './safe-stringify.ts';
-export type { StringifiedJSON } from './safe-stringify.ts';
+export { safeParse, safeParseBranded } from './safe-parse.ts';
+export type { JSONArray, JSONObject, StringifiedJSON, StringifiedJSONBranded } from './safe-stringify.ts';
+export { safeStringify, safeStringifyBranded } from './safe-stringify.ts';
