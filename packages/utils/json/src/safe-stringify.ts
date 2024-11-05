@@ -44,3 +44,5 @@ export type StringifiedJSONBranded<T> = string & {
   __brand: 'StringifiedJSON';
   __type: T;
 };
+
+export type ParsedFromBranded<T extends StringifiedJSONBranded<any>> = T['__type'];
