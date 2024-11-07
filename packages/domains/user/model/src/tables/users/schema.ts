@@ -24,7 +24,7 @@ export const baseUserCols = {
 };
 
 export const baseUserConfig = (table: BuildExtraConfigColumns<typeof USERS_TABLE, typeof baseUserCols, 'pg'>) => {
-  return {};
+  return [];
 };
 
 const baseUsers = pgTable(USERS_TABLE, baseUserCols, baseUserConfig);

@@ -64,12 +64,12 @@ export const baseJobRunCols = {
 export const baseJobRunConfig = (
   table: BuildExtraConfigColumns<typeof JOB_RUNS_TABLE, typeof baseJobRunCols, 'pg'>,
 ) => {
-  return {
-    orgLookupKeyIdx: index('job_runs_org_lookup_key_idx').on(table.orgId, table.lookupKey, table.lookupSubkey),
+  return [
+    index('job_runs_org_lookup_key_idx').on(table.orgId, table.lookupKey, table.lookupSubkey),
 
     // index on logs.created_at jsonb prop - not supported atm by drizzle
-    // logsCreatedIdx: index('job_runs_logs_created_at_idx').on(`job_runs((logs --> 'created_at'))`),
-  };
+    // index('job_runs_logs_created_at_idx').on(`job_runs((logs --> 'created_at'))`),
+  ];
 };
 
 const baseJobRuns = pgTable(JOB_RUNS_TABLE, baseJobRunCols, baseJobRunConfig);

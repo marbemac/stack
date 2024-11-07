@@ -16,9 +16,7 @@ export const baseUserSessionCols = {
 export const baseUserSessionConfig = (
   table: BuildExtraConfigColumns<typeof USER_SESSIONS_TABLE, typeof baseUserSessionCols, 'pg'>,
 ) => {
-  return {
-    userIdIdx: index('sessions_user_id_idx').on(table.userId),
-  };
+  return [index('sessions_user_id_idx').on(table.userId)];
 };
 
 const baseUserSessions = pgTable(USER_SESSIONS_TABLE, baseUserSessionCols, baseUserSessionConfig);

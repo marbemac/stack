@@ -17,7 +17,7 @@ export const baseOrgCols = {
 };
 
 export const baseOrgConfig = (table: BuildExtraConfigColumns<typeof ORGS_TABLE, typeof baseOrgCols, 'pg'>) => {
-  return {};
+  return [];
 };
 
 const baseOrgs = pgTable(ORGS_TABLE, baseOrgCols, baseOrgConfig);

@@ -17,9 +17,7 @@ export const baseVerificationTokenCols = {
 export const baseVerificationTokenConfig = (
   table: BuildExtraConfigColumns<typeof VERIFICATION_TOKENS_TABLE, typeof baseVerificationTokenCols, 'pg'>,
 ) => {
-  return {
-    userIdIdx: index('verification_tokens_user_id_idx').on(table.userId),
-  };
+  return [index('verification_tokens_user_id_idx').on(table.userId)];
 };
 
 const baseVerificationTokens = pgTable(
