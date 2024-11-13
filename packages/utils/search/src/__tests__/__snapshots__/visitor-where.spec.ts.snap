@@ -595,6 +595,37 @@ exports[`where in filters > quoted 1`] = `
 }
 `;
 
+exports[`where in filters > string that starts with number 1`] = `
+{
+  "input": "company:[3industries]",
+  "result": {
+    "ast": {
+      "conditions": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "company",
+          },
+          "op": "",
+          "rhs": {
+            "type": "bracket_list",
+            "values": [
+              {
+                "type": "text",
+                "value": "3industries",
+              },
+            ],
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "where_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
 exports[`where in filters > works 1`] = `
 {
   "input": "user:[jane, john]",
@@ -843,7 +874,7 @@ exports[`where relative date > floats are not allowed 1`] = `
         },
         {
           "args": [],
-          "name": "s",
+          "name": "1.2s",
           "op": undefined,
           "rhs": undefined,
           "sort": "asc",
@@ -861,7 +892,6 @@ exports[`where relative date > floats are not allowed 1`] = `
   5. [Iso8601Date]
   6. [Identifier]
 but found: '+'],
-      [MismatchedTokenException: Expecting token of type --> Identifier <-- but found --> '1.2' <--],
       [MismatchedTokenException: Expecting token of type --> LParen <-- but found --> '' <--],
     ],
   },

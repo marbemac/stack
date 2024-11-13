@@ -9,8 +9,7 @@ import { createToken, Lexer } from 'chevrotain';
  */
 export const QualifierKey = createToken({ name: 'QualifierKey', pattern: /[@_A-Za-z$][a-zA-Z0-9@_$\-.]*:/ });
 
-// Must not start with a number
-export const Identifier = createToken({ name: 'Identifier', pattern: /[@_A-Za-z$][a-zA-Z0-9@_$\-.]*/ });
+export const Identifier = createToken({ name: 'Identifier', pattern: /[@_A-Za-z0-9$][a-zA-Z0-9@_$\-.]*/ });
 
 // Quoted identifiers support anything except for quotes
 export const QuotedIdentifier = createToken({ name: 'QuotedIdentifier', pattern: /[^"]+/ });
@@ -56,7 +55,11 @@ export const Plus = createToken({ name: '+', pattern: /\+/ });
 export const Minus = createToken({ name: 'Minus', pattern: /-/ });
 export const Equals = createToken({ name: 'Equals', pattern: /=/ });
 export const Negate = createToken({ name: 'Negate', pattern: /!/ });
-export const Number = createToken({ name: 'Number', pattern: /-?(0|[1-9]\d*)(\.\d+)?/ });
+
+/**
+ * The longer_alt here allows us to handle strings that start with a number, e.g. "3industries"
+ */
+export const Number = createToken({ name: 'Number', pattern: /-?(0|[1-9]\d*)(\.\d+)?/, longer_alt: Identifier });
 
 // https://chevrotain.io/docs/guide/custom_token_patterns.html#custom-payloads
 // We're using this to get access to the regex capture groups in payload later (in the visitor)

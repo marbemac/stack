@@ -17,6 +17,7 @@ export const caseGroups = {
     ['negation', '!user:[jane, john]'],
     ['numbers', 'release:[12.0]'],
     ['quoted', 'release:[jane, "john doe"]'],
+    ['string that starts with number', 'company:[3industries]'],
   ],
 
   boolean: [

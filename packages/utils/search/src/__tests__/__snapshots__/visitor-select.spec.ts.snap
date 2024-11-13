@@ -595,6 +595,37 @@ exports[`select in filters > quoted 1`] = `
 }
 `;
 
+exports[`select in filters > string that starts with number 1`] = `
+{
+  "input": "company:[3industries]",
+  "result": {
+    "ast": {
+      "columns": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "company",
+          },
+          "op": "",
+          "rhs": {
+            "type": "bracket_list",
+            "values": [
+              {
+                "type": "text",
+                "value": "3industries",
+              },
+            ],
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "select_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
 exports[`select in filters > works 1`] = `
 {
   "input": "user:[jane, john]",
@@ -842,13 +873,9 @@ exports[`select relative date > floats are not allowed 1`] = `
           "type": "qualifier",
         },
         {
-          "parsed": 1.2,
-          "type": "number",
-          "value": "1.2",
-        },
-        {
+          "sort": "asc",
           "type": "text",
-          "value": "s",
+          "value": "1.2s",
         },
       ],
       "type": "select_expr",

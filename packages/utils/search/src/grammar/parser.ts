@@ -140,7 +140,7 @@ export class SearchParser extends CstParser {
     this.AT_LEAST_ONE_SEP({
       SEP: t.Comma,
       DEF: () => {
-        this.SUBRULE(this.#atomicQualifierVal);
+        this.SUBRULE(this.#atomicQualifierVal, { ARGS: [true] });
       },
     });
     this.CONSUME2(t.RBracket);
