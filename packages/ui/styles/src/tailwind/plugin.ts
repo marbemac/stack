@@ -83,7 +83,7 @@ export const plugin = basePlugin.withOptions(
       addVariant('placeholder-shown', ['&:placeholder-shown', '&[data-placeholder="true"]']);
       addVariant('disabled', ['&:disabled', '&[aria-disabled="true"]']);
       addVariant('group-active-item', ':merge(.group)[data-active-item] &');
-      addVariant('active', ['&:active', '&[data-active]', '&[data-active-item]']);
+      addVariant('active', ['&:active', '&.active', '&[data-active]', '&[data-active-item]']);
       addVariant('focus-visible', ['&:focus-visible', '&[data-focus-visible]']);
 
       /**
@@ -192,7 +192,7 @@ const computeThemeVars = (options: PluginOptions['theme']) => {
   }
 
   let darkTheme;
-  const darkId = options?.dark === false ? false : options?.dark ?? 'default_dark';
+  const darkId = options?.dark === false ? false : (options?.dark ?? 'default_dark');
   if (darkId) {
     darkTheme = typeof darkId === 'string' ? generateTheme(darkId) : generateTheme('default_dark', darkId);
   }
