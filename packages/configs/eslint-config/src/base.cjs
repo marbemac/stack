@@ -74,17 +74,6 @@ const config = {
         '@typescript-eslint/no-unused-vars': 'warn',
         '@typescript-eslint/no-explicit-any': 'warn',
         '@typescript-eslint/prefer-nullish-coalescing': 'off',
-        '@typescript-eslint/ban-types': [
-          'error',
-          {
-            extendDefaults: true,
-            types: {
-              // un-ban a type that's banned by default
-              Function: false,
-              '{}': false,
-            },
-          },
-        ],
         // 'import/extensions': ['error', 'always', { ignorePackages: true }],
       },
     },

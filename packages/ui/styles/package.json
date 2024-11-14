@@ -22,7 +22,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-common-types": "^6.6.0",
     "@marbemac/utils-types": "workspace:*",
-    "tailwindcss": "~3.4.14",
+    "tailwindcss": "~3.4.15",
     "tsup": "^8.3.5"
   }
 }
