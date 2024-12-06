@@ -31,6 +31,7 @@ export const caseGroups = {
     ['<', 'num_members:<5.0'],
     ['>=', 'num_members:>=5'],
     ['<=', 'num_members:<=5.0'],
+    ['large number that could be mistaken for a date', 'large_number:>1000000000'],
   ],
 
   dates: [

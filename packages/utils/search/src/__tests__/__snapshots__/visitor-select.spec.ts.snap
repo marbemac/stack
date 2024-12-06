@@ -796,6 +796,33 @@ exports[`select operators > >= 1`] = `
 }
 `;
 
+exports[`select operators > large number that could be mistaken for a date 1`] = `
+{
+  "input": "large_number:>1000000000",
+  "result": {
+    "ast": {
+      "columns": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "large_number",
+          },
+          "op": ">",
+          "rhs": {
+            "parsed": 1000000000,
+            "type": "number",
+            "value": "1000000000",
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "select_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
 exports[`select relative date > + 1`] = `
 {
   "input": "renews_at:+30d",
