@@ -20,10 +20,10 @@
     "react": "*"
   },
   "dependencies": {
-    "@ariakit/react": "0.4.13",
-    "@ariakit/react-core": "0.4.13",
-    "@fortawesome/fontawesome-svg-core": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@ariakit/react": "0.4.15",
+    "@ariakit/react-core": "0.4.15",
+    "@fortawesome/fontawesome-svg-core": "^6.7.1",
+    "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@marbemac/ui-styles": "workspace:*",
     "@marbemac/ui-theme": "workspace:*",
     "@marbemac/utils-colors": "workspace:*",
@@ -32,18 +32,18 @@
     "styled-jsx": "^5.1.6"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-common-types": "^6.6.0",
+    "@fortawesome/fontawesome-common-types": "^6.7.1",
     "@marbemac/utils-types": "workspace:*",
-    "@react-types/shared": "^3.25.0",
-    "@storybook/addon-a11y": "^8.4.3",
-    "@storybook/addon-essentials": "^8.4.3",
-    "@storybook/builder-vite": "^8.4.3",
+    "@react-types/shared": "^3.26.0",
+    "@storybook/addon-a11y": "^8.4.7",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/builder-vite": "^8.4.7",
     "@storybook/icons": "^1.2.12",
-    "@storybook/react": "^8.4.3",
-    "@storybook/react-vite": "^8.4.3",
+    "@storybook/react": "^8.4.7",
+    "@storybook/react-vite": "^8.4.7",
     "@storybook/testing-library": "~0.2.2",
     "@total-typescript/ts-reset": "~0.6.1",
-    "@vitejs/plugin-react": "~4.3.3",
+    "@vitejs/plugin-react": "~4.3.4",
     "autoprefixer": "10.4.20",
     "eslint-plugin-storybook": "^0.8.0",
     "http-server": "^14.1.1",
@@ -51,9 +51,9 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-lorem-component": "~0.13.0",
-    "storybook": "^8.4.4",
+    "storybook": "^8.4.7",
     "storybook-addon-performance": "~0.17.3",
-    "tailwindcss": "~3.4.15",
-    "vite": "5.4.11"
+    "tailwindcss": "~3.4.16",
+    "vite": "6.0.3"
   }
 }
