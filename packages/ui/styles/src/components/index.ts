@@ -12,7 +12,6 @@ export * from './label.styles.ts';
 export * from './menu.styles.ts';
 export * from './popover.styles.ts';
 export * from './select.styles.ts';
-export * from './settings.props.ts';
 export * from './settings.styles.ts';
 export * from './stack.styles.ts';
 export * from './tabs.styles.ts';
