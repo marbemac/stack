@@ -8,7 +8,7 @@ import { useSafeEffect } from './use-safe-effect.ts';
 
 type NativeImageProps = ImgHTMLAttributes<HTMLImageElement>;
 
-export type UseImageProps = {
+export interface UseImageProps {
   /**
    * The image `src` attribute
    */
@@ -45,7 +45,7 @@ export type UseImageProps = {
    */
   crossOrigin?: NativeImageProps['crossOrigin'];
   loading?: NativeImageProps['loading'];
-};
+}
 
 type Status = 'loading' | 'failed' | 'pending' | 'loaded';
 
@@ -78,7 +78,7 @@ export function useImage(props: UseImageProps = {}) {
     setStatus(src ? 'loading' : 'pending');
   }, [src]);
 
-  const imageRef = useRef<HTMLImageElement | null>();
+  const imageRef = useRef<HTMLImageElement | null>(null);
 
   const load = useCallback(() => {
     if (!src) return;

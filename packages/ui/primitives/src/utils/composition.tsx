@@ -34,7 +34,7 @@ export interface Options {
    * Check out the [Composition](https://ariakit.org/guide/composition) guide
    * for more details.
    */
-  render?: RenderProp | React.ReactElement | keyof React.JSX.IntrinsicElements;
+  render?: RenderProp | React.ReactElement<any> | keyof React.JSX.IntrinsicElements;
 }
 
 /**

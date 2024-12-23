@@ -145,13 +145,13 @@ interface ProviderProps<A, B, C, D, E, F, G, H, I, J, K> {
 export function Provider<A, B, C, D, E, F, G, H, I, J, K>({
   values,
   children,
-}: ProviderProps<A, B, C, D, E, F, G, H, I, J, K>): JSX.Element {
+}: ProviderProps<A, B, C, D, E, F, G, H, I, J, K>): React.ReactNode {
   for (const [Context, value] of values) {
     // @ts-expect-error ignore
     children = <Context.Provider value={value}>{children}</Context.Provider>;
   }
 
-  return children as JSX.Element;
+  return children;
 }
 
 export const [GenericSlotContext, useGenericSlotContext] = createContext<SlottedContextValue<any>>({
@@ -204,7 +204,7 @@ export function useContextProps<T, U extends SlotProps, E extends Element>(
   ref: React.ForwardedRef<E>,
   context: React.Context<ContextValue<U, E>>,
   defaultProps?: Partial<T>,
-): [T, React.RefObject<E>] {
+): [T, React.RefObject<E | null>] {
   const ctx = useSlottedContext(context, props.slot) || {};
   // @ts-expect-error ignore - TS says "Type 'unique symbol' cannot be used as an index type." but not sure why.
   const { ref: contextRef, ...contextProps } = ctx;

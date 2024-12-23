@@ -17,7 +17,7 @@ import { type ChildrenWithRenderProps, runIfFn } from '../../utils/function.ts';
 import { DialogSlot } from '../Dialog/dialog.tsx';
 
 export interface PopoverProps
-  extends Omit<AK.PopoverProps, 'store' | 'onChange' | 'children'>,
+  extends Omit<AK.PopoverProps, 'store' | 'onChange' | 'children' | 'onToggle'>,
     PopoverStyleProps,
     PopoverSlotProps {
   isOpen?: AK.PopoverStoreProps['open'];
@@ -71,10 +71,8 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
 const PopoverContent = forwardRef<HTMLDivElement, PopoverProps>(function PopoverContent(originalProps, ref) {
   const popover = AK.usePopoverContext()!;
 
-  const [{ className, classNames, children, placement, hideArrow, ...props }, variantProps] = splitPropsVariants(
-    originalProps,
-    popoverStyle.variantKeys,
-  );
+  const [{ className, classNames, children, placement, hideArrow, onToggle, ...props }, variantProps] =
+    splitPropsVariants(originalProps, popoverStyle.variantKeys);
 
   const close = useCallback(() => popover.setOpen(false), [popover]);
   const side = placement?.split('-')[0];
@@ -85,7 +83,15 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   const arrowTw = slots.arrow({ class: [popoverStaticClass('arrow'), classNames?.arrow] });
 
   return (
-    <AK.Popover {...props} ref={ref} className={baseTw} data-side={side} gutter={hideArrow ? 8 : 4}>
+    <AK.Popover
+      {...props}
+      // @ts-expect-error ignore
+      onToggle={onToggle}
+      ref={ref}
+      className={baseTw}
+      data-side={side}
+      gutter={hideArrow ? 8 : 4}
+    >
       <PopoverInner close={close}>{children}</PopoverInner>
 
       {!hideArrow && (

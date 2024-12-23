@@ -4,7 +4,7 @@ import type { IconDefinition, IconLookup, IconName, IconPrefix } from '@fortawes
 import { config, findIconDefinition } from '@fortawesome/fontawesome-svg-core';
 import type { IconStyleProps } from '@marbemac/ui-styles';
 import { cx, iconStaticClass, iconStyle, splitPropsVariants, txMerge } from '@marbemac/ui-styles';
-import { cloneElement, forwardRef, memo, useMemo } from 'react';
+import { cloneElement, memo, useMemo } from 'react';
 
 import { initLibrary } from './standard-library.ts';
 import { FaSvg } from './svg-icon.tsx';
@@ -13,6 +13,7 @@ config.autoAddCss = false;
 
 export type IconProps = IconStyleProps & {
   icon: IconDefinition | IconName | [IconPrefix, IconName] | IconLookup | React.ReactElement;
+  ref?: React.RefObject<HTMLInputElement>;
   className?: string;
 };
 
@@ -20,47 +21,44 @@ export const DEFAULT_STYLE: IconPrefix = 'fas';
 
 const IS_ELEMENT = '__ELEMENT__' as const;
 
-export const Icon = memo(
-  forwardRef<HTMLElement, IconProps>(function Icon(originalProps, ref) {
-    // export const 2 = (originalProps: IconProps) => {
-    initLibrary();
+export const Icon = memo(function Icon({ ref, ...originalProps }: IconProps) {
+  initLibrary();
 
-    const [props, variantProps] = splitPropsVariants(originalProps, iconStyle.variantKeys);
+  const [props, variantProps] = splitPropsVariants(originalProps, iconStyle.variantKeys);
 
-    const { icon, className, ...rest } = props;
+  const { icon, className, ...rest } = props;
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const slots = useMemo(() => iconStyle(variantProps), [...Object.values(variantProps)]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const slots = useMemo(() => iconStyle(variantProps), [...Object.values(variantProps)]);
 
-    const baseTw = slots.base({ class: [iconStaticClass('base'), className] });
+  const baseTw = slots.base({ class: [iconStaticClass('base'), className] });
 
-    const iconProp = useMemo(() => normalizeIconArgs(icon, DEFAULT_STYLE), [icon]);
-    const isComponentIcon = iconProp === IS_ELEMENT;
+  const iconProp = useMemo(() => normalizeIconArgs(icon, DEFAULT_STYLE), [icon]);
+  const isComponentIcon = iconProp === IS_ELEMENT;
 
-    if (isComponentIcon) {
-      const toClone = icon as React.ReactElement;
-      return cloneElement(toClone, { ref, className: txMerge(baseTw, toClone.props.className) });
-    }
+  if (isComponentIcon) {
+    const toClone = icon as React.ReactElement<{ ref: React.RefObject<HTMLInputElement>; className?: string }>;
+    return cloneElement(toClone, { ref, className: txMerge(baseTw, toClone.props.className) });
+  }
 
-    const iconDefinition = isIconDefinition(iconProp)
-      ? (iconProp as IconDefinition)
-      : findIconDefinition(iconProp as any);
+  const iconDefinition = isIconDefinition(iconProp)
+    ? (iconProp as IconDefinition)
+    : findIconDefinition(iconProp as any);
 
-    if (iconDefinition) {
-      return <FaSvg {...rest} className={baseTw} icon={iconDefinition} ref={ref as any} />;
-    }
+  if (iconDefinition) {
+    return <FaSvg {...rest} className={baseTw} icon={iconDefinition} ref={ref as any} />;
+  }
 
-    return (
-      <i
-        ref={ref}
-        className={cx(baseTw, iconFACX({ ...(iconProp as any), ...variantProps }))}
-        role="img"
-        aria-hidden
-        {...rest}
-      />
-    );
-  }),
-);
+  return (
+    <i
+      ref={ref}
+      className={cx(baseTw, iconFACX({ ...(iconProp as any), ...variantProps }))}
+      role="img"
+      aria-hidden
+      {...rest}
+    />
+  );
+});
 
 interface IconFACXProps {
   prefix: IconPrefix;

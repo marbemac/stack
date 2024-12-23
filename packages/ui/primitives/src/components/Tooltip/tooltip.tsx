@@ -6,7 +6,7 @@ import { forwardRef, useMemo } from 'react';
 import { type ContextValue, createContext, useContextProps } from '../../utils/context.tsx';
 
 export interface TooltipProps
-  extends Omit<AK.TooltipProps, 'store' | 'onChange' | 'children' | 'content'>,
+  extends Omit<AK.TooltipProps, 'store' | 'onChange' | 'children' | 'content' | 'onToggle'>,
     TooltipStyleProps,
     TooltipSlotProps {
   content: React.ReactNode;
@@ -62,10 +62,8 @@ const TooltipContent = forwardRef<
   HTMLDivElement,
   Omit<TooltipProps, 'children' | 'content'> & { children: React.ReactNode }
 >(function TooltipContent(originalProps, ref) {
-  const [{ className, classNames, children, placement, hideArrow, ...props }, variantProps] = splitPropsVariants(
-    originalProps,
-    tooltipStyle.variantKeys,
-  );
+  const [{ className, classNames, children, placement, hideArrow, onToggle, ...props }, variantProps] =
+    splitPropsVariants(originalProps, tooltipStyle.variantKeys);
 
   const side = placement?.split('-')[0];
 
@@ -76,7 +74,14 @@ const TooltipContent = forwardRef<
   const arrowTw = slots.arrow({ class: [tooltipStaticClass('arrow'), classNames?.arrow] });
 
   return (
-    <AK.Tooltip {...props} ref={ref} className={baseTw} data-side={side}>
+    <AK.Tooltip
+      {...props}
+      // @ts-expect-error ignore
+      onToggle={onToggle}
+      ref={ref}
+      className={baseTw}
+      data-side={side}
+    >
       <div className={textTw}>{children}</div>
       {!hideArrow && <AK.TooltipArrow className={arrowTw} />}
     </AK.Tooltip>

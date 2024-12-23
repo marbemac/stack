@@ -14,7 +14,10 @@ import { Button, ButtonContext, type ButtonProps } from '../Button/button.tsx';
 import { Label, LabelContext } from '../Label/label.tsx';
 import { SelectInternalContext } from './internal-context.tsx';
 
-export interface SelectProps extends Omit<AK.SelectProps, 'store' | 'onChange'>, SelectStyleProps, SelectSlotProps {
+export interface SelectProps
+  extends Omit<AK.SelectProps, 'store' | 'onChange' | 'onToggle'>,
+    SelectStyleProps,
+    SelectSlotProps {
   label?: string;
   variant?: ButtonProps['variant'];
   fullWidth?: ButtonProps['fullWidth'];

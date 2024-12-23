@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { MutableRefObject } from 'react';
+import type { RefObject } from 'react';
 import { useMemo, useRef } from 'react';
 
 /**
@@ -23,9 +23,9 @@ import { useMemo, useRef } from 'react';
  * @see https://reactjs.org/docs/forwarding-refs.html
  */
 export function useObjectRef<T>(
-  forwardedRef?: ((instance: T | null) => void) | MutableRefObject<T | null> | null,
-): MutableRefObject<T | null> {
-  const objRef: MutableRefObject<T | null> = useRef<T>(null);
+  forwardedRef?: ((instance: T | null) => void) | RefObject<T | null> | null,
+): RefObject<T | null> {
+  const objRef: RefObject<T | null> = useRef<T>(null);
   return useMemo(
     () => ({
       get current() {
