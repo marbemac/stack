@@ -6,7 +6,7 @@ import type { Decorator, Preview } from '@storybook/react';
 // import { withPerformance } from 'storybook-addon-performance'; // doesn't work with storybook 8 yet
 import { generateTheme } from '@marbemac/ui-theme';
 
-import { ThemedGlobalInner } from '../src/components/Themed/index.ts';
+import { ThemedGlobalInner } from '../src/components/Themed/themed-global-inner.tsx';
 
 const withTheme: Decorator = (Story, context) => {
   const themeId = context.globals.themeId;

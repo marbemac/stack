@@ -1,12 +1,11 @@
 import type { Meta } from '@storybook/react';
 import { useState } from 'react';
-import Lorem from 'react-lorem-component';
+import { LoremIpsum } from 'react-lorem-ipsum';
 
 import { Button } from '../Button/button.tsx';
 import { Heading } from '../Heading/heading.tsx';
 import { Input } from '../Input/input.tsx';
 import { HStack, VStack } from '../Stack/stack.tsx';
-import { Text } from '../Text/text.tsx';
 import type { DialogProps } from './dialog.tsx';
 import { Dialog, DialogSlot } from './dialog.tsx';
 import { DialogBody } from './dialog-body.tsx';
@@ -73,7 +72,7 @@ export const Basic = (props: DialogProps) => {
       <Heading>Welcome Welcome Welcome</Heading>
 
       <div>
-        <Lorem count={5} />
+        <LoremIpsum p={5} />
       </div>
     </VStack>
   );
@@ -149,7 +148,7 @@ export const ScrollBehavior = (props: DialogProps) => {
             </DialogHeader>
 
             <DialogBody>
-              <Lorem count={5} />
+              <LoremIpsum p={5} />
             </DialogBody>
 
             <DialogFooter>

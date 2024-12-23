@@ -17,7 +17,7 @@ import { type ChildrenWithRenderProps, runIfFn } from '../../utils/function.ts';
 import { DialogInternalContext } from './internal-context.tsx';
 
 export interface DialogProps
-  extends Omit<AK.DialogProps, 'store' | 'onChange' | 'children' | 'backdrop'>,
+  extends Omit<AK.DialogProps, 'store' | 'onChange' | 'children' | 'backdrop' | 'onToggle'>,
     DialogStyleProps,
     DialogSlotProps {
   isOpen?: AK.DialogStoreProps['open'];
@@ -72,7 +72,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(function Dialog(or
 const DialogContent = forwardRef<HTMLDivElement, DialogProps>(function DialogContent(originalProps, ref) {
   const dialog = AK.useDialogContext()!;
 
-  const [{ className, classNames, children, ...props }, variantProps] = splitPropsVariants(
+  const [{ className, classNames, children, onToggle, ...props }, variantProps] = splitPropsVariants(
     originalProps,
     dialogStyle.variantKeys,
   );
@@ -89,6 +89,8 @@ const DialogContent = forwardRef<HTMLDivElement, DialogProps>(function DialogCon
     <DialogInternalContext.Provider value={{ slots, classNames }}>
       <AK.Dialog
         {...props}
+        // @ts-expect-error ignore
+        onToggle={onToggle}
         ref={ref}
         className={baseTw}
         backdrop={<div className={backdropTw} />}
