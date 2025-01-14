@@ -16,7 +16,7 @@ export async function dropSchemaTables({ dbUrl, schema }: MigrateOpts) {
   const s = schema || 'public';
 
   const res = await sql<{ dropStatement: string }>`
-    SELECT 'DROP TABLE IF EXISTS "' || tablename || '" CASCADE;' AS drop_statement
+    SELECT 'DROP TABLE IF EXISTS "' || schemaname || '"."' || tablename || '" CASCADE;' AS drop_statement
     FROM pg_tables
     WHERE schemaname = ${s};`.execute(db);
 
