@@ -1,4 +1,4 @@
-import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
+import { type DrizzleToKysely, timestampCol } from '@marbemac/db-model';
 import { type BaseUsersTableCols, type USERS_KEY } from '@marbemac/user-model';
 import type { TUserId } from '@marbemac/user-model/ids';
 import type { BuildExtraConfigColumns } from 'drizzle-orm';
@@ -9,7 +9,7 @@ export const VERIFICATION_TOKENS_TABLE = 'verification_tokens' as const;
 
 export const baseVerificationTokenCols = {
   token: text('token').primaryKey(),
-  userId: idCol<TUserId>()('user_id').notNull(),
+  userId: text('user_id').$type<TUserId>().notNull(),
   expiresAt: timestampCol('expires_at').notNull(),
   purpose: text('purpose', { enum: ['magic-link'] }).notNull(),
 };

@@ -1,5 +1,5 @@
 import type { DrizzleToKysely } from '@marbemac/db-model';
-import { idCol, timestampCol } from '@marbemac/db-model';
+import { timestampCol } from '@marbemac/db-model';
 import type { SetOptional } from '@marbemac/utils-types';
 import type { BuildExtraConfigColumns } from 'drizzle-orm';
 import { pgTable, text } from 'drizzle-orm/pg-core';
@@ -10,7 +10,7 @@ export const ORGS_KEY = 'orgs' as const;
 export const ORGS_TABLE = 'orgs' as const;
 
 export const baseOrgCols = {
-  id: idCol<TOrgId>()('id').primaryKey(),
+  id: text('id').$type<TOrgId>().primaryKey(),
   slug: text('slug').notNull().unique(),
   createdAt: timestampCol('created_at').notNull().defaultNow(),
   updatedAt: timestampCol('updated_at').defaultNow(),

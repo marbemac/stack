@@ -1,5 +1,5 @@
 import type { DrizzleToKysely } from '@marbemac/db-model';
-import { idCol, timestampCol } from '@marbemac/db-model';
+import { timestampCol } from '@marbemac/db-model';
 import type { BuildExtraConfigColumns } from 'drizzle-orm';
 import { pgTable, text } from 'drizzle-orm/pg-core';
 
@@ -9,7 +9,7 @@ export const USERS_KEY = 'users' as const;
 export const USERS_TABLE = 'users' as const;
 
 export const baseUserCols = {
-  id: idCol<TUserId>()('id').primaryKey(),
+  id: text('id').$type<TUserId>().primaryKey(),
 
   email: text('email').notNull().unique(),
   emailVerifiedAt: timestampCol('email_verified_at'),

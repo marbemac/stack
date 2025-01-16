@@ -1,4 +1,4 @@
-import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
+import { type DrizzleToKysely, timestampCol } from '@marbemac/db-model';
 import { type BaseUsersTableCols, type USERS_KEY } from '@marbemac/user-model';
 import type { TUserId } from '@marbemac/user-model/ids';
 import type { BuildExtraConfigColumns } from 'drizzle-orm';
@@ -9,7 +9,7 @@ export const USER_SESSIONS_TABLE = 'user_sessions' as const;
 
 export const baseUserSessionCols = {
   id: text('id').primaryKey(),
-  userId: idCol<TUserId>()('user_id').notNull(),
+  userId: text('user_id').$type<TUserId>().notNull(),
   expiresAt: timestampCol('expires_at').notNull(),
 };
 

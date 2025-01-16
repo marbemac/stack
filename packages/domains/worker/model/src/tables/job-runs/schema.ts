@@ -1,4 +1,4 @@
-import { type DrizzleToKysely, idCol, timestampCol } from '@marbemac/db-model';
+import { type DrizzleToKysely, timestampCol } from '@marbemac/db-model';
 import type { TOrgId } from '@marbemac/org-model/ids';
 import type { TUserId } from '@marbemac/user-model/ids';
 import type { SetOptional, StringWithAutocomplete } from '@marbemac/utils-types';
@@ -32,9 +32,9 @@ export interface JobRunLog {
 }
 
 export const baseJobRunCols = {
-  id: idCol<TJobRunId>()('id').primaryKey(),
+  id: text('id').$type<TJobRunId>().primaryKey(),
 
-  orgId: idCol<TOrgId>()('org_id'),
+  orgId: text('org_id').$type<TOrgId>(),
 
   lookupKey: text('lookup_key').notNull(),
   lookupSubkey: text('lookup_subkey'),
@@ -43,7 +43,7 @@ export const baseJobRunCols = {
   workerJobId: text('worker_job_id').notNull().unique(),
 
   actorType: text('actor_type').$type<JobRunActorType>(),
-  actorId: idCol<TUserId | string>()('actor_id'),
+  actorId: text('actor_id').$type<TUserId | string>(),
 
   title: text('title'),
   task: text('task').notNull(),

@@ -1,20 +1,4 @@
-import { customType, timestamp } from 'drizzle-orm/pg-core';
-
-/**
- * Typed id column.
- *
- * @example
- * const columns = {
- *   id: idColumn<TOrgId>()('id').primaryKey(),
- * }
- */
-export const idCol = <Type extends string>() => {
-  return customType<{ data: Type }>({
-    dataType() {
-      return 'text';
-    },
-  });
-};
+import { timestamp } from 'drizzle-orm/pg-core';
 
 /**
  * @example
