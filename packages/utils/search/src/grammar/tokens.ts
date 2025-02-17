@@ -19,10 +19,15 @@ export const QuotedIdentifier = createToken({ name: 'QuotedIdentifier', pattern:
  */
 export const Number = createToken({ name: 'Number', pattern: /-?(0|[1-9]\d*)(\.\d+)?/, longer_alt: Identifier });
 
+// Not supporting dates with just the year, e.g. 2025, for now
 export const Iso8601Date = createToken({
   name: 'Iso8601Date',
-  pattern: /\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?/i,
-  // The longer alts here are in case of large numbers that might trigger the Iso check, and fallback to plain text if nothing matches
+  pattern: /\d{4}-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?/i,
+  // The longer alts here are in case of large numbers that might trigger the Iso check,
+  // and fallback to plain text if nothing matches
+  //
+  // NOTE that longer_alt doesn't chain.. so if number partial matches, it won't then also try identifier as a longer_alt
+  // this is part of the reason to not support plain year e.g. 2025 for now.. too much ambiguity
   longer_alt: [Number, Identifier],
 });
 

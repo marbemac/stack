@@ -595,6 +595,37 @@ exports[`select in filters > quoted 1`] = `
 }
 `;
 
+exports[`select in filters > string that starts and ends with a number 1`] = `
+{
+  "input": "company:[16343a6df9465b92cd4]",
+  "result": {
+    "ast": {
+      "columns": [
+        {
+          "lhs": {
+            "type": "qualifier_key",
+            "value": "company",
+          },
+          "op": "",
+          "rhs": {
+            "type": "bracket_list",
+            "values": [
+              {
+                "type": "text",
+                "value": "16343a6df9465b92cd4",
+              },
+            ],
+          },
+          "type": "qualifier",
+        },
+      ],
+      "type": "select_expr",
+    },
+    "errors": [],
+  },
+}
+`;
+
 exports[`select in filters > string that starts with number 1`] = `
 {
   "input": "company:[3industries]",

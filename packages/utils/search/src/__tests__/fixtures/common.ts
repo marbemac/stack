@@ -18,6 +18,7 @@ export const caseGroups = {
     ['numbers', 'release:[12.0]'],
     ['quoted', 'release:[jane, "john doe"]'],
     ['string that starts with number', 'company:[3industries]'],
+    ['string that starts and ends with a number', 'company:[16343a6df9465b92cd4]'],
   ],
 
   boolean: [
