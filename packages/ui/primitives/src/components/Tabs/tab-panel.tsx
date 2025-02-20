@@ -17,8 +17,8 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(function TabPa
 
   const defaultId = useId();
   const id = props.id ?? defaultId;
-  const tabId = tab.useState(() => props.tabId ?? tab.panels.item(id)?.tabId);
-  const previousTabId = usePrevious(tab.useState('selectedId'));
+  const tabId = AK.useStoreState(tab, () => props.tabId ?? tab.panels.item(id)?.tabId);
+  const previousTabId = usePrevious(AK.useStoreState(tab, 'selectedId'));
   const wasOpen = tabId && previousTabId === tabId;
 
   return (

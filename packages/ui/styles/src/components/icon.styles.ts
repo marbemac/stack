@@ -14,7 +14,7 @@ export const iconStaticClass = makeStaticClass<IconSlots>('icon');
 export const iconStyle = tv(
   {
     slots: {
-      base: tx('h-[1em] leading-none'),
+      base: tx('h-[1em] !leading-none'),
     },
 
     defaultVariants: {
