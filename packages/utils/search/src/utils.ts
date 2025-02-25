@@ -6,7 +6,7 @@ import {
   type SearchNode,
 } from './visitor.ts';
 
-export function stringifySearchAstNode(token?: SearchNode) {
+export function stringifySearchAstNode(token?: SearchNode): string {
   if (!token) return '';
 
   switch (token.type) {

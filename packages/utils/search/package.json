@@ -20,8 +20,8 @@
   "devDependencies": {
     "@marbemac/utils-testing": "workspace:*",
     "@marbemac/utils-types": "workspace:*",
-    "tsx": "4.19.2",
+    "tsx": "4.19.3",
     "vite": "6.1.0",
-    "vitest": "~3.0.5"
+    "vitest": "~3.0.7"
   }
 }
