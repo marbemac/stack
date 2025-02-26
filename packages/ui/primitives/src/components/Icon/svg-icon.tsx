@@ -31,8 +31,8 @@ export const FaSvg = forwardRef<SVGSVGElement, FaProps>(function FaSvg(
       xmlns="http://www.w3.org/2000/svg"
       style={{ verticalAlign: '-0.125em' }}
     >
-      {/* eslint-disable-next-line react/no-unknown-property */}
-      <g transform={`translate(${i[0] / 2} ${i[1] / 2})`} transform-origin={`${i[0] / 4} 0`}>
+      {/* @ts-expect-error ignore */}
+      <g transform={`translate(${i[0] / 2} ${i[1] / 2})`} transformOrigin={`${i[0] / 4} 0`}>
         {typeof i[4] === 'string' ? (
           <path
             d={i[4] as string}
