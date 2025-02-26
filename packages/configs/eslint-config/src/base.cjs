@@ -50,6 +50,9 @@ const config = {
     'sort-imports': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
     'import/extensions': ['error', 'ignorePackages'],
     'no-return-await': 'error',
     'no-empty': ['error', { allowEmptyCatch: true }],
@@ -75,6 +78,11 @@ const config = {
         '@typescript-eslint/no-explicit-any': 'warn',
         '@typescript-eslint/prefer-nullish-coalescing': 'off',
         '@typescript-eslint/no-empty-object-type': 'off',
+
+        // Note: you must disable the base rule as it can report incorrect errors
+        'dot-notation': 'off',
+        '@typescript-eslint/dot-notation': 'off',
+
         // 'import/extensions': ['error', 'always', { ignorePackages: true }],
       },
     },
