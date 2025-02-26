@@ -22,7 +22,7 @@ type Opts<T extends OrgsDb> = BuildQueriesOpts<T>;
 type SelectQueryOpts<T extends OrgsDb> = BaseSelectQueryOpts<T>;
 type InsertQueryOpts<T extends OrgsDb> = BaseInsertQueryOpts<T>;
 
-const summarySelect = ['id', 'slug', 'createdAt'] satisfies BaseOrgColNames[];
+const summarySelect = ['id', 'slug'] satisfies BaseOrgColNames[];
 const detailedSelect = [...summarySelect] satisfies BaseOrgColNames[];
 
 const orgBySlug = ({ db }: SelectQueryOpts<OrgsDb>) => {
