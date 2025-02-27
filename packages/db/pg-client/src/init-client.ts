@@ -43,7 +43,11 @@ export const initClient: InitClientFn = <DB>(opts: InitClientOpts): PgClient<DB>
   const sql = isInitClientOptsWithSql(opts) ? opts.sql : postgres(opts.uri, { max: opts.max });
 
   const db = new Kysely<DB>({
-    plugins: [new CamelCasePlugin()],
+    plugins: [
+      new CamelCasePlugin({
+        maintainNestedObjectKeys: true,
+      }),
+    ],
     log: evt => {
       metrics[evt.level] += 1;
       metrics.kind[KIND_METRIC_MAPPING[evt.query.query.kind] || 'other'] += 1;
