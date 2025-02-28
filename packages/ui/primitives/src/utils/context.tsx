@@ -29,6 +29,10 @@ export type CreateContextReturn<T> = [React.Context<T>, () => T];
  *
  * @param options create context options
  */
+export function createContext<ContextType>(
+  options: CreateContextOptions & { strict: false },
+): CreateContextReturn<ContextType | undefined>;
+export function createContext<ContextType>(options?: CreateContextOptions): CreateContextReturn<ContextType>;
 export function createContext<ContextType>(options: CreateContextOptions = {}) {
   const { strict = true, errorMessage, name } = options;
 
@@ -52,7 +56,7 @@ export function createContext<ContextType>(options: CreateContextOptions = {}) {
     return context;
   }
 
-  return [Context, useContext] as CreateContextReturn<ContextType>;
+  return [Context, useContext];
 }
 
 export const defaultSlot = Symbol('default');

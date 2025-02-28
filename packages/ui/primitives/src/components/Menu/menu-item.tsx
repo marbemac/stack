@@ -29,7 +29,7 @@ interface BaseMenuItemProps extends MenuItemProps {
 }
 
 export const BaseMenuItem = forwardRef<HTMLDivElement, BaseMenuItemProps>(function BaseMenuItem(props, ref) {
-  const { value: searchValue } = useMenuSearchContext();
+  const { value: searchValue } = useMenuSearchContext() || {};
   const { groupIsMatched } = useMenuSearchGroupingContext() || {};
 
   if (!groupIsMatched && searchValue) {
@@ -48,7 +48,7 @@ const BaseMenuItemContent = forwardRef<HTMLDivElement, BaseMenuItemProps>(functi
   const menu = AK.useMenuContext();
   if (!menu) throw new Error('MenuItem must be used inside a Menu');
 
-  const { value: searchValue } = useMenuSearchContext();
+  const { value: searchValue } = useMenuSearchContext() || {};
   const searchable = !!searchValue;
 
   // Add item to list when it mounts, remove it when it unmounts.
@@ -132,7 +132,7 @@ const BaseMenuItemContent = forwardRef<HTMLDivElement, BaseMenuItemProps>(functi
     </>
   );
 
-  const shouldHideOnClick = optionType ? hideOnClick ?? false : true;
+  const shouldHideOnClick = optionType ? (hideOnClick ?? false) : true;
   if (optionType) {
     defaultProps = {
       ...defaultProps,
