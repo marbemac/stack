@@ -12,6 +12,7 @@ export const parseDatabaseUrl = (databaseUrl: string) => {
   const { origin, host, hostname, username, password, pathname, port } = new URL(targetUrl);
 
   return {
+    originalProtocol,
     origin: origin.replace('http:', originalProtocol),
     host,
     hostname,
@@ -23,7 +24,7 @@ export const parseDatabaseUrl = (databaseUrl: string) => {
 };
 
 export const parseRedisUrl = (redisUrl: string) => {
-  const { hostname, port, username, password, database } = parseDatabaseUrl(redisUrl);
+  const { hostname, port, username, password, database, originalProtocol } = parseDatabaseUrl(redisUrl);
 
   return {
     host: hostname, // popular libs like ioredis expects a host property, without the port :/
@@ -31,5 +32,6 @@ export const parseRedisUrl = (redisUrl: string) => {
     username,
     password,
     db: Number(database || '0'),
+    tls: originalProtocol === 'rediss:' ? {} : undefined,
   };
 };
