@@ -11,5 +11,8 @@
   },
   "dependencies": {
     "type-fest": "^4.35.0"
+  },
+  "devDependencies": {
+    "eslint": "8.57.1"
   }
 }

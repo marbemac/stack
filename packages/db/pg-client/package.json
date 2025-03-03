@@ -9,6 +9,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "eslint": "8.57.1",
     "kysely": "0.27.5",
     "kysely-postgres-js": "2.0.0",
     "postgres": "~3.4.5",

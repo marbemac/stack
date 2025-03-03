@@ -16,5 +16,8 @@
     "fnv-plus": "^1.3.1",
     "nanoid": "~5.1.2",
     "zod": "~3.24.2"
+  },
+  "devDependencies": {
+    "eslint": "8.57.1"
   }
 }

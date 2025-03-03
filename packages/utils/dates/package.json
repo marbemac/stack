@@ -15,6 +15,7 @@
     "dayjs": "^1.11.13"
   },
   "devDependencies": {
+    "eslint": "8.57.1",
     "vitest": "~3.0.7"
   }
 }

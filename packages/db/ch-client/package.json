@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@marbemac/utils-types": "workspace:*",
+    "eslint": "8.57.1",
     "vitest": "~3.0.7"
   }
 }

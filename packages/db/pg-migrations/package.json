@@ -11,6 +11,7 @@
   "dependencies": {
     "@marbemac/db-pg-client": "workspace:*",
     "drizzle-kit": "0.30.4",
+    "eslint": "8.57.1",
     "kysely": "0.27.5",
     "postgres": "~3.4.5"
   }

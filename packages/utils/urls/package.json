@@ -12,6 +12,7 @@
     "test.watch": "vitest watch"
   },
   "devDependencies": {
+    "eslint": "8.57.1",
     "vitest": "~3.0.7"
   }
 }

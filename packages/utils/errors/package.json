@@ -9,5 +9,8 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc"
+  },
+  "dependencies": {
+    "eslint": "8.57.1"
   }
 }

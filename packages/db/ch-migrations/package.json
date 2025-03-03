@@ -15,6 +15,7 @@
   "dependencies": {
     "@clickhouse/client": "1.10.1",
     "@marbemac/db-ch-client": "workspace:*",
-    "@marbemac/utils-urls": "workspace:*"
+    "@marbemac/utils-urls": "workspace:*",
+    "eslint": "8.57.1"
   }
 }
