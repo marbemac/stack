@@ -23,4 +23,4 @@ describe('ambiguous identifiers', () => {
     expect(lexResult.tokens.length).toBe(1);
     expect(lexResult.tokens[0]!.tokenType.name).toBe(Identifier.name);
   });
-})
+});

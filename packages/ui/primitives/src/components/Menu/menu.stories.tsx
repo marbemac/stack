@@ -216,12 +216,7 @@ export const KitchenSinkSearchable = (props: MenuProps) => {
     <Menu
       trigger={<Button startIcon="bars" />}
       searchable
-      combobox={
-        <Input
-          placeholder="Search actions..."
-          startIcon={faSearch}
-        />
-      }
+      combobox={<Input placeholder="Search actions..." startIcon={faSearch} />}
       {...props}
     >
       <MenuItem shortcut="⌘A">Ask AI</MenuItem>

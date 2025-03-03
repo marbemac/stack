@@ -2,10 +2,10 @@
 
 // generated via yarn build.grammar-types
 
-import type { CstNode, ICstVisitor, IToken } from "chevrotain";
+import type { CstNode, ICstVisitor, IToken } from 'chevrotain';
 
 export interface SearchQueryCstNode extends CstNode {
-  name: "searchQuery";
+  name: 'searchQuery';
   children: SearchQueryCstChildren;
 }
 
@@ -16,7 +16,7 @@ export type SearchQueryCstChildren = {
 };
 
 export interface SelectClauseCstNode extends CstNode {
-  name: "selectClause";
+  name: 'selectClause';
   children: SelectClauseCstChildren;
 }
 
@@ -26,7 +26,7 @@ export type SelectClauseCstChildren = {
 };
 
 export interface SelectExprCstNode extends CstNode {
-  name: "selectExpr";
+  name: 'selectExpr';
   children: SelectExprCstChildren;
 }
 
@@ -35,7 +35,7 @@ export type SelectExprCstChildren = {
 };
 
 export interface FromClauseCstNode extends CstNode {
-  name: "fromClause";
+  name: 'fromClause';
   children: FromClauseCstChildren;
 }
 
@@ -45,7 +45,7 @@ export type FromClauseCstChildren = {
 };
 
 export interface WhereClauseCstNode extends CstNode {
-  name: "whereClause";
+  name: 'whereClause';
   children: WhereClauseCstChildren;
 }
 
@@ -55,7 +55,7 @@ export type WhereClauseCstChildren = {
 };
 
 export interface WhereExprCstNode extends CstNode {
-  name: "whereExpr";
+  name: 'whereExpr';
   children: WhereExprCstChildren;
 }
 
@@ -64,7 +64,7 @@ export type WhereExprCstChildren = {
 };
 
 export interface QualifierCstNode extends CstNode {
-  name: "qualifier";
+  name: 'qualifier';
   children: QualifierCstChildren;
 }
 
@@ -76,7 +76,7 @@ export type QualifierCstChildren = {
 };
 
 export interface FunctionCstNode extends CstNode {
-  name: "function";
+  name: 'function';
   children: FunctionCstChildren;
 }
 
@@ -94,7 +94,7 @@ export type FunctionCstChildren = {
 };
 
 export interface FunctionArgCstNode extends CstNode {
-  name: "functionArg";
+  name: 'functionArg';
   children: FunctionArgCstChildren;
 }
 
@@ -103,7 +103,7 @@ export type FunctionArgCstChildren = {
 };
 
 export interface QualifierKeyCstNode extends CstNode {
-  name: "qualifierKey";
+  name: 'qualifierKey';
   children: QualifierKeyCstChildren;
 }
 
@@ -112,7 +112,7 @@ export type QualifierKeyCstChildren = {
 };
 
 export interface QualifierValCstNode extends CstNode {
-  name: "qualifierVal";
+  name: 'qualifierVal';
   children: QualifierValCstChildren;
 }
 
@@ -121,7 +121,7 @@ export type QualifierValCstChildren = {
 };
 
 export interface BracketListCstNode extends CstNode {
-  name: "bracketList";
+  name: 'bracketList';
   children: BracketListCstChildren;
 }
 
@@ -133,7 +133,7 @@ export type BracketListCstChildren = {
 };
 
 export interface AtomicQualifierValCstNode extends CstNode {
-  name: "atomicQualifierVal";
+  name: 'atomicQualifierVal';
   children: AtomicQualifierValCstChildren;
 }
 
@@ -150,21 +150,21 @@ export type AtomicQualifierValCstChildren = {
 };
 
 export interface SortDirCstNode extends CstNode {
-  name: "sortDir";
+  name: 'sortDir';
   children: SortDirCstChildren;
 }
 
 export type SortDirCstChildren = {
-  dir?: (IToken)[];
+  dir?: IToken[];
 };
 
 export interface QualifierOpCstNode extends CstNode {
-  name: "qualifierOp";
+  name: 'qualifierOp';
   children: QualifierOpCstChildren;
 }
 
 export type QualifierOpCstChildren = {
-  op?: (IToken)[];
+  op?: IToken[];
 };
 
 export interface TSearchCstVisitor<IN, OUT> extends ICstVisitor<IN, OUT> {
