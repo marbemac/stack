@@ -112,7 +112,14 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(p
   const fallbackTw = slots.fallback({ class: [avatarStaticClass('fallback'), classNames?.fallback] });
 
   const imgElem = src ? (
-    <ImgComponent ref={imgRef} className={imageTw} src={src} data-loaded={hasImageLoaded || undefined} {...imgProps} />
+    <ImgComponent
+      key="img"
+      ref={imgRef}
+      className={imageTw}
+      src={src}
+      data-loaded={hasImageLoaded || undefined}
+      {...imgProps}
+    />
   ) : null;
 
   /**
@@ -140,7 +147,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(p
 
     if (elem) {
       return (
-        <div aria-label={alt} className={fallbackTw} role="img">
+        <div key="fallback" aria-label={alt} className={fallbackTw} role="img">
           {elem}
         </div>
       );
