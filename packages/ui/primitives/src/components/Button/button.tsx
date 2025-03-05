@@ -69,7 +69,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   return (
     <AK.Button {...props} ref={ref} className={baseTw} disabled={variantProps.disabled}>
       {startIconElem && (!isIconButton || !endIconElem) ? (
-        <Icon className={startIconTw} icon={startIconElem} spin={variantProps.isLoading} />
+        <Icon fw className={startIconTw} icon={startIconElem} spin={variantProps.isLoading} />
       ) : null}
 
       {hasContent ? <div className={textTw}>{contentElem}</div> : null}

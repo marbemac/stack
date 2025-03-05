@@ -68,10 +68,6 @@ export const buttonStyle = tv(
       isLoading: {
         true: tx('pointer-events-none select-none opacity-80'),
       },
-      isIconOnly: {
-        true: tx('gap-0 p-0'),
-        false: tx('[&>svg]:max-w-[2em]'),
-      },
     },
     compoundVariants: [
       // outline / input
