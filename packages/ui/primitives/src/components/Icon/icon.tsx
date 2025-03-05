@@ -1,5 +1,3 @@
-import '@fortawesome/fontawesome-svg-core/styles.css';
-
 import type { IconDefinition, IconLookup, IconName, IconPrefix } from '@fortawesome/fontawesome-common-types';
 import { config, findIconDefinition } from '@fortawesome/fontawesome-svg-core';
 import type { IconStyleProps } from '@marbemac/ui-styles';

@@ -24,12 +24,6 @@ export type { CardOptions, CardProps } from './components/Card/card.tsx';
 export { Card } from './components/Card/card.tsx';
 
 /**
- * ClientOnly
- */
-
-export { ClientOnly, NoSsr } from './components/ClientOnly/client-only.tsx';
-
-/**
  * Dialog
  */
 
@@ -63,6 +57,19 @@ export {
 
 export type { HeadingOptions, HeadingProps } from './components/Heading/heading.tsx';
 export { Heading, HeadingContext, useHeadingContext } from './components/Heading/heading.tsx';
+
+/**
+ * ClientOnly
+ */
+
+export {
+  ClientOnly,
+  HydrationProvider,
+  LazyClientOnly,
+  ServerOnly,
+  useComponentHydrated,
+  useHydrated,
+} from './components/Hydration/hydration.tsx';
 
 /**
  * Icon

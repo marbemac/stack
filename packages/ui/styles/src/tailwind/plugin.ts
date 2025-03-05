@@ -117,6 +117,16 @@ export const plugin = basePlugin.withOptions(
           margin: '0',
         },
 
+        '.fa-fw': {
+          position: 'relative',
+          '&::before': {
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          },
+        },
+
         /**
          * Animations
          */
