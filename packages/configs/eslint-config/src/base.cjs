@@ -38,7 +38,7 @@ const config = {
 
   settings: {
     tailwindcss: {
-      callees: ['tx'],
+      callees: ['tx', 'cn'],
       tags: ['tw'],
       classRegex: '^(inactiveClassName|activeClassName|className)$',
       whitelist: ['ui\\-[\\w]+'], // any custom classes must be prefixed with `ui-` to clearly call them out

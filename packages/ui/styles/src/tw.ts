@@ -1,5 +1,9 @@
 import { type ClassNameValue, extendTailwindMerge, twJoin as cx } from 'tailwind-merge';
 
+type ClassValue = ClassArray | ClassDictionary | string | number | bigint | null | boolean | undefined;
+type ClassDictionary = Record<string, any>;
+type ClassArray = ClassValue[];
+
 export type TW_STR = 'TW_STR';
 
 /**
@@ -24,6 +28,37 @@ function tw(strings: TemplateStringsArray, ...interpolations: string[]) {
  * Use when you need the full power of `cx` / `twMerge`. Otherwise, use `tw`.
  */
 const tx = cx as (...classLists: ClassNameValue[]) => TW_STR;
+
+/**
+ * Supports all the same arguments as `tx`, but also supports nested arrays and objects.
+ *
+ * Internally it uses `txMerge(tx(...))`.
+ *
+ * When you can't decide between the confusing `tw` and `tx` functions, use this one.
+ */
+const cn = (...classNames: ClassValue[]) => {
+  const groups: ClassNameValue[] = classNames.flatMap(className => {
+    if (Array.isArray(className)) {
+      return cn(...className);
+    }
+
+    if (className && typeof className === 'object') {
+      return Object.entries(className).map(([key, value]) => {
+        if (value) {
+          return key;
+        }
+      });
+    }
+
+    if (typeof className === 'string') {
+      return className;
+    }
+
+    return [];
+  });
+
+  return txMerge(tx(...groups)) as TW_STR;
+};
 
 /**
  * Optionally customize the twMerge config. Use this everywhere!
@@ -65,4 +100,4 @@ export const twMergeConfig: Partial<Parameters<typeof extendTailwindMerge>[0]> =
 const txMerge = extendTailwindMerge(twMergeConfig);
 
 export type { ClassNameValue };
-export { cx, tw, tx, txMerge };
+export { cn, cx, tw, tx, txMerge };
