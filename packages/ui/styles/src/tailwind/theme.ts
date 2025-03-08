@@ -291,6 +291,11 @@ export const generateTWThemeConfig = (options: GenerateThemeOptions = {}): Confi
           from: { opacity: '1', transform: 'translateY(0px) scale(1)' },
           to: { opacity: '0', transform: 'translateY(5px) scale(0.99)' },
         },
+
+        blink: {
+          '0%,70%,100%': { opacity: '1' },
+          '20%,50%': { opacity: '0' },
+        },
       },
 
       animation: {
@@ -314,6 +319,8 @@ export const generateTWThemeConfig = (options: GenerateThemeOptions = {}): Confi
         'overlay-hide': 'fadeOut 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'dialog-content-show': 'dialogContentShow 200ms cubic-bezier(0.16, 1, 0.3, 1)',
         'dialog-content-hide': 'dialogContentHide 100ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+
+        blink: 'blink 1.45s step-start infinite',
       },
     },
   };
