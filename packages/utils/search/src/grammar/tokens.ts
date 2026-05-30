@@ -51,6 +51,12 @@ export const Where = createToken({
   longer_alt: Identifier,
 });
 
+export const Group = createToken({
+  name: 'Group',
+  pattern: /GROUP/,
+  longer_alt: Identifier,
+});
+
 export const LParen = createToken({ name: 'LParen', pattern: /\(/ });
 export const RParen = createToken({ name: 'RParen', pattern: /\)/ });
 export const LBracket = createToken({ name: 'LBracket', pattern: /\[/ });

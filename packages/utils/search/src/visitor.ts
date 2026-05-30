@@ -12,6 +12,10 @@ import type {
   FunctionArgCstNode,
   FunctionCstChildren,
   FunctionCstNode,
+  GroupClauseCstChildren,
+  GroupClauseCstNode,
+  GroupExprCstChildren,
+  GroupExprCstNode,
   QualifierCstChildren,
   QualifierCstNode,
   QualifierKeyCstChildren,
@@ -63,6 +67,8 @@ export type SearchNode =
   | SelectClauseAstNode
   | SelectExprAstNode
   | FromClauseAstNode
+  | GroupClauseAstNode
+  | GroupExprAstNode
   | WhereClauseAstNode
   | WhereExprAstNode
   | QualifierAstNode
@@ -89,8 +95,20 @@ export interface IsNegatableNode {
 export interface SearchQueryAstNode extends SearchNodeBase {
   type: 'search_query';
   fromClause: FromClauseAstNode;
+  groupClause?: GroupClauseAstNode;
   selectClause?: SelectClauseAstNode;
   whereClause?: WhereClauseAstNode;
+}
+
+export interface GroupClauseAstNode extends SearchNodeBase {
+  type: 'group_clause';
+  expr: GroupExprAstNode;
+}
+
+export interface GroupExprAstNode extends SearchNodeBase {
+  type: 'group_expr';
+  /** Group-by keys: a bare trait (text) or a computed key (function — e.g. month(created_at)). */
+  keys: (FunctionAstNode | AtomicQualifierVal)[];
 }
 
 export interface SelectClauseAstNode extends SearchNodeBase {
@@ -216,6 +234,12 @@ export type OnEnterDataMap =
       table: string;
     }
   | {
+      type: 'group_clause';
+    }
+  | {
+      type: 'group_expr';
+    }
+  | {
       type: 'where_clause';
     }
   | {
@@ -279,8 +303,12 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
       ? SelectClauseAstNode
       : T extends FromClauseCstNode | FromClauseCstNode[]
         ? FromClauseAstNode
-        : T extends WhereClauseCstNode | WhereClauseCstNode[]
-          ? WhereClauseAstNode
+        : T extends GroupClauseCstNode | GroupClauseCstNode[]
+          ? GroupClauseAstNode
+          : T extends GroupExprCstNode | GroupExprCstNode[]
+            ? GroupExprAstNode
+            : T extends WhereClauseCstNode | WhereClauseCstNode[]
+              ? WhereClauseAstNode
           : T extends WhereExprCstNode | WhereExprCstNode[]
             ? WhereExprAstNode
             : T extends QualifierCstNode | QualifierCstNode[]
@@ -324,6 +352,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
          * to the visiting of the subsequent clauses.
          */
         fromClause: this.#visit(ctx.fromClause),
+        groupClause: this.#visit(ctx.groupClause!),
         selectClause: this.#visit(ctx.selectClause!),
         whereClause: this.#visit(ctx.whereClause!),
         get isBranchInvalid() {
@@ -331,6 +360,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
           return (
             !!$.invalid ||
             !!$.fromClause.isBranchInvalid ||
+            !!$.groupClause?.isBranchInvalid ||
             !!$.selectClause?.isBranchInvalid ||
             !!$.whereClause?.isBranchInvalid
           );
@@ -355,6 +385,40 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
           return !!$.invalid;
         },
       }) satisfies FromClauseAstNode;
+
+      onExit?.(t);
+
+      return t;
+    }
+
+    groupClause(ctx: GroupClauseCstChildren) {
+      onEnter?.({ type: 'group_clause' });
+
+      const t = maybeTransform({
+        type: 'group_clause',
+        expr: this.#visit(ctx.groupExpr),
+        get isBranchInvalid() {
+          const $ = this as GroupClauseAstNode;
+          return !!$.invalid || $.expr.isBranchInvalid;
+        },
+      }) satisfies GroupClauseAstNode;
+
+      onExit?.(t);
+
+      return t;
+    }
+
+    groupExpr(ctx: GroupExprCstChildren) {
+      onEnter?.({ type: 'group_expr' });
+
+      const t = maybeTransform({
+        type: 'group_expr',
+        keys: (ctx.keys || []).map(k => this.#visit(k)),
+        get isBranchInvalid() {
+          const $ = this as GroupExprAstNode;
+          return !!$.invalid || $.keys.some(k => k.isBranchInvalid);
+        },
+      }) satisfies GroupExprAstNode;
 
       onExit?.(t);
 

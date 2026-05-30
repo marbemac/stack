@@ -13,6 +13,7 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
       t.Select,
       t.From,
       t.Where,
+      t.Group,
 
       // Must appear before minus, plus, and number to avoid ambiguity.
       t.RelativeDate,

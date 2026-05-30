@@ -3,6 +3,8 @@ import { type CstNode, CstParser, type IParserConfig, type IRuleConfig, type Par
 import { lexerTokenDef } from './lexer.ts';
 import type {
   FromClauseCstNode,
+  GroupClauseCstNode,
+  GroupExprCstNode,
   SearchQueryCstNode,
   SelectClauseCstNode,
   SelectExprCstNode,
@@ -32,11 +34,29 @@ export class SearchParser extends CstParser {
     this.SUBRULE(this.fromClause);
 
     this.OPTION(() => {
-      this.SUBRULE(this.selectClause);
+      this.SUBRULE(this.groupClause);
     });
 
     this.OPTION2(() => {
+      this.SUBRULE(this.selectClause);
+    });
+
+    this.OPTION3(() => {
       this.SUBRULE(this.whereClause);
+    });
+  });
+
+  public groupClause = this.#RULE<GroupClauseCstNode>('groupClause', () => {
+    this.CONSUME(t.Group);
+    this.SUBRULE(this.groupExpr);
+  });
+
+  public groupExpr = this.#RULE<GroupExprCstNode>('groupExpr', () => {
+    this.MANY(() => {
+      this.OR([
+        { ALT: () => this.SUBRULE(this.#function, { LABEL: 'keys' }) },
+        { ALT: () => this.SUBRULE(this.#atomicQualifierVal, { LABEL: 'keys' }) },
+      ]);
     });
   });
 

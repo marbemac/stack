@@ -90,6 +90,87 @@ describe('parse full query', () => {
     } satisfies PartialDeep<SearchQueryAstNode>);
   });
 
+  it('supports group', () => {
+    const { cst, errors } = parseSearch({
+      inputType: 'searchQuery',
+      input: `
+        FROM person
+        GROUP industry
+        SELECT count()
+      `,
+    });
+
+    expect(errors).toEqual([]);
+
+    const visitor = createSearchVisitor();
+    const ast = visitor.searchQuery(cst.children);
+
+    expect(ast).toMatchObject({
+      type: 'search_query',
+      fromClause: {
+        type: 'from_clause',
+        table: 'person',
+      },
+      groupClause: {
+        type: 'group_clause',
+        expr: {
+          type: 'group_expr',
+          keys: [
+            {
+              type: 'text',
+              quoted: false,
+              value: 'industry',
+              isBranchInvalid: false,
+            },
+          ],
+        },
+      },
+      selectClause: {
+        type: 'select_clause',
+        expr: {
+          type: 'select_expr',
+          columns: [
+            {
+              type: 'function',
+              name: 'count',
+              isBranchInvalid: false,
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it('supports group by multiple keys (trait + function)', () => {
+    const { cst, errors } = parseSearch({
+      inputType: 'searchQuery',
+      input: `
+        FROM observation
+        GROUP month(created_at) kind
+        SELECT count()
+      `,
+    });
+
+    expect(errors).toEqual([]);
+
+    const visitor = createSearchVisitor();
+    const ast = visitor.searchQuery(cst.children);
+
+    expect(ast).toMatchObject({
+      type: 'search_query',
+      groupClause: {
+        type: 'group_clause',
+        expr: {
+          type: 'group_expr',
+          keys: [
+            { type: 'function', name: 'month', isBranchInvalid: false },
+            { type: 'text', value: 'kind', isBranchInvalid: false },
+          ],
+        },
+      },
+    });
+  });
+
   it('supports select + where', () => {
     const { cst, errors } = parseSearch({
       inputType: 'searchQuery',
