@@ -147,6 +147,11 @@ export interface FunctionAstNode extends SearchNodeBase, IsNegatableNode, IsSort
   type: 'function';
   name: string;
   args: FunctionArgAstNode[];
+  /**
+   * Member accessor: the trait projected off the row the function picked, e.g. the `kind` in
+   * `first(observations, -created_at).kind`. May itself be a dotted has-one path (`author.name`).
+   */
+  accessor?: string;
   op?: QualifierOp | '';
   rhs?: QualifierVal;
 }
@@ -523,6 +528,7 @@ export const createSearchVisitor = ({ onEnter, onExit, transform }: CreateSearch
         name,
         negated: !!ctx.Negate,
         args: (ctx.functionArg || []).map((arg, i) => this.#visit(arg, { position: i })).filter(a => !!a.vals.length),
+        accessor: ctx.accessor?.[0]?.image,
         sort: ctx.sortDir ? this.#visit(ctx.sortDir) : undefined,
         op: ctx.qualifierOp ? this.#visit(ctx.qualifierOp) : undefined,
         rhs: ctx.rhs ? this.#visit(ctx.rhs) : undefined,

@@ -171,6 +171,74 @@ describe('parse full query', () => {
     });
   });
 
+  it('supports a function accessor (first(rel, ±order).trait)', () => {
+    const { cst, errors } = parseSearch({
+      inputType: 'searchQuery',
+      input: `
+        FROM person
+        SELECT first(observations, -created_at).kind
+      `,
+    });
+
+    expect(errors).toEqual([]);
+
+    const visitor = createSearchVisitor();
+    const ast = visitor.searchQuery(cst.children);
+
+    expect(ast).toMatchObject({
+      type: 'search_query',
+      selectClause: {
+        expr: {
+          columns: [
+            {
+              type: 'function',
+              name: 'first',
+              accessor: 'kind',
+              isBranchInvalid: false,
+              args: [
+                {
+                  type: 'function_arg',
+                  position: 0,
+                  vals: [{ type: 'text', value: 'observations' }],
+                },
+                {
+                  type: 'function_arg',
+                  position: 1,
+                  vals: [{ type: 'text', value: 'created_at', sort: 'desc' }],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it('supports group by a function accessor (q12 — GROUP first(rel, ±order).trait)', () => {
+    const { cst, errors } = parseSearch({
+      inputType: 'searchQuery',
+      input: `
+        FROM person
+        GROUP first(observations, -created_at).kind
+        SELECT count()
+      `,
+    });
+
+    expect(errors).toEqual([]);
+
+    const visitor = createSearchVisitor();
+    const ast = visitor.searchQuery(cst.children);
+
+    expect(ast).toMatchObject({
+      type: 'search_query',
+      groupClause: {
+        expr: {
+          keys: [{ type: 'function', name: 'first', accessor: 'kind', isBranchInvalid: false }],
+        },
+      },
+    });
+  });
+
   it('supports select + where', () => {
     const { cst, errors } = parseSearch({
       inputType: 'searchQuery',

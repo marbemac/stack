@@ -63,6 +63,11 @@ export const LBracket = createToken({ name: 'LBracket', pattern: /\[/ });
 export const RBracket = createToken({ name: 'RBracket', pattern: /]/ });
 export const Comma = createToken({ name: 'Comma', pattern: /,\s*/ });
 export const Colon = createToken({ name: 'Colon', pattern: /:/ });
+// A standalone dot, used as the member-accessor between a function call and a trait,
+// e.g. `first(observations, -created_at).kind`. Note that `.` is also valid *inside* an
+// Identifier (has-one traversal like `person.name` lexes as a single Identifier); the Dot
+// token only matches a `.` that an Identifier can't start with (a leading dot).
+export const Dot = createToken({ name: 'Dot', pattern: /\./ });
 export const Greater = createToken({ name: 'Greater', pattern: />/ });
 export const Less = createToken({ name: 'Less', pattern: /</ });
 export const GreaterEq = createToken({ name: 'GreaterEq', pattern: />=/ });

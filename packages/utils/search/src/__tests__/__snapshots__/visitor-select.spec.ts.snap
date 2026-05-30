@@ -113,6 +113,7 @@ exports[`select functions > boolean arguments 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [
             {
               "position": 0,
@@ -157,6 +158,7 @@ exports[`select functions > boolean rhs 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [],
           "name": "my_func",
           "op": "",
@@ -182,6 +184,7 @@ exports[`select functions > no args 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [],
           "name": "full_name",
           "op": undefined,
@@ -203,6 +206,7 @@ exports[`select functions > no args with space 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [],
           "name": "full_name",
           "op": undefined,
@@ -224,6 +228,7 @@ exports[`select functions > number arguments 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [
             {
               "position": 0,
@@ -279,6 +284,7 @@ exports[`select functions > relative date rhs 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [],
           "name": "last_seen",
           "op": "",
@@ -306,6 +312,7 @@ exports[`select functions > single string arg 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [
             {
               "position": 0,
@@ -338,6 +345,7 @@ exports[`select functions > with filter argument 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [
             {
               "position": 0,
@@ -405,6 +413,7 @@ exports[`select functions > with quoted argument 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [
             {
               "position": 0,
@@ -452,6 +461,7 @@ exports[`select functions > with rhs 1`] = `
     "ast": {
       "columns": [
         {
+          "accessor": undefined,
           "args": [
             {
               "position": 0,

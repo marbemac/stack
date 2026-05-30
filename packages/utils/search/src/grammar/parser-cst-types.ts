@@ -108,6 +108,8 @@ export type FunctionCstChildren = {
   functionArg?: FunctionArgCstNode[];
   Comma?: IToken[];
   RParen: IToken[];
+  Dot?: IToken[];
+  accessor?: IToken[];
   Colon?: IToken[];
   qualifierOp?: QualifierOpCstNode[];
   rhs?: QualifierValCstNode[];

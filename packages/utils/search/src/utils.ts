@@ -72,6 +72,10 @@ function stringifyFunction(token: FunctionAstNode) {
 
   stringifiedToken += ')';
 
+  if (token.accessor) {
+    stringifiedToken += `.${token.accessor}`;
+  }
+
   if (token.rhs) {
     stringifiedToken += ':';
     stringifiedToken += token.op || '';

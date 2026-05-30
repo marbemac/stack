@@ -128,6 +128,14 @@ export class SearchParser extends CstParser {
 
     this.CONSUME(t.RParen);
 
+    // Member accessor: `.trait` projects a column off the row the function picked,
+    // e.g. `first(observations, -created_at).kind`. The accessor itself may be a dotted
+    // has-one path (`.author.name`), which lexes as a single Identifier.
+    this.OPTION4(() => {
+      this.CONSUME(t.Dot);
+      this.CONSUME2(t.Identifier, { LABEL: 'accessor' });
+    });
+
     this.OPTION3(() => {
       this.CONSUME(t.Colon);
       this.SUBRULE(this.#qualifierOp);

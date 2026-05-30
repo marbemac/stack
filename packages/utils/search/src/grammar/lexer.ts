@@ -26,6 +26,7 @@ export const lexerTokenDef: IMultiModeLexerDefinition = {
       t.LQuote,
       t.Comma,
       t.Colon,
+      t.Dot,
       t.GreaterEq,
       t.Greater,
       t.LessEq,
